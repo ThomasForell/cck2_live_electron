@@ -1,3 +1,8 @@
+# Special thanks to
+https://github.com/yhirose/react-typescript-electron-sample-with-create-react-app-and-electron-builder
+providing a very good description to setup this project
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
