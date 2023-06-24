@@ -1,6 +1,5 @@
 import './App.css';
 
-
 import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -66,11 +65,11 @@ function TeamSettings() {
   };
 
   // nice trick to prevent Accordion from opening/closing when button is clicked
-  const stopPropagation = (e: any) => e.stopPropagation();
-//  const InputWrapper = ({ children }) =>
-//  <div onClick={stopPropagation}>
-//    {children}
-//  </div>
+  const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation();
+  const InputWrapper = ({ children }: React.PropsWithChildren ) =>
+  <div onClick={stopPropagation}>
+    {children}
+  </div>
 
   var timeTVLinks = 0;
   var timeTVRechts = 0;
@@ -85,18 +84,20 @@ function TeamSettings() {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="accordion-summary-1-content"
           id="accordion-summary-1-header"> 
+          <InputWrapper>
             <Stack spacing={4} direction="row" alignItems="center">
               <TextField id="standard-basic" label="Teamname" variant={variant} defaultValue="1. Mannschaft"/>
               <TimeSelect label="Zeit Livestream" value={timeLivestream} onChange={setAge} />
               <TimeSelect label="Zeit TV Links" value={timeTVLinks} onClick={setAge} />
               <TimeSelect label="Zeit TV Rechts" value={timeTVRechts} onClick={setAge} />
-              <ButtonGroup size="small" aria-label="outlined button group">
+              <ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
                 <Button onClick={() => {alert('clicked');}} ><AddIcon/></Button>
                 <Button><DeleteForeverIcon/></Button>
                 <Button><ArrowCircleUpIcon/></Button>
                 <Button><ArrowCircleDownIcon/></Button>
               </ButtonGroup>
             </Stack>
+          </InputWrapper>
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2} direction="column">
@@ -192,11 +193,11 @@ function AdvSettings(){
   };
 
   // nice trick to prevent Accordion from opening/closing when button is clicked
-  const stopPropagation = (e: any) => e.stopPropagation();
-//  const InputWrapper = ({ children }) =>
-//  <div onClick={stopPropagation}>
-//    {children}
-//  </div>
+  const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation();
+  const InputWrapper = ({ children }: React.PropsWithChildren) =>
+  <div onClick={stopPropagation}>
+    {children}
+  </div>
 
   var timeTVLinks = 0;
   var timeTVRechts = 0;
@@ -209,18 +210,20 @@ function AdvSettings(){
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"> 
+          <InputWrapper>
             <Stack spacing={4} direction="row" alignItems="center">
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa"/>
               <TimeSelect label="Zeit Livestream" value={timeLivestream} onChange={setAge} />
               <TimeSelect label="Zeit TV Links" value={timeTVLinks} onClick={setAge} />
               <TimeSelect label="Zeit TV Rechts" value={timeTVRechts} onClick={setAge} />
-              <ButtonGroup size="small" aria-label="outlined button group">
+              <ButtonGroup size="small" variant="outlined" aria-label="outlined button group">
                 <Button onClick={() => {alert('clicked');}} ><AddIcon/></Button>
                 <Button><DeleteForeverIcon/></Button>
                 <Button><ArrowCircleUpIcon/></Button>
                 <Button><ArrowCircleDownIcon/></Button>
               </ButtonGroup>
             </Stack>
+          </InputWrapper>
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2} direction="column">
