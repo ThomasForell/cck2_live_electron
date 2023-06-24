@@ -9,6 +9,13 @@
       "noEmitOnError": true,
       "typeRoots": [
         "node_modules/@types"
-      ]
+      ],
+      "baseUrl": "",
+      "paths": {
+          "*": [
+              "../typings/*"
+          ]
+      }
+
     }
 }

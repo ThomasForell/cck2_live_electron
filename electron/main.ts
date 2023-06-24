@@ -2,6 +2,11 @@ import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
+import * as express from 'express'
+
+let express_app = express();
+express_app.use( express.static('./public-live') );
+express_app.listen(80);
 
 let win: BrowserWindow | null = null;
 
