@@ -26,6 +26,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { useForm } from 'react-hook-form';
 
 const darkTheme = createTheme({
   palette: {
@@ -39,20 +40,19 @@ function TimeSelect(props: any)
 {
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>
-    <InputLabel id="demo-simple-select-label">{props.label}</InputLabel>
-    <Select labelId="demo-simple-select-label"
-      id="demo-simple-select"
-      value={props.value}
+    <InputLabel id="time_label">{props.label}</InputLabel>
+    <Select labelId="time_select_label"
+      id={props.id}
+      defaultValue={props.defaultValue}
       label={props.label}
-      variant={variant}
-      onChange={props.onChange}>
-        <MenuItem value={0}>0</MenuItem>
-        <MenuItem value={5}>5</MenuItem>
-        <MenuItem value={10}>10</MenuItem>
-        <MenuItem value={20}>20</MenuItem>
-        <MenuItem value={30}>30</MenuItem>
-        <MenuItem value={45}>45</MenuItem>
-        <MenuItem value={60}>60</MenuItem>
+      variant={variant}>
+        <MenuItem value="0">0</MenuItem>
+        <MenuItem value="5">5</MenuItem>
+        <MenuItem value="10">10</MenuItem>
+        <MenuItem value="20">20</MenuItem>
+        <MenuItem value="30">30</MenuItem>
+        <MenuItem value="45">45</MenuItem>
+        <MenuItem value="60">60</MenuItem>
     </Select>
   </FormControl>
   );
@@ -66,9 +66,8 @@ function TeamSettings() {
     {children}
   </div>
 
-  let timeTVLinks = 60;
-  let timeTVRechts = 30;
-  let timeLivestream = 20;
+  const { register } = useForm();
+
   let logoHome = 0;
   let logoGuest = 0;
   
@@ -83,10 +82,10 @@ function TeamSettings() {
           id="team_settings"> 
           <InputWrapper>
             <Stack spacing={4} direction="row" alignItems="center">
-              <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft"/>
-              <TimeSelect label="Zeit Livestream" value={timeLivestream}/>
-              <TimeSelect label="Zeit TV Links" value={timeTVLinks}/>
-              <TimeSelect label="Zeit TV Rechts" value={timeTVRechts}/>
+              <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team_name")}/>
+              <TimeSelect label="Zeit Livestream" defaultValue="60" id="ts1" {...register("time_livestream")}/>
+              <TimeSelect label="Zeit TV Links" defaultValue="20" id="ts2" {...register("time_tv_links")}/>
+              <TimeSelect label="Zeit TV Rechts" defaultValue="45" id="ts3" {...register("time_tv_rechts")}/>
               <ButtonGroup variant="outlined" size="small" aria-label="">
                 <Button onClick={() => {alert('clicked');}} ><AddIcon/></Button>
                 <Button><DeleteForeverIcon/></Button>
@@ -99,12 +98,12 @@ function TeamSettings() {
         <AccordionDetails>
           <Stack spacing={2} direction="column">
             <Grid container spacing={2}>
-              <Grid item xs={2}>
-                <FormControl>
+              <Grid item xs={3}>
+                <FormControl style={{minWidth: 200}}>
                   <InputLabel id="logo_home_label">Logo Heim</InputLabel>
                   <Select labelId="logo_home_select_label"
                     id="logo_home_select"
-                    value={logoHome}
+                    defaultValue={logoHome}
                     variant={variant}
                     label="Logo Heim">
                       <MenuItem value={10}>KV Aschaffenburg</MenuItem>
@@ -113,15 +112,15 @@ function TeamSettings() {
                     </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={7}>
                 <Box sx={{ height: 120, width: 250}}> <img src="SKC_Nibelungen_Lorsch.png" alt="" height="120" width="auto"/> </Box>
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <FormControl>
                   <InputLabel id="logo_guest_label">Logo Gast</InputLabel>
                   <Select labelId="logo_home_select_label"
                     id="logo_guest_select"
-                    value={logoGuest}
+                    defaultValue={logoGuest}
                     variant={variant}
                     label="Logo Gast">
                       <MenuItem value={10}>KV Aschaffenburg</MenuItem>
@@ -130,7 +129,7 @@ function TeamSettings() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={7}>
                 <Box sx={{ height: 120}}> <img src="KSC_Groß-Zimmern.jpg" alt="" height="120" width="auto"/> </Box>
               </Grid>
             </Grid>
