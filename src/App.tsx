@@ -59,17 +59,6 @@ function TimeSelect(props: any)
 }
 
 function TeamSettings() {
-  const [age, setAge] = React.useState('');
-  const [timeLivestream, setLivestream] = React.useState(0);
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-  };
-
-  const handleTimeChange = (event: SelectChangeEvent) => {
-    setLivestream(Number(event.target.value));
-  }
-
   // nice trick to prevent Accordion from opening/closing when button is clicked
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation();
   const InputWrapper = ({ children }: React.PropsWithChildren ) =>
@@ -77,9 +66,11 @@ function TeamSettings() {
     {children}
   </div>
 
-  var timeTVLinks = 0;
-  var timeTVRechts = 0;
-//  var timeLivestream = 0;
+  let timeTVLinks = 60;
+  let timeTVRechts = 30;
+  let timeLivestream = 20;
+  let logoHome = 0;
+  let logoGuest = 0;
   
 //  const teamCounter = 0;
 
@@ -88,15 +79,15 @@ function TeamSettings() {
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="accordion-summary-1-content"
-          id="accordion-summary-1-header"> 
+          aria-controls=""
+          id="team_settings"> 
           <InputWrapper>
             <Stack spacing={4} direction="row" alignItems="center">
-              <TextField id="standard-basic" label="Teamname" variant={variant} defaultValue="1. Mannschaft"/>
-              <TimeSelect label="Zeit Livestream" value={timeLivestream} onChange={handleTimeChange} />
-              <TimeSelect label="Zeit TV Links" value={timeTVLinks} onChange={setAge} />
-              <TimeSelect label="Zeit TV Rechts" value={timeTVRechts} onChange={setAge} />
-              <ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
+              <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft"/>
+              <TimeSelect label="Zeit Livestream" value={timeLivestream}/>
+              <TimeSelect label="Zeit TV Links" value={timeTVLinks}/>
+              <TimeSelect label="Zeit TV Rechts" value={timeTVRechts}/>
+              <ButtonGroup variant="outlined" size="small" aria-label="">
                 <Button onClick={() => {alert('clicked');}} ><AddIcon/></Button>
                 <Button><DeleteForeverIcon/></Button>
                 <Button><ArrowCircleUpIcon/></Button>
@@ -107,75 +98,61 @@ function TeamSettings() {
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2} direction="column">
-
             <Grid container spacing={2}>
               <Grid item xs={2}>
                 <FormControl>
-                  <InputLabel id="demo-simple-select-label">Logo Heim</InputLabel>
-                  <Select labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={age}
+                  <InputLabel id="logo_home_label">Logo Heim</InputLabel>
+                  <Select labelId="logo_home_select_label"
+                    id="logo_home_select"
+                    value={logoHome}
                     variant={variant}
-                    label="Logo Heim"
-                    onChange={handleChange}>
+                    label="Logo Heim">
                       <MenuItem value={10}>KV Aschaffenburg</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      <MenuItem value={20}>KKV Saale Kreis</MenuItem>
+                      <MenuItem value={30}>SKV Lorsch</MenuItem>
                     </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={10}>
-                <Box sx={{ height: 120, width: 250}}> <img  src="SKC_Nibelungen_Lorsch.png" alt="" height="120" width="auto"/> </Box>
+                <Box sx={{ height: 120, width: 250}}> <img src="SKC_Nibelungen_Lorsch.png" alt="" height="120" width="auto"/> </Box>
               </Grid>
               <Grid item xs={2}>
                 <FormControl>
-                  <InputLabel id="demo-simple-select-label">Logo Gast</InputLabel>
-                  <Select labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={age}
+                  <InputLabel id="logo_guest_label">Logo Gast</InputLabel>
+                  <Select labelId="logo_home_select_label"
+                    id="logo_guest_select"
+                    value={logoGuest}
                     variant={variant}
-                    label="Logo Gast"
-                    onChange={handleChange}>
-                      <MenuItem value={10}>SKC Nibelungen Lorsch Nibelungen</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                    label="Logo Gast">
+                      <MenuItem value={10}>KV Aschaffenburg</MenuItem>
+                      <MenuItem value={20}>KKV Saale Kreis</MenuItem>
+                      <MenuItem value={30}>SKV Lorsch</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={10}>
-                <Box sx={{ height: 120}}> <img  src="KSC_Groß-Zimmern.jpg" alt="" height="120" width="auto"/> </Box>
+                <Box sx={{ height: 120}}> <img src="KSC_Groß-Zimmern.jpg" alt="" height="120" width="auto"/> </Box>
               </Grid>
             </Grid>
 
           <Stack spacing={4} direction="row">
             <FormControl>
-              <FormLabel id="demo-row-radio-buttons-group-label">Anzahl Spieler</FormLabel>
+              <FormLabel id="num_player_label">Anzahl Spieler</FormLabel>
               <RadioGroup
                 row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
+                aria-labelledby="num_player_label_aria"
+                name="num_player_label_group"
               >
                 <FormControlLabel value="4" control={<Radio />} label="4" />
                 <FormControlLabel value="6" control={<Radio />} label="6" />
               </RadioGroup>
             </FormControl>
             <FormControl>
-              <FormLabel id="demo-row-radio-buttons-group-label">Anzahl Sätze</FormLabel>
+              <FormLabel id="num_lanes_label">Anzahl Bahnen</FormLabel>
               <RadioGroup
                 row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel value="2" control={<Radio />} label="2" />
-                <FormControlLabel value="4" control={<Radio />} label="4" />
-              </RadioGroup>
-            </FormControl>
-            <FormControl>
-              <FormLabel id="demo-row-radio-buttons-group-label">Anzahl Bahnen</FormLabel>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
+                aria-labelledby="num_lanes_label_aria"
+                name="num_lanes_label_group"
               >
                 <FormControlLabel value="4" control={<Radio />} label="4" />
                 <FormControlLabel value="6" control={<Radio />} label="6" />
@@ -183,8 +160,7 @@ function TeamSettings() {
             </FormControl>
             <FormControlLabel control={<Checkbox defaultChecked />} label="Satzpunkte" />
           </Stack>
-          <TextField id="standard-basic" label="CCK2 Daten Team" variant={variant} value="mannschaft.json"/>
-          <TextField id="standard-basic" label="CCK2 Daten Bahn" variant={variant} value="bahn.json"/>
+          <TextField id="cck2_data_file" label="CCK2 Daten Team" variant={variant} value="mannschaft.json"/>
         </Stack>
         </AccordionDetails>
       </Accordion>
