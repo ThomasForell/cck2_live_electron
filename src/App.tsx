@@ -22,7 +22,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -50,7 +50,7 @@ function TimeSelect(props: any)
         <MenuItem value={5}>5</MenuItem>
         <MenuItem value={10}>10</MenuItem>
         <MenuItem value={20}>20</MenuItem>
-        <MenuItem value={30}>20</MenuItem>
+        <MenuItem value={30}>30</MenuItem>
         <MenuItem value={45}>45</MenuItem>
         <MenuItem value={60}>60</MenuItem>
     </Select>
@@ -60,9 +60,15 @@ function TimeSelect(props: any)
 
 function TeamSettings() {
   const [age, setAge] = React.useState('');
-  const handleChange = (event: any) => {
+  const [timeLivestream, setLivestream] = React.useState(0);
+
+  const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
   };
+
+  const handleTimeChange = (event: SelectChangeEvent) => {
+    setLivestream(Number(event.target.value));
+  }
 
   // nice trick to prevent Accordion from opening/closing when button is clicked
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation();
@@ -87,9 +93,9 @@ function TeamSettings() {
           <InputWrapper>
             <Stack spacing={4} direction="row" alignItems="center">
               <TextField id="standard-basic" label="Teamname" variant={variant} defaultValue="1. Mannschaft"/>
-              <TimeSelect label="Zeit Livestream" value={timeLivestream} onChange={setAge} />
-              <TimeSelect label="Zeit TV Links" value={timeTVLinks} onClick={setAge} />
-              <TimeSelect label="Zeit TV Rechts" value={timeTVRechts} onClick={setAge} />
+              <TimeSelect label="Zeit Livestream" value={timeLivestream} onChange={handleTimeChange} />
+              <TimeSelect label="Zeit TV Links" value={timeTVLinks} onChange={setAge} />
+              <TimeSelect label="Zeit TV Rechts" value={timeTVRechts} onChange={setAge} />
               <ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
                 <Button onClick={() => {alert('clicked');}} ><AddIcon/></Button>
                 <Button><DeleteForeverIcon/></Button>
@@ -188,7 +194,7 @@ function TeamSettings() {
 
 function AdvSettings(){
   const [age, setAge] = React.useState('');
-  const handleChange = (event: any) => {
+  const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
   };
 
@@ -213,9 +219,9 @@ function AdvSettings(){
           <InputWrapper>
             <Stack spacing={4} direction="row" alignItems="center">
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa"/>
-              <TimeSelect label="Zeit Livestream" value={timeLivestream} onChange={setAge} />
-              <TimeSelect label="Zeit TV Links" value={timeTVLinks} onClick={setAge} />
-              <TimeSelect label="Zeit TV Rechts" value={timeTVRechts} onClick={setAge} />
+              <TimeSelect label="Zeit Livestream" value={timeLivestream} onChange={handleChange} />
+              <TimeSelect label="Zeit TV Links" value={timeTVLinks} onChange={handleChange} />
+              <TimeSelect label="Zeit TV Rechts" value={timeTVRechts} onChange={handleChange} />
               <ButtonGroup size="small" variant="outlined" aria-label="outlined button group">
                 <Button onClick={() => {alert('clicked');}} ><AddIcon/></Button>
                 <Button><DeleteForeverIcon/></Button>
