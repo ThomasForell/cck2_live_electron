@@ -79,7 +79,7 @@ function TeamSettings() {
 
   var timeTVLinks = 0;
   var timeTVRechts = 0;
-  var timeLivestream = 0;
+//  var timeLivestream = 0;
   
 //  const teamCounter = 0;
 
