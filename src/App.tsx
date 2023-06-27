@@ -22,7 +22,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -58,47 +58,46 @@ function TimeSelect(props: any)
   );
 }
 
-function TeamSettings() {
-  // nice trick to prevent Accordion from opening/closing when button is clicked
-  const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation();
-  const InputWrapper = ({ children }: React.PropsWithChildren ) =>
-  <div onClick={stopPropagation}>
-    {children}
-  </div>
+interface TeamValues {
+  team_name: string;
+  time_livestream: string;
+  time_tv_links: string;
+  time_tv_rechts: string;
+  cck2_file:string;
+};
 
-  const { register } = useForm();
+function TeamSettings() {
+
+  const { register } = useForm<TeamValues>();
 
   let logoHome = 0;
   let logoGuest = 0;
   
-//  const teamCounter = 0;
-
-  return (
+   return (
+  
     <div>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls=""
           id="team_settings"> 
-          <InputWrapper>
-            <Stack spacing={4} direction="row" alignItems="center">
+            <Stack spacing={4} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
               <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team_name")}/>
               <TimeSelect label="Zeit Livestream" defaultValue="60" id="ts1" {...register("time_livestream")}/>
               <TimeSelect label="Zeit TV Links" defaultValue="20" id="ts2" {...register("time_tv_links")}/>
               <TimeSelect label="Zeit TV Rechts" defaultValue="45" id="ts3" {...register("time_tv_rechts")}/>
               <ButtonGroup variant="outlined" size="small" aria-label="">
-                <Button onClick={() => {alert('clicked');}} ><AddIcon/></Button>
+                <Button><AddIcon/></Button>
                 <Button><DeleteForeverIcon/></Button>
                 <Button><ArrowCircleUpIcon/></Button>
                 <Button><ArrowCircleDownIcon/></Button>
               </ButtonGroup>
             </Stack>
-          </InputWrapper>
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2} direction="column">
             <Grid container spacing={2}>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <FormControl style={{minWidth: 200}}>
                   <InputLabel id="logo_home_label">Logo Heim</InputLabel>
                   <Select labelId="logo_home_select_label"
@@ -112,11 +111,11 @@ function TeamSettings() {
                     </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={8}>
                 <Box sx={{ height: 120, width: 250}}> <img src="SKC_Nibelungen_Lorsch.png" alt="" height="120" width="auto"/> </Box>
               </Grid>
-              <Grid item xs={3}>
-                <FormControl>
+              <Grid item xs={4}>
+                <FormControl style={{minWidth: 200}}>
                   <InputLabel id="logo_guest_label">Logo Gast</InputLabel>
                   <Select labelId="logo_home_select_label"
                     id="logo_guest_select"
@@ -129,7 +128,7 @@ function TeamSettings() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={8}>
                 <Box sx={{ height: 120}}> <img src="KSC_Groß-Zimmern.jpg" alt="" height="120" width="auto"/> </Box>
               </Grid>
             </Grid>
@@ -159,7 +158,7 @@ function TeamSettings() {
             </FormControl>
             <FormControlLabel control={<Checkbox defaultChecked />} label="Satzpunkte" />
           </Stack>
-          <TextField id="cck2_data_file" label="CCK2 Daten Team" variant={variant} value="mannschaft.json"/>
+          <TextField id="cck2_data_file" label="CCK2 Daten Team" variant={variant} defaultValue="mannschaft.json" {...register("cck2_file")}/>
         </Stack>
         </AccordionDetails>
       </Accordion>
@@ -167,22 +166,20 @@ function TeamSettings() {
   );
 }
 
-function AdvSettings(){
-  const [age, setAge] = React.useState('');
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-  };
+interface AdvValues {
+  adv_name: string;
+  adv_time_livestream: string;
+  adv_time_tv_links: string;
+  adv_time_tv_rechts: string;
+}
 
-  // nice trick to prevent Accordion from opening/closing when button is clicked
-  const stopPropagation = (e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation();
-  const InputWrapper = ({ children }: React.PropsWithChildren) =>
-  <div onClick={stopPropagation}>
-    {children}
-  </div>
+function AdvSettings(){
 
   var timeTVLinks = 0;
   var timeTVRechts = 0;
   var timeLivestream = 0;
+
+  const { register } = useForm<AdvValues>();
   
   return (
     <div>
@@ -191,12 +188,11 @@ function AdvSettings(){
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"> 
-          <InputWrapper>
-            <Stack spacing={4} direction="row" alignItems="center">
-              <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa"/>
-              <TimeSelect label="Zeit Livestream" value={timeLivestream} onChange={handleChange} />
-              <TimeSelect label="Zeit TV Links" value={timeTVLinks} onChange={handleChange} />
-              <TimeSelect label="Zeit TV Rechts" value={timeTVRechts} onChange={handleChange} />
+            <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
+              <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa" {...register("adv_name")}/>
+              <TimeSelect label="Zeit Livestream" value={timeLivestream} />
+              <TimeSelect label="Zeit TV Links" value={timeTVLinks} />
+              <TimeSelect label="Zeit TV Rechts" value={timeTVRechts} />
               <ButtonGroup size="small" variant="outlined" aria-label="outlined button group">
                 <Button onClick={() => {alert('clicked');}} ><AddIcon/></Button>
                 <Button><DeleteForeverIcon/></Button>
@@ -204,28 +200,24 @@ function AdvSettings(){
                 <Button><ArrowCircleDownIcon/></Button>
               </ButtonGroup>
             </Stack>
-          </InputWrapper>
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2} direction="column">
-
             <Grid container spacing={2}>
-              <Grid item xs={2}>
-                <FormControl>
+              <Grid item xs={4}>
+                <FormControl style={{minWidth: 200}}>
                   <InputLabel id="demo-simple-select-label">Werbung</InputLabel>
                   <Select labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={age}
                     variant={variant}
-                    label="Werbung"
-                    onChange={handleChange}>
+                    label="Werbung">
                       <MenuItem value={10}>KV Aschaffenburg</MenuItem>
                       <MenuItem value={20}>Twenty</MenuItem>
                       <MenuItem value={30}>Thirty</MenuItem>
                     </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={8}>
                 <Box sx={{ height: 120, width: 250}}> <img  src="rekorde_einzel_120.png" alt="" height="120" width="auto"/> </Box>
               </Grid>
             </Grid>
