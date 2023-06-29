@@ -36,16 +36,12 @@ const darkTheme = createTheme({
 
 const variant = "standard";
 
-function TimeSelect(label: string, value: string, hook: string, register: any)
+function TimeSelect(props: any)
 {
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>
-    <InputLabel>{label}</InputLabel>
-    <Select 
-      defaultValue={value}
-      label={label}
-      variant={variant}
-      {...register(hook)}>
+    <InputLabel>{props.label}</InputLabel>
+    <Select {...props}>
         <MenuItem value="0s">0s</MenuItem>
         <MenuItem value="5s">5s</MenuItem>
         <MenuItem value="10s">10s</MenuItem>
@@ -58,32 +54,21 @@ function TimeSelect(label: string, value: string, hook: string, register: any)
   );
 }
 
-//interface TeamConfigValues {
-//  team_name: Array<string>;
-//  time_values: Array<Array<string>>;
-//  time_values1: Array<string>;
-//  time_values2: Array<string>;
-//  time_values3: Array<string>;
-//  logo_home: Array<string>;
-//  logo_guest: Array<string>;
-//  num_players: Array<string>;
-//  num_lanes: Array<string>;
-//  set_points: Array<string>;
-//  cck2_file:Array<string>;
-//};
-
-interface TeamConfigValues {
-  team_name: string;
-//  time_values: Array<Array<string>>;
-  time_values1: string;
-  time_values2: string;
-  time_values3: string;
-  logo_home: string;
-  logo_guest: string;
-  num_players: string;
-  num_lanes: string;
-  set_points: string;
-  cck2_file: string;
+interface ConfigValues {
+  team: {
+    name: Array<string>;
+    time_values: Array<Array<string>>;
+    logo_home: Array<string>;
+    logo_guest: Array<string>;
+    num_players: Array<string>;
+    num_lanes: Array<string>;
+    set_points: Array<string>;
+    cck2_file:Array<string>;
+  };
+  adv: {
+    name: Array<string>;
+    time_values: Array<Array<string>>;
+  };
 };
 
 function TeamSettings(register: any, count: number) {
@@ -99,10 +84,10 @@ function TeamSettings(register: any, count: number) {
           aria-controls=""
           id="team_settings"> 
             <Stack spacing={4} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
-              <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team_name")}/>
-              {TimeSelect("Zeit Livestream", "0s", "time_values1", register)}
-              {TimeSelect("Zeit TV Links", "5s", "time_values3", register)}
-              {TimeSelect("Zeit TV Rechts", "10s", "time_values2", register)}
+              <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team.name." + count.toString())}/>
+              <TimeSelect label="Zeit Livestream" defaultValue="0s" variant={variant} {...register("team.time_values." + count.toString() + ".0")}/>
+              <TimeSelect label="Zeit TV Links" defaultValue="5s" variant={variant} {...register("team.time_values." + count.toString() + ".1")}/>
+              <TimeSelect label="Zeit TV Rechts" defaultValue="10s" variant={variant} {...register("team.time_values." + count.toString() + ".2")}/>
               <ButtonGroup variant="outlined" size="small" aria-label="">
                 <Button><AddIcon/></Button>
                 <Button><DeleteForeverIcon/></Button>
@@ -122,7 +107,7 @@ function TeamSettings(register: any, count: number) {
                     defaultValue={logoHome}
                     variant={variant}
                     label="Logo Heim"
-                    {...register("logo_home")}>
+                    {...register("team.logo_home." + count.toString())}>
                       <MenuItem value={10}>KV Aschaffenburg</MenuItem>
                       <MenuItem value={20}>KKV Saale Kreis</MenuItem>
                       <MenuItem value={30}>SKV Lorsch</MenuItem>
@@ -140,7 +125,7 @@ function TeamSettings(register: any, count: number) {
                     defaultValue={logoGuest}
                     variant={variant}
                     label="Logo Gast"
-                    {...register("logo_guest")}>
+                    {...register("team.logo_guest." + count.toString())}>
                       <MenuItem value={10}>KV Aschaffenburg</MenuItem>
                       <MenuItem value={20}>KKV Saale Kreis</MenuItem>
                       <MenuItem value={30}>SKV Lorsch</MenuItem>
@@ -158,10 +143,9 @@ function TeamSettings(register: any, count: number) {
               <RadioGroup
                 row
                 aria-labelledby="num_player_label_aria"
-                {...register("num_players")}
               >
-                <FormControlLabel value="4" control={<Radio />} label="4" />
-                <FormControlLabel value="6" control={<Radio />} label="6" />
+                <FormControlLabel value="4" control={<Radio />} label="4" {...register("team.num_players." + count.toString())}/>
+                <FormControlLabel value="6" control={<Radio />} label="6" {...register("team.num_players." + count.toString())}/>
               </RadioGroup>
             </FormControl>
             <FormControl>
@@ -169,15 +153,14 @@ function TeamSettings(register: any, count: number) {
               <RadioGroup
                 row
                 aria-labelledby="num_lanes_label_aria"
-                {...register("num_lanes")}
               >
-                <FormControlLabel value="4" control={<Radio />} label="4" />
-                <FormControlLabel value="6" control={<Radio />} label="6" />
+                <FormControlLabel value="4" control={<Radio />} label="4" {...register("team.num_lanes." + count.toString())}/>
+                <FormControlLabel value="6" control={<Radio />} label="6" {...register("team.num_lanes." + count.toString())}/>
               </RadioGroup>
             </FormControl>
-            <FormControlLabel control={<Checkbox defaultChecked {...register("set_points")}/>} label="Satzpunkte" />
+            <FormControlLabel control={<Checkbox defaultChecked {...register("team.set_points." + count.toString())}/>} label="Satzpunkte" />
           </Stack>
-          <TextField id="cck2_data_file" label="CCK2 Daten Team" variant={variant} defaultValue="mannschaft.json" {...register("cck2_file")}/>
+          <TextField id="cck2_data_file" label="CCK2 Daten Team" variant={variant} defaultValue="mannschaft.json" {...register("team.cck2_file." + count.toString())}/>
         </Stack>
         </AccordionDetails>
       </Accordion>
@@ -185,21 +168,8 @@ function TeamSettings(register: any, count: number) {
   );
 }
 
-interface AdvValues {
-  adv_name: string;
-  adv_time_livestream: string;
-  adv_time_tv_links: string;
-  adv_time_tv_rechts: string;
-}
+function AdvSettings(register: any, count: number){
 
-function AdvSettings(){
-
-  var timeTVLinks = "0";
-  var timeTVRechts = "5";
-  var timeLivestream = "10";
-
-  const { register } = useForm<AdvValues>();
-  
   return (
     <div>
       <Accordion>
@@ -208,12 +178,12 @@ function AdvSettings(){
           aria-controls="panel1a-content"
           id="panel1a-header"> 
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
-              <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa" {...register("adv_name")}/>
-              {TimeSelect("Zeit Livestream", "0s", "time_values1", register)}
-              {TimeSelect("Zeit TV Links", "5s", "time_values3", register)}
-              {TimeSelect("Zeit TV Rechts", "10s", "time_values2", register)}
-              <ButtonGroup size="small" variant="outlined" aria-label="outlined button group">
-                <Button onClick={() => {alert('clicked');}} ><AddIcon/></Button>
+              <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa" {...register("adv.name." + count.toString())}/>
+                <TimeSelect label="Zeit Livestream" defaultValue="0s" variant={variant} {...register("adv.time_values." + count.toString() + ".0")}/>
+                <TimeSelect label="Zeit TV Links" defaultValue="5s" variant={variant} {...register("adv.time_values." + count.toString() + ".1")}/>
+                <TimeSelect label="Zeit TV Rechts" defaultValue="10s" variant={variant} {...register("adv.time_values." + count.toString() + ".2")}/>
+                <ButtonGroup size="small" variant="outlined" aria-label="outlined button group">
+                <Button onClick={() => {}} ><AddIcon/></Button>
                 <Button><DeleteForeverIcon/></Button>
                 <Button><ArrowCircleUpIcon/></Button>
                 <Button><ArrowCircleDownIcon/></Button>
@@ -250,22 +220,26 @@ function AdvSettings(){
 
 function App() {
   
-  const { register, watch } = useForm<TeamConfigValues>();
+  const { register, watch } = useForm<ConfigValues>();
   let watchedValues = watch();
 
   return (
-    <div>
+    <>
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <h1>Team Konfiguration <Button onClick= {() => {console.log(watchedValues)}} >Save</Button></h1>
+      <h1>Team Konfiguration</h1>
       <p>
         {TeamSettings(register, 0)}
+        {TeamSettings(register, 1)}
+        <Button onClick={() => {console.log(watchedValues.team);}} variant="contained">Speichern</Button>
       </p>
       <h1>Werbung Konfiguration</h1>
       <p>
+        {AdvSettings(register, 0)}
+        <Button onClick={() => {console.log(watchedValues.adv);}} variant="contained">Speichern</Button>
       </p>
       </ThemeProvider>
-    </div>
+    </>
   );
 }
 
