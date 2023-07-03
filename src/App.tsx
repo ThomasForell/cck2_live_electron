@@ -38,25 +38,6 @@ const darkTheme = createTheme({
 
 const variant = "standard";
 
-function TimeSelect(control: Control, name: string, label: string, value: number)
-{
-  return (
-    <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel>{label}</InputLabel>
-        <Controller control={control} name={name} defaultValue={value} render={({ field }) => (
-          <Select {...field} label={label} variant={variant}>
-            <MenuItem value={0}>0s</MenuItem>
-            <MenuItem value={5}>5s</MenuItem>
-            <MenuItem value={10}>10s</MenuItem>
-            <MenuItem value={20}>20s</MenuItem>
-            <MenuItem value={30}>30s</MenuItem>
-            <MenuItem value={45}>45s</MenuItem>
-            <MenuItem value={60}>60s</MenuItem>
-          </Select>)}/>
-    </FormControl>
-  );
-}
-
 interface ConfigValues {
   setup: {
     output_name: Array<string>;
@@ -77,6 +58,33 @@ interface ConfigValues {
     time_values: Array<Array<number>>;
   };
 };
+
+function TimeSelect(control: Control, name: string, label: string, value: number)
+{
+  return (
+    <FormControl sx={{ m: 1, minWidth: 120 }}>
+      <InputLabel>{label}</InputLabel>
+        <Controller control={control} name={name} defaultValue={value} render={({ field }) => (
+          <Select {...field} label={label} variant={variant}>
+            <MenuItem value={0}>0s</MenuItem>
+            <MenuItem value={5}>5s</MenuItem>
+            <MenuItem value={10}>10s</MenuItem>
+            <MenuItem value={20}>20s</MenuItem>
+            <MenuItem value={30}>30s</MenuItem>
+            <MenuItem value={45}>45s</MenuItem>
+            <MenuItem value={60}>60s</MenuItem>
+          </Select>)}/>
+    </FormControl>
+  );
+}
+
+function CreateTimeSelect(control: any, name: string, setup: ConfigValues["setup"]) {
+  let t = [];
+  for (let i = 0; i < setup.output_name.length; ++i) {
+    t.push(TimeSelect(control, name + "." + i.toString(), "Zeit " + setup.output_name[i], 0));
+  }
+  return (<>{t}</>)
+}
 
 function ComponentAdd(reference: string) {
   console.log("Add " + reference);
@@ -123,22 +131,18 @@ function CreateSetupSettings(register: any, settings: ConfigValues["setup"]) {
   return (<>{s}</>)
 }
 
-function TeamSettings(register: any, control: any, count: number) {
+function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number) {
   let logoHome = "10";
   let logoGuest = "20";
-
-  // <TimeSelect label="Zeit Livestream" defaultValue="0s" variant={variant} control={control} {...register("team.time_values." + count.toString() + ".0")}/>
-  // <TimeSelect label="Zeit TV Links" defaultValue="5s" variant={variant} control={control} {...register("team.time_values." + count.toString() + ".1")}/>
-  // <TimeSelect label="Zeit TV Rechts" defaultValue="10s" variant={variant} control={control} {...register("team.time_values." + count.toString() + ".2")}/>
 
   return (
     <div>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}>
-            <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
+            <Stack spacing={2} direction="row" alignItems="center"  onClick={(event: any) => event.stopPropagation()}>
               <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team.name." + count.toString())}/>
-              {TimeSelect(control, "team.time_values." + count.toString() + ".0", "Zeit Livestream", 0)}
+              {CreateTimeSelect(control, "team.time_values." + count.toString(), setup)}
               <NavigationButtons callback_id={"team." + count.toString()}/>
             </Stack>
         </AccordionSummary>
@@ -211,10 +215,15 @@ function TeamSettings(register: any, control: any, count: number) {
   );
 }
 
-function AdvSettings(register: any, count: number){
-//  <TimeSelect label="Zeit Livestream" defaultValue="0s" variant={variant} {...register("adv.time_values." + count.toString() + ".0")}/>
-//  <TimeSelect label="Zeit TV Links" defaultValue="5s" variant={variant} {...register("adv.time_values." + count.toString() + ".1")}/>
-//  <TimeSelect label="Zeit TV Rechts" defaultValue="10s" variant={variant} {...register("adv.time_values." + count.toString() + ".2")}/>
+function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"]) {
+  let t = [];
+  for (let i = 0; i < team.name.length; ++i) {
+    t.push(TeamSettings(register, control, team, setup, i));
+  }
+  return (<>{t}</>)
+}
+
+function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], count: number){
 
   return (
     <div>
@@ -225,7 +234,8 @@ function AdvSettings(register: any, count: number){
           id="panel1a-header"> 
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa" {...register("adv.name." + count.toString())}/>
-                <NavigationButtons callback_id={"adv." + count.toString()}/>
+              {CreateTimeSelect(control, "adv.time_values." + count.toString(), setup)}
+              <NavigationButtons callback_id={"adv." + count.toString()}/>
             </Stack>
         </AccordionSummary>
         <AccordionDetails>
@@ -255,18 +265,26 @@ function AdvSettings(register: any, count: number){
   );
 }
 
+function CreateAdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"]) {
+  let a = [];
+  for (let i = 0; i < adv.name.length; ++i) {
+    a.push(AdvSettings(register, control, adv, setup, i));
+  }
+  return (<>{a}</>)
+}
+
 function App() {
 
   const { control, register, watch, setValue } = useForm<ConfigValues>();
   let watchedValues = watch();
 
   let defaultValues = { setup: {
-                          output_name: ["Livestream"], 
-                          output_file: ["livestream.json"]
+                          output_name: ["Livestream", "TV Links", "TV Rechts"], 
+                          output_file: ["livestream.json", "tvlinks.json", "tvrechts.json"]
                         },
                         team: { 
                           name: ["1. Mannschaft", "2. Mannschaft"],
-                          time_values: [[30], [5]],
+                          time_values: [[30, 20, 10], [5, 10, 20]],
                           logo_home: ["skc_nibelungen_lorsch.png", "skc_nibelungen_lorsch.png"],
                           logo_guest: ["default.png", "skv_lorsch.png"],
                           num_players: ["6", "4"],
@@ -305,8 +323,7 @@ function App() {
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2} direction="column" alignItems="left">
-            {TeamSettings(register, control, 0)}
-            {TeamSettings(register, control, 1)}
+            {CreateTeamSettings(register, control, defaultValues.team, defaultValues.setup)}
           </Stack>
         </AccordionDetails>
       </Accordion>
@@ -319,7 +336,7 @@ function App() {
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2} direction="column" alignItems="left">
-            {AdvSettings(register, 0)}
+            {CreateAdvSettings(register, control, defaultValues.adv, defaultValues.setup)}
           </Stack>
         </AccordionDetails>
       </Accordion>
