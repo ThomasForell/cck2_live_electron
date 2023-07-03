@@ -63,6 +63,7 @@ function TimeSelect(control: Control, name: string, label: string, value: number
 interface ConfigValues {
   setup: {
     output_name: Array<string>;
+    output_file: Array<string>;
   };
   team: {
     name: Array<string>;
@@ -84,6 +85,7 @@ function SetupSettings(register: any, count: number) {
   return (
       <Stack spacing={4} direction="row" alignItems="center">
         <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" {...register("setup.output_name." + count.toString())}/>
+        <TextField label="Ausgabe Datei" variant={variant} defaultValue="stream" {...register("setup.output_file." + count.toString())}/>
         <ButtonGroup variant="outlined" size="small" aria-label="">
           <Button><AddIcon/></Button>
           <Button><DeleteForeverIcon/></Button>
@@ -106,8 +108,8 @@ function TeamSettings(register: any, control: any, count: number) {
     <div>
       <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}> 
-            <Stack spacing={4} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
+          expandIcon={<ExpandMoreIcon />}>
+            <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
               <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team.name." + count.toString())}/>
               {TimeSelect(control, "team.time_values." + count.toString() + ".0", "Zeit Livestream", 0)}
               <ButtonGroup variant="outlined" size="small" aria-label="">
@@ -241,6 +243,9 @@ function App() {
   const { control, register, watch, setValue } = useForm<ConfigValues>();
   let watchedValues = watch();
 
+  let defaultValues = { setup: {output_name: ["Livestream"]},
+                        team: {} } as ConfigValues;
+
   return (
     <>
       <ThemeProvider theme={darkTheme}>
@@ -253,9 +258,11 @@ function App() {
           </Stack>
         </AccordionSummary>
         <AccordionDetails>
-          {SetupSettings(register, 0)}
-          {SetupSettings(register, 1)}
-          {SetupSettings(register, 2)}
+          <Stack spacing={2} direction="column" alignItems="left">
+            {SetupSettings(register, 0)}
+            {SetupSettings(register, 1)}
+            {SetupSettings(register, 2)}
+          </Stack>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -266,8 +273,10 @@ function App() {
           </Stack>
         </AccordionSummary>
         <AccordionDetails>
-          {TeamSettings(register, control, 0)}
-          {TeamSettings(register, control, 1)}
+          <Stack spacing={2} direction="column" alignItems="left">
+            {TeamSettings(register, control, 0)}
+            {TeamSettings(register, control, 1)}
+          </Stack>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -278,7 +287,9 @@ function App() {
           </Stack>
         </AccordionSummary>
         <AccordionDetails>
-          {AdvSettings(register, 0)}
+          <Stack spacing={2} direction="column" alignItems="left">
+            {AdvSettings(register, 0)}
+          </Stack>
         </AccordionDetails>
       </Accordion>
       <Button onClick={() => { setValue("setup.output_name.0", "Livestream"); setValue("setup.output_name.1", "TV Links"); 
