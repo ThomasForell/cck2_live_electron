@@ -115,7 +115,7 @@ function SetupSettings(register: any, count: number) {
   )
 }
 
-function CreateSettings(register: any, settings: ConfigValues["setup"]) {
+function CreateSetupSettings(register: any, settings: ConfigValues["setup"]) {
   let s = [];
   for (let i = 0; i < settings.output_name.length; ++i) {
     s.push(SetupSettings(register, i));
@@ -292,7 +292,7 @@ function App() {
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2} direction="column" alignItems="left">
-            {CreateSettings(register, defaultValues.setup)}
+            {CreateSetupSettings(register, defaultValues.setup)}
           </Stack>
         </AccordionDetails>
       </Accordion>
