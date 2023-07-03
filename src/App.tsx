@@ -55,9 +55,6 @@ function TimeSelect(control: Control, name: string, label: string, value: number
           </Select>)}/>
     </FormControl>
   );
-//  return (
-//
-//  );
 }
 
 interface ConfigValues {
@@ -81,19 +78,49 @@ interface ConfigValues {
   };
 };
 
+function ComponentAdd(reference: string) {
+  console.log("Add " + reference);
+}
+
+function ComponentDelete(reference: string) {
+  console.log("Delete " + reference);
+}
+
+function ComponentUp(reference: string) {
+  console.log("Up " + reference);
+}
+
+function ComponentDown(reference: string) {
+  console.log("Down " + reference);
+}
+
+function NavigationButtons({callback_id}: {callback_id: string}) {
+  return (        
+    <ButtonGroup variant="outlined" size="small">
+      <Button onClick={() => ComponentAdd(callback_id)}><AddIcon/></Button>
+      <Button onClick={() => ComponentDelete(callback_id)}><DeleteForeverIcon/></Button>
+      <Button onClick={() => ComponentUp(callback_id)}><ArrowCircleUpIcon/></Button>
+      <Button onClick={() => ComponentDown(callback_id)}><ArrowCircleDownIcon/></Button>
+    </ButtonGroup>  
+  )
+}
+
 function SetupSettings(register: any, count: number) {
   return (
       <Stack spacing={4} direction="row" alignItems="center">
         <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" {...register("setup.output_name." + count.toString())}/>
         <TextField label="Ausgabe Datei" variant={variant} defaultValue="stream" {...register("setup.output_file." + count.toString())}/>
-        <ButtonGroup variant="outlined" size="small" aria-label="">
-          <Button><AddIcon/></Button>
-          <Button><DeleteForeverIcon/></Button>
-          <Button><ArrowCircleUpIcon/></Button>
-          <Button><ArrowCircleDownIcon/></Button>
-        </ButtonGroup>
+        <NavigationButtons callback_id={"setup." + count.toString()}/>
       </Stack>
   )
+}
+
+function CreateSettings(register: any, settings: ConfigValues["setup"]) {
+  let s = [];
+  for (let i = 0; i < settings.output_name.length; ++i) {
+    s.push(SetupSettings(register, i));
+  }
+  return (<>{s}</>)
 }
 
 function TeamSettings(register: any, control: any, count: number) {
@@ -112,12 +139,7 @@ function TeamSettings(register: any, control: any, count: number) {
             <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
               <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team.name." + count.toString())}/>
               {TimeSelect(control, "team.time_values." + count.toString() + ".0", "Zeit Livestream", 0)}
-              <ButtonGroup variant="outlined" size="small" aria-label="">
-                <Button><AddIcon/></Button>
-                <Button><DeleteForeverIcon/></Button>
-                <Button><ArrowCircleUpIcon/></Button>
-                <Button><ArrowCircleDownIcon/></Button>
-              </ButtonGroup>
+              <NavigationButtons callback_id={"team." + count.toString()}/>
             </Stack>
         </AccordionSummary>
         <AccordionDetails>
@@ -203,12 +225,7 @@ function AdvSettings(register: any, count: number){
           id="panel1a-header"> 
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa" {...register("adv.name." + count.toString())}/>
-                <ButtonGroup size="small" variant="outlined" aria-label="outlined button group">
-                <Button onClick={() => {}} ><AddIcon/></Button>
-                <Button><DeleteForeverIcon/></Button>
-                <Button><ArrowCircleUpIcon/></Button>
-                <Button><ArrowCircleDownIcon/></Button>
-              </ButtonGroup>
+                <NavigationButtons callback_id={"adv." + count.toString()}/>
             </Stack>
         </AccordionSummary>
         <AccordionDetails>
@@ -243,8 +260,24 @@ function App() {
   const { control, register, watch, setValue } = useForm<ConfigValues>();
   let watchedValues = watch();
 
-  let defaultValues = { setup: {output_name: ["Livestream"]},
-                        team: {} } as ConfigValues;
+  let defaultValues = { setup: {
+                          output_name: ["Livestream"], 
+                          output_file: ["livestream.json"]
+                        },
+                        team: { 
+                          name: ["1. Mannschaft", "2. Mannschaft"],
+                          time_values: [[30], [5]],
+                          logo_home: ["skc_nibelungen_lorsch.png", "skc_nibelungen_lorsch.png"],
+                          logo_guest: ["default.png", "skv_lorsch.png"],
+                          num_players: ["6", "4"],
+                          num_lanes: ["6", "4"],
+                          set_points: ["true", "true"],                      
+                          cck2_file: ["mannschaft1.json", "mannschaft2.json"]
+                        },
+                        adv: {
+                          name: ["Werbung!"],
+                          time_values: [[0]],
+                        } } as ConfigValues;
 
   return (
     <>
@@ -259,9 +292,7 @@ function App() {
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2} direction="column" alignItems="left">
-            {SetupSettings(register, 0)}
-            {SetupSettings(register, 1)}
-            {SetupSettings(register, 2)}
+            {CreateSettings(register, defaultValues.setup)}
           </Stack>
         </AccordionDetails>
       </Accordion>
