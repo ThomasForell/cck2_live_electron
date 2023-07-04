@@ -159,15 +159,14 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
   return (
     <div>
       <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary key={"teamSummary." + count.toString()} expandIcon={<ExpandMoreIcon />}>
             <Stack spacing={2} direction="row" alignItems="center"  onClick={(event: any) => event.stopPropagation()}>
               <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team.name." + count.toString())}/>
               {CreateTimeSelect(control, "team.time_values." + count.toString(), setup)}
               <NavigationButtons callback_id={"team." + count.toString()}/>
             </Stack>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails key={"teamDetails." + count.toString()}>
           <Stack spacing={2} direction="column">
             <Grid container spacing={2}>
               <Grid xs={3}>
@@ -233,7 +232,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
   return (
     <div>
       <Accordion>
-        <AccordionSummary
+        <AccordionSummary key={"advSummary." + count.toString()}
           expandIcon={<ExpandMoreIcon />}> 
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa" {...register("adv.name." + count.toString())}/>
@@ -241,7 +240,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
               <NavigationButtons callback_id={"adv." + count.toString()}/>
             </Stack>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails key={"advDetail." + count.toString()}>
           <Stack spacing={2} direction="column">
             <Grid container spacing={2}>
               <Grid xs={4}>
@@ -302,39 +301,39 @@ function App() {
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary key="setupSummary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Setup</h1>
             <Button onClick={() => {console.log(watchedValues.setup);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails key="setupDetails">
           <Stack spacing={2} direction="column" alignItems="left">
             {CreateSetupSettings(register, defaultValues.setup)}
           </Stack>
         </AccordionDetails>
       </Accordion>
       <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary key="teamSummary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Team Konfiguration</h1>
             <Button onClick={() => {console.log(watchedValues.team);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails key="teamDetail">
           <Stack spacing={2} direction="column" alignItems="left">
             {CreateTeamSettings(register, control, defaultValues.team, defaultValues.setup)}
           </Stack>
         </AccordionDetails>
       </Accordion>
       <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary key="advSummary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Werbung Konfiguration</h1>
             <Button onClick={() => {console.log(watchedValues.adv);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails key="advDetails">
           <Stack spacing={2} direction="column" alignItems="left">
             {CreateAdvSettings(register, control, defaultValues.adv, defaultValues.setup)}
           </Stack>
