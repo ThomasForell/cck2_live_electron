@@ -38,6 +38,30 @@ const darkTheme = createTheme({
 
 const variant = "standard";
 
+let teamLogos = [
+  {key: "default.png", value: "default"},
+  {key: "SKV_Lorsch.png", value: "SKV Lorsch"},
+  {key: "SKV_Olympia_Mörfelden.jpg", value: "SKV Olympia Mörfelden"},
+  {key: "SKG_Rossdorf.png", value: "SKG Rossdorf"},
+  {key: "DJK_AN_Groß_Ostheim.jpg", value: "DJK AN Groß Ostheim"},
+  {key: "KSV_Bischofsheim.png", value: "KSV Bischofsheim"},
+  {key: "SKC_Nibelungen_Lorsch.png", value: "SKC Nibelungen Lorsch"}
+];
+
+let advLogos = [
+  {key: "dvag.png", value: "dvag"},
+  {key: "kempa.png", value: "kempa"},
+  {key: "rekorde_einzel_120.png", value: "rekorde_einzel_120"},
+  {key: "rekorde_team_100.png", value: "rekorde_team_100"},
+  {key: "rekorde_team_120.png", value: "rekorde_team_120"},
+  {key: "rekorde_team_mixed_100.png", value: "rekorde_team_mixed_100"},
+  {key: "sparkasse.png", value: "sparkasse"},
+  {key: "stream-dvag.png", value: "stream-dvag"},
+  {key: "stream-sparkasse.png", value: "stream-sparkasse"},
+  {key: "stream-kc-lorsch.png", value: "stream-kc-lorsch"},
+  {key: "stream-kempa.png", value: "stream-kempa"}
+];
+
 interface ConfigValues {
   setup: {
     output_name: Array<string>;
@@ -51,7 +75,7 @@ interface ConfigValues {
     num_players: Array<string>;
     num_lanes: Array<string>;
     set_points: Array<string>;
-    cck2_file:Array<string>;
+    cck2_file: Array<string>;
   };
   adv: {
     name: Array<string>;
@@ -66,13 +90,13 @@ function TimeSelect(control: Control, name: string, label: string, value: number
       <InputLabel>{label}</InputLabel>
         <Controller control={control} name={name} defaultValue={value} render={({ field }) => (
           <Select {...field} label={label} variant={variant}>
-            <MenuItem value={0}>0s</MenuItem>
-            <MenuItem value={5}>5s</MenuItem>
-            <MenuItem value={10}>10s</MenuItem>
-            <MenuItem value={20}>20s</MenuItem>
-            <MenuItem value={30}>30s</MenuItem>
-            <MenuItem value={45}>45s</MenuItem>
-            <MenuItem value={60}>60s</MenuItem>
+            <MenuItem value={0} key={0}>0s</MenuItem>
+            <MenuItem value={5} key={5}>5s</MenuItem>
+            <MenuItem value={10} key={10}>10s</MenuItem>
+            <MenuItem value={20} key={20}>20s</MenuItem>
+            <MenuItem value={30} key={30}>30s</MenuItem>
+            <MenuItem value={45} key={45}>45s</MenuItem>
+            <MenuItem value={60} key={60}>60s</MenuItem>
           </Select>)}/>
     </FormControl>
   );
@@ -132,9 +156,6 @@ function CreateSetupSettings(register: any, settings: ConfigValues["setup"]) {
 }
 
 function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number) {
-  let logoHome = "10";
-  let logoGuest = "20";
-
   return (
     <div>
       <Accordion>
@@ -149,60 +170,44 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
         <AccordionDetails>
           <Stack spacing={2} direction="column">
             <Grid container spacing={2}>
-              <Grid xs={2}>
+              <Grid xs={3}>
                 <FormControl>
-                  <InputLabel id="logo_home_label">Logo Heim</InputLabel>
-                  <Select labelId="logo_home_select_label"
-                    id="logo_home_select"
-                    defaultValue={logoHome}
-                    variant={variant}
-                    label="Logo Heim"
-                    {...register("team.logo_home." + count.toString())}>
-                      <MenuItem value={10}>KV Aschaffenburg</MenuItem>
-                      <MenuItem value={20}>KKV Saale Kreis</MenuItem>
-                      <MenuItem value={30}>SKV Lorsch</MenuItem>
-                    </Select>
+                  <InputLabel>Logo Heim</InputLabel>
+                  <Controller control={control} name={"team.logo_home." + count.toString()} defaultValue="SKV_Lorsch.png" render={({ field }) => (
+                    <Select {...field} variant={variant} label="Logo Heim">
+                      {teamLogos.map(({key, value}) => (<MenuItem value={key} key={key}>{value}</MenuItem>))}
+                    </Select>)}/>
                 </FormControl>
               </Grid>
-              <Grid xs={10}>
+              <Grid xs={9}>
                 <Box sx={{ height: 120, width: 250}}> <img src="SKC_Nibelungen_Lorsch.png" alt="" height="120" width="auto"/> </Box>
               </Grid>
-              <Grid xs={2}>
+              <Grid xs={3}>
                 <FormControl>
-                  <InputLabel id="logo_guest_label">Logo Gast</InputLabel>
-                  <Select labelId="logo_home_select_label"
-                    id="logo_guest_select"
-                    defaultValue={logoGuest}
-                    variant={variant}
-                    label="Logo Gast"
-                    {...register("team.logo_guest." + count.toString())}>
-                      <MenuItem value={10}>KV Aschaffenburg</MenuItem>
-                      <MenuItem value={20}>KKV Saale Kreis</MenuItem>
-                      <MenuItem value={30}>SKV Lorsch</MenuItem>
-                  </Select>
+                  <InputLabel>Logo Gast</InputLabel>
+                  <Controller control={control} name={"team.logo_guest." + count.toString()} defaultValue="SKV_Lorsch.png" render={({ field }) => (
+                    <Select {...field} variant={variant} label="Logo Guest">
+                      {teamLogos.map(({key, value}) => (<MenuItem value={key} key={key}>{value}</MenuItem>))}
+                    </Select>)}/>
                 </FormControl>
               </Grid>
-              <Grid xs={10}>
+              <Grid xs={9}>
                 <Box sx={{ height: 120}}> <img src="KSC_Groß-Zimmern.jpg" alt="" height="120" width="auto"/> </Box>
               </Grid>
             </Grid>
           <Stack spacing={4} direction="row">
             <FormControl>
               <FormLabel id="num_player_label">Anzahl Spieler</FormLabel>
-              <RadioGroup
-                row
-                aria-labelledby="num_player_label_aria">
-                <FormControlLabel value="4" control={<Radio />} label="4" {...register("team.num_players." + count.toString())}/>
-                <FormControlLabel value="6" control={<Radio />} label="6" {...register("team.num_players." + count.toString())}/>
+              <RadioGroup row>
+                <FormControlLabel value="4" control={<Radio />} label="4" key="4" {...register("team.num_players." + count.toString())}/>
+                <FormControlLabel value="6" control={<Radio />} label="6" key="6" {...register("team.num_players." + count.toString())}/>
               </RadioGroup>
             </FormControl>
             <FormControl>
               <FormLabel id="num_lanes_label">Anzahl Bahnen</FormLabel>
-              <RadioGroup
-                row
-                aria-labelledby="num_lanes_label_aria">
-                <FormControlLabel value="4" control={<Radio />} label="4" {...register("team.num_lanes." + count.toString())}/>
-                <FormControlLabel value="6" control={<Radio />} label="6" {...register("team.num_lanes." + count.toString())}/>
+              <RadioGroup row>
+                <FormControlLabel value="4" control={<Radio />} label="4" key="4" {...register("team.num_lanes." + count.toString())}/>
+                <FormControlLabel value="6" control={<Radio />} label="6" key="6" {...register("team.num_lanes." + count.toString())}/>
               </RadioGroup>
             </FormControl>
             <FormControlLabel control={<Checkbox defaultChecked {...register("team.set_points." + count.toString())}/>} label="Satzpunkte" />
@@ -229,9 +234,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
     <div>
       <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"> 
+          expandIcon={<ExpandMoreIcon />}> 
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa" {...register("adv.name." + count.toString())}/>
               {CreateTimeSelect(control, "adv.time_values." + count.toString(), setup)}
@@ -243,15 +246,11 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
             <Grid container spacing={2}>
               <Grid xs={4}>
                 <FormControl style={{minWidth: 200}}>
-                  <InputLabel id="demo-simple-select-label">Werbung</InputLabel>
-                  <Select labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    variant={variant}
-                    label="Werbung">
-                      <MenuItem value={10}>KV Aschaffenburg</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
+                  <InputLabel>Werbung</InputLabel>
+                  <Controller control={control} name={"adv.logo." + count.toString()} defaultValue={advLogos[0].key} render={({ field }) => (
+                    <Select {...field} variant={variant} label="Logo Heim">
+                      {advLogos.map(({key, value}) => (<MenuItem value={key} key={key}>{value}</MenuItem>))}
+                    </Select>)}/>
                 </FormControl>
               </Grid>
               <Grid xs={8}>
@@ -286,7 +285,7 @@ function App() {
                           name: ["1. Mannschaft", "2. Mannschaft"],
                           time_values: [[30, 20, 10], [5, 10, 20]],
                           logo_home: ["skc_nibelungen_lorsch.png", "skc_nibelungen_lorsch.png"],
-                          logo_guest: ["default.png", "skv_lorsch.png"],
+                          logo_guest: ["default.png", "SKV_Lorsch.png"],
                           num_players: ["6", "4"],
                           num_lanes: ["6", "4"],
                           set_points: ["true", "true"],                      
@@ -294,6 +293,7 @@ function App() {
                         },
                         adv: {
                           name: ["Werbung!"],
+                          logo: ["sparkasse.png"],
                           time_values: [[0]],
                         } } as ConfigValues;
 
