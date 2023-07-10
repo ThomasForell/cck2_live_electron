@@ -86,17 +86,17 @@ interface ConfigValues {
 function TimeSelect(control: Control, name: string, label: string, value: number)
 {
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel>{label}</InputLabel>
-        <Controller control={control} name={name} defaultValue={value} render={({ field }) => (
-          <Select {...field} label={label} variant={variant}>
-            <MenuItem value={0} key={0}>0s</MenuItem>
-            <MenuItem value={5} key={5}>5s</MenuItem>
-            <MenuItem value={10} key={10}>10s</MenuItem>
-            <MenuItem value={20} key={20}>20s</MenuItem>
-            <MenuItem value={30} key={30}>30s</MenuItem>
-            <MenuItem value={45} key={45}>45s</MenuItem>
-            <MenuItem value={60} key={60}>60s</MenuItem>
+    <FormControl key={name + "_fc_" + value.toString()} sx={{ m: 1, minWidth: 120 }}>
+      <InputLabel key={name + "_il_" + value.toString()}>{label}</InputLabel>
+        <Controller key={name + "_c_" + value.toString()} control={control} name={name} defaultValue={value} render={({ field }) => (
+          <Select key={name + "_s_" + value.toString()} {...field} label={label} variant={variant}>
+            <MenuItem key={name + "_i_0_" + value.toString()} value={0}>0s</MenuItem>
+            <MenuItem key={name + "_i_5_" + value.toString()} value={5}>5s</MenuItem>
+            <MenuItem key={name + "_i_10_" + value.toString()} value={10}>10s</MenuItem>
+            <MenuItem key={name + "_i_20_" + value.toString()} value={20}>20s</MenuItem>
+            <MenuItem key={name + "_i_30_" + value.toString()} value={30}>30s</MenuItem>
+            <MenuItem key={name + "_i_45_" + value.toString()} value={45}>45s</MenuItem>
+            <MenuItem key={name + "_i_60_" + value.toString()} value={60}>60s</MenuItem>
           </Select>)}/>
     </FormControl>
   );
@@ -105,7 +105,7 @@ function TimeSelect(control: Control, name: string, label: string, value: number
 function CreateTimeSelect(control: any, name: string, setup: ConfigValues["setup"]) {
   let t = [];
   for (let i = 0; i < setup.output_name.length; ++i) {
-    t.push(TimeSelect(control, name + "." + i.toString(), "Zeit " + setup.output_name[i], 0));
+    t.push(TimeSelect(control, name + "_" + i.toString(), "Zeit " + setup.output_name[i], 0));
   }
   return (<>{t}</>)
 }
@@ -174,7 +174,7 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
                   <InputLabel>Logo Heim</InputLabel>
                   <Controller control={control} name={"team.logo_home." + count.toString()} defaultValue="SKV_Lorsch.png" render={({ field }) => (
                     <Select {...field} variant={variant} label="Logo Heim">
-                      {teamLogos.map(({key, value}) => (<MenuItem value={key} key={key}>{value}</MenuItem>))}
+                      {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"home_" + count.toString() + "_" + key}>{value}</MenuItem>))}
                     </Select>)}/>
                 </FormControl>
               </Grid>
@@ -186,7 +186,7 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
                   <InputLabel>Logo Gast</InputLabel>
                   <Controller control={control} name={"team.logo_guest." + count.toString()} defaultValue="SKV_Lorsch.png" render={({ field }) => (
                     <Select {...field} variant={variant} label="Logo Guest">
-                      {teamLogos.map(({key, value}) => (<MenuItem value={key} key={key}>{value}</MenuItem>))}
+                      {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"guest_" + count.toString() + "_" + key}>{value}</MenuItem>))}
                     </Select>)}/>
                 </FormControl>
               </Grid>
@@ -198,18 +198,18 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
             <FormControl>
               <FormLabel id="num_player_label">Anzahl Spieler</FormLabel>
               <RadioGroup row>
-                <FormControlLabel value="4" control={<Radio />} label="4" key="4" {...register("team.num_players." + count.toString())}/>
-                <FormControlLabel value="6" control={<Radio />} label="6" key="6" {...register("team.num_players." + count.toString())}/>
-              </RadioGroup>
+                <FormControlLabel value="4" control={<Radio />} label="4" key={"player_" + count.toString() + "_4"} {...register("team.num_players." + count.toString())}/>
+                <FormControlLabel value="6" control={<Radio />} label="6" key={"player_" + count.toString() + "_6"} {...register("team.num_players." + count.toString())}/>
+              </RadioGroup>1
             </FormControl>
             <FormControl>
               <FormLabel id="num_lanes_label">Anzahl Bahnen</FormLabel>
               <RadioGroup row>
-                <FormControlLabel value="4" control={<Radio />} label="4" key="4" {...register("team.num_lanes." + count.toString())}/>
-                <FormControlLabel value="6" control={<Radio />} label="6" key="6" {...register("team.num_lanes." + count.toString())}/>
+                <FormControlLabel value="4" control={<Radio />} label="4" key={"lanes_" + count.toString() + "_4"} {...register("team.num_lanes." + count.toString())}/>
+                <FormControlLabel value="6" control={<Radio />} label="6" key={"lanes_" + count.toString() + "_6"} {...register("team.num_lanes." + count.toString())}/>
               </RadioGroup>
             </FormControl>
-            <FormControlLabel control={<Checkbox defaultChecked {...register("team.set_points." + count.toString())}/>} label="Satzpunkte" />
+            <FormControlLabel control={<Checkbox defaultChecked {...register("team_set_points." + count.toString())}/>} label="Satzpunkte" />
           </Stack>
           <TextField id="cck2_data_file" label="CCK2 Daten Team" variant={variant} defaultValue="mannschaft.json" {...register("team.cck2_file." + count.toString())}/>
         </Stack>
@@ -230,7 +230,7 @@ function CreateTeamSettings(register: any, control: any, team: ConfigValues["tea
 function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], count: number){
 
   return (
-    <div>
+    <>
       <Accordion>
         <AccordionSummary key={"advSummary." + count.toString()}
           expandIcon={<ExpandMoreIcon />}> 
@@ -248,7 +248,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
                   <InputLabel>Werbung</InputLabel>
                   <Controller control={control} name={"adv.logo." + count.toString()} defaultValue={advLogos[0].key} render={({ field }) => (
                     <Select {...field} variant={variant} label="Logo Heim">
-                      {advLogos.map(({key, value}) => (<MenuItem value={key} key={key}>{value}</MenuItem>))}
+                      {advLogos.map(({key, value}) => (<MenuItem value={key} key={"adv_" + count.toString() + "_" + key}>{value}</MenuItem>))}
                     </Select>)}/>
                 </FormControl>
               </Grid>
@@ -259,7 +259,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
         </Stack>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </>
   );
 }
 
@@ -300,47 +300,47 @@ function App() {
     <>
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Accordion>
-        <AccordionSummary key="setupSummary" expandIcon={<ExpandMoreIcon />}>
+      <Accordion key="setup">
+        <AccordionSummary key="setup_summary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Setup</h1>
             <Button onClick={() => {console.log(watchedValues.setup);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
-        <AccordionDetails key="setupDetails">
+        <AccordionDetails key="setup_details">
           <Stack spacing={2} direction="column" alignItems="left">
-            {CreateSetupSettings(register, defaultValues.setup)}
+            { CreateSetupSettings(register, defaultValues.setup) }
           </Stack>
         </AccordionDetails>
       </Accordion>
-      <Accordion>
-        <AccordionSummary key="teamSummary" expandIcon={<ExpandMoreIcon />}>
+      <Accordion key="team">
+        <AccordionSummary key="team_summary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Team Konfiguration</h1>
             <Button onClick={() => {console.log(watchedValues.team);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
-        <AccordionDetails key="teamDetail">
+        <AccordionDetails key="team_detail">
           <Stack spacing={2} direction="column" alignItems="left">
             {CreateTeamSettings(register, control, defaultValues.team, defaultValues.setup)}
           </Stack>
         </AccordionDetails>
       </Accordion>
-      <Accordion>
-        <AccordionSummary key="advSummary" expandIcon={<ExpandMoreIcon />}>
+      <Accordion key="adv">
+        <AccordionSummary key="adv_summary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Werbung Konfiguration</h1>
             <Button onClick={() => {console.log(watchedValues.adv);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
-        <AccordionDetails key="advDetails">
-          <Stack spacing={2} direction="column" alignItems="left">
+        <AccordionDetails key="adv_details">
+          <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
             {CreateAdvSettings(register, control, defaultValues.adv, defaultValues.setup)}
           </Stack>
         </AccordionDetails>
       </Accordion>
-      <Button onClick={() => { setValue("setup.output_name.0", "Livestream"); setValue("setup.output_name.1", "TV Links"); 
-        setValue("setup.output_name.2", "TV Rechts"); setValue("team.time_values.0.0", 60)}}>Test Values</Button>
+      { /* <Button onClick={() => { setValue("setup.output_name.0", "Livestream"); setValue("setup.output_name.1", "TV Links"); 
+        setValue("setup.output_name.2", "TV Rechts"); setValue("team.time_values.0.0", 60)}}>Test Values</Button> */ }
       </ThemeProvider>
     </>
   );
