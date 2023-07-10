@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, nativeTheme } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
@@ -9,6 +9,8 @@ express_app.use( express.static('./public-live') );
 express_app.listen(80);
 
 let win: BrowserWindow | null = null;
+
+nativeTheme.themeSource = "dark";
 
 function createWindow() {
   win = new BrowserWindow({
