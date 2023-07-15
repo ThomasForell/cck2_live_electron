@@ -126,23 +126,24 @@ function ComponentDown(reference: string) {
   console.log("Down " + reference);
 }
 
-function NavigationButtons({callback_id}: {callback_id: string}) {
+function NavigationButtons({callback_id, disableDelete=false, disableUp=false, disableDown=false}: {callback_id: string, disableDelete: boolean, disableUp: boolean, disableDown: boolean}
+  ) {
   return (        
     <ButtonGroup variant="outlined" size="small">
       <Button onClick={() => ComponentAdd(callback_id)}><AddIcon/></Button>
-      <Button onClick={() => ComponentDelete(callback_id)}><DeleteForeverIcon/></Button>
-      <Button onClick={() => ComponentUp(callback_id)}><ArrowCircleUpIcon/></Button>
-      <Button onClick={() => ComponentDown(callback_id)}><ArrowCircleDownIcon/></Button>
+      <Button disabled={disableDelete} onClick={() => ComponentDelete(callback_id)}><DeleteForeverIcon/></Button>
+      <Button disabled={disableUp} onClick={() => ComponentUp(callback_id)}><ArrowCircleUpIcon/></Button>
+      <Button disabled={disableDown} onClick={() => ComponentDown(callback_id)}><ArrowCircleDownIcon/></Button>
     </ButtonGroup>  
   )
 }
 
-function SetupSettings(register: any, count: number) {
-  return (
+function SetupSettings(register: any, count: number, disableDelete:boolean=false, disableUp: boolean=false, disableDown: boolean=false) {
+  return ( 
       <Stack spacing={4} direction="row" alignItems="center">
         <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" {...register("setup.output_name." + count.toString())}/>
         <TextField label="Ausgabe Datei" variant={variant} defaultValue="stream" {...register("setup.output_file." + count.toString())}/>
-        <NavigationButtons callback_id={"setup." + count.toString()}/>
+        <NavigationButtons callback_id={"setup." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
       </Stack>
   )
 }
@@ -150,12 +151,13 @@ function SetupSettings(register: any, count: number) {
 function CreateSetupSettings(register: any, settings: ConfigValues["setup"]) {
   let s = [];
   for (let i = 0; i < settings.output_name.length; ++i) {
-    s.push(SetupSettings(register, i));
+    s.push(SetupSettings(register, i, settings.output_name.length === 1, i === 0, i === settings.output_name.length - 1));
   }
   return (<>{s}</>)
 }
 
-function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number) {
+function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number, 
+  disableDelete:boolean, disableUp:boolean, disableDown:boolean) {
   return (
     <div>
       <Accordion>
@@ -163,7 +165,7 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
             <Stack spacing={2} direction="row" alignItems="center"  onClick={(event: any) => event.stopPropagation()}>
               <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team.name." + count.toString())}/>
               {CreateTimeSelect(control, "team.time_values." + count.toString(), setup)}
-              <NavigationButtons callback_id={"team." + count.toString()}/>
+              <NavigationButtons callback_id={"team." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
             </Stack>
         </AccordionSummary>
         <AccordionDetails key={"teamDetails." + count.toString()}>
@@ -222,12 +224,13 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
 function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"]) {
   let t = [];
   for (let i = 0; i < team.name.length; ++i) {
-    t.push(TeamSettings(register, control, team, setup, i));
+    t.push(TeamSettings(register, control, team, setup, i, team.name.length === 1, i === 0, i === team.name.length - 1));
   }
   return (<>{t}</>)
 }
 
-function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], count: number){
+function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], count: number,
+  disableDelete:boolean, disableUp:boolean, disableDown:boolean){
 
   return (
     <>
@@ -237,7 +240,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa" {...register("adv.name." + count.toString())}/>
               {CreateTimeSelect(control, "adv.time_values." + count.toString(), setup)}
-              <NavigationButtons callback_id={"adv." + count.toString()}/>
+              <NavigationButtons callback_id={"adv." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
             </Stack>
         </AccordionSummary>
         <AccordionDetails key={"advDetail." + count.toString()}>
@@ -266,7 +269,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
 function CreateAdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"]) {
   let a = [];
   for (let i = 0; i < adv.name.length; ++i) {
-    a.push(AdvSettings(register, control, adv, setup, i));
+    a.push(AdvSettings(register, control, adv, setup, i, adv.name.length === 1, i === 0, i === adv.name.length - 1));
   }
   return (<>{a}</>)
 }
