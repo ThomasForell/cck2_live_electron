@@ -105,7 +105,7 @@ function TimeSelect(control: Control, name: string, label: string, value: number
 function CreateTimeSelect(control: any, name: string, setup: ConfigValues["setup"]) {
   let t = [];
   for (let i = 0; i < setup.output_name.length; ++i) {
-    t.push(TimeSelect(control, name + ".x" + i.toString(), "Zeit " + setup.output_name[i], 0));
+    t.push(TimeSelect(control, name + "." + i.toString(), "Zeit " + setup.output_name[i], 0));
   }
   return (<>{t}</>)
 }
