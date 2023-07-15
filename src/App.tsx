@@ -105,7 +105,7 @@ function TimeSelect(control: Control, name: string, label: string, value: number
 function CreateTimeSelect(control: any, name: string, setup: ConfigValues["setup"]) {
   let t = [];
   for (let i = 0; i < setup.output_name.length; ++i) {
-    t.push(TimeSelect(control, name + "_" + i.toString(), "Zeit " + setup.output_name[i], 0));
+    t.push(TimeSelect(control, name + ".x" + i.toString(), "Zeit " + setup.output_name[i], 0));
   }
   return (<>{t}</>)
 }
@@ -163,7 +163,7 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
       <Accordion>
         <AccordionSummary key={"teamSummary." + count.toString()} expandIcon={<ExpandMoreIcon />}>
             <Stack spacing={2} direction="row" alignItems="center"  onClick={(event: any) => event.stopPropagation()}>
-              <TextField id="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team.name." + count.toString())}/>
+              <TextField key="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team.name." + count.toString())}/>
               {CreateTimeSelect(control, "team.time_values." + count.toString(), setup)}
               <NavigationButtons callback_id={"team." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
             </Stack>
@@ -286,7 +286,7 @@ function App() {
                         team: { 
                           name: ["1. Mannschaft", "2. Mannschaft"],
                           time_values: [[30, 20, 10], [5, 10, 20]],
-                          logo_home: ["skc_nibelungen_lorsch.png", "skc_nibelungen_lorsch.png"],
+                          logo_home: ["SKC_Nibelungen_Lorsch.png", "SKC_Nibelungen_Lorsch.png"],
                           logo_guest: ["default.png", "SKV_Lorsch.png"],
                           num_players: ["6", "4"],
                           num_lanes: ["6", "4"],
@@ -298,6 +298,18 @@ function App() {
                           logo: ["sparkasse.png"],
                           time_values: [[0]],
                         } } as ConfigValues;
+
+  React.useEffect(() => {
+    setValue("setup", defaultValues.setup);
+    setValue("team", defaultValues.team);
+    setValue("adv", defaultValues.adv);
+   }, []);
+
+  React.useEffect(() => { if (watchedValues) {
+    setValue("setup", watchedValues.setup);
+    setValue("team", watchedValues.team);
+    setValue("adv", watchedValues.adv);
+   }});
 
   return (
     <>
