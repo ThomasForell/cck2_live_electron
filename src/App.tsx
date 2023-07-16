@@ -110,12 +110,65 @@ function CreateTimeSelect(control: any, name: string, setup: ConfigValues["setup
   return (<>{t}</>)
 }
 
-function ComponentAdd(reference: string) {
-  console.log("Add " + reference);
+function ComponentAdd(reference: string, setNumEntries: any) {
+  let tmp = {...watchedValues};
+  const numTimeEntries = tmp.setup.output_name.length;
+  const [component, id] = reference.split(".");
+  const i = Number(id);
+  if (component === "setup") {
+    tmp.setup.output_name.splice(i, 0, "Stream");
+    tmp.setup.output_file.splice(i, 0, "stream_file");
+    values = {...tmp};
+    setNumEntries(values.setup.output_name.length);
+    }
+  else if (component === "team") {
+    tmp.team.name.splice(i, 0, "Mannschaft");
+    tmp.team.time_values.splice(i, 0, new Array(numTimeEntries).fill(0));
+    tmp.team.logo_home.splice(i, 0, "SKC_Nibelungen_Lorsch.png");
+    tmp.team.logo_guest.splice(i, 0, "default.png");
+    tmp.team.num_players.splice(i, 0, "6");
+    tmp.team.num_lanes.splice(i, 0, "4");
+    tmp.team.set_points.splice(i, 0, "true");
+    tmp.team.cck2_file.splice(i, 0, "mannschaft");
+    values = {...tmp};
+    setNumEntries(values.team.name.length);
+    }
+  else if (component === "adv") {
+    tmp.adv.name.splice(i, 0, "Werbung");
+    tmp.adv.time_values.splice(i, 0, new Array(numTimeEntries).fill(0));
+    values = {...tmp};
+    setNumEntries(values.adv.name.length);
+    }
 }
 
-function ComponentDelete(reference: string) {
-  console.log("Delete " + reference);
+function ComponentDelete(reference: string, setNumEntries: any) {
+  let tmp = {...watchedValues};
+  const [component, id] = reference.split(".");
+  const i = Number(id);
+  if (component === "setup") {
+    tmp.setup.output_name.splice(i, 1);
+    tmp.setup.output_file.splice(i, 1);
+    values = {...tmp};
+    setNumEntries(values.setup.output_name.length);
+  }
+  else if (component === "team") {
+    tmp.team.name.splice(i, 1);
+    tmp.team.time_values.splice(i, 1);
+    tmp.team.logo_home.splice(i, 1);
+    tmp.team.logo_guest.splice(i, 1);
+    tmp.team.num_players.splice(i, 1);
+    tmp.team.num_lanes.splice(i, 1);
+    tmp.team.set_points.splice(i, 1);
+    tmp.team.cck2_file.splice(i, 1);
+    values = {...tmp};
+    setNumEntries(values.team.name.length);
+  }
+  else if (component === "adv") {
+    tmp.adv.name.splice(i, 1, "Werbung");
+    tmp.adv.time_values.splice(i, 1);
+    values = {...tmp};
+    setNumEntries(values.adv.name.length);
+  }
 }
 
 function ComponentUp(reference: string) {
@@ -126,38 +179,39 @@ function ComponentDown(reference: string) {
   console.log("Down " + reference);
 }
 
-function NavigationButtons({callback_id, disableDelete=false, disableUp=false, disableDown=false}: {callback_id: string, disableDelete: boolean, disableUp: boolean, disableDown: boolean}
+function NavigationButtons({callback_id, disableDelete=false, disableUp=false, disableDown=false, setNumEntries=""}: {callback_id: string, disableDelete: boolean, 
+  disableUp: boolean, disableDown: boolean, setNumEntries: any}
   ) {
   return (        
     <ButtonGroup variant="outlined" size="small">
-      <Button onClick={() => ComponentAdd(callback_id)}><AddIcon/></Button>
-      <Button disabled={disableDelete} onClick={() => ComponentDelete(callback_id)}><DeleteForeverIcon/></Button>
+      <Button onClick={() => ComponentAdd(callback_id, setNumEntries)}><AddIcon/></Button>
+      <Button disabled={disableDelete} onClick={() => ComponentDelete(callback_id, setNumEntries)}><DeleteForeverIcon/></Button>
       <Button disabled={disableUp} onClick={() => ComponentUp(callback_id)}><ArrowCircleUpIcon/></Button>
       <Button disabled={disableDown} onClick={() => ComponentDown(callback_id)}><ArrowCircleDownIcon/></Button>
     </ButtonGroup>  
   )
 }
 
-function SetupSettings(register: any, count: number, disableDelete:boolean=false, disableUp: boolean=false, disableDown: boolean=false) {
+function SetupSettings(register: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean, setNumSetupEntries: any) {
   return ( 
       <Stack spacing={4} direction="row" alignItems="center">
         <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" {...register("setup.output_name." + count.toString())}/>
         <TextField label="Ausgabe Datei" variant={variant} defaultValue="stream" {...register("setup.output_file." + count.toString())}/>
-        <NavigationButtons callback_id={"setup." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
+        <NavigationButtons callback_id={"setup." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} setNumEntries={setNumSetupEntries}/>
       </Stack>
   )
 }
 
-function CreateSetupSettings(register: any, settings: ConfigValues["setup"]) {
+function CreateSetupSettings(register: any, settings: ConfigValues["setup"], setNumSetupEntries: any) {
   let s = [];
   for (let i = 0; i < settings.output_name.length; ++i) {
-    s.push(SetupSettings(register, i, settings.output_name.length === 1, i === 0, i === settings.output_name.length - 1));
+    s.push(SetupSettings(register, i, settings.output_name.length === 1, i === 0, i === settings.output_name.length - 1, setNumSetupEntries));
   }
   return (<>{s}</>)
 }
 
 function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number, 
-  disableDelete:boolean, disableUp:boolean, disableDown:boolean) {
+  disableDelete:boolean, disableUp:boolean, disableDown:boolean, setNumTeamEntries:any) {
   return (
     <div>
       <Accordion>
@@ -165,7 +219,8 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
             <Stack spacing={2} direction="row" alignItems="center"  onClick={(event: any) => event.stopPropagation()}>
               <TextField key="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team.name." + count.toString())}/>
               {CreateTimeSelect(control, "team.time_values." + count.toString(), setup)}
-              <NavigationButtons callback_id={"team." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
+              <NavigationButtons callback_id={"team." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} 
+                setNumEntries={setNumTeamEntries}/>
             </Stack>
         </AccordionSummary>
         <AccordionDetails key={"teamDetails." + count.toString()}>
@@ -221,16 +276,16 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
   );
 }
 
-function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"]) {
+function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], setNumTeamEntries: any) {
   let t = [];
   for (let i = 0; i < team.name.length; ++i) {
-    t.push(TeamSettings(register, control, team, setup, i, team.name.length === 1, i === 0, i === team.name.length - 1));
+    t.push(TeamSettings(register, control, team, setup, i, team.name.length === 1, i === 0, i === team.name.length - 1, setNumTeamEntries));
   }
   return (<>{t}</>)
 }
 
 function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], count: number,
-  disableDelete:boolean, disableUp:boolean, disableDown:boolean){
+  disableDelete:boolean, disableUp:boolean, disableDown:boolean, setNumAdvEntries:any){
 
   return (
     <>
@@ -240,7 +295,8 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa" {...register("adv.name." + count.toString())}/>
               {CreateTimeSelect(control, "adv.time_values." + count.toString(), setup)}
-              <NavigationButtons callback_id={"adv." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
+              <NavigationButtons callback_id={"adv." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} 
+                setNumEntries={setNumAdvEntries}/>
             </Stack>
         </AccordionSummary>
         <AccordionDetails key={"advDetail." + count.toString()}>
@@ -266,50 +322,50 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
   );
 }
 
-function CreateAdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"]) {
+function CreateAdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], setNumAdvEntries: any) {
   let a = [];
   for (let i = 0; i < adv.name.length; ++i) {
-    a.push(AdvSettings(register, control, adv, setup, i, adv.name.length === 1, i === 0, i === adv.name.length - 1));
+    a.push(AdvSettings(register, control, adv, setup, i, adv.name.length === 1, i === 0, i === adv.name.length - 1, setNumAdvEntries));
   }
   return (<>{a}</>)
 }
 
+let watchedValues: ConfigValues;
+let values = { setup: {
+  output_name: ["Livestream", "TV Links", "TV Rechts"], 
+  output_file: ["livestream.json", "tvlinks.json", "tvrechts.json"]
+},
+team: { 
+  name: ["1. Mannschaft", "2. Mannschaft"],
+  time_values: [[30, 20, 10], [5, 10, 20]],
+  logo_home: ["SKC_Nibelungen_Lorsch.png", "SKC_Nibelungen_Lorsch.png"],
+  logo_guest: ["default.png", "SKV_Lorsch.png"],
+  num_players: ["6", "4"],
+  num_lanes: ["6", "4"],
+  set_points: ["true", "true"],                      
+  cck2_file: ["mannschaft1.json", "mannschaft2.json"]
+},
+adv: {
+  name: ["Werbung"],
+  logo: ["sparkasse.png"],
+  time_values: [[0, 0, 0]],
+} } as ConfigValues;
+
 function App() {
 
   const { control, register, watch, setValue } = useForm<ConfigValues>();
-  let watchedValues = watch();
+  watchedValues = watch();
 
-  let defaultValues = { setup: {
-                          output_name: ["Livestream", "TV Links", "TV Rechts"], 
-                          output_file: ["livestream.json", "tvlinks.json", "tvrechts.json"]
-                        },
-                        team: { 
-                          name: ["1. Mannschaft", "2. Mannschaft"],
-                          time_values: [[30, 20, 10], [5, 10, 20]],
-                          logo_home: ["SKC_Nibelungen_Lorsch.png", "SKC_Nibelungen_Lorsch.png"],
-                          logo_guest: ["default.png", "SKV_Lorsch.png"],
-                          num_players: ["6", "4"],
-                          num_lanes: ["6", "4"],
-                          set_points: ["true", "true"],                      
-                          cck2_file: ["mannschaft1.json", "mannschaft2.json"]
-                        },
-                        adv: {
-                          name: ["Werbung!"],
-                          logo: ["sparkasse.png"],
-                          time_values: [[0]],
-                        } } as ConfigValues;
+  const [numSetupEntries, setNumSetupEntries] = React.useState(values.setup.output_name.length);
+  const [numTeamEntries, setNumTeamEntries] = React.useState(values.team.name.length);
+  const [numAdvEntries, setNumAdvEntries] = React.useState(values.adv.name.length);
 
-  React.useEffect(() => {
-    setValue("setup", defaultValues.setup);
-    setValue("team", defaultValues.team);
-    setValue("adv", defaultValues.adv);
-   }, []);
-
-  React.useEffect(() => { if (watchedValues) {
-    setValue("setup", watchedValues.setup);
-    setValue("team", watchedValues.team);
-    setValue("adv", watchedValues.adv);
-   }});
+//
+  React.useEffect(() => { 
+    setValue("setup", values.setup);
+    setValue("team", values.team);
+    setValue("adv", values.adv);
+  }, [values]);
 
   return (
     <>
@@ -324,7 +380,7 @@ function App() {
         </AccordionSummary>
         <AccordionDetails key="setup_details">
           <Stack spacing={2} direction="column" alignItems="left">
-            { CreateSetupSettings(register, defaultValues.setup) }
+            { CreateSetupSettings(register, values.setup, setNumSetupEntries) }
           </Stack>
         </AccordionDetails>
       </Accordion>
@@ -337,7 +393,7 @@ function App() {
         </AccordionSummary>
         <AccordionDetails key="team_detail">
           <Stack spacing={2} direction="column" alignItems="left">
-            {CreateTeamSettings(register, control, defaultValues.team, defaultValues.setup)}
+            {CreateTeamSettings(register, control, values.team, values.setup, setNumTeamEntries)}
           </Stack>
         </AccordionDetails>
       </Accordion>
@@ -350,7 +406,7 @@ function App() {
         </AccordionSummary>
         <AccordionDetails key="adv_details">
           <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
-            {CreateAdvSettings(register, control, defaultValues.adv, defaultValues.setup)}
+            {CreateAdvSettings(register, control, values.adv, values.setup, setNumAdvEntries)}
           </Stack>
         </AccordionDetails>
       </Accordion>
