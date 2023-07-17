@@ -22,7 +22,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -39,11 +39,11 @@ const darkTheme = createTheme({
 const variant = "standard";
 
 let teamLogos = [
-  {key: "default.png", value: "default"},
-  {key: "SKV_Lorsch.png", value: "SKV Lorsch"},
+  {key: "Default.png", value: "Default"},
+  {key: "SKV_Lorsch.jpg", value: "SKV Lorsch"},
   {key: "SKV_Olympia_Mörfelden.jpg", value: "SKV Olympia Mörfelden"},
   {key: "SKG_Rossdorf.png", value: "SKG Rossdorf"},
-  {key: "DJK_AN_Groß_Ostheim.jpg", value: "DJK AN Groß Ostheim"},
+  {key: "DJK_AN_Groß-Ostheim.jpg", value: "DJK AN Groß-Ostheim"},
   {key: "KSV_Bischofsheim.png", value: "KSV Bischofsheim"},
   {key: "SKC_Nibelungen_Lorsch.png", value: "SKC Nibelungen Lorsch"}
 ];
@@ -126,7 +126,7 @@ function ComponentAdd(reference: string, setNumEntries: any) {
     tmp.team.name.splice(i, 0, "Mannschaft");
     tmp.team.time_values.splice(i, 0, new Array(numTimeEntries).fill(0));
     tmp.team.logo_home.splice(i, 0, "SKC_Nibelungen_Lorsch.png");
-    tmp.team.logo_guest.splice(i, 0, "default.png");
+    tmp.team.logo_guest.splice(i, 0, "Default.png");
     tmp.team.num_players.splice(i, 0, "6");
     tmp.team.num_lanes.splice(i, 0, "4");
     tmp.team.set_points.splice(i, 0, true);
@@ -249,7 +249,8 @@ function NavigationButtons({callback_id, disableDelete=false, disableUp=false, d
   )
 }
 
-function SetupSettings(register: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean, setNumSetupEntries: any) {
+function SetupSettings({register, count, disableDelete, disableUp, disableDown, setNumSetupEntries}: 
+  {register: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean, setNumSetupEntries: any}) {
   return ( 
       <Stack spacing={4} direction="row" alignItems="center">
         <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" {...register("setup.output_name." + count.toString())}/>
@@ -259,16 +260,19 @@ function SetupSettings(register: any, count: number, disableDelete:boolean, disa
   )
 }
 
-function CreateSetupSettings(register: any, settings: ConfigValues["setup"], setNumSetupEntries: any) {
+function CreateSetupSettings({register, settings, setNumSetupEntries}: {register: any, settings: ConfigValues["setup"], setNumSetupEntries: any}) {
   let s = [];
   for (let i = 0; i < settings.output_name.length; ++i) {
-    s.push(SetupSettings(register, i, settings.output_name.length === 1, i === 0, i === settings.output_name.length - 1, setNumSetupEntries));
+    s.push(<SetupSettings key={"CreateSetupSettings" + i.toString()} register={register} count={i} disableDelete={settings.output_name.length === 1}
+      disableUp={i === 0} disableDown={i === settings.output_name.length - 1} setNumSetupEntries={setNumSetupEntries} />);
   }
   return (<>{s}</>)
 }
 
 function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number, 
   disableDelete:boolean, disableUp:boolean, disableDown:boolean, setNumTeamEntries:any) {
+  const [teamHome, setTeamHome] = React.useState("");
+  const [teamGuest, setTeamGuest] = React.useState("");
   return (
     <div>
       <Accordion>
@@ -286,26 +290,28 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
               <Grid xs={3}>
                 <FormControl>
                   <InputLabel>Logo Heim</InputLabel>
-                  <Controller control={control} name={"team.logo_home." + count.toString()} defaultValue="SKV_Lorsch.png" render={({ field }) => (
-                    <Select {...field} variant={variant} label="Logo Heim">
+                  <Controller control={control} name={"team.logo_home." + count.toString()} defaultValue="SKV_Lorsch.jpg" render={({ field }) => (
+                    <Select {...field} onChange={(event: SelectChangeEvent) => 
+                      {setTeamHome(event.target.value as string); field.onChange(event.target.value as string);}} variant={variant} label="Logo Heim">
                       {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"home_" + count.toString() + "_" + key}>{value}</MenuItem>))}
                     </Select>)}/>
                 </FormControl>
               </Grid>
-              <Grid xs={9}>
-                <Box sx={{ height: 120, width: 250}}> <img src="SKC_Nibelungen_Lorsch.png" alt="" height="120" width="auto"/> </Box>
+              <Grid xs={9}> 
+                <Box sx={{ height: 120, width: 250}}> <img src={"logos/team/" + teamHome} alt="" height="120" width="auto"/> </Box>
               </Grid>
               <Grid xs={3}>
                 <FormControl>
                   <InputLabel>Logo Gast</InputLabel>
-                  <Controller control={control} name={"team.logo_guest." + count.toString()} defaultValue="SKV_Lorsch.png" render={({ field }) => (
-                    <Select {...field} variant={variant} label="Logo Guest">
+                  <Controller control={control} name={"team.logo_guest." + count.toString()} defaultValue="SKV_Lorsch.jpg" render={({ field }) => (
+                    <Select {...field} onChange={(event: SelectChangeEvent) => 
+                      {setTeamGuest(event.target.value as string); field.onChange(event.target.value as string);}} variant={variant} label="Logo Guest">
                       {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"guest_" + count.toString() + "_" + key}>{value}</MenuItem>))}
                     </Select>)}/>
                 </FormControl>
               </Grid>
               <Grid xs={9}>
-                <Box sx={{ height: 120}}> <img src="KSC_Groß-Zimmern.jpg" alt="" height="120" width="auto"/> </Box>
+                <Box sx={{ height: 120}}> <img src={"logos/team/" + teamGuest} alt="" height="120" width="auto"/> </Box>
               </Grid>
             </Grid>
           <Stack spacing={4} direction="row">
@@ -417,7 +423,7 @@ team: {
   name: ["1. Mannschaft", "2. Mannschaft"],
   time_values: [[30, 20, 10], [5, 10, 20]],
   logo_home: ["SKC_Nibelungen_Lorsch.png", "SKC_Nibelungen_Lorsch.png"],
-  logo_guest: ["default.png", "SKV_Lorsch.png"],
+  logo_guest: ["Default.png", "SKV_Lorsch.jpg"],
   num_players: ["6", "4"],
   num_lanes: ["6", "4"],
   set_points: [true, true],                      
@@ -462,7 +468,7 @@ function App() {
         </AccordionSummary>
         <AccordionDetails key="setup_details">
           <Stack spacing={2} direction="column" alignItems="left">
-            { CreateSetupSettings(register, values.setup, setNumSetupEntries) }
+            <CreateSetupSettings register={register} settings={values.setup} setNumSetupEntries={setNumSetupEntries} />
           </Stack>
         </AccordionDetails>
       </Accordion>
