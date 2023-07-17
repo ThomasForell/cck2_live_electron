@@ -74,7 +74,7 @@ interface ConfigValues {
     logo_guest: Array<string>;
     num_players: Array<string>;
     num_lanes: Array<string>;
-    set_points: Array<string>;
+    set_points: Array<boolean>;
     cck2_file: Array<string>;
   };
   adv: {
@@ -129,7 +129,7 @@ function ComponentAdd(reference: string, setNumEntries: any) {
     tmp.team.logo_guest.splice(i, 0, "default.png");
     tmp.team.num_players.splice(i, 0, "6");
     tmp.team.num_lanes.splice(i, 0, "4");
-    tmp.team.set_points.splice(i, 0, "true");
+    tmp.team.set_points.splice(i, 0, true);
     tmp.team.cck2_file.splice(i, 0, "mannschaft");
     values = {...tmp};
     setNumEntries(values.team.name.length);
@@ -335,17 +335,17 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
                 control={control}
               />
             </FormControl>
-            <FormControl>
-              <FormLabel id="num_lanes_label">.</FormLabel>
-              <Controller
-                defaultValue="true"
-                render={({ field }) => (
-                  <FormControlLabel {...field} control={<Checkbox />} label="Satzpunkte" key={"setpoints_" + count.toString()} />)}
-                name={"team.set_points." + count.toString()}
-                control={control}
-              />
-            </FormControl>
-          </Stack>
+            <Controller
+              control={control}
+              name={"team.set_points." + count.toString()}
+              defaultValue={true}
+              render={({ field: { onChange, value } }) => (
+                <FormControlLabel label="Satzpunkte"
+                  control={
+                    <Checkbox checked={value} onChange={onChange} />
+                  }/>
+                )}/>
+           </Stack>
           <TextField id="cck2_data_file" label="CCK2 Daten Team" variant={variant} defaultValue="mannschaft.json" {...register("team.cck2_file." + count.toString())}/>
         </Stack>
         </AccordionDetails>
@@ -420,7 +420,7 @@ team: {
   logo_guest: ["default.png", "SKV_Lorsch.png"],
   num_players: ["6", "4"],
   num_lanes: ["6", "4"],
-  set_points: ["true", "true"],                      
+  set_points: [true, true],                      
   cck2_file: ["mannschaft1.json", "mannschaft2.json"]
 },
 adv: {
