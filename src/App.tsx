@@ -271,14 +271,14 @@ function CreateSetupSettings({register, settings, setNumSetupEntries}: {register
 
 function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number, 
   disableDelete:boolean, disableUp:boolean, disableDown:boolean, setNumTeamEntries:any) {
-  const [teamHome, setTeamHome] = React.useState("");
-  const [teamGuest, setTeamGuest] = React.useState("");
+  const [teamHome, setTeamHome] = React.useState(team.logo_home[count]);
+  const [teamGuest, setTeamGuest] = React.useState(team.logo_guest[count]);
   return (
     <div>
       <Accordion>
         <AccordionSummary key={"teamSummary." + count.toString()} expandIcon={<ExpandMoreIcon />}>
             <Stack spacing={2} direction="row" alignItems="center"  onClick={(event: any) => event.stopPropagation()}>
-              <TextField key="team_name" label="Teamname" variant={variant} defaultValue="1. Mannschaft" {...register("team.name." + count.toString())}/>
+              <TextField key="team_name" label="Teamname" variant={variant} defaultValue={team.name[count]} {...register("team.name." + count.toString())}/>
               {CreateTimeSelect(control, "team.time_values." + count.toString(), setup)}
               <NavigationButtons callback_id={"team." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} 
                 setNumEntries={setNumTeamEntries}/>
@@ -290,7 +290,7 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
               <Grid xs={3}>
                 <FormControl>
                   <InputLabel>Logo Heim</InputLabel>
-                  <Controller control={control} name={"team.logo_home." + count.toString()} defaultValue="SKV_Lorsch.jpg" render={({ field }) => (
+                  <Controller control={control} name={"team.logo_home." + count.toString()} defaultValue={team.logo_home[count]} render={({ field }) => (
                     <Select {...field} onChange={(event: SelectChangeEvent) => 
                       {setTeamHome(event.target.value as string); field.onChange(event.target.value as string);}} variant={variant} label="Logo Heim">
                       {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"home_" + count.toString() + "_" + key}>{value}</MenuItem>))}
@@ -303,7 +303,7 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
               <Grid xs={3}>
                 <FormControl>
                   <InputLabel>Logo Gast</InputLabel>
-                  <Controller control={control} name={"team.logo_guest." + count.toString()} defaultValue="SKV_Lorsch.jpg" render={({ field }) => (
+                  <Controller control={control} name={"team.logo_guest." + count.toString()} defaultValue={team.logo_guest[count]} render={({ field }) => (
                     <Select {...field} onChange={(event: SelectChangeEvent) => 
                       {setTeamGuest(event.target.value as string); field.onChange(event.target.value as string);}} variant={variant} label="Logo Guest">
                       {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"guest_" + count.toString() + "_" + key}>{value}</MenuItem>))}
