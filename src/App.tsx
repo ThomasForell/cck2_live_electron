@@ -311,19 +311,40 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
           <Stack spacing={4} direction="row">
             <FormControl>
               <FormLabel id="num_player_label">Anzahl Spieler</FormLabel>
-              <RadioGroup row>
-                <FormControlLabel value="4" control={<Radio />} label="4" key={"player_" + count.toString() + "_4"} {...register("team.num_players." + count.toString())}/>
-                <FormControlLabel value="6" control={<Radio />} label="6" key={"player_" + count.toString() + "_6"} {...register("team.num_players." + count.toString())}/>
-              </RadioGroup>1
+              <Controller
+                defaultValue="4"
+                render={({ field }) => (
+                  <RadioGroup row {...field}>
+                    <FormControlLabel value="4" control={<Radio />} label="4" key={"player_" + count.toString() + "_4"} />
+                    <FormControlLabel value="6" control={<Radio />} label="6" key={"player_" + count.toString() + "_6"} />
+                  </RadioGroup>)}
+                name={"team.num_players." + count.toString()}
+                control={control}
+              />
             </FormControl>
             <FormControl>
               <FormLabel id="num_lanes_label">Anzahl Bahnen</FormLabel>
-              <RadioGroup row>
-                <FormControlLabel value="4" control={<Radio />} label="4" key={"lanes_" + count.toString() + "_4"} {...register("team.num_lanes." + count.toString())}/>
-                <FormControlLabel value="6" control={<Radio />} label="6" key={"lanes_" + count.toString() + "_6"} {...register("team.num_lanes." + count.toString())}/>
-              </RadioGroup>
+              <Controller
+                defaultValue="6"
+                render={({ field }) => (
+                  <RadioGroup row {...field}>
+                    <FormControlLabel value="4" control={<Radio />} label="4" key={"lanes_" + count.toString() + "_4"} />
+                    <FormControlLabel value="6" control={<Radio />} label="6" key={"lanes_" + count.toString() + "_6"} />
+                  </RadioGroup>)}
+                name={"team.num_lanes." + count.toString()}
+                control={control}
+              />
             </FormControl>
-            <FormControlLabel control={<Checkbox defaultChecked {...register("team_set_points." + count.toString())}/>} label="Satzpunkte" />
+            <FormControl>
+              <FormLabel id="num_lanes_label">.</FormLabel>
+              <Controller
+                defaultValue="true"
+                render={({ field }) => (
+                  <FormControlLabel {...field} control={<Checkbox />} label="Satzpunkte" key={"setpoints_" + count.toString()} />)}
+                name={"team.set_points." + count.toString()}
+                control={control}
+              />
+            </FormControl>
           </Stack>
           <TextField id="cck2_data_file" label="CCK2 Daten Team" variant={variant} defaultValue="mannschaft.json" {...register("team.cck2_file." + count.toString())}/>
         </Stack>
@@ -426,7 +447,7 @@ function App() {
     setValue("setup", values.setup);
     setValue("team", values.team);
     setValue("adv", values.adv);
-  }, [values]);
+  }, [setValue, values]);
 
   return (
     <>
