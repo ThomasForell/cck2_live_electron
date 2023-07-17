@@ -80,6 +80,7 @@ interface ConfigValues {
   adv: {
     name: Array<string>;
     time_values: Array<Array<number>>;
+    logo: Array<string>;
   };
 };
 
@@ -136,6 +137,7 @@ function ComponentAdd(reference: string, setNumEntries: any) {
   else if (component === "adv") {
     tmp.adv.name.splice(i, 0, "Werbung");
     tmp.adv.time_values.splice(i, 0, new Array(numTimeEntries).fill(0));
+    tmp.adv.logo.splice(i, 0, "");
     values = {...tmp};
     setNumEntries(values.adv.name.length);
     }
@@ -164,19 +166,74 @@ function ComponentDelete(reference: string, setNumEntries: any) {
     setNumEntries(values.team.name.length);
   }
   else if (component === "adv") {
-    tmp.adv.name.splice(i, 1, "Werbung");
+    tmp.adv.name.splice(i, 1);
     tmp.adv.time_values.splice(i, 1);
+    tmp.adv.logo.splice(i, 1);
     values = {...tmp};
     setNumEntries(values.adv.name.length);
   }
 }
 
 function ComponentUp(reference: string) {
-  console.log("Up " + reference);
+  let tmp = {...watchedValues};
+  const [component, id] = reference.split(".");
+  const i = Number(id);
+  if (component === "setup") {
+    [tmp.setup.output_name[i], tmp.setup.output_name[i - 1]] = [tmp.setup.output_name[i - 1], tmp.setup.output_name[i]];
+    [tmp.setup.output_file[i], tmp.setup.output_file[i - 1]] = [tmp.setup.output_file[i - 1], tmp.setup.output_file[i]];
+    values = {...tmp};
+    orderTimeChanged(values.setup);
+  }
+  else if (component === "team") {
+    [tmp.team.name[i], tmp.team.name[i - 1]] = [tmp.team.name[i - 1], tmp.team.name[i]];
+    [tmp.team.time_values[i], tmp.team.time_values[i - 1]] = [tmp.team.time_values[i - 1], tmp.team.time_values[i]];
+    [tmp.team.logo_home[i], tmp.team.logo_home[i - 1]] = [tmp.team.logo_home[i - 1], tmp.team.logo_home[i]];
+    [tmp.team.logo_guest[i], tmp.team.logo_guest[i - 1]] = [tmp.team.logo_guest[i - 1], tmp.team.logo_guest[i]];
+    [tmp.team.num_players[i], tmp.team.num_players[i - 1]] = [tmp.team.num_players[i - 1], tmp.team.num_players[i]];
+    [tmp.team.num_lanes[i], tmp.team.num_lanes[i - 1]] = [tmp.team.num_lanes[i - 1], tmp.team.num_lanes[i]];
+    [tmp.team.set_points[i], tmp.team.set_points[i - 1]] = [tmp.team.set_points[i - 1], tmp.team.set_points[i]];
+    [tmp.team.cck2_file[i], tmp.team.cck2_file[i - 1]] = [tmp.team.cck2_file[i - 1], tmp.team.cck2_file[i]];
+    values = {...tmp};
+    setValueFunc("team", values.team);
+  }
+  else if (component === "adv") {
+    [tmp.adv.name[i], tmp.adv.name[i - 1]] = [tmp.adv.name[i - 1], tmp.adv.name[i]];
+    [tmp.adv.time_values[i], tmp.adv.time_values[i - 1]] = [tmp.adv.time_values[i - 1], tmp.adv.time_values[i]];
+    [tmp.adv.logo[i], tmp.adv.logo[i - 1]] = [tmp.adv.logo[i - 1], tmp.adv.logo[i]];
+    values = {...tmp};
+    setValueFunc("adv", values.adv);
+  }
 }
 
 function ComponentDown(reference: string) {
-  console.log("Down " + reference);
+  let tmp = {...watchedValues};
+  const [component, id] = reference.split(".");
+  const i = Number(id);
+  if (component === "setup") {
+    [tmp.setup.output_name[i], tmp.setup.output_name[i + 1]] = [tmp.setup.output_name[i + 1], tmp.setup.output_name[i]];
+    [tmp.setup.output_file[i], tmp.setup.output_file[i + 1]] = [tmp.setup.output_file[i + 1], tmp.setup.output_file[i]];
+    values = {...tmp};
+    orderTimeChanged(values.setup);
+  }
+  else if (component === "team") {
+    [tmp.team.name[i], tmp.team.name[i + 1]] = [tmp.team.name[i + 1], tmp.team.name[i]];
+    [tmp.team.time_values[i], tmp.team.time_values[i + 1]] = [tmp.team.time_values[i + 1], tmp.team.time_values[i]];
+    [tmp.team.logo_home[i], tmp.team.logo_home[i + 1]] = [tmp.team.logo_home[i + 1], tmp.team.logo_home[i]];
+    [tmp.team.logo_guest[i], tmp.team.logo_guest[i + 1]] = [tmp.team.logo_guest[i + 1], tmp.team.logo_guest[i]];
+    [tmp.team.num_players[i], tmp.team.num_players[i + 1]] = [tmp.team.num_players[i + 1], tmp.team.num_players[i]];
+    [tmp.team.num_lanes[i], tmp.team.num_lanes[i + 1]] = [tmp.team.num_lanes[i + 1], tmp.team.num_lanes[i]];
+    [tmp.team.set_points[i], tmp.team.set_points[i + 1]] = [tmp.team.set_points[i + 1], tmp.team.set_points[i]];
+    [tmp.team.cck2_file[i], tmp.team.cck2_file[i + 1]] = [tmp.team.cck2_file[i + 1], tmp.team.cck2_file[i]];
+    values = {...tmp};
+    setValueFunc("team", values.team);
+  }
+  else if (component === "adv") {
+    [tmp.adv.name[i], tmp.adv.name[i + 1]] = [tmp.adv.name[i + 1], tmp.adv.name[i]];
+    [tmp.adv.time_values[i], tmp.adv.time_values[i + 1]] = [tmp.adv.time_values[i + 1], tmp.adv.time_values[i]];
+    [tmp.adv.logo[i], tmp.adv.logo[i + 1]] = [tmp.adv.logo[i + 1], tmp.adv.logo[i]];
+    values = {...tmp};
+    setValueFunc("adv", values.adv);
+  }
 }
 
 function NavigationButtons({callback_id, disableDelete=false, disableUp=false, disableDown=false, setNumEntries=""}: {callback_id: string, disableDelete: boolean, 
@@ -306,7 +363,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
                 <FormControl style={{minWidth: 200}}>
                   <InputLabel>Werbung</InputLabel>
                   <Controller control={control} name={"adv.logo." + count.toString()} defaultValue={advLogos[0].key} render={({ field }) => (
-                    <Select {...field} variant={variant} label="Logo Heim">
+                    <Select {...field} variant={variant} label="Logo">
                       {advLogos.map(({key, value}) => (<MenuItem value={key} key={"adv_" + count.toString() + "_" + key}>{value}</MenuItem>))}
                     </Select>)}/>
                 </FormControl>
@@ -351,16 +408,20 @@ adv: {
   time_values: [[0, 0, 0]],
 } } as ConfigValues;
 
+let setValueFunc: any;
+let orderTimeChanged: any;
+
 function App() {
 
   const { control, register, watch, setValue } = useForm<ConfigValues>();
   watchedValues = watch();
+  setValueFunc = setValue;
 
-  const [numSetupEntries, setNumSetupEntries] = React.useState(values.setup.output_name.length);
-  const [numTeamEntries, setNumTeamEntries] = React.useState(values.team.name.length);
-  const [numAdvEntries, setNumAdvEntries] = React.useState(values.adv.name.length);
+  const [, setNumSetupEntries] = React.useState(values.setup.output_name.length);
+  const [, setNumTeamEntries] = React.useState(values.team.name.length);
+  const [, setNumAdvEntries] = React.useState(values.adv.name.length);
+  [, orderTimeChanged] = React.useState(values.setup);
 
-//
   React.useEffect(() => { 
     setValue("setup", values.setup);
     setValue("team", values.team);
