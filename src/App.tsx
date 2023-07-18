@@ -271,8 +271,6 @@ function CreateSetupSettings({register, settings, setNumSetupEntries}: {register
 
 function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number, 
   disableDelete:boolean, disableUp:boolean, disableDown:boolean, setNumTeamEntries:any) {
-  const [teamHome, setTeamHome] = React.useState(team.logo_home[count]);
-  const [teamGuest, setTeamGuest] = React.useState(team.logo_guest[count]);
   return (
     <div>
       <Accordion>
@@ -292,26 +290,26 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
                   <InputLabel>Logo Heim</InputLabel>
                   <Controller control={control} name={"team.logo_home." + count.toString()} defaultValue={team.logo_home[count]} render={({ field }) => (
                     <Select {...field} onChange={(event: SelectChangeEvent) => 
-                      {setTeamHome(event.target.value as string); field.onChange(event.target.value as string);}} variant={variant} label="Logo Heim">
+                      {let id = document.getElementById("home" + count.toString()); (id as HTMLImageElement).src = "logos/team/" + event.target.value as string; field.onChange(event.target.value as string);}} variant={variant} label="Logo Heim">
                       {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"home_" + count.toString() + "_" + key}>{value}</MenuItem>))}
                     </Select>)}/>
                 </FormControl>
               </Grid>
               <Grid xs={9}> 
-                <Box sx={{ height: 120, width: 250}}> <img src={"logos/team/" + teamHome} alt="" height="120" width="auto"/> </Box>
+                <Box sx={{ height: 120, width: 250}}> <img src={"logos/team/" + team.logo_home[count]} alt="" height="120" width="auto" id={"home" + count.toString()}/> </Box>
               </Grid>
               <Grid xs={3}>
                 <FormControl>
                   <InputLabel>Logo Gast</InputLabel>
                   <Controller control={control} name={"team.logo_guest." + count.toString()} defaultValue={team.logo_guest[count]} render={({ field }) => (
                     <Select {...field} onChange={(event: SelectChangeEvent) => 
-                      {setTeamGuest(event.target.value as string); field.onChange(event.target.value as string);}} variant={variant} label="Logo Guest">
+                      {let id = document.getElementById("guest" + count.toString()); (id as HTMLImageElement).src = "logos/team/" + event.target.value as string; field.onChange(event.target.value as string);}} variant={variant} label="Logo Heim">
                       {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"guest_" + count.toString() + "_" + key}>{value}</MenuItem>))}
                     </Select>)}/>
                 </FormControl>
               </Grid>
               <Grid xs={9}>
-                <Box sx={{ height: 120}}> <img src={"logos/team/" + teamGuest} alt="" height="120" width="auto"/> </Box>
+                <Box sx={{ height: 120, width: 250}}> <img src={"logos/team/" + team.logo_guest[count]} alt="" height="120" width="auto" id={"guest" + count.toString()}/> </Box>
               </Grid>
             </Grid>
           <Stack spacing={4} direction="row">
@@ -377,7 +375,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
         <AccordionSummary key={"advSummary." + count.toString()}
           expandIcon={<ExpandMoreIcon />}> 
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
-              <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue="Kempa" {...register("adv.name." + count.toString())}/>
+              <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue={adv.logo[count]} {...register("adv.name." + count.toString())}/>
               {CreateTimeSelect(control, "adv.time_values." + count.toString(), setup)}
               <NavigationButtons callback_id={"adv." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} 
                 setNumEntries={setNumAdvEntries}/>
@@ -390,13 +388,15 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
                 <FormControl style={{minWidth: 200}}>
                   <InputLabel>Werbung</InputLabel>
                   <Controller control={control} name={"adv.logo." + count.toString()} defaultValue={advLogos[0].key} render={({ field }) => (
-                    <Select {...field} variant={variant} label="Logo">
+                    <Select {...field} variant={variant} label="Logo"
+                    onChange={(event: SelectChangeEvent) => 
+                      {let id = document.getElementById("adv" + count.toString()); (id as HTMLImageElement).src = "logos/adv/" + event.target.value as string; field.onChange(event.target.value as string);}}>
                       {advLogos.map(({key, value}) => (<MenuItem value={key} key={"adv_" + count.toString() + "_" + key}>{value}</MenuItem>))}
                     </Select>)}/>
                 </FormControl>
               </Grid>
               <Grid xs={8}>
-                <Box sx={{ height: 120, width: 250}}> <img  src="rekorde_einzel_120.png" alt="" height="120" width="auto"/> </Box>
+                <Box sx={{ height: 120, width: 250}}> <img id={"adv" + count.toString()} src={"logos/adv/" + adv.logo[count]} alt="" height="120" width="auto"/> </Box>
               </Grid>
             </Grid>
         </Stack>
