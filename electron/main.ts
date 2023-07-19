@@ -2,7 +2,9 @@ import { app, BrowserWindow, nativeTheme } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
-import * as express from 'express'
+import * as express from 'express';
+import {Server} from 'socket.io';
+import {createServer} from 'http';
 
 let express_app = express();
 express_app.use( express.static('./public-live') );
@@ -63,3 +65,12 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
+const httpServer = createServer();
+const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}});
+io.on('connection', (socket) => {
+  socket.on("save_setup", (data) => {console.log(data);});
+  socket.on("save_team", (data) => {console.log(data);});
+  socket.on("save_adv", (data) => {console.log(data);});
+});
+httpServer.listen(1512);

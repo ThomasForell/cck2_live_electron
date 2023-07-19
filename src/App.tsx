@@ -29,6 +29,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useForm } from 'react-hook-form';
 import { Control } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
+import io from 'socket.io-client';
 
 const darkTheme = createTheme({
   palette: {
@@ -438,7 +439,7 @@ adv: {
 let setValueFunc: any;
 let orderTimeChanged: any;
 
-function App() {
+function App({socket}: {socket: any}) {
 
   const { control, register, watch, setValue } = useForm<ConfigValues>();
   watchedValues = watch();
@@ -463,7 +464,7 @@ function App() {
         <AccordionSummary key="setup_summary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Setup</h1>
-            <Button onClick={() => {console.log(watchedValues.setup);}} variant="contained">Speichern</Button>
+            <Button onClick={() => {socket.emit("save_setup", watchedValues.setup);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
         <AccordionDetails key="setup_details">
@@ -476,7 +477,7 @@ function App() {
         <AccordionSummary key="team_summary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Team Konfiguration</h1>
-            <Button onClick={() => {console.log(watchedValues.team);}} variant="contained">Speichern</Button>
+            <Button onClick={() => {socket.emit("save_team", watchedValues.team);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
         <AccordionDetails key="team_detail">
@@ -489,7 +490,7 @@ function App() {
         <AccordionSummary key="adv_summary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Werbung Konfiguration</h1>
-            <Button onClick={() => {console.log(watchedValues.adv);}} variant="contained">Speichern</Button>
+            <Button onClick={() => {socket.emit("save_adv", watchedValues.adv);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
         <AccordionDetails key="adv_details">
