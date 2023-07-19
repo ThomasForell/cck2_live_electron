@@ -10,6 +10,7 @@ const socket = io("ws://localhost:1512");
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <App socket={socket}/>

@@ -456,6 +456,15 @@ function App({socket}: {socket: any}) {
     setValue("adv", values.adv);
   }, [setValue, values]);
 
+  socket.on("load return", (data: ConfigValues) => {
+    values = {...data}; 
+    setNumSetupEntries(values.setup.output_name.length); 
+    setNumTeamEntries(values.team.name.length);
+    setNumAdvEntries(values.adv.name.length);
+  });
+
+  socket.emit("load", "hello!")
+
   return (
     <>
       <ThemeProvider theme={darkTheme}>

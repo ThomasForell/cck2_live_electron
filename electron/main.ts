@@ -5,6 +5,7 @@ import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-insta
 import * as express from 'express';
 import {Server} from 'socket.io';
 import {createServer} from 'http';
+import * as fs from 'fs';
 
 let express_app = express();
 express_app.use( express.static('./public-live') );
@@ -69,8 +70,20 @@ app.on('activate', () => {
 const httpServer = createServer();
 const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}});
 io.on('connection', (socket) => {
-  socket.on("save_setup", (data) => {console.log(data);});
-  socket.on("save_team", (data) => {console.log(data);});
-  socket.on("save_adv", (data) => {console.log(data);});
+  socket.on("save_setup", (data) => {fs.writeFileSync("app-data/setup.json", JSON.stringify(data));});
+  socket.on("save_team", (data) => {fs.writeFileSync("app-data/team.json", JSON.stringify(data));});
+  socket.on("save_adv", (data) => {fs.writeFileSync("app-data/adv.json", JSON.stringify(data));});
+});
+io.on('connection', (socket ) => {
+  socket.on("load", () => {
+    let buff = fs.readFileSync("app-data/setup.json", "utf-8"); 
+    const dataSetup = JSON.parse(buff);
+    buff = fs.readFileSync("app-data/team.json", "utf-8");
+    const dataTeam = JSON.parse(buff);
+    buff = fs.readFileSync("app-data/adv.json", "utf-8");
+    const dataAdv = JSON.parse(buff);
+    
+    socket.emit("load return", {setup: dataSetup, team: dataTeam, adv: dataAdv });
+  });
 });
 httpServer.listen(1512);
