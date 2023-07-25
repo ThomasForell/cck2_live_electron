@@ -31,6 +31,8 @@ import { Control } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 import io from 'socket.io-client';
 
+import Dropzone from 'react-dropzone';
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -38,6 +40,19 @@ const darkTheme = createTheme({
 });
 
 const variant = "standard";
+
+function createLogoData(logoPaths: string[]) {
+  let logoData: {key: string, value: string}[] = [];
+  logoPaths.forEach((d) => 
+    {
+      let v = String(d);
+      v.replaceAll("/", ".");
+      v.replaceAll("\\", ".");
+      v.replaceAll("_", " ");
+      logoData.push({key: d, value: v})
+    });
+  return logoData.sort();
+};
 
 let teamLogos = [
   {key: "Default.png", value: "Default"},
@@ -271,7 +286,9 @@ function CreateSetupSettings({register, settings, setNumSetupEntries}: {register
 }
 
 function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number, 
-  disableDelete:boolean, disableUp:boolean, disableDown:boolean, setNumTeamEntries:any) {
+  disableDelete:boolean, disableUp:boolean, disableDown:boolean, setNumTeamEntries:any, tl: string[]) {
+//  const tl = createLogoData(teamLogos);
+
   return (
     <div>
       <Accordion>
@@ -299,20 +316,35 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
               <Grid xs={9}> 
                 <Box sx={{ height: 120, width: 250}}> <img src={"logos/team/" + team.logo_home[count]} alt="" height="120" width="auto" id={"home" + count.toString()}/> </Box>
               </Grid>
-              <Grid xs={3}>
-                <FormControl>
+              <Grid xs={1}>
+{ /*                <FormControl>
                   <InputLabel>Logo Gast</InputLabel>
                   <Controller control={control} name={"team.logo_guest." + count.toString()} defaultValue={team.logo_guest[count]} render={({ field }) => (
                     <Select {...field} onChange={(event: SelectChangeEvent) => 
                       {let id = document.getElementById("guest" + count.toString()); (id as HTMLImageElement).src = "logos/team/" + event.target.value as string; field.onChange(event.target.value as string);}} variant={variant} label="Logo Heim">
                       {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"guest_" + count.toString() + "_" + key}>{value}</MenuItem>))}
                     </Select>)}/>
-                </FormControl>
+                    </FormControl> */ }
               </Grid>
-              <Grid xs={9}>
+              <Grid xs={3}>
                 <Box sx={{ height: 120, width: 250}}> <img src={"logos/team/" + team.logo_guest[count]} alt="" height="120" width="auto" id={"guest" + count.toString()}/> </Box>
               </Grid>
+              <Grid xs={3}>
+                <Dropzone 
+                  noClick noKeyboard
+                  onDrop={(acceptedFiles: any) => console.log(acceptedFiles)}>
+                  {({getRootProps, getInputProps, open}) => (
+                    <div className='container'>
+                      <div {...getRootProps({className: "dropzone"})}>
+                        <input {...getInputProps()} />
+                        <p>Drop Logo hier.</p>
+                        <Button onClick={open} variant="contained" >Logo Auswählen</Button>
+                      </div></div>
+                  )}
+                </Dropzone>
+              </Grid>
             </Grid>
+
           <Stack spacing={4} direction="row">
             <FormControl>
               <FormLabel id="num_player_label">Anzahl Spieler</FormLabel>
@@ -359,10 +391,10 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
   );
 }
 
-function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], setNumTeamEntries: any) {
+function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], setNumTeamEntries: any, teamLogos: string[]) {
   let t = [];
   for (let i = 0; i < team.name.length; ++i) {
-    t.push(TeamSettings(register, control, team, setup, i, team.name.length === 1, i === 0, i === team.name.length - 1, setNumTeamEntries));
+    t.push(TeamSettings(register, control, team, setup, i, team.name.length === 1, i === 0, i === team.name.length - 1, setNumTeamEntries, teamLogos));
   }
   return (<>{t}</>)
 }
@@ -448,6 +480,8 @@ function App({socket}: {socket: any}) {
   const [, setNumSetupEntries] = React.useState(values.setup.output_name.length);
   const [, setNumTeamEntries] = React.useState(values.team.name.length);
   const [, setNumAdvEntries] = React.useState(values.adv.name.length);
+  const [teamLogos, setTeamLogos] = React.useState([""]);
+  const [advLogos, setAdvLogos] = React.useState([""]);
   [, orderTimeChanged] = React.useState(values.setup);
 
   React.useEffect(() => { 
@@ -456,11 +490,13 @@ function App({socket}: {socket: any}) {
     setValue("adv", values.adv);
   }, [setValue, values]);
 
-  socket.on("load return", (data: ConfigValues) => {
+  socket.on("load return", (data: ConfigValues, dataTeamLogos: string[], dataAdvLogos: string[]) => {
     values = {...data}; 
     setNumSetupEntries(values.setup.output_name.length); 
     setNumTeamEntries(values.team.name.length);
     setNumAdvEntries(values.adv.name.length);
+    setTeamLogos(dataTeamLogos);
+    setAdvLogos(dataAdvLogos);
   });
 
   socket.emit("load", "hello!")
@@ -491,7 +527,7 @@ function App({socket}: {socket: any}) {
         </AccordionSummary>
         <AccordionDetails key="team_detail">
           <Stack spacing={2} direction="column" alignItems="left">
-            {CreateTeamSettings(register, control, values.team, values.setup, setNumTeamEntries)}
+            {CreateTeamSettings(register, control, values.team, values.setup, setNumTeamEntries, teamLogos)}
           </Stack>
         </AccordionDetails>
       </Accordion>
