@@ -27,7 +27,6 @@ function createWindow() {
   if (isDev) {
     win.loadURL('http://localhost:3000/index.html');
   } else {
-    // 'build/index.html'
     win.loadURL(`file://${__dirname}/../index.html`);
   }
 
@@ -54,19 +53,22 @@ function createWindow() {
 }
 
 app.on('ready', createWindow);
-
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
-
 app.on('activate', () => {
   if (win === null) {
     createWindow();
   }
 });
 
+// scan team and adv logos
+let dataTeamLogos = fs.readdirSync(`${__dirname}/../../public-live/Logos`);
+let dataAdvLogos = fs.readdirSync(`${__dirname}/../../public-live/Werbung`); 
+
+// communication
 const httpServer = createServer();
 const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}});
 io.on('connection', (socket) => {
@@ -83,7 +85,7 @@ io.on('connection', (socket ) => {
     buff = fs.readFileSync("app-data/adv.json", "utf-8");
     const dataAdv = JSON.parse(buff);
     
-    socket.emit("load return", {setup: dataSetup, team: dataTeam, adv: dataAdv });
+    socket.emit("load return", {setup: dataSetup, team: dataTeam, adv: dataAdv}, dataTeamLogos, dataAdvLogos);
   });
 });
 httpServer.listen(1512);
