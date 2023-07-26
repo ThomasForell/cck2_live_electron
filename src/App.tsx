@@ -56,30 +56,6 @@ function createLogoData(logoPaths: string[]) {
   return logoData.sort();
 };
 
-let teamLogos = [
-  {key: "Default.png", value: "Default"},
-  {key: "SKV_Lorsch.jpg", value: "SKV Lorsch"},
-  {key: "SKV_Olympia_Mörfelden.jpg", value: "SKV Olympia Mörfelden"},
-  {key: "SKG_Rossdorf.png", value: "SKG Rossdorf"},
-  {key: "DJK_AN_Groß-Ostheim.jpg", value: "DJK AN Groß-Ostheim"},
-  {key: "KSV_Bischofsheim.png", value: "KSV Bischofsheim"},
-  {key: "SKC_Nibelungen_Lorsch.png", value: "SKC Nibelungen Lorsch"}
-];
-
-let advLogos = [
-  {key: "dvag.png", value: "dvag"},
-  {key: "kempa.png", value: "kempa"},
-  {key: "rekorde_einzel_120.png", value: "rekorde_einzel_120"},
-  {key: "rekorde_team_100.png", value: "rekorde_team_100"},
-  {key: "rekorde_team_120.png", value: "rekorde_team_120"},
-  {key: "rekorde_team_mixed_100.png", value: "rekorde_team_mixed_100"},
-  {key: "sparkasse.png", value: "sparkasse"},
-  {key: "stream-dvag.png", value: "stream-dvag"},
-  {key: "stream-sparkasse.png", value: "stream-sparkasse"},
-  {key: "stream-kc-lorsch.png", value: "stream-kc-lorsch"},
-  {key: "stream-kempa.png", value: "stream-kempa"}
-];
-
 interface ConfigValues {
   setup: {
     output_name: Array<string>;
@@ -313,7 +289,7 @@ function LogoDropzone({onChange, value}: {onChange: any, value: string}) {
 
 
 function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number, 
-  disableDelete:boolean, disableUp:boolean, disableDown:boolean, setNumTeamEntries:any, tl: string[]) {
+  disableDelete:boolean, disableUp:boolean, disableDown:boolean, setNumTeamEntries:any) {
   return (
     <div>
       <Accordion>
@@ -402,10 +378,10 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
   );
 }
 
-function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], setNumTeamEntries: any, teamLogos: string[]) {
+function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], setNumTeamEntries: any) {
   let t = [];
   for (let i = 0; i < team.name.length; ++i) {
-    t.push(TeamSettings(register, control, team, setup, i, team.name.length === 1, i === 0, i === team.name.length - 1, setNumTeamEntries, teamLogos));
+    t.push(TeamSettings(register, control, team, setup, i, team.name.length === 1, i === 0, i === team.name.length - 1, setNumTeamEntries));
   }
   return (<>{t}</>)
 }
@@ -480,6 +456,7 @@ adv: {
 
 let setValueFunc: any;
 let orderTimeChanged: any;
+let numLoads = 0;
 
 function App({socket}: {socket: any}) {
   const { control, register, watch, setValue } = useForm<ConfigValues>({defaultValues: {...values}});
@@ -489,8 +466,6 @@ function App({socket}: {socket: any}) {
   const [, setNumSetupEntries] = React.useState(values.setup.output_name.length);
   const [, setNumTeamEntries] = React.useState(values.team.name.length);
   const [, setNumAdvEntries] = React.useState(values.adv.name.length);
-  const [teamLogos, setTeamLogos] = React.useState([""]);
-  const [advLogos, setAdvLogos] = React.useState([""]);
   [, orderTimeChanged] = React.useState(values.setup);
 
   React.useEffect(() => { 
@@ -499,17 +474,18 @@ function App({socket}: {socket: any}) {
     setValue("adv", values.adv);
   }, [setValue, values]);
 
-//  socket.on("load return", (data: ConfigValues, dataTeamLogos: string[], dataAdvLogos: string[]) => {
-//    values = {...data}; 
-//    setNumSetupEntries(values.setup.output_name.length); 
-//    setNumTeamEntries(values.team.name.length);
-//    setNumAdvEntries(values.adv.name.length);
-//    setTeamLogos(dataTeamLogos);
-//    setAdvLogos(dataAdvLogos);
-//    console.log("load return");
-//  });
+  socket.on("load return", (data: ConfigValues) => {
+    values = {...data}; 
+    setNumSetupEntries(values.setup.output_name.length); 
+    setNumTeamEntries(values.team.name.length);
+    setNumAdvEntries(values.adv.name.length);
+    console.log("load return");
+  });
 
-  socket.emit("load", "hello!")
+  if (numLoads === 0) {
+    socket.emit("load", "hello!")
+    numLoads = 1;
+  }
 
   return (
     <>
@@ -537,7 +513,7 @@ function App({socket}: {socket: any}) {
         </AccordionSummary>
         <AccordionDetails key="team_detail">
           <Stack spacing={2} direction="column" alignItems="left">
-            {CreateTeamSettings(register, control, values.team, values.setup, setNumTeamEntries, teamLogos)}
+            {CreateTeamSettings(register, control, values.team, values.setup, setNumTeamEntries)}
           </Stack>
         </AccordionDetails>
       </Accordion>

@@ -64,10 +64,6 @@ app.on('activate', () => {
   }
 });
 
-// scan team and adv logos
-let dataTeamLogos = fs.readdirSync(`${__dirname}/../../public-live/Logos`);
-let dataAdvLogos = fs.readdirSync(`${__dirname}/../../public-live/Werbung`); 
-
 // communication
 const httpServer = createServer();
 const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}});
@@ -75,8 +71,7 @@ io.on('connection', (socket) => {
   socket.on("save_setup", (data) => {fs.writeFileSync("app-data/setup.json", JSON.stringify(data));});
   socket.on("save_team", (data) => {fs.writeFileSync("app-data/team.json", JSON.stringify(data));});
   socket.on("save_adv", (data) => {fs.writeFileSync("app-data/adv.json", JSON.stringify(data));});
-});
-io.on('connection', (socket ) => {
+
   socket.on("load", () => {
     let buff = fs.readFileSync("app-data/setup.json", "utf-8"); 
     const dataSetup = JSON.parse(buff);
@@ -85,7 +80,7 @@ io.on('connection', (socket ) => {
     buff = fs.readFileSync("app-data/adv.json", "utf-8");
     const dataAdv = JSON.parse(buff);
     
-    socket.emit("load return", {setup: dataSetup, team: dataTeam, adv: dataAdv}, dataTeamLogos, dataAdvLogos);
+    socket.emit("load return", {setup: dataSetup, team: dataTeam, adv: dataAdv});
   });
 });
 httpServer.listen(1512);
