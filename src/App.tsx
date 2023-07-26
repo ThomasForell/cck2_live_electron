@@ -29,6 +29,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useForm } from 'react-hook-form';
 import { Control } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
+import { styled } from '@mui/system';
+
 import io from 'socket.io-client';
 
 import Dropzone from 'react-dropzone';
@@ -285,10 +287,33 @@ function CreateSetupSettings({register, settings, setNumSetupEntries}: {register
   return (<>{s}</>)
 }
 
+function LogoDropzone({onChange, value}: {onChange: any, value: string}) {
+  return (
+    <Dropzone 
+      noClick noKeyboard
+      onDrop={(acceptedFiles: File[]) => {
+        console.log(acceptedFiles); 
+        console.log(value); 
+        onChange(acceptedFiles[0].name);
+        console.log(watchedValues);
+        setValueFunc("team.logo_home.0", acceptedFiles[0].name);
+        console.log(watchedValues);}}>
+      {({getRootProps, getInputProps, open}) => (
+        <Box sx={{ height: 120, width: 250, borderRadius: 2, border: "2px dashed"}}>
+          <div {...getRootProps()} style={{textAlign: "center"}}>
+            <input {...getInputProps()} />
+            <p>Logo in diesen Bereich ziehen</p>
+            <Button onClick={open} variant="contained" >Logo Auswählen</Button>
+          </div>
+        </Box>
+      )} 
+    </Dropzone>
+  )
+}
+
+
 function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number, 
   disableDelete:boolean, disableUp:boolean, disableDown:boolean, setNumTeamEntries:any, tl: string[]) {
-//  const tl = createLogoData(teamLogos);
-
   return (
     <div>
       <Accordion>
@@ -303,88 +328,74 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
         <AccordionDetails key={"teamDetails." + count.toString()}>
           <Stack spacing={2} direction="column">
             <Grid container spacing={2}>
+              <Grid xs={2}>Logo Heim</Grid>
               <Grid xs={3}>
-                <FormControl>
-                  <InputLabel>Logo Heim</InputLabel>
-                  <Controller control={control} name={"team.logo_home." + count.toString()} defaultValue={team.logo_home[count]} render={({ field }) => (
-                    <Select {...field} onChange={(event: SelectChangeEvent) => 
-                      {let id = document.getElementById("home" + count.toString()); (id as HTMLImageElement).src = "logos/team/" + event.target.value as string; field.onChange(event.target.value as string);}} variant={variant} label="Logo Heim">
-                      {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"home_" + count.toString() + "_" + key}>{value}</MenuItem>))}
-                    </Select>)}/>
-                </FormControl>
+                <Box sx={{ height: 120, width: 175}}>
+                  <div style={{textAlign: "center"}}> 
+                    <img src={"logos/team/" + team.logo_home[count]} alt="" height="120" width="auto" id={"home" + count.toString()}/> 
+                  </div>
+                </Box>
               </Grid>
-              <Grid xs={9}> 
-                <Box sx={{ height: 120, width: 250}}> <img src={"logos/team/" + team.logo_home[count]} alt="" height="120" width="auto" id={"home" + count.toString()}/> </Box>
+              <Grid xs={4}>
+                <Controller control={control} name={"team.logo_home." + count.toString()} 
+                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value}/>} />
               </Grid>
-              <Grid xs={1}>
-{ /*                <FormControl>
-                  <InputLabel>Logo Gast</InputLabel>
-                  <Controller control={control} name={"team.logo_guest." + count.toString()} defaultValue={team.logo_guest[count]} render={({ field }) => (
-                    <Select {...field} onChange={(event: SelectChangeEvent) => 
-                      {let id = document.getElementById("guest" + count.toString()); (id as HTMLImageElement).src = "logos/team/" + event.target.value as string; field.onChange(event.target.value as string);}} variant={variant} label="Logo Heim">
-                      {teamLogos.map(({key, value}) => (<MenuItem value={key} key={"guest_" + count.toString() + "_" + key}>{value}</MenuItem>))}
-                    </Select>)}/>
-                    </FormControl> */ }
-              </Grid>
+              <Grid xs={3}/>
+              <Grid xs={2}>Logo Gast</Grid>
               <Grid xs={3}>
-                <Box sx={{ height: 120, width: 250}}> <img src={"logos/team/" + team.logo_guest[count]} alt="" height="120" width="auto" id={"guest" + count.toString()}/> </Box>
+                <div style={{textAlign: "center"}}> 
+                  <Box sx={{ height: 120, width: 175}}> 
+                    <img src={"logos/team/" + team.logo_guest[count]} alt="" height="120" width="auto" id={"guest" + count.toString()}/> 
+                  </Box>
+                </div>
               </Grid>
-              <Grid xs={3}>
-                <Dropzone 
-                  noClick noKeyboard
-                  onDrop={(acceptedFiles: any) => console.log(acceptedFiles)}>
-                  {({getRootProps, getInputProps, open}) => (
-                    <div className='container'>
-                      <div {...getRootProps({className: "dropzone"})}>
-                        <input {...getInputProps()} />
-                        <p>Drop Logo hier.</p>
-                        <Button onClick={open} variant="contained" >Logo Auswählen</Button>
-                      </div></div>
-                  )}
-                </Dropzone>
+              <Grid xs={4}>
+                <Controller control={control} name={"team.logo_guest." + count.toString()}
+                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value}/>} />
               </Grid>
+              <Grid xs={3}/>
             </Grid>
 
-          <Stack spacing={4} direction="row">
-            <FormControl>
-              <FormLabel id="num_player_label">Anzahl Spieler</FormLabel>
+            <Stack spacing={4} direction="row">
+              <FormControl>
+                <FormLabel id="num_player_label">Anzahl Spieler</FormLabel>
+                <Controller
+                  defaultValue="4"
+                  render={({ field }) => (
+                    <RadioGroup row {...field}>
+                      <FormControlLabel value="4" control={<Radio />} label="4" key={"player_" + count.toString() + "_4"} />
+                      <FormControlLabel value="6" control={<Radio />} label="6" key={"player_" + count.toString() + "_6"} />
+                    </RadioGroup>)}
+                  name={"team.num_players." + count.toString()}
+                  control={control}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel id="num_lanes_label">Anzahl Bahnen</FormLabel>
+                <Controller
+                  defaultValue="6"
+                  render={({ field }) => (
+                    <RadioGroup row {...field}>
+                      <FormControlLabel value="4" control={<Radio />} label="4" key={"lanes_" + count.toString() + "_4"} />
+                      <FormControlLabel value="6" control={<Radio />} label="6" key={"lanes_" + count.toString() + "_6"} />
+                    </RadioGroup>)}
+                  name={"team.num_lanes." + count.toString()}
+                  control={control}
+                />
+              </FormControl>
               <Controller
-                defaultValue="4"
-                render={({ field }) => (
-                  <RadioGroup row {...field}>
-                    <FormControlLabel value="4" control={<Radio />} label="4" key={"player_" + count.toString() + "_4"} />
-                    <FormControlLabel value="6" control={<Radio />} label="6" key={"player_" + count.toString() + "_6"} />
-                  </RadioGroup>)}
-                name={"team.num_players." + count.toString()}
                 control={control}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel id="num_lanes_label">Anzahl Bahnen</FormLabel>
-              <Controller
-                defaultValue="6"
-                render={({ field }) => (
-                  <RadioGroup row {...field}>
-                    <FormControlLabel value="4" control={<Radio />} label="4" key={"lanes_" + count.toString() + "_4"} />
-                    <FormControlLabel value="6" control={<Radio />} label="6" key={"lanes_" + count.toString() + "_6"} />
-                  </RadioGroup>)}
-                name={"team.num_lanes." + count.toString()}
-                control={control}
-              />
-            </FormControl>
-            <Controller
-              control={control}
-              name={"team.set_points." + count.toString()}
-              defaultValue={true}
-              render={({ field: { onChange, value } }) => (
-                <FormControlLabel label="Satzpunkte"
-                  control={
-                    <Checkbox checked={value} onChange={onChange} />
-                  }/>
-                )}/>
-           </Stack>
-          <TextField id="cck2_data_file" label="CCK2 Daten Team" variant={variant} defaultValue="mannschaft.json" {...register("team.cck2_file." + count.toString())}/>
-        </Stack>
+                name={"team.set_points." + count.toString()}
+                defaultValue={true}
+                render={({ field: { onChange, value } }) => (
+                  <FormControlLabel label="Satzpunkte"
+                    control={
+                      <Checkbox checked={value} onChange={onChange} />
+                    }/>
+                  )}/>
+            </Stack>
+            <TextField id="cck2_data_file" label="CCK2 Daten Team" variant={variant} defaultValue="mannschaft.json" {...register("team.cck2_file." + count.toString())}/>
+          </Stack>
         </AccordionDetails>
       </Accordion>
     </div>
@@ -417,22 +428,21 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
         <AccordionDetails key={"advDetail." + count.toString()}>
           <Stack spacing={2} direction="column">
             <Grid container spacing={2}>
+              <Grid xs={2}>Logo Werbung</Grid>
+              <Grid xs={3}>
+                <Box sx={{ height: 120, width: 175}}>
+                  <div style={{textAlign: "center"}}> 
+                    <img id={"adv" + count.toString()} src={"logos/adv/" + adv.logo[count]} alt="" height="120" width="auto"/> 
+                  </div>
+                </Box>
+              </Grid>
               <Grid xs={4}>
-                <FormControl style={{minWidth: 200}}>
-                  <InputLabel>Werbung</InputLabel>
-                  <Controller control={control} name={"adv.logo." + count.toString()} defaultValue={advLogos[0].key} render={({ field }) => (
-                    <Select {...field} variant={variant} label="Logo"
-                    onChange={(event: SelectChangeEvent) => 
-                      {let id = document.getElementById("adv" + count.toString()); (id as HTMLImageElement).src = "logos/adv/" + event.target.value as string; field.onChange(event.target.value as string);}}>
-                      {advLogos.map(({key, value}) => (<MenuItem value={key} key={"adv_" + count.toString() + "_" + key}>{value}</MenuItem>))}
-                    </Select>)}/>
-                </FormControl>
+                <Controller control={control} name={"adv.logo." + count.toString()}
+                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value}/>} />
               </Grid>
-              <Grid xs={8}>
-                <Box sx={{ height: 120, width: 250}}> <img id={"adv" + count.toString()} src={"logos/adv/" + adv.logo[count]} alt="" height="120" width="auto"/> </Box>
-              </Grid>
+              <Grid xs={3}/>
             </Grid>
-        </Stack>
+          </Stack>
         </AccordionDetails>
       </Accordion>
     </>
@@ -472,8 +482,7 @@ let setValueFunc: any;
 let orderTimeChanged: any;
 
 function App({socket}: {socket: any}) {
-
-  const { control, register, watch, setValue } = useForm<ConfigValues>();
+  const { control, register, watch, setValue } = useForm<ConfigValues>({defaultValues: {...values}});
   watchedValues = watch();
   setValueFunc = setValue;
 
@@ -490,14 +499,15 @@ function App({socket}: {socket: any}) {
     setValue("adv", values.adv);
   }, [setValue, values]);
 
-  socket.on("load return", (data: ConfigValues, dataTeamLogos: string[], dataAdvLogos: string[]) => {
-    values = {...data}; 
-    setNumSetupEntries(values.setup.output_name.length); 
-    setNumTeamEntries(values.team.name.length);
-    setNumAdvEntries(values.adv.name.length);
-    setTeamLogos(dataTeamLogos);
-    setAdvLogos(dataAdvLogos);
-  });
+//  socket.on("load return", (data: ConfigValues, dataTeamLogos: string[], dataAdvLogos: string[]) => {
+//    values = {...data}; 
+//    setNumSetupEntries(values.setup.output_name.length); 
+//    setNumTeamEntries(values.team.name.length);
+//    setNumAdvEntries(values.adv.name.length);
+//    setTeamLogos(dataTeamLogos);
+//    setAdvLogos(dataAdvLogos);
+//    console.log("load return");
+//  });
 
   socket.emit("load", "hello!")
 
@@ -509,7 +519,7 @@ function App({socket}: {socket: any}) {
         <AccordionSummary key="setup_summary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Setup</h1>
-            <Button onClick={() => {socket.emit("save_setup", watchedValues.setup);}} variant="contained">Speichern</Button>
+            <Button onClick={() => {console.log(watchedValues.setup); socket.emit("save_setup", watchedValues.setup);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
         <AccordionDetails key="setup_details">
@@ -522,7 +532,7 @@ function App({socket}: {socket: any}) {
         <AccordionSummary key="team_summary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Team Konfiguration</h1>
-            <Button onClick={() => {socket.emit("save_team", watchedValues.team);}} variant="contained">Speichern</Button>
+            <Button onClick={() => {console.log(watchedValues.team); socket.emit("save_team", watchedValues.team);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
         <AccordionDetails key="team_detail">
@@ -535,7 +545,7 @@ function App({socket}: {socket: any}) {
         <AccordionSummary key="adv_summary" expandIcon={<ExpandMoreIcon />}>
           <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
             <h1>Werbung Konfiguration</h1>
-            <Button onClick={() => {socket.emit("save_adv", watchedValues.adv);}} variant="contained">Speichern</Button>
+            <Button onClick={() => {console.log(watchedValues.adv); socket.emit("save_adv", watchedValues.adv);}} variant="contained">Speichern</Button>
           </Stack>
         </AccordionSummary>
         <AccordionDetails key="adv_details">
