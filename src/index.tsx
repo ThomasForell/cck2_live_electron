@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {io, Socket} from 'socket.io-client';
+import io from 'socket.io-client';
 
 const socket = io("ws://localhost:1512");
 
