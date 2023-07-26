@@ -249,23 +249,26 @@ function CreateSetupSettings({register, settings, states}: {register: any, setti
   return (<>{s}</>)
 }
 
-function LogoDropzone({onChange, value}: {onChange: any, value: string}) {
+function LogoDropzone({onChange, value, pic_id}: {onChange: any, value: string, pic_id: string}) {
   return (
     <Dropzone 
       noClick noKeyboard
       onDrop={(acceptedFiles: File[]) => {
-        console.log(acceptedFiles); 
-        console.log(value); 
         onChange(acceptedFiles[0].name);
-        console.log(watchedValues);
-        setValueFunc("team.logo_home.0", acceptedFiles[0].name);
-        console.log(watchedValues);}}>
+        let element = document.getElementById(pic_id) as HTMLImageElement;
+        if (pic_id.startsWith("adv")) {
+          element.src = "logos/adv/" + acceptedFiles[0].name;
+        }
+        else {
+          element.src = "logos/team/" + acceptedFiles[0].name;
+        }
+      }}>
       {({getRootProps, getInputProps, open}) => (
         <Box sx={{ height: 120, width: 250, borderRadius: 2, border: "2px dashed"}}>
           <div {...getRootProps()} style={{textAlign: "center"}}>
             <input {...getInputProps()} />
             <p>Logo in diesen Bereich ziehen</p>
-            <Button onClick={open} variant="contained" >Logo Auswählen</Button>
+            <Button onClick={open} variant="contained">Logo Auswählen</Button>
           </div>
         </Box>
       )} 
@@ -300,7 +303,7 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
               </Grid>
               <Grid xs={4}>
                 <Controller control={control} name={"team.logo_home." + count.toString()} 
-                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value}/>} />
+                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value} pic_id={"home" + count.toString()}/>} />
               </Grid>
               <Grid xs={3}/>
               <Grid xs={2}>Logo Gast</Grid>
@@ -313,7 +316,7 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
               </Grid>
               <Grid xs={4}>
                 <Controller control={control} name={"team.logo_guest." + count.toString()}
-                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value}/>} />
+                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value} pic_id={"guest" + count.toString()}/>} />
               </Grid>
               <Grid xs={3}/>
             </Grid>
@@ -394,13 +397,13 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
               <Grid xs={3}>
                 <Box sx={{ height: 120, width: 175}}>
                   <div style={{textAlign: "center"}}> 
-                    <img id={"adv" + count.toString()} src={"logos/adv/" + adv.logo[count]} alt="" height="120" width="auto"/> 
+                    <img id={"adv" + count.toString()} src={"logos/adv/" + adv.logo[count]} alt="" height="120" width="auto" /> 
                   </div>
                 </Box>
               </Grid>
               <Grid xs={4}>
                 <Controller control={control} name={"adv.logo." + count.toString()}
-                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value}/>} />
+                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value} pic_id={"adv" + count.toString()}/>} />
               </Grid>
               <Grid xs={3}/>
             </Grid>
