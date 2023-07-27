@@ -25,7 +25,6 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2';
 import { useForm } from 'react-hook-form';
 import { Control } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
@@ -438,12 +437,6 @@ function App({socket}: {socket: Socket}) {
     time: useState(values.setup)[1]
   };
   
-//  useEffect(() => { 
-//    setValue("setup", values.setup);
-//    setValue("team", values.team);
-//    setValue("adv", values.adv);
-//  }, [setValue, values]);
-
   socket.on("load return", (data: ConfigValues) => {
     values = {...data}; 
     setValue("setup", values.setup);
