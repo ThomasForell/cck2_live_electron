@@ -1,6 +1,6 @@
 import './App.css';
 
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -425,8 +425,6 @@ adv: {
 } } as ConfigValues;
 
 let setValueFunc: any;
-let numLoads = 0;
-let orderTimeChanged: any;
 
 function App({socket}: {socket: Socket}) {
   const { control, register, watch, setValue } = useForm<ConfigValues>({defaultValues: {...values}});
@@ -434,31 +432,29 @@ function App({socket}: {socket: Socket}) {
   setValueFunc = setValue;
 
   const states = {
-    setup: React.useState(values.setup.output_name.length)[1],
-    team: React.useState(values.team.name.length)[1],
-    adv: React.useState(values.adv.name.length)[1],
-    time: React.useState(values.setup)[1]
+    setup: useState(values.setup.output_name.length)[1],
+    team: useState(values.team.name.length)[1],
+    adv: useState(values.adv.name.length)[1],
+    time: useState(values.setup)[1]
   };
-  orderTimeChanged = states.time;
-
-  React.useEffect(() => { 
-    setValue("setup", values.setup);
-    setValue("team", values.team);
-    setValue("adv", values.adv);
-  }, [setValue, values]);
+  
+//  useEffect(() => { 
+//    setValue("setup", values.setup);
+//    setValue("team", values.team);
+//    setValue("adv", values.adv);
+//  }, [setValue, values]);
 
   socket.on("load return", (data: ConfigValues) => {
     values = {...data}; 
-    states.setup(values.setup.output_name.length); 
-    states.team(values.team.name.length);
-    states.adv(values.adv.name.length);
+    setValue("setup", values.setup);
+    setValue("team", values.team);
+    setValue("adv", values.adv);
     console.log("load return");
   });
 
-  if (numLoads === 0) {
-    socket.emit("load", "hello!")
-    numLoads = 1;
-  }
+  useEffect(
+    () => {socket.emit("load", "hello!")}, []
+  );
 
   return (
     <>
