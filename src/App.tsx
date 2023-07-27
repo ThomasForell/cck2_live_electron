@@ -249,30 +249,52 @@ function CreateSetupSettings({register, settings, states}: {register: any, setti
   return (<>{s}</>)
 }
 
-function LogoDropzone({onChange, value, pic_id}: {onChange: any, value: string, pic_id: string}) {
+function LogoDropzone({label, name, value, control}: {label: string, name: string, value: string, control: Control}) {
+  let source = "";
+  if (name.startsWith("adv")) {
+    source = "logos/adv/" + value;
+  }
+  else {
+    source = "logos/team/" + value;
+  }
   return (
-    <Dropzone 
-      noClick noKeyboard
-      onDrop={(acceptedFiles: File[]) => {
-        onChange(acceptedFiles[0].name);
-        let element = document.getElementById(pic_id) as HTMLImageElement;
-        if (pic_id.startsWith("adv")) {
-          element.src = "logos/adv/" + acceptedFiles[0].name;
-        }
-        else {
-          element.src = "logos/team/" + acceptedFiles[0].name;
-        }
-      }}>
-      {({getRootProps, getInputProps, open}) => (
-        <Box sx={{ height: 120, width: 250, borderRadius: 2, border: "2px dashed"}}>
-          <div {...getRootProps()} style={{textAlign: "center"}}>
-            <input {...getInputProps()} />
-            <p>Logo in diesen Bereich ziehen</p>
-            <Button onClick={open} variant="contained">Logo Auswählen</Button>
-          </div>
-        </Box>
-      )} 
-    </Dropzone>
+    <Stack spacing={2} direction="row" alignItems="center">
+      <Box sx={{ height: 120, width: 120}}>
+        <div style={{textAlign: "start"}}> 
+          {label} 
+        </div>
+      </Box>
+      <Box sx={{ height: 120, width: 175}}>
+        <div style={{textAlign: "center"}}> 
+          <img id={name} src={source} alt="" height="120" width="auto" /> 
+        </div>
+      </Box>
+      <Controller control={control} name={name}
+        render={({ field: {onChange, value} }) =>           
+          <Dropzone 
+            noClick noKeyboard
+            onDrop={(acceptedFiles: File[]) => {
+              onChange(acceptedFiles[0].name);
+              let element = document.getElementById(name) as HTMLImageElement;
+              if (name.startsWith("adv")) {
+                element.src = "logos/adv/" + acceptedFiles[0].name;
+              }
+              else {
+                element.src = "logos/team/" + acceptedFiles[0].name;
+              }
+            }}>
+              {({getRootProps, getInputProps, open}) => (
+                <Box sx={{ height: 120, width: 250, borderRadius: 2, border: "2px dashed"}}>
+                  <div {...getRootProps()} style={{textAlign: "center"}}>
+                    <input {...getInputProps()} />
+                    <p>Logo in diesen Bereich ziehen</p>
+                    <Button onClick={open} variant="contained">Logo Auswählen</Button>
+                  </div>
+                </Box>
+              )} 
+        </Dropzone>
+      } /> 
+    </Stack>
   )
 }
 
@@ -292,35 +314,8 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
         </AccordionSummary>
         <AccordionDetails key={"teamDetails." + count.toString()}>
           <Stack spacing={2} direction="column">
-            <Grid container spacing={2}>
-              <Grid xs={2}>Logo Heim</Grid>
-              <Grid xs={3}>
-                <Box sx={{ height: 120, width: 175}}>
-                  <div style={{textAlign: "center"}}> 
-                    <img src={"logos/team/" + team.logo_home[count]} alt="" height="120" width="auto" id={"home" + count.toString()}/> 
-                  </div>
-                </Box>
-              </Grid>
-              <Grid xs={4}>
-                <Controller control={control} name={"team.logo_home." + count.toString()} 
-                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value} pic_id={"home" + count.toString()}/>} />
-              </Grid>
-              <Grid xs={3}/>
-              <Grid xs={2}>Logo Gast</Grid>
-              <Grid xs={3}>
-                <div style={{textAlign: "center"}}> 
-                  <Box sx={{ height: 120, width: 175}}> 
-                    <img src={"logos/team/" + team.logo_guest[count]} alt="" height="120" width="auto" id={"guest" + count.toString()}/> 
-                  </Box>
-                </div>
-              </Grid>
-              <Grid xs={4}>
-                <Controller control={control} name={"team.logo_guest." + count.toString()}
-                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value} pic_id={"guest" + count.toString()}/>} />
-              </Grid>
-              <Grid xs={3}/>
-            </Grid>
-
+            <LogoDropzone label="Logo Heim" name={"team.logo_home." + count.toString()} value={team.logo_home[count]} control={control} />
+            <LogoDropzone label="Logo Gast" name={"team.logo_guest." + count.toString()} value={team.logo_guest[count]} control={control} />
             <Stack spacing={4} direction="row">
               <FormControl>
                 <FormLabel id="num_player_label">Anzahl Spieler</FormLabel>
@@ -392,21 +387,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
         </AccordionSummary>
         <AccordionDetails key={"advDetail." + count.toString()}>
           <Stack spacing={2} direction="column">
-            <Grid container spacing={2}>
-              <Grid xs={2}>Logo Werbung</Grid>
-              <Grid xs={3}>
-                <Box sx={{ height: 120, width: 175}}>
-                  <div style={{textAlign: "center"}}> 
-                    <img id={"adv" + count.toString()} src={"logos/adv/" + adv.logo[count]} alt="" height="120" width="auto" /> 
-                  </div>
-                </Box>
-              </Grid>
-              <Grid xs={4}>
-                <Controller control={control} name={"adv.logo." + count.toString()}
-                  render={({ field: {onChange, value} }) => <LogoDropzone onChange={onChange} value={value} pic_id={"adv" + count.toString()}/>} />
-              </Grid>
-              <Grid xs={3}/>
-            </Grid>
+            <LogoDropzone label="Logo Werbung" name={"adv.logo." + count.toString()} value={adv.logo[count]} control={control} />
           </Stack>
         </AccordionDetails>
       </Accordion>
