@@ -306,8 +306,8 @@ function LogoDropzone({label, name, value, control}: {label: string, name: strin
 }
 
 
-function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number, 
-  disableDelete:boolean, disableUp:boolean, disableDown:boolean) {
+function TeamSettings({register, control, team, setup, count, disableDelete, disableUp, disableDown}: {register: any, control: any, team: ConfigValues["team"], 
+  setup: ConfigValues["setup"], count: number, disableDelete:boolean, disableUp:boolean, disableDown:boolean}) {
   return (
     <div>
       <Accordion>
@@ -368,16 +368,17 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
   );
 }
 
-function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"]) {
+function CreateTeamSettings(props: {register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"]}) {
   let t = [];
-  for (let i = 0; i < team.name.length; ++i) {
-    t.push(TeamSettings(register, control, team, setup, i, team.name.length === 1, i === 0, i === team.name.length - 1));
+  for (let i = 0; i < props.team.name.length; ++i) {
+    t.push(<TeamSettings {...props}  count={i} disableDelete={props.team.name.length === 1} disableUp={i === 0} disableDown={i === props.team.name.length - 1} />);
   }
   return (<>{t}</>)
 }
 
-function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], count: number,
-  disableDelete:boolean, disableUp:boolean, disableDown:boolean){
+function AdvSettings({register, control, adv, setup, count, disableDelete, disableUp, disableDown}: 
+  {register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], count: number,
+    disableDelete:boolean, disableUp:boolean, disableDown:boolean}) {
 
   return (
     <>
@@ -400,10 +401,10 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
   );
 }
 
-function CreateAdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"]) {
+function CreateAdvSettings(props: {register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"]}) {
   let a = [];
-  for (let i = 0; i < adv.name.length; ++i) {
-    a.push(AdvSettings(register, control, adv, setup, i, adv.name.length === 1, i === 0, i === adv.name.length - 1));
+  for (let i = 0; i < props.adv.name.length; ++i) {
+    a.push(<AdvSettings  {...props} count={i} disableDelete={props.adv.name.length === 1} disableUp={i === 0} disableDown={i === props.adv.name.length - 1} />);
   }
   return (<>{a}</>)
 }
@@ -484,7 +485,7 @@ function App({socket}: {socket: Socket}) {
         </AccordionSummary>
         <AccordionDetails key="team_detail">
           <Stack spacing={2} direction="column" alignItems="left">
-            {CreateTeamSettings(register, control, values.team, values.setup)}
+            <CreateTeamSettings register={register} control={control} team={values.team} setup={values.setup} />
           </Stack>
         </AccordionDetails>
       </Accordion>
@@ -497,7 +498,7 @@ function App({socket}: {socket: Socket}) {
         </AccordionSummary>
         <AccordionDetails key="adv_details">
           <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
-            {CreateAdvSettings(register, control, values.adv, values.setup)}
+            <CreateAdvSettings register={register} control={control} adv={values.adv} setup={values.setup} />
           </Stack>
         </AccordionDetails>
       </Accordion>
