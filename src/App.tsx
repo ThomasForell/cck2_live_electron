@@ -1,6 +1,7 @@
 import './App.css';
 
 import { useEffect, useState } from 'react';
+
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -25,6 +26,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
+
 import { useForm } from 'react-hook-form';
 import { Control } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
@@ -264,6 +266,7 @@ function LogoDropzone({label, name, value, control}: {label: string, name: strin
   else {
     source = "logos/team/" + value;
   }
+
   return (
     <Stack spacing={2} direction="row" alignItems="center">
       <Box sx={{ height: 120, width: 120}}>
@@ -280,6 +283,8 @@ function LogoDropzone({label, name, value, control}: {label: string, name: strin
         render={({ field: {onChange, value} }) =>           
           <Dropzone 
             noClick noKeyboard
+            accept={{'image/*': ['.jpeg', '.png']}}
+            multiple={false}
             onDrop={(acceptedFiles: File[]) => {
               onChange(acceptedFiles[0].name);
               let element = document.getElementById(name) as HTMLImageElement;
@@ -290,11 +295,14 @@ function LogoDropzone({label, name, value, control}: {label: string, name: strin
                 element.src = "logos/team/" + acceptedFiles[0].name;
               }
             }}>
-              {({getRootProps, getInputProps, open}) => (
-                <Box sx={{ height: 120, width: 250, borderRadius: 2, border: "2px dashed"}}>
+              {({getRootProps, getInputProps, open, isDragReject, isDragActive, isDragAccept}) => (
+                <Box sx={{ height: 120, width: 250, borderRadius: 2, border: "2px dashed", 
+                  ...(isDragReject && {background: "#460100"}), ...(isDragAccept && {background: "#092005"})  }}>
                   <div {...getRootProps()} style={{textAlign: "center"}}>
                     <input {...getInputProps()} />
-                    <p>Logo in diesen Bereich ziehen</p>
+                    {!isDragActive && (<p>Logo in diesen Bereich ziehen</p>)}
+                    {isDragAccept && (<p>Logo auswählen</p>)}
+                    {isDragReject && (<p>Logo muss eine Bilddatei sein</p>)}
                     <Button onClick={open} variant="contained">Logo Auswählen</Button>
                   </div>
                 </Box>
