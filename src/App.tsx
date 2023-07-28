@@ -215,8 +215,8 @@ function ComponentDown(reference: string) {
   }
 }
 
-function NavigationButtons({callback_id, disableDelete=false, disableUp=false, disableDown=false, setNumEntries=""}: {callback_id: string, disableDelete: boolean, 
-  disableUp: boolean, disableDown: boolean, setNumEntries: any}
+function NavigationButtons({callback_id, disableDelete=false, disableUp=false, disableDown=false}: {callback_id: string, disableDelete: boolean, 
+  disableUp: boolean, disableDown: boolean}
   ) {
   return (        
     <ButtonGroup variant="outlined" size="small">
@@ -228,8 +228,8 @@ function NavigationButtons({callback_id, disableDelete=false, disableUp=false, d
   )
 }
 
-function SetupSettings({register, count, disableDelete, disableUp, disableDown, states}: 
-  {register: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean, states: any}) {
+function SetupSettings({register, count, disableDelete, disableUp, disableDown}: 
+  {register: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean}) {
   return ( 
       <Stack spacing={4} direction="row" alignItems="center">
         <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" 
@@ -242,16 +242,16 @@ function SetupSettings({register, count, disableDelete, disableUp, disableDown, 
             }
           }}/>
         <TextField label="Ausgabe Datei" variant={variant} defaultValue="stream" {...register("setup.output_file." + count.toString())}/>
-        <NavigationButtons callback_id={"setup." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} setNumEntries={states.setup}/>
+        <NavigationButtons callback_id={"setup." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
       </Stack>
   )
 }
 
-function CreateSetupSettings({register, settings, states}: {register: any, settings: ConfigValues["setup"], states: any}) {
+function CreateSetupSettings({register, settings}: {register: any, settings: ConfigValues["setup"]}) {
   let s = [];
   for (let i = 0; i < settings.output_name.length; ++i) {
     s.push(<SetupSettings key={"CreateSetupSettings" + i.toString()} register={register} count={i} disableDelete={settings.output_name.length === 1}
-      disableUp={i === 0} disableDown={i === settings.output_name.length - 1} states={states} />);
+      disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
   }
   return (<>{s}</>)
 }
@@ -307,7 +307,7 @@ function LogoDropzone({label, name, value, control}: {label: string, name: strin
 
 
 function TeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], count: number, 
-  disableDelete:boolean, disableUp:boolean, disableDown:boolean, states:any) {
+  disableDelete:boolean, disableUp:boolean, disableDown:boolean) {
   return (
     <div>
       <Accordion>
@@ -315,8 +315,7 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
             <Stack spacing={2} direction="row" alignItems="center"  onClick={(event: any) => event.stopPropagation()}>
               <TextField key="team_name" label="Teamname" variant={variant} defaultValue={team.name[count]} {...register("team.name." + count.toString())}/>
               {CreateTimeSelect(control, "team.time_values." + count.toString(), setup)}
-              <NavigationButtons callback_id={"team." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} 
-                setNumEntries={states.team}/>
+              <NavigationButtons callback_id={"team." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
             </Stack>
         </AccordionSummary>
         <AccordionDetails key={"teamDetails." + count.toString()}>
@@ -369,16 +368,16 @@ function TeamSettings(register: any, control: any, team: ConfigValues["team"], s
   );
 }
 
-function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], states: any) {
+function CreateTeamSettings(register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"]) {
   let t = [];
   for (let i = 0; i < team.name.length; ++i) {
-    t.push(TeamSettings(register, control, team, setup, i, team.name.length === 1, i === 0, i === team.name.length - 1, states));
+    t.push(TeamSettings(register, control, team, setup, i, team.name.length === 1, i === 0, i === team.name.length - 1));
   }
   return (<>{t}</>)
 }
 
 function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], count: number,
-  disableDelete:boolean, disableUp:boolean, disableDown:boolean, states: any){
+  disableDelete:boolean, disableUp:boolean, disableDown:boolean){
 
   return (
     <>
@@ -388,8 +387,7 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue={adv.logo[count]} {...register("adv.name." + count.toString())}/>
               {CreateTimeSelect(control, "adv.time_values." + count.toString(), setup)}
-              <NavigationButtons callback_id={"adv." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} 
-                setNumEntries={states.adv}/>
+              <NavigationButtons callback_id={"adv." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
             </Stack>
         </AccordionSummary>
         <AccordionDetails key={"advDetail." + count.toString()}>
@@ -402,10 +400,10 @@ function AdvSettings(register: any, control: any, adv: ConfigValues["adv"], setu
   );
 }
 
-function CreateAdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], setNumAdvEntries: any) {
+function CreateAdvSettings(register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"]) {
   let a = [];
   for (let i = 0; i < adv.name.length; ++i) {
-    a.push(AdvSettings(register, control, adv, setup, i, adv.name.length === 1, i === 0, i === adv.name.length - 1, setNumAdvEntries));
+    a.push(AdvSettings(register, control, adv, setup, i, adv.name.length === 1, i === 0, i === adv.name.length - 1));
   }
   return (<>{a}</>)
 }
@@ -439,13 +437,6 @@ function App({socket}: {socket: Socket}) {
   watchedValues = watch();
   setValueFunc = setValue;
 
-  const states = {
-    setup: useState(values.setup.output_name.length)[1],
-    team: useState(values.team.name.length)[1],
-    adv: useState(values.adv.name.length)[1],
-    time: useState(values.setup)[1]
-  };
-  
   let stateUpdate: ConfigValues;
   [stateUpdate, setStateUpdate] = useState(values);
 
@@ -480,7 +471,7 @@ function App({socket}: {socket: Socket}) {
         </AccordionSummary>
         <AccordionDetails key="setup_details">
           <Stack spacing={2} direction="column" alignItems="left">
-            <CreateSetupSettings register={register} settings={values.setup} states={states} />
+            <CreateSetupSettings register={register} settings={values.setup} />
           </Stack>
         </AccordionDetails>
       </Accordion>
@@ -493,7 +484,7 @@ function App({socket}: {socket: Socket}) {
         </AccordionSummary>
         <AccordionDetails key="team_detail">
           <Stack spacing={2} direction="column" alignItems="left">
-            {CreateTeamSettings(register, control, values.team, values.setup, states)}
+            {CreateTeamSettings(register, control, values.team, values.setup)}
           </Stack>
         </AccordionDetails>
       </Accordion>
@@ -506,7 +497,7 @@ function App({socket}: {socket: Socket}) {
         </AccordionSummary>
         <AccordionDetails key="adv_details">
           <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
-            {CreateAdvSettings(register, control, values.adv, values.setup, states)}
+            {CreateAdvSettings(register, control, values.adv, values.setup)}
           </Stack>
         </AccordionDetails>
       </Accordion>
