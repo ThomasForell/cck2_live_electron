@@ -90,7 +90,7 @@ function CreateTimeSelect(control: any, name: string, setup: ConfigValues["setup
   return (<>{t}</>)
 }
 
-function ComponentAdd(reference: string, setNumEntries: any) {
+function ComponentAdd(reference: string) {
   let tmp = {...watchedValues};
   const numTimeEntries = tmp.setup.output_name.length;
   const [component, id] = reference.split(".");
@@ -99,7 +99,7 @@ function ComponentAdd(reference: string, setNumEntries: any) {
     tmp.setup.output_name.splice(i, 0, "Stream");
     tmp.setup.output_file.splice(i, 0, "stream_file");
     values = {...tmp};
-    setNumEntries(values.setup.output_name.length);
+    setStateUpdate(values);
     }
   else if (component === "team") {
     tmp.team.name.splice(i, 0, "Mannschaft");
@@ -111,18 +111,18 @@ function ComponentAdd(reference: string, setNumEntries: any) {
     tmp.team.set_points.splice(i, 0, true);
     tmp.team.cck2_file.splice(i, 0, "mannschaft");
     values = {...tmp};
-    setNumEntries(values.team.name.length);
+    setStateUpdate(values);
     }
   else if (component === "adv") {
     tmp.adv.name.splice(i, 0, "Werbung");
     tmp.adv.time_values.splice(i, 0, new Array(numTimeEntries).fill(0));
     tmp.adv.logo.splice(i, 0, "");
     values = {...tmp};
-    setNumEntries(values.adv.name.length);
+    setStateUpdate(values);
     }
 }
 
-function ComponentDelete(reference: string, setNumEntries: any) {
+function ComponentDelete(reference: string) {
   let tmp = {...watchedValues};
   const [component, id] = reference.split(".");
   const i = Number(id);
@@ -130,7 +130,7 @@ function ComponentDelete(reference: string, setNumEntries: any) {
     tmp.setup.output_name.splice(i, 1);
     tmp.setup.output_file.splice(i, 1);
     values = {...tmp};
-    setNumEntries(values.setup.output_name.length);
+    setStateUpdate(values);
   }
   else if (component === "team") {
     tmp.team.name.splice(i, 1);
@@ -142,14 +142,14 @@ function ComponentDelete(reference: string, setNumEntries: any) {
     tmp.team.set_points.splice(i, 1);
     tmp.team.cck2_file.splice(i, 1);
     values = {...tmp};
-    setNumEntries(values.team.name.length);
+    setStateUpdate(values);
   }
   else if (component === "adv") {
     tmp.adv.name.splice(i, 1);
     tmp.adv.time_values.splice(i, 1);
     tmp.adv.logo.splice(i, 1);
     values = {...tmp};
-    setNumEntries(values.adv.name.length);
+    setStateUpdate(values);
   }
 }
 
@@ -220,8 +220,8 @@ function NavigationButtons({callback_id, disableDelete=false, disableUp=false, d
   ) {
   return (        
     <ButtonGroup variant="outlined" size="small">
-      <Button onClick={() => ComponentAdd(callback_id, setNumEntries)}><AddIcon/></Button>
-      <Button disabled={disableDelete} onClick={() => ComponentDelete(callback_id, setNumEntries)}><DeleteForeverIcon/></Button>
+      <Button onClick={() => ComponentAdd(callback_id)}><AddIcon/></Button>
+      <Button disabled={disableDelete} onClick={() => ComponentDelete(callback_id)}><DeleteForeverIcon/></Button>
       <Button disabled={disableUp} onClick={() => ComponentUp(callback_id)}><ArrowCircleUpIcon/></Button>
       <Button disabled={disableDown} onClick={() => ComponentDown(callback_id)}><ArrowCircleDownIcon/></Button>
     </ButtonGroup>  
@@ -232,7 +232,15 @@ function SetupSettings({register, count, disableDelete, disableUp, disableDown, 
   {register: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean, states: any}) {
   return ( 
       <Stack spacing={4} direction="row" alignItems="center">
-        <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" {...register("setup.output_name." + count.toString())}/>
+        <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" 
+          {...register("setup.output_name." + count.toString())}
+          onChange={(event: React.FormEvent<HTMLInputElement>) => {
+            values = {...watchedValues};   
+            if (event.target){
+              values.setup.output_name[count] = ((event.target) as HTMLInputElement).value;
+              setStateUpdate(values);
+            }
+          }}/>
         <TextField label="Ausgabe Datei" variant={variant} defaultValue="stream" {...register("setup.output_file." + count.toString())}/>
         <NavigationButtons callback_id={"setup." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} setNumEntries={states.setup}/>
       </Stack>
@@ -424,6 +432,7 @@ adv: {
 } } as ConfigValues;
 
 let setValueFunc: any;
+let setStateUpdate: any;
 
 function App({socket}: {socket: Socket}) {
   const { control, register, watch, setValue } = useForm<ConfigValues>({defaultValues: {...values}});
@@ -437,6 +446,15 @@ function App({socket}: {socket: Socket}) {
     time: useState(values.setup)[1]
   };
   
+  let stateUpdate: ConfigValues;
+  [stateUpdate, setStateUpdate] = useState(values);
+
+  useEffect(() => {
+    setValue("setup", stateUpdate.setup);
+    setValue("team", stateUpdate.team);
+    setValue("adv", stateUpdate.adv);
+  }, [stateUpdate]);
+
   socket.on("load return", (data: ConfigValues) => {
     values = {...data}; 
     setValue("setup", values.setup);
