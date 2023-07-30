@@ -381,7 +381,7 @@ function TeamSettings({register, control, team, setup, count, disableDelete, dis
 function CreateTeamSettings(props: {register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"]}) {
   let t = [];
   for (let i = 0; i < props.team.name.length; ++i) {
-    t.push(<TeamSettings {...props}  count={i} disableDelete={props.team.name.length === 1} disableUp={i === 0} disableDown={i === props.team.name.length - 1} />);
+    t.push(<TeamSettings key={"team_settings_" + i.toString()} {...props}  count={i} disableDelete={props.team.name.length === 1} disableUp={i === 0} disableDown={i === props.team.name.length - 1} />);
   }
   return (<>{t}</>)
 }
@@ -414,7 +414,7 @@ function AdvSettings({register, control, adv, setup, count, disableDelete, disab
 function CreateAdvSettings(props: {register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"]}) {
   let a = [];
   for (let i = 0; i < props.adv.name.length; ++i) {
-    a.push(<AdvSettings  {...props} count={i} disableDelete={props.adv.name.length === 1} disableUp={i === 0} disableDown={i === props.adv.name.length - 1} />);
+    a.push(<AdvSettings key={"adv_settings_" + i.toString() } {...props} count={i} disableDelete={props.adv.name.length === 1} disableUp={i === 0} disableDown={i === props.adv.name.length - 1} />);
   }
   return (<>{a}</>)
 }
@@ -525,7 +525,7 @@ function App({socket}: {socket: Socket}) {
                 <Button onClick={() => {console.log(watchedValues.team); socket.emit("save_team", watchedValues.team);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack spacing={2} direction="column" alignItems="left">
-                <CreateTeamSettings register={register} control={control} team={values.team} setup={values.setup} />
+                <CreateTeamSettings key="create_team_settings" register={register} control={control} team={values.team} setup={values.setup} />
               </Stack>
             </Stack>
           </TabPanel>
@@ -536,7 +536,7 @@ function App({socket}: {socket: Socket}) {
                 <Button onClick={() => {console.log(watchedValues.adv); socket.emit("save_adv", watchedValues.adv);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
-                <CreateAdvSettings register={register} control={control} adv={values.adv} setup={values.setup} />
+                <CreateAdvSettings key="create_adv_settings" register={register} control={control} adv={values.adv} setup={values.setup} />
               </Stack>
             </Stack>
           </TabPanel>
