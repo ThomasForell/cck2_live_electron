@@ -103,9 +103,7 @@ function ComponentAdd(reference: string) {
   if (component === "setup") {
     tmp.setup.output_name.splice(i, 0, "Stream");
     tmp.setup.output_file.splice(i, 0, "stream_file");
-    values = {...tmp};
-    setStateUpdate(values);
-    }
+  }
   else if (component === "team") {
     tmp.team.name.splice(i, 0, "Mannschaft");
     tmp.team.time_values.splice(i, 0, new Array(numTimeEntries).fill(0));
@@ -115,16 +113,13 @@ function ComponentAdd(reference: string) {
     tmp.team.num_lanes.splice(i, 0, "4");
     tmp.team.set_points.splice(i, 0, true);
     tmp.team.cck2_file.splice(i, 0, "mannschaft");
-    values = {...tmp};
-    setStateUpdate(values);
-    }
+  }
   else if (component === "adv") {
     tmp.adv.name.splice(i, 0, "Werbung");
     tmp.adv.time_values.splice(i, 0, new Array(numTimeEntries).fill(0));
     tmp.adv.logo.splice(i, 0, "");
-    values = {...tmp};
-    setStateUpdate(values);
-    }
+  }
+  setStateUpdate(tmp);
 }
 
 function ComponentDelete(reference: string) {
@@ -134,8 +129,6 @@ function ComponentDelete(reference: string) {
   if (component === "setup") {
     tmp.setup.output_name.splice(i, 1);
     tmp.setup.output_file.splice(i, 1);
-    values = {...tmp};
-    setStateUpdate(values);
   }
   else if (component === "team") {
     tmp.team.name.splice(i, 1);
@@ -146,16 +139,13 @@ function ComponentDelete(reference: string) {
     tmp.team.num_lanes.splice(i, 1);
     tmp.team.set_points.splice(i, 1);
     tmp.team.cck2_file.splice(i, 1);
-    values = {...tmp};
-    setStateUpdate(values);
   }
   else if (component === "adv") {
     tmp.adv.name.splice(i, 1);
     tmp.adv.time_values.splice(i, 1);
     tmp.adv.logo.splice(i, 1);
-    values = {...tmp};
-    setStateUpdate(values);
   }
+  setStateUpdate(tmp);
 }
 
 function ComponentUp(reference: string) {
@@ -165,8 +155,7 @@ function ComponentUp(reference: string) {
   if (component === "setup") {
     [tmp.setup.output_name[i], tmp.setup.output_name[i - 1]] = [tmp.setup.output_name[i - 1], tmp.setup.output_name[i]];
     [tmp.setup.output_file[i], tmp.setup.output_file[i - 1]] = [tmp.setup.output_file[i - 1], tmp.setup.output_file[i]];
-    values = {...tmp};
-    setValueFunc("setup", values.setup);
+    setValueFunc("setup", tmp.setup);
   }
   else if (component === "team") {
     [tmp.team.name[i], tmp.team.name[i - 1]] = [tmp.team.name[i - 1], tmp.team.name[i]];
@@ -177,15 +166,13 @@ function ComponentUp(reference: string) {
     [tmp.team.num_lanes[i], tmp.team.num_lanes[i - 1]] = [tmp.team.num_lanes[i - 1], tmp.team.num_lanes[i]];
     [tmp.team.set_points[i], tmp.team.set_points[i - 1]] = [tmp.team.set_points[i - 1], tmp.team.set_points[i]];
     [tmp.team.cck2_file[i], tmp.team.cck2_file[i - 1]] = [tmp.team.cck2_file[i - 1], tmp.team.cck2_file[i]];
-    values = {...tmp};
-    setValueFunc("team", values.team);
+    setValueFunc("team", tmp.team);
   }
   else if (component === "adv") {
     [tmp.adv.name[i], tmp.adv.name[i - 1]] = [tmp.adv.name[i - 1], tmp.adv.name[i]];
     [tmp.adv.time_values[i], tmp.adv.time_values[i - 1]] = [tmp.adv.time_values[i - 1], tmp.adv.time_values[i]];
     [tmp.adv.logo[i], tmp.adv.logo[i - 1]] = [tmp.adv.logo[i - 1], tmp.adv.logo[i]];
-    values = {...tmp};
-    setValueFunc("adv", values.adv);
+    setValueFunc("adv", tmp.adv);
   }
 }
 
@@ -196,8 +183,7 @@ function ComponentDown(reference: string) {
   if (component === "setup") {
     [tmp.setup.output_name[i], tmp.setup.output_name[i + 1]] = [tmp.setup.output_name[i + 1], tmp.setup.output_name[i]];
     [tmp.setup.output_file[i], tmp.setup.output_file[i + 1]] = [tmp.setup.output_file[i + 1], tmp.setup.output_file[i]];
-    values = {...tmp};
-    setValueFunc("setup", values.setup);
+    setValueFunc("setup", tmp.setup);
   }
   else if (component === "team") {
     [tmp.team.name[i], tmp.team.name[i + 1]] = [tmp.team.name[i + 1], tmp.team.name[i]];
@@ -208,15 +194,13 @@ function ComponentDown(reference: string) {
     [tmp.team.num_lanes[i], tmp.team.num_lanes[i + 1]] = [tmp.team.num_lanes[i + 1], tmp.team.num_lanes[i]];
     [tmp.team.set_points[i], tmp.team.set_points[i + 1]] = [tmp.team.set_points[i + 1], tmp.team.set_points[i]];
     [tmp.team.cck2_file[i], tmp.team.cck2_file[i + 1]] = [tmp.team.cck2_file[i + 1], tmp.team.cck2_file[i]];
-    values = {...tmp};
-    setValueFunc("team", values.team);
+    setValueFunc("team", tmp.team);
   }
   else if (component === "adv") {
     [tmp.adv.name[i], tmp.adv.name[i + 1]] = [tmp.adv.name[i + 1], tmp.adv.name[i]];
     [tmp.adv.time_values[i], tmp.adv.time_values[i + 1]] = [tmp.adv.time_values[i + 1], tmp.adv.time_values[i]];
     [tmp.adv.logo[i], tmp.adv.logo[i + 1]] = [tmp.adv.logo[i + 1], tmp.adv.logo[i]];
-    values = {...tmp};
-    setValueFunc("adv", values.adv);
+    setValueFunc("adv", tmp.adv);
   }
 }
 
@@ -240,7 +224,7 @@ function SetupSettings({register, count, disableDelete, disableUp, disableDown}:
         <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" 
           {...register("setup.output_name." + count.toString())}
           onChange={(event: React.FormEvent<HTMLInputElement>) => {
-            values = {...watchedValues};   
+            const values = {...watchedValues};   
             if (event.target){
               values.setup.output_name[count] = ((event.target) as HTMLInputElement).value;
               setStateUpdate(values);
@@ -254,7 +238,7 @@ function SetupSettings({register, count, disableDelete, disableUp, disableDown}:
 
 function CreateSetupSettings({register, settings}: {register: any, settings: ConfigValues["setup"]}) {
   let s = [];
-  for (let i = 0; i < settings.output_name.length; ++i) {
+  for (let i = 0; settings && i < settings.output_name.length; ++i) {
     s.push(<SetupSettings key={"CreateSetupSettings" + i.toString()} register={register} count={i} disableDelete={settings.output_name.length === 1}
       disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
   }
@@ -380,7 +364,7 @@ function TeamSettings({register, control, team, setup, count, disableDelete, dis
 
 function CreateTeamSettings(props: {register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"]}) {
   let t = [];
-  for (let i = 0; i < props.team.name.length; ++i) {
+  for (let i = 0; props.team &&  i < props.team.name.length; ++i) {
     t.push(<TeamSettings key={"team_settings_" + i.toString()} {...props}  count={i} disableDelete={props.team.name.length === 1} disableUp={i === 0} disableDown={i === props.team.name.length - 1} />);
   }
   return (<>{t}</>)
@@ -413,7 +397,7 @@ function AdvSettings({register, control, adv, setup, count, disableDelete, disab
 
 function CreateAdvSettings(props: {register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"]}) {
   let a = [];
-  for (let i = 0; i < props.adv.name.length; ++i) {
+  for (let i = 0; props.adv && i < props.adv.name.length; ++i) {
     a.push(<AdvSettings key={"adv_settings_" + i.toString() } {...props} count={i} disableDelete={props.adv.name.length === 1} disableUp={i === 0} disableDown={i === props.adv.name.length - 1} />);
   }
   return (<>{a}</>)
@@ -446,36 +430,16 @@ function TabPanel(props: TabPanelProps) {
 }
 
 let watchedValues: ConfigValues;
-let values = { setup: {
-  output_name: ["Livestream", "TV Links", "TV Rechts"], 
-  output_file: ["livestream.json", "tvlinks.json", "tvrechts.json"]
-},
-team: { 
-  name: ["1. Mannschaft", "2. Mannschaft"],
-  time_values: [[30, 20, 10], [5, 10, 20]],
-  logo_home: ["SKC_Nibelungen_Lorsch.png", "SKC_Nibelungen_Lorsch.png"],
-  logo_guest: ["Default.png", "SKV_Lorsch.jpg"],
-  num_players: ["6", "4"],
-  num_lanes: ["6", "4"],
-  set_points: [true, true],                      
-  cck2_file: ["mannschaft1.json", "mannschaft2.json"]
-},
-adv: {
-  name: ["Werbung"],
-  logo: ["sparkasse.png"],
-  time_values: [[0, 0, 0]],
-} } as ConfigValues;
-
 let setValueFunc: any;
 let setStateUpdate: any;
 
 function App({socket}: {socket: Socket}) {
-  const { control, register, watch, setValue } = useForm<ConfigValues>({defaultValues: {...values}});
+  const { control, register, watch, setValue } = useForm<ConfigValues>();
   watchedValues = watch();
   setValueFunc = setValue;
 
   let stateUpdate: ConfigValues;
-  [stateUpdate, setStateUpdate] = useState(values);
+  [stateUpdate, setStateUpdate] = useState(watchedValues);
 
   useEffect(() => {
     setValue("setup", stateUpdate.setup);
@@ -484,10 +448,7 @@ function App({socket}: {socket: Socket}) {
   }, [stateUpdate]);
 
   socket.on("load return", (data: ConfigValues) => {
-    values = {...data}; 
-    setValue("setup", values.setup);
-    setValue("team", values.team);
-    setValue("adv", values.adv);
+    setStateUpdate({...data});
     console.log("load return");
   });
 
@@ -500,6 +461,8 @@ function App({socket}: {socket: Socket}) {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValuePanel(newValue);
   };
+
+  const values: ConfigValues = {...watchedValues};
 
   return (
     <>
