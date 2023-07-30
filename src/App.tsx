@@ -519,8 +519,8 @@ function App({socket}: {socket: Socket}) {
             <Tab label="Setup" id="tab-setup" sx={{alignItems:'start'}}/>
           </Tabs>
           <TabPanel  value={valuePanel} index={0}>
-            <Stack component="div" spacing={4} direction="column">
-              <Stack spacing={2} direction="row" alignItems="left">
+            <Stack spacing={4} direction="column">
+              <Stack spacing={2} direction="row" justifyContent="space-between">
                 <Typography component='div' variant="h3">Team Konfiguration</Typography>
                 <Button onClick={() => {console.log(watchedValues.team); socket.emit("save_team", watchedValues.team);}} variant="contained">Speichern</Button>
               </Stack>
@@ -531,7 +531,7 @@ function App({socket}: {socket: Socket}) {
           </TabPanel>
           <TabPanel value={valuePanel} index={1}>
             <Stack spacing={4} direction="column">
-              <Stack spacing={2} direction="row" alignItems="left">
+              <Stack spacing={2} direction="row"  justifyContent="space-between">
               <Typography component='div' variant="h3">Werbung Konfiguration</Typography>
                 <Button onClick={() => {console.log(watchedValues.adv); socket.emit("save_adv", watchedValues.adv);}} variant="contained">Speichern</Button>
               </Stack>
@@ -542,7 +542,7 @@ function App({socket}: {socket: Socket}) {
           </TabPanel>
           <TabPanel value={valuePanel} index={2}>
             <Stack spacing={4} direction="column">
-              <Stack spacing={2} direction="row" alignItems="left">
+              <Stack spacing={2} direction="row"  justifyContent="space-between">
                 <Typography component='div' variant="h3">Setup</Typography>
                 <Button onClick={() => {console.log(watchedValues.setup); socket.emit("save_setup", watchedValues.setup);}} variant="contained">Speichern</Button>
               </Stack>
