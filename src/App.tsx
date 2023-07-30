@@ -26,6 +26,9 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
 
 import { useForm } from 'react-hook-form';
 import { Control } from 'react-hook-form';
@@ -266,7 +269,6 @@ function LogoDropzone({label, name, value, control}: {label: string, name: strin
   else {
     source = "logos/team/" + value;
   }
-
   return (
     <Stack spacing={2} direction="row" alignItems="center">
       <Box sx={{ height: 120, width: 120}}>
@@ -417,6 +419,32 @@ function CreateAdvSettings(props: {register: any, control: any, adv: ConfigValue
   return (<>{a}</>)
 }
 
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
 let watchedValues: ConfigValues;
 let values = { setup: {
   output_name: ["Livestream", "TV Links", "TV Rechts"], 
@@ -467,51 +495,63 @@ function App({socket}: {socket: Socket}) {
     () => {socket.emit("load", "hello!")}, []
   );
 
+  const [valuePanel, setValuePanel] = useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValuePanel(newValue);
+  };
+
   return (
     <>
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Accordion key="setup">
-        <AccordionSummary key="setup_summary" expandIcon={<ExpandMoreIcon />}>
-          <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
-            <h1>Setup</h1>
-            <Button onClick={() => {console.log(watchedValues.setup); socket.emit("save_setup", watchedValues.setup);}} variant="contained">Speichern</Button>
-          </Stack>
-        </AccordionSummary>
-        <AccordionDetails key="setup_details">
-          <Stack spacing={2} direction="column" alignItems="left">
-            <CreateSetupSettings register={register} settings={values.setup} />
-          </Stack>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion key="team">
-        <AccordionSummary key="team_summary" expandIcon={<ExpandMoreIcon />}>
-          <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
-            <h1>Team Konfiguration</h1>
-            <Button onClick={() => {console.log(watchedValues.team); socket.emit("save_team", watchedValues.team);}} variant="contained">Speichern</Button>
-          </Stack>
-        </AccordionSummary>
-        <AccordionDetails key="team_detail">
-          <Stack spacing={2} direction="column" alignItems="left">
-            <CreateTeamSettings register={register} control={control} team={values.team} setup={values.setup} />
-          </Stack>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion key="adv">
-        <AccordionSummary key="adv_summary" expandIcon={<ExpandMoreIcon />}>
-          <Stack spacing={2} direction="row" alignItems="center"  onClick={(event) => event.stopPropagation()}>
-            <h1>Werbung Konfiguration</h1>
-            <Button onClick={() => {console.log(watchedValues.adv); socket.emit("save_adv", watchedValues.adv);}} variant="contained">Speichern</Button>
-          </Stack>
-        </AccordionSummary>
-        <AccordionDetails key="adv_details">
-          <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
-            <CreateAdvSettings register={register} control={control} adv={values.adv} setup={values.setup} />
-          </Stack>
-        </AccordionDetails>
-      </Accordion>
-      { /* <Button onClick={() => { setValue("setup.output_name.0", "Livestream"); setValue("setup.output_name.1", "TV Links"); 
-        setValue("setup.output_name.2", "TV Rechts"); setValue("team.time_values.0.0", 60)}}>Test Values</Button> */ }
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={valuePanel}
+            onChange={handleChange}
+            aria-label="Vertical tabs"
+            sx={{ borderRight: 1, borderColor: 'divider' }}
+          >
+            <Tab label="Teams" id="tab-team" sx={{alignItems:'start'}}/>
+            <Tab label="Werbung" id="tab-adv" sx={{alignItems:'start'}}/>
+            <Tab label="Setup" id="tab-setup" sx={{alignItems:'start'}}/>
+          </Tabs>
+          <TabPanel  value={valuePanel} index={0}>
+            <Stack component="div" spacing={4} direction="column">
+              <Stack spacing={2} direction="row" alignItems="left">
+                <Typography component='div' variant="h3">Team Konfiguration</Typography>
+                <Button onClick={() => {console.log(watchedValues.team); socket.emit("save_team", watchedValues.team);}} variant="contained">Speichern</Button>
+              </Stack>
+              <Stack spacing={2} direction="column" alignItems="left">
+                <CreateTeamSettings register={register} control={control} team={values.team} setup={values.setup} />
+              </Stack>
+            </Stack>
+          </TabPanel>
+          <TabPanel value={valuePanel} index={1}>
+            <Stack spacing={4} direction="column">
+              <Stack spacing={2} direction="row" alignItems="left">
+              <Typography component='div' variant="h3">Werbung Konfiguration</Typography>
+                <Button onClick={() => {console.log(watchedValues.adv); socket.emit("save_adv", watchedValues.adv);}} variant="contained">Speichern</Button>
+              </Stack>
+              <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
+                <CreateAdvSettings register={register} control={control} adv={values.adv} setup={values.setup} />
+              </Stack>
+            </Stack>
+          </TabPanel>
+          <TabPanel value={valuePanel} index={2}>
+            <Stack spacing={4} direction="column">
+              <Stack spacing={2} direction="row" alignItems="left">
+                <Typography component='div' variant="h3">Setup</Typography>
+                <Button onClick={() => {console.log(watchedValues.setup); socket.emit("save_setup", watchedValues.setup);}} variant="contained">Speichern</Button>
+              </Stack>
+              <Stack spacing={2} direction="column" alignItems="left">
+                <CreateSetupSettings register={register} settings={values.setup} />
+              </Stack>
+            </Stack>
+          </TabPanel>
+        </Box>
       </ThemeProvider>
     </>
   );
