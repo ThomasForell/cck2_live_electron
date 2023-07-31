@@ -72,7 +72,7 @@ io.on('connection', (socket) => {
   socket.on("save_team", (data) => {fs.writeFileSync("app-data/team.json", JSON.stringify(data));});
   socket.on("save_adv", (data) => {fs.writeFileSync("app-data/adv.json", JSON.stringify(data));});
 
-  socket.on("logo", (type: string, name: string, file: any) => {
+  socket.on("logo", (type: string, name: string, file: any, callback: any) => {
     let target = "public-live/logos/team/" + name;
     if (type === "adv") {
       target = "public-live/logos/adv/" + name;
@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
         console.log(err);
       }
       else {
-        socket.emit("logo upload", type, name)
+        callback(name);
       }});
   });
 

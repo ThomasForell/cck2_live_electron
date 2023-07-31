@@ -107,8 +107,8 @@ function ComponentAdd(reference: string) {
   else if (component === "team") {
     tmp.team.name.splice(i, 0, "Mannschaft");
     tmp.team.time_values.splice(i, 0, new Array(numTimeEntries).fill(0));
-    tmp.team.logo_home.splice(i, 0, "SKC_Nibelungen_Lorsch.png");
-    tmp.team.logo_guest.splice(i, 0, "Default.png");
+    tmp.team.logo_home.splice(i, 0, "Default Heim.png");
+    tmp.team.logo_guest.splice(i, 0, "Default Gast.png");
     tmp.team.num_players.splice(i, 0, "6");
     tmp.team.num_lanes.splice(i, 0, "4");
     tmp.team.set_points.splice(i, 0, true);
@@ -272,12 +272,11 @@ function LogoDropzone({label, name, value, control, socket}: {label: string, nam
             accept={{'image/*': ['.jpeg', '.png']}}
             multiple={false}
             onDrop={(acceptedFiles: File[]) => {
-              onChange(acceptedFiles[0].name);
               if (name.startsWith("team")) {
-                socket.emit("logo", "team", acceptedFiles[0].name, acceptedFiles[0]);
+                socket.emit("logo", "team", acceptedFiles[0].name, acceptedFiles[0], onChange);
               }
               else {
-                socket.emit("logo", "adv", acceptedFiles[0].name, acceptedFiles[0]);
+                socket.emit("logo", "adv", acceptedFiles[0].name, acceptedFiles[0], onChange);
               }
             }}>
               {({getRootProps, getInputProps, open, isDragReject, isDragActive, isDragAccept}) => (
@@ -449,33 +448,6 @@ function App({socket}: {socket: Socket}) {
   socket.on("load return", (data: ConfigValues) => {
     setStateUpdate(data);
     console.log("load return");
-  });
-
-  socket.on("logo upload", (type: string, filename: string) => {
-    if (type === "team") {
-      for (let i = 0; i < watchedValues.team.logo_guest.length; ++i) {
-        if (watchedValues.team.logo_guest[i] === filename) {
-          const el = document.getElementById("team.logo_guest." + i.toString()) as HTMLImageElement;
-          el.src = "http://localhost/logos/team/" + filename;
-        }
-      }
-      for (let i = 0; i < watchedValues.team.logo_home.length; ++i) {
-        if (watchedValues.team.logo_home[i] === filename) {
-          const el = document.getElementById("team.logo_home." + i.toString()) as HTMLImageElement;
-          el.src = "http://localhost/logos/team/" + filename;
-        }
-      }
-    }
-    if (type === "adv") {
-      for (let i = 0; i < watchedValues.adv.logo.length; ++i) {
-        if (watchedValues.adv.logo[i] === filename) {
-          const el = document.getElementById("adv.logo." + i.toString()) as HTMLImageElement;
-          el.src = "http://localhost/logos/adv/" + filename;
-        }
-      }
-    }
-
-    console.log("picture uploaded");
   });
 
   useEffect(
