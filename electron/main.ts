@@ -66,11 +66,25 @@ app.on('activate', () => {
 
 // communication
 const httpServer = createServer();
-const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}});
+const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}, maxHttpBufferSize: 1e8});
 io.on('connection', (socket) => {
   socket.on("save_setup", (data) => {fs.writeFileSync("app-data/setup.json", JSON.stringify(data));});
   socket.on("save_team", (data) => {fs.writeFileSync("app-data/team.json", JSON.stringify(data));});
   socket.on("save_adv", (data) => {fs.writeFileSync("app-data/adv.json", JSON.stringify(data));});
+
+  socket.on("logo", (type: string, name: string, file: any) => {
+    let target = "public-live/logos/team/" + name;
+    if (type === "adv") {
+      target = "public-live/logos/adv/" + name;
+    }
+    fs.writeFile(target, file, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        socket.emit("logo upload", type, name)
+      }});
+  });
 
   socket.on("load", () => {
     let buff = fs.readFileSync("app-data/setup.json", "utf-8"); 

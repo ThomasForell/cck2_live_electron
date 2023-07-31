@@ -245,13 +245,13 @@ function CreateSetupSettings({register, settings}: {register: any, settings: Con
   return (<>{s}</>)
 }
 
-function LogoDropzone({label, name, value, control}: {label: string, name: string, value: string, control: Control}) {
+function LogoDropzone({label, name, value, control, socket}: {label: string, name: string, value: string, control: Control, socket: Socket}) {
   let source = "";
   if (name.startsWith("adv")) {
-    source = "logos/adv/" + value;
+    source = "http://localhost/logos/adv/" + value;
   }
   else {
-    source = "logos/team/" + value;
+    source = "http://localhost/logos/team/" + value;
   }
   return (
     <Stack spacing={2} direction="row" alignItems="center">
@@ -262,7 +262,7 @@ function LogoDropzone({label, name, value, control}: {label: string, name: strin
       </Box>
       <Box sx={{ height: 120, width: 175}}>
         <div style={{textAlign: "center"}}> 
-          <img id={name} src={source} alt="" height="120" width="auto" /> 
+          <img id={name} src={source} alt=" Warte auf Logo" height="120" width="auto" /> 
         </div>
       </Box>
       <Controller control={control} name={name}
@@ -273,12 +273,11 @@ function LogoDropzone({label, name, value, control}: {label: string, name: strin
             multiple={false}
             onDrop={(acceptedFiles: File[]) => {
               onChange(acceptedFiles[0].name);
-              let element = document.getElementById(name) as HTMLImageElement;
-              if (name.startsWith("adv")) {
-                element.src = "logos/adv/" + acceptedFiles[0].name;
+              if (name.startsWith("team")) {
+                socket.emit("logo", "team", acceptedFiles[0].name, acceptedFiles[0]);
               }
               else {
-                element.src = "logos/team/" + acceptedFiles[0].name;
+                socket.emit("logo", "adv", acceptedFiles[0].name, acceptedFiles[0]);
               }
             }}>
               {({getRootProps, getInputProps, open, isDragReject, isDragActive, isDragAccept}) => (
@@ -300,8 +299,8 @@ function LogoDropzone({label, name, value, control}: {label: string, name: strin
 }
 
 
-function TeamSettings({register, control, team, setup, count, disableDelete, disableUp, disableDown}: {register: any, control: any, team: ConfigValues["team"], 
-  setup: ConfigValues["setup"], count: number, disableDelete:boolean, disableUp:boolean, disableDown:boolean}) {
+function TeamSettings({register, control, team, setup, count, disableDelete, disableUp, disableDown, socket}: {register: any, control: any, team: ConfigValues["team"], 
+  setup: ConfigValues["setup"], count: number, disableDelete:boolean, disableUp:boolean, disableDown:boolean, socket: Socket}) {
   return (
     <div>
       <Accordion>
@@ -314,8 +313,8 @@ function TeamSettings({register, control, team, setup, count, disableDelete, dis
         </AccordionSummary>
         <AccordionDetails key={"teamDetails." + count.toString()}>
           <Stack spacing={2} direction="column">
-            <LogoDropzone label="Logo Heim" name={"team.logo_home." + count.toString()} value={team.logo_home[count]} control={control} />
-            <LogoDropzone label="Logo Gast" name={"team.logo_guest." + count.toString()} value={team.logo_guest[count]} control={control} />
+            <LogoDropzone label="Logo Heim" name={"team.logo_home." + count.toString()} value={team.logo_home[count]} control={control} socket={socket}/>
+            <LogoDropzone label="Logo Gast" name={"team.logo_guest." + count.toString()} value={team.logo_guest[count]} control={control} socket={socket}/>
             <Stack spacing={4} direction="row">
               <FormControl>
                 <FormLabel id="num_player_label">Anzahl Spieler</FormLabel>
@@ -362,7 +361,7 @@ function TeamSettings({register, control, team, setup, count, disableDelete, dis
   );
 }
 
-function CreateTeamSettings(props: {register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"]}) {
+function CreateTeamSettings(props: {register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], socket: Socket}) {
   let t = [];
   for (let i = 0; props.team &&  i < props.team.name.length; ++i) {
     t.push(<TeamSettings key={"team_settings_" + i.toString()} {...props}  count={i} disableDelete={props.team.name.length === 1} disableUp={i === 0} disableDown={i === props.team.name.length - 1} />);
@@ -370,9 +369,9 @@ function CreateTeamSettings(props: {register: any, control: any, team: ConfigVal
   return (<>{t}</>)
 }
 
-function AdvSettings({register, control, adv, setup, count, disableDelete, disableUp, disableDown}: 
+function AdvSettings({register, control, adv, setup, count, disableDelete, disableUp, disableDown, socket}: 
   {register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], count: number,
-    disableDelete:boolean, disableUp:boolean, disableDown:boolean}) {
+    disableDelete:boolean, disableUp:boolean, disableDown:boolean, socket: Socket}) {
 
   return (
     <>
@@ -387,7 +386,7 @@ function AdvSettings({register, control, adv, setup, count, disableDelete, disab
         </AccordionSummary>
         <AccordionDetails key={"advDetail." + count.toString()}>
           <Stack spacing={2} direction="column">
-            <LogoDropzone label="Logo Werbung" name={"adv.logo." + count.toString()} value={adv.logo[count]} control={control} />
+            <LogoDropzone label="Logo Werbung" name={"adv.logo." + count.toString()} value={adv.logo[count]} control={control} socket={socket}/>
           </Stack>
         </AccordionDetails>
       </Accordion>
@@ -395,7 +394,7 @@ function AdvSettings({register, control, adv, setup, count, disableDelete, disab
   );
 }
 
-function CreateAdvSettings(props: {register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"]}) {
+function CreateAdvSettings(props: {register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], socket: Socket}) {
   let a = [];
   for (let i = 0; props.adv && i < props.adv.name.length; ++i) {
     a.push(<AdvSettings key={"adv_settings_" + i.toString() } {...props} count={i} disableDelete={props.adv.name.length === 1} disableUp={i === 0} disableDown={i === props.adv.name.length - 1} />);
@@ -448,8 +447,35 @@ function App({socket}: {socket: Socket}) {
   }, [stateUpdate]);
 
   socket.on("load return", (data: ConfigValues) => {
-    setStateUpdate({...data});
+    setStateUpdate(data);
     console.log("load return");
+  });
+
+  socket.on("logo upload", (type: string, filename: string) => {
+    if (type === "team") {
+      for (let i = 0; i < watchedValues.team.logo_guest.length; ++i) {
+        if (watchedValues.team.logo_guest[i] === filename) {
+          const el = document.getElementById("team.logo_guest." + i.toString()) as HTMLImageElement;
+          el.src = "http://localhost/logos/team/" + filename;
+        }
+      }
+      for (let i = 0; i < watchedValues.team.logo_home.length; ++i) {
+        if (watchedValues.team.logo_home[i] === filename) {
+          const el = document.getElementById("team.logo_home." + i.toString()) as HTMLImageElement;
+          el.src = "http://localhost/logos/team/" + filename;
+        }
+      }
+    }
+    if (type === "adv") {
+      for (let i = 0; i < watchedValues.adv.logo.length; ++i) {
+        if (watchedValues.adv.logo[i] === filename) {
+          const el = document.getElementById("adv.logo." + i.toString()) as HTMLImageElement;
+          el.src = "http://localhost/logos/adv/" + filename;
+        }
+      }
+    }
+
+    console.log("picture uploaded");
   });
 
   useEffect(
@@ -488,7 +514,7 @@ function App({socket}: {socket: Socket}) {
                 <Button onClick={() => {console.log(watchedValues.team); socket.emit("save_team", watchedValues.team);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack spacing={2} direction="column" alignItems="left">
-                <CreateTeamSettings key="create_team_settings" register={register} control={control} team={values.team} setup={values.setup} />
+                <CreateTeamSettings key="create_team_settings" register={register} control={control} team={values.team} setup={values.setup} socket={socket} />
               </Stack>
             </Stack>
           </TabPanel>
@@ -499,7 +525,7 @@ function App({socket}: {socket: Socket}) {
                 <Button onClick={() => {console.log(watchedValues.adv); socket.emit("save_adv", watchedValues.adv);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
-                <CreateAdvSettings key="create_adv_settings" register={register} control={control} adv={values.adv} setup={values.setup} />
+                <CreateAdvSettings key="create_adv_settings" register={register} control={control} adv={values.adv} setup={values.setup} socket={socket} />
               </Stack>
             </Stack>
           </TabPanel>
