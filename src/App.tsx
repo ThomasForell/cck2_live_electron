@@ -49,7 +49,9 @@ const variant = "standard";
 interface ConfigValues {
   setup: {
     output_name: Array<string>;
-    output_file: Array<string>;
+    type: Array<string>;
+    lanes: Array<boolean>;
+    adv: Array<boolean>;
   };
   team: {
     name: Array<string>;
@@ -102,7 +104,9 @@ function ComponentAdd(reference: string) {
   const i = Number(id);
   if (component === "setup") {
     tmp.setup.output_name.splice(i, 0, "Stream");
-    tmp.setup.output_file.splice(i, 0, "stream_file");
+    tmp.setup.type.splice(i, 0, "Stream");
+    tmp.setup.lanes.splice(i, 0, true);
+    tmp.setup.adv.splice(i, 0, true);
   }
   else if (component === "team") {
     tmp.team.name.splice(i, 0, "Mannschaft");
@@ -127,23 +131,19 @@ function ComponentDelete(reference: string) {
   const [component, id] = reference.split(".");
   const i = Number(id);
   if (component === "setup") {
-    tmp.setup.output_name.splice(i, 1);
-    tmp.setup.output_file.splice(i, 1);
+    for (const v of Object.values(tmp.setup)) {
+      v.splice(i, 1);
+    }
   }
   else if (component === "team") {
-    tmp.team.name.splice(i, 1);
-    tmp.team.time_values.splice(i, 1);
-    tmp.team.logo_home.splice(i, 1);
-    tmp.team.logo_guest.splice(i, 1);
-    tmp.team.num_players.splice(i, 1);
-    tmp.team.num_lanes.splice(i, 1);
-    tmp.team.set_points.splice(i, 1);
-    tmp.team.cck2_file.splice(i, 1);
+    for (const v of Object.values(tmp.team)) {
+      v.splice(i, 1);
+    }
   }
   else if (component === "adv") {
-    tmp.adv.name.splice(i, 1);
-    tmp.adv.time_values.splice(i, 1);
-    tmp.adv.logo.splice(i, 1);
+    for (const v of Object.values(tmp.adv)) {
+      v.splice(i, 1);
+    }
   }
   setStateUpdate(tmp);
 }
@@ -153,25 +153,21 @@ function ComponentUp(reference: string) {
   const [component, id] = reference.split(".");
   const i = Number(id);
   if (component === "setup") {
-    [tmp.setup.output_name[i], tmp.setup.output_name[i - 1]] = [tmp.setup.output_name[i - 1], tmp.setup.output_name[i]];
-    [tmp.setup.output_file[i], tmp.setup.output_file[i - 1]] = [tmp.setup.output_file[i - 1], tmp.setup.output_file[i]];
+    for (const v of Object.values(tmp.setup)) {
+      [v[i], v[i - 1]] = [v[i - 1], v[i]];
+    }
     setValueFunc("setup", tmp.setup);
   }
   else if (component === "team") {
-    [tmp.team.name[i], tmp.team.name[i - 1]] = [tmp.team.name[i - 1], tmp.team.name[i]];
-    [tmp.team.time_values[i], tmp.team.time_values[i - 1]] = [tmp.team.time_values[i - 1], tmp.team.time_values[i]];
-    [tmp.team.logo_home[i], tmp.team.logo_home[i - 1]] = [tmp.team.logo_home[i - 1], tmp.team.logo_home[i]];
-    [tmp.team.logo_guest[i], tmp.team.logo_guest[i - 1]] = [tmp.team.logo_guest[i - 1], tmp.team.logo_guest[i]];
-    [tmp.team.num_players[i], tmp.team.num_players[i - 1]] = [tmp.team.num_players[i - 1], tmp.team.num_players[i]];
-    [tmp.team.num_lanes[i], tmp.team.num_lanes[i - 1]] = [tmp.team.num_lanes[i - 1], tmp.team.num_lanes[i]];
-    [tmp.team.set_points[i], tmp.team.set_points[i - 1]] = [tmp.team.set_points[i - 1], tmp.team.set_points[i]];
-    [tmp.team.cck2_file[i], tmp.team.cck2_file[i - 1]] = [tmp.team.cck2_file[i - 1], tmp.team.cck2_file[i]];
+    for (const v of Object.values(tmp.team)) {
+      [v[i], v[i - 1]] = [v[i - 1], v[i]];
+    }
     setValueFunc("team", tmp.team);
   }
   else if (component === "adv") {
-    [tmp.adv.name[i], tmp.adv.name[i - 1]] = [tmp.adv.name[i - 1], tmp.adv.name[i]];
-    [tmp.adv.time_values[i], tmp.adv.time_values[i - 1]] = [tmp.adv.time_values[i - 1], tmp.adv.time_values[i]];
-    [tmp.adv.logo[i], tmp.adv.logo[i - 1]] = [tmp.adv.logo[i - 1], tmp.adv.logo[i]];
+    for (const v of Object.values(tmp.adv)) {
+      [v[i], v[i - 1]] = [v[i - 1], v[i]];
+    }
     setValueFunc("adv", tmp.adv);
   }
 }
@@ -181,25 +177,21 @@ function ComponentDown(reference: string) {
   const [component, id] = reference.split(".");
   const i = Number(id);
   if (component === "setup") {
-    [tmp.setup.output_name[i], tmp.setup.output_name[i + 1]] = [tmp.setup.output_name[i + 1], tmp.setup.output_name[i]];
-    [tmp.setup.output_file[i], tmp.setup.output_file[i + 1]] = [tmp.setup.output_file[i + 1], tmp.setup.output_file[i]];
+    for (const v of Object.values(tmp.setup)) {
+      [v[i], v[i + 1]] = [v[i + 1], v[i]];
+    }
     setValueFunc("setup", tmp.setup);
   }
   else if (component === "team") {
-    [tmp.team.name[i], tmp.team.name[i + 1]] = [tmp.team.name[i + 1], tmp.team.name[i]];
-    [tmp.team.time_values[i], tmp.team.time_values[i + 1]] = [tmp.team.time_values[i + 1], tmp.team.time_values[i]];
-    [tmp.team.logo_home[i], tmp.team.logo_home[i + 1]] = [tmp.team.logo_home[i + 1], tmp.team.logo_home[i]];
-    [tmp.team.logo_guest[i], tmp.team.logo_guest[i + 1]] = [tmp.team.logo_guest[i + 1], tmp.team.logo_guest[i]];
-    [tmp.team.num_players[i], tmp.team.num_players[i + 1]] = [tmp.team.num_players[i + 1], tmp.team.num_players[i]];
-    [tmp.team.num_lanes[i], tmp.team.num_lanes[i + 1]] = [tmp.team.num_lanes[i + 1], tmp.team.num_lanes[i]];
-    [tmp.team.set_points[i], tmp.team.set_points[i + 1]] = [tmp.team.set_points[i + 1], tmp.team.set_points[i]];
-    [tmp.team.cck2_file[i], tmp.team.cck2_file[i + 1]] = [tmp.team.cck2_file[i + 1], tmp.team.cck2_file[i]];
+    for (const v of Object.values(tmp.team)) {
+      [v[i], v[i + 1]] = [v[i + 1], v[i]];
+    }
     setValueFunc("team", tmp.team);
   }
   else if (component === "adv") {
-    [tmp.adv.name[i], tmp.adv.name[i + 1]] = [tmp.adv.name[i + 1], tmp.adv.name[i]];
-    [tmp.adv.time_values[i], tmp.adv.time_values[i + 1]] = [tmp.adv.time_values[i + 1], tmp.adv.time_values[i]];
-    [tmp.adv.logo[i], tmp.adv.logo[i + 1]] = [tmp.adv.logo[i + 1], tmp.adv.logo[i]];
+    for (const v of Object.values(tmp.adv)) {
+      [v[i], v[i + 1]] = [v[i + 1], v[i]];
+    }
     setValueFunc("adv", tmp.adv);
   }
 }
@@ -217,8 +209,8 @@ function NavigationButtons({callback_id, disableDelete=false, disableUp=false, d
   )
 }
 
-function SetupSettings({register, count, disableDelete, disableUp, disableDown}: 
-  {register: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean}) {
+function SetupSettings({register, control, count, disableDelete, disableUp, disableDown}: 
+  {register: any, control: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean}) {
   return ( 
       <Stack spacing={4} direction="row" alignItems="center">
         <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" 
@@ -230,17 +222,45 @@ function SetupSettings({register, count, disableDelete, disableUp, disableDown}:
               setStateUpdate(values);
             }
           }}/>
-        <TextField label="Ausgabe Datei" variant={variant} defaultValue="stream" {...register("setup.output_file." + count.toString())}/>
+        <FormControl sx={{ m: 1, minWidth: 90 }}>
+          <InputLabel>Anzeigetyp</InputLabel>
+          <Controller control={control} name={"setup.type." + count.toString()} defaultValue={"stream"} render={({ field }) => (
+            <Select key={"setup.type." + count.toString()} {...field} label={"Anzeigetyp"} variant={variant}>
+              <MenuItem key={"setup.type.stream." + count.toString()} value="stream">Stream</MenuItem>
+              <MenuItem key={"setup.type.display." + count.toString()} value="display">Display</MenuItem>
+          </Select>)}/>
+        </FormControl>  
+        <Controller
+          control={control}
+          name={"setup.lanes." + count.toString()}
+          defaultValue={true}
+          render={({ field: { onChange, value } }) => (
+            <FormControlLabel label="Bahnanzeige"
+              control={
+                <Checkbox checked={value} onChange={onChange} />
+              }/>
+            )}/>
+        <Controller
+          control={control}
+          name={"setup.adv." + count.toString()}
+          defaultValue={true}
+          render={({ field: { onChange, value } }) => (
+            <FormControlLabel label="Werbung"
+              control={
+                <Checkbox checked={value} onChange={onChange} />
+              }/>
+            )}/>
+
         <NavigationButtons callback_id={"setup." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
       </Stack>
   )
 }
 
-function CreateSetupSettings({register, settings}: {register: any, settings: ConfigValues["setup"]}) {
+function CreateSetupSettings({register, control, settings}: {register: any, control: any, settings: ConfigValues["setup"]}) {
   let s = [];
   for (let i = 0; settings && i < settings.output_name.length; ++i) {
-    s.push(<SetupSettings key={"CreateSetupSettings" + i.toString()} register={register} count={i} disableDelete={settings.output_name.length === 1}
-      disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
+    s.push(<SetupSettings key={"CreateSetupSettings" + i.toString()} register={register} control={control} count={i} 
+      disableDelete={settings.output_name.length === 1} disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
   }
   return (<>{s}</>)
 }
@@ -508,7 +528,7 @@ function App({socket}: {socket: Socket}) {
                 <Button onClick={() => {console.log(watchedValues.setup); socket.emit("save_setup", watchedValues.setup);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack spacing={2} direction="column" alignItems="left">
-                <CreateSetupSettings register={register} settings={values.setup} />
+                <CreateSetupSettings register={register} control={control} settings={values.setup} />
               </Stack>
             </Stack>
           </TabPanel>
