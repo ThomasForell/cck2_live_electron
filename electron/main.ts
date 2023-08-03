@@ -19,15 +19,16 @@ express_app.use( (req, res, next) => {
     let index =       
       '<!DOCTYPE html><html><head><meta charset="utf-8"/></head>'
       + '<body>'
-      +   '<h1>Ausgabe-Dateien</h1>'
-      +   '<h2>Ergebnisanzeigen</h2>'
+      +   '<style> html * {font-family: Geneva, sans-serif} </style>'
+      +   '<h1>Ausgabedateien</h1>'
+      +   '<h2>Ergebnisanzeige</h2>'
       +   '<ul>';
     for (const f of displayUrls) {
       index += '<li> <a href="' + req.protocol + '://' + req.get('host')  + f + '">' + req.protocol + '://' + req.get('host')  + f + '</a>';
     }
     index += 
           '</ul>'
-      +   '<h2>Streamoverlays</h2>'
+      +   '<h2>Streamoverlay</h2>'
       +   '<ul>';
     for (const f of streamUrls) {
       index += '<li> <a href="' + req.protocol + '://' + req.get('host')  + f + '">' + req.protocol + '://' + req.get('host')  + f + '</a>';
