@@ -7,8 +7,48 @@ import {Server} from 'socket.io';
 import {createServer} from 'http';
 import * as fs from 'fs';
 
+const indexUrls = ["/", "/index.html"]
+const displayUrls = ["/TVLinks.html", "/TVRechts.html"];
+const streamUrls = ["/Stream.html"];
+
 let express_app = express();
 express_app.use( express.static('./public-live') );
+express_app.use( (req, res, next) => { 
+  if (indexUrls.includes(req.originalUrl)) {
+    console.log(req.baseUrl);
+    let index =       
+      '<!DOCTYPE html><html><head><meta charset="utf-8"/></head>'
+      + '<body>'
+      +   '<h1>Ausgabe-Dateien</h1>'
+      +   '<h2>Ergebnisanzeigen</h2>'
+      +   '<ul>';
+    for (const f of displayUrls) {
+      index += '<li> <a href="' + req.protocol + '://' + req.get('host')  + f + '">' + req.protocol + '://' + req.get('host')  + f + '</a>';
+    }
+    index += 
+          '</ul>'
+      +   '<h2>Streamoverlays</h2>'
+      +   '<ul>';
+    for (const f of streamUrls) {
+      index += '<li> <a href="' + req.protocol + '://' + req.get('host')  + f + '">' + req.protocol + '://' + req.get('host')  + f + '</a>';
+    }
+    index +=
+          '</ul>'
+      +   '</body>'
+      + '</html>';
+    console.log(index);
+    res.send(index);
+  }  
+  else if (displayUrls.includes(req.originalUrl)) {
+    res.sendFile(path.resolve(`${__dirname}/../../static-html/display.html`));
+  }
+  else if (streamUrls.includes(req.originalUrl)) {
+    res.sendFile(path.resolve(`${__dirname}/../../static-html/stream.html`));
+  }
+  else {
+    next();
+  }
+} )
 express_app.listen(80);
 
 let win: BrowserWindow | null = null;
