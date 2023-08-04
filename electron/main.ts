@@ -7,38 +7,69 @@ import {Server} from 'socket.io';
 import {createServer} from 'http';
 import * as fs from 'fs';
 
+import {ConfigValues} from '../cck2_live_interface/ConfigValues';
+import {LiveConfig, TeamConfig, AdvConfig} from '../cck2_live_interface/LiveConfig';
+
 const indexUrls = ["/", "/index.html"]
 const displayUrls = ["/TVLinks.html", "/TVRechts.html"];
 const streamUrls = ["/Stream.html"];
+const configUrls = ["/TVLinks.json", "/TVRechts.json", "/Stream.json"];
+
+let configValues: ConfigValues;
+
+function createIndex(req, res) {
+  let index =       
+    '<!DOCTYPE html><html><head><meta charset="utf-8"/></head>'
+    + '<body>'
+    +   '<style> html * {font-family: Geneva, sans-serif} </style>'
+    +   '<h1>Ausgabedateien</h1>'
+    +   '<h2>Ergebnisanzeige</h2>'
+    +   '<ul>';
+  for (const f of displayUrls) {
+    index += '<li> <a href="' + req.protocol + '://' + req.get('host')  + f + '">' + req.protocol + '://' + req.get('host')  + f + '</a>';
+  }
+  index += 
+        '</ul>'
+    +   '<h2>Streamoverlay</h2>'
+    +   '<ul>';
+  for (const f of streamUrls) {
+    index += '<li> <a href="' + req.protocol + '://' + req.get('host')  + f + '">' + req.protocol + '://' + req.get('host')  + f + '</a>';
+  }
+  index +=
+        '</ul>'
+    +   '</body>'
+    + '</html>';
+  res.send(index);
+}
+
+function createConfig(outputId: number) {
+  console.log("createConfig " + outputId);
+  let teams: Array<TeamConfig> = [];
+  for (let i = 0; i < configValues.team.name.length; ++i) {
+    teams.push({
+        bild_heim: configValues.team.logo_home[i], 
+        bild_gast: configValues.team.logo_guest[i], 
+        anzahl_bahnen: Number(configValues.team.num_lanes[i]), 
+        anzahl_spieler: Number(configValues.team.num_players[i]), 
+        anzeigedauer_s: Number(configValues.team.time_values[i][outputId]), 
+        token_bahn: configValues.team.cck2_file[i], 
+        token_datei: configValues.team.cck2_file[i], 
+        anzahl_saetze: 4, 
+        satzpunkte_anzeigen: (configValues.team.set_points[i]) ? "ja" : "nein"} as TeamConfig);
+  }
+  let adv: Array<AdvConfig> = [];
+  for (let i = 0; i < configValues.adv.logo.length; ++i) {
+    adv.push({bild: configValues.adv.logo[i], anzeigedauer_s:configValues.adv.time_values[i][outputId] } as AdvConfig)
+  }
+
+  return {teams: teams, werbung: adv}; 
+}
 
 let express_app = express();
 express_app.use( express.static('./public-live') );
 express_app.use( (req, res, next) => { 
   if (indexUrls.includes(req.originalUrl)) {
-    console.log(req.baseUrl);
-    let index =       
-      '<!DOCTYPE html><html><head><meta charset="utf-8"/></head>'
-      + '<body>'
-      +   '<style> html * {font-family: Geneva, sans-serif} </style>'
-      +   '<h1>Ausgabedateien</h1>'
-      +   '<h2>Ergebnisanzeige</h2>'
-      +   '<ul>';
-    for (const f of displayUrls) {
-      index += '<li> <a href="' + req.protocol + '://' + req.get('host')  + f + '">' + req.protocol + '://' + req.get('host')  + f + '</a>';
-    }
-    index += 
-          '</ul>'
-      +   '<h2>Streamoverlay</h2>'
-      +   '<ul>';
-    for (const f of streamUrls) {
-      index += '<li> <a href="' + req.protocol + '://' + req.get('host')  + f + '">' + req.protocol + '://' + req.get('host')  + f + '</a>';
-    }
-    index +=
-          '</ul>'
-      +   '</body>'
-      + '</html>';
-    console.log(index);
-    res.send(index);
+    createIndex(req, res);
   }  
   else if (displayUrls.includes(req.originalUrl)) {
     res.sendFile(path.resolve(`${__dirname}/../../static-html/display.html`));
@@ -46,10 +77,14 @@ express_app.use( (req, res, next) => {
   else if (streamUrls.includes(req.originalUrl)) {
     res.sendFile(path.resolve(`${__dirname}/../../static-html/stream.html`));
   }
+  else if (configUrls.indexOf(req.originalUrl) >= 0) {
+    const id = configUrls.indexOf(req.originalUrl);
+    res.json(createConfig(id));
+  }
   else {
     next();
   }
-} )
+} );
 express_app.listen(80);
 
 let win: BrowserWindow | null = null;
@@ -129,13 +164,15 @@ io.on('connection', (socket) => {
 
   socket.on("load", () => {
     let buff = fs.readFileSync("app-data/setup.json", "utf-8"); 
-    const dataSetup = JSON.parse(buff);
+    const setup = JSON.parse(buff);
     buff = fs.readFileSync("app-data/team.json", "utf-8");
-    const dataTeam = JSON.parse(buff);
+    const team = JSON.parse(buff);
     buff = fs.readFileSync("app-data/adv.json", "utf-8");
-    const dataAdv = JSON.parse(buff);
+    const adv = JSON.parse(buff);
     
-    socket.emit("load return", {setup: dataSetup, team: dataTeam, adv: dataAdv});
+    configValues = {setup: setup, team: team, adv: adv};
+
+    socket.emit("load return", configValues);
   });
 });
 httpServer.listen(1512);
