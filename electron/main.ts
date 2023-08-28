@@ -14,7 +14,6 @@ const indexUrls = ["/", "/index.html"]
 const displayUrls = ["/TVLinks.html", "/TVRechts.html"];
 const streamUrls = ["/Stream.html"];
 const configUrls = ["/TVLinks.json", "/TVRechts.json", "/Stream.json"];
-const constPixUrls = ["/Wurf_Gesamt.png", "/Holz_Gesamt.png", "/Wurf_Durchgang.png", "/Holz_Durchgang.png"];
 
 let configValues: ConfigValues;
 
@@ -38,6 +37,10 @@ function createIndex(req, res) {
   }
   index +=
         '</ul>'
+    +   '<h2>Token Datei für CCK2</h2>'
+    +   '<ul>'
+    +   '<li> <a href="' + req.protocol + '://' + req.get('host')  + '/tokens_team.json' + '">' + req.protocol + '://' + req.get('host')  + '/tokens_team.json' + '</a>'
+    +   '</ul>'
     +   '</body>'
     + '</html>';
   res.send(index);
@@ -81,9 +84,6 @@ express_app.use( (req, res, next) => {
   else if (configUrls.indexOf(req.originalUrl) >= 0) {
     const id = configUrls.indexOf(req.originalUrl);
     res.json(createConfig(id));
-  }
-  else if (constPixUrls.indexOf(req.originalUrl) >= 0) {
-    res.sendFile(path.resolve(`${__dirname}/../../static-html` + req.originalUrl));
   }
   else {
     next();
