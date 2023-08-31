@@ -69,6 +69,33 @@ function createConfig(outputId: number) {
   return {teams: teams, werbung: adv}; 
 }
 
+function UpdateFileLookup(setup: ConfigValues["setup"]) {
+  displayUrls.length = 0;
+  streamUrls.length = 0;
+  configUrls.length = 0;
+  
+  for (let i = 0; i < setup.output_name.length; ++i) {
+    const name = setup.output_name[i];
+    configUrls.push("/" + name + ".json");
+    if (setup.type[i] == "stream") {
+      streamUrls.push("/" + name + ".html");
+    } 
+    else {
+      displayUrls.push("/" + name + ".html");
+    }
+  }
+}
+
+try {
+  let buff = fs.readFileSync("app-data/setup.json", "utf-8"); 
+  const setup = JSON.parse(buff);
+  UpdateFileLookup(setup);
+}
+catch (err) {
+  console.log(err);
+}
+
+
 let express_app = express();
 express_app.use( express.static('./public-live') );
 express_app.use( (req, res, next) => { 
@@ -148,7 +175,7 @@ app.on('activate', () => {
 const httpServer = createServer();
 const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}, maxHttpBufferSize: 1e8});
 io.on('connection', (socket) => {
-  socket.on("save_setup", (data) => {fs.writeFileSync("app-data/setup.json", JSON.stringify(data));});
+  socket.on("save_setup", (data) => {fs.writeFileSync("app-data/setup.json", JSON.stringify(data)); UpdateFileLookup(data)});
   socket.on("save_team", (data) => {fs.writeFileSync("app-data/team.json", JSON.stringify(data));});
   socket.on("save_adv", (data) => {fs.writeFileSync("app-data/adv.json", JSON.stringify(data));});
 
