@@ -2,57 +2,57 @@
 	"bahn" : [
 		{
 			"mannschaft" : "SKC Nibelungen Lorsch",
-			"spielername" : "[SpielernameAw Bahn 1]",
-			"sp": "[Satzpunkte Spieler Bahn 1]",
-			"wurf" : "[Wurf Spieler Bahn 1]",
-			"gesamt" : "[Holz Spieler Bahn 1]",
-			"durchgang_wurf" : "[Wurf Satz $, 1]",
-			"durchgang_gesamt": "[Holz Satz $, 1]"
+			"spielername" : "Holger Walter",
+			"sp": "1,5",
+			"wurf" : "120",
+			"gesamt" : "799",
+			"durchgang_wurf" : "30",
+			"durchgang_gesamt": "200"
 		},
 		{
 			"mannschaft" : "Olympia Mörfelden",
-			"spielername" : "[SpielernameAw Bahn 2]",
-			"sp": "[Satzpunkte Spieler Bahn 2]",
-			"wurf" : "[Wurf Spieler Bahn 2]",
-			"gesamt" : "[Holz Spieler Bahn 2]",
-			"durchgang_wurf" : "[Wurf Satz $, 2]",
-			"durchgang_gesamt": "[Holz Satz $, 2]"
+			"spielername" : "Test Spieler",
+			"sp": "2",
+			"wurf" : "22",
+			"gesamt" : "222",
+			"durchgang_wurf" : "2",
+			"durchgang_gesamt": "222"
 		},
 		{
 			"mannschaft" : "SKC Nibelungen Lorsch",
-			"spielername" : "[SpielernameAw Bahn 3]",
-			"sp": "[Satzpunkte Spieler Bahn 3]",
-			"wurf" : "[Wurf Spieler Bahn 3]",
-			"gesamt" : "[Holz Spieler Bahn 3]",
-			"durchgang_wurf" : "[Wurf Satz $, 3]",
-			"durchgang_gesamt": "[Holz Satz $, 3]"
+			"spielername" : "Testspieler 3",
+			"sp": "3",
+			"wurf" : "33",
+			"gesamt" : "333",
+			"durchgang_wurf" : "31",
+			"durchgang_gesamt": "331"
 		},
 		{
 			"mannschaft" : "Olympia Mörfelden",
-			"spielername" : "[SpielernameAw Bahn 4]",
-			"sp": "[Satzpunkte Spieler Bahn 4]",
-			"wurf" : "[Wurf Spieler Bahn 4]",
-			"gesamt" : "[Holz Spieler Bahn 4]",
-			"durchgang_wurf" : "[Wurf Satz $, 4]",
-			"durchgang_gesamt": "[Holz Satz $, 4]"
+			"spielername" : "Testspieler 4",
+			"sp": "4",
+			"wurf" : "44",
+			"gesamt" : "444",
+			"durchgang_wurf" : "41",
+			"durchgang_gesamt": "441"
 		},
 		{
 			"mannschaft" : "SKC Nibelungen Lorsch",
-			"spielername" : "[SpielernameAw Bahn 5]",
-			"sp": "[Satzpunkte Spieler Bahn 5]",
-			"wurf" : "[Wurf Spieler Bahn 5]",
-			"gesamt" : "[Holz Spieler Bahn 5]",
-			"durchgang_wurf" : "[Wurf Satz $, 5]",
-			"durchgang_gesamt": "[Holz Satz $, 5]"
+			"spielername" : "Testspieler 5",
+			"sp": "1",
+			"wurf" : "51",
+			"gesamt" : "55",
+			"durchgang_wurf" : "5",
+			"durchgang_gesamt": "555"
 		},
 		{
 			"mannschaft" : "Olympia Mörfelden",
-			"spielername" : "[SpielernameAw Bahn 6]",
-			"sp": "[Satzpunkte Spieler Bahn 6]",
-			"wurf" : "[Wurf Spieler Bahn 6]",
-			"gesamt" : "[Holz Spieler Bahn 6]",
-			"durchgang_wurf" : "[Wurf Satz $, 6]",
-			"durchgang_gesamt": "[Holz Satz $, 6]"
+			"spielername" : "Testspieler 6",
+			"sp": "1",
+			"wurf" : "6",
+			"gesamt" : "666",
+			"durchgang_wurf" : "6",
+			"durchgang_gesamt": "66"
 		},
 		{
 			"mannschaft" : "",
