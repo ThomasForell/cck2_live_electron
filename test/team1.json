@@ -1,0 +1,219 @@
+{
+	"bahn" : [
+		{
+			"mannschaft" : "SKC Nibelungen Lorsch",
+			"spielername" : "[SpielernameAw Bahn 1]",
+			"sp": "[Satzpunkte Spieler Bahn 1]",
+			"wurf" : "[Wurf Spieler Bahn 1]",
+			"gesamt" : "[Holz Spieler Bahn 1]",
+			"durchgang_wurf" : "[Wurf Satz $, 1]",
+			"durchgang_gesamt": "[Holz Satz $, 1]"
+		},
+		{
+			"mannschaft" : "Olympia Mörfelden",
+			"spielername" : "[SpielernameAw Bahn 2]",
+			"sp": "[Satzpunkte Spieler Bahn 2]",
+			"wurf" : "[Wurf Spieler Bahn 2]",
+			"gesamt" : "[Holz Spieler Bahn 2]",
+			"durchgang_wurf" : "[Wurf Satz $, 2]",
+			"durchgang_gesamt": "[Holz Satz $, 2]"
+		},
+		{
+			"mannschaft" : "SKC Nibelungen Lorsch",
+			"spielername" : "[SpielernameAw Bahn 3]",
+			"sp": "[Satzpunkte Spieler Bahn 3]",
+			"wurf" : "[Wurf Spieler Bahn 3]",
+			"gesamt" : "[Holz Spieler Bahn 3]",
+			"durchgang_wurf" : "[Wurf Satz $, 3]",
+			"durchgang_gesamt": "[Holz Satz $, 3]"
+		},
+		{
+			"mannschaft" : "Olympia Mörfelden",
+			"spielername" : "[SpielernameAw Bahn 4]",
+			"sp": "[Satzpunkte Spieler Bahn 4]",
+			"wurf" : "[Wurf Spieler Bahn 4]",
+			"gesamt" : "[Holz Spieler Bahn 4]",
+			"durchgang_wurf" : "[Wurf Satz $, 4]",
+			"durchgang_gesamt": "[Holz Satz $, 4]"
+		},
+		{
+			"mannschaft" : "SKC Nibelungen Lorsch",
+			"spielername" : "[SpielernameAw Bahn 5]",
+			"sp": "[Satzpunkte Spieler Bahn 5]",
+			"wurf" : "[Wurf Spieler Bahn 5]",
+			"gesamt" : "[Holz Spieler Bahn 5]",
+			"durchgang_wurf" : "[Wurf Satz $, 5]",
+			"durchgang_gesamt": "[Holz Satz $, 5]"
+		},
+		{
+			"mannschaft" : "Olympia Mörfelden",
+			"spielername" : "[SpielernameAw Bahn 6]",
+			"sp": "[Satzpunkte Spieler Bahn 6]",
+			"wurf" : "[Wurf Spieler Bahn 6]",
+			"gesamt" : "[Holz Spieler Bahn 6]",
+			"durchgang_wurf" : "[Wurf Satz $, 6]",
+			"durchgang_gesamt": "[Holz Satz $, 6]"
+		},
+		{
+			"mannschaft" : "",
+			"spielername" : "",
+			"sp": "",
+			"wurf" : "",
+			"gesamt" : "",
+			"durchgang_wurf" : "",
+			"durchgang_gesamt": ""
+		},
+		{
+			"mannschaft" : "",
+			"spielername" : "",
+			"sp": "",
+			"wurf" : "",
+			"gesamt" : "",
+			"durchgang_wurf" : "",
+			"durchgang_gesamt": ""
+		}
+	],
+	
+	"mannschaft" : [
+		{
+			"name" : "SKC Nibelungen Lorsch",
+			"volle" : "456",
+			"abr" : "123",
+			"f" : "1",
+			"gesamt": "3788",
+			"mp": "3",
+			"spieler" : [
+				{
+					"spielername" : "Holger Walter",
+					"spielername_aw" : "",
+					"wurf" : "10",
+					"gesamt" : "80",
+					"sp" : "1",
+					"satz" : [
+						"80", "0", "0", "0"
+					]
+				},
+				{
+					"spielername" : "Alex van der Beck",
+					"spielername_aw" : "Ersatz Spieler",
+					"wurf" : "12",
+					"gesamt" : "212",
+					"sp" : "0,5",
+					"satz" : [
+						"1", "2", "3", "4"
+					]
+				},
+				{
+					"spielername" : "Jonas Forell",
+					"spielername_aw" : "",
+					"wurf" : "111",
+					"gesamt" : "593",
+					"sp" : "3",
+					"satz" : [
+						"153", "160", "144", "130"
+					]
+				},
+				{
+					"spielername" : "Mario Mahler",
+					"spielername_aw" : "",
+					"wurf" : "17",
+					"gesamt" : "111",
+					"sp" : "0",
+					"satz" : [
+						"110", "0", "0", "1"
+					]
+				},
+				{
+					"spielername" : "Frank Gutschalk",
+					"spielername_aw" : "Thorsten",
+					"wurf" : "120",
+					"gesamt" : "710",
+					"sp" : "3,5",
+					"satz" : [
+						"175", "175", "178", "182"
+					]
+				},
+				{
+					"spielername" : "Jochen Steinhauer",
+					"spielername_aw" : "",
+					"wurf" : "1",
+					"gesamt" : "9",
+					"sp" : "0",
+					"satz" : [
+						"0", "", "4", "5"
+					]
+				}
+			]
+		},
+		{
+			"name" : "SKV Mörfelden",
+			"volle" : "600",
+			"abr" : "88",
+			"f" : "5",
+			"gesamt": "3681",
+			"mp": "1",
+			"spieler" : [
+				{
+					"spielername" : "a a",
+					"spielername_aw" : "",
+					"wurf" : "1",
+					"gesamt" : "2",
+					"sp" : "3",
+					"satz" : [
+						"1", "2", "3", "4"
+					]
+				},
+				{
+					"spielername" : "b1 b1",
+					"spielername_aw" : "b b",
+					"wurf" : "2",
+					"gesamt" : "3",
+					"sp" : "1",
+					"satz" : [
+						"4", "5", "6", "7"
+					]
+				},
+				{
+					"spielername" : "c c",
+					"spielername_aw" : "",
+					"wurf" : "1",
+					"gesamt" : "2",
+					"sp" : "3",
+					"satz" : [
+						"48", "49", "40", "41"
+					]
+				},
+				{
+					"spielername" : "d d",
+					"spielername_aw" : "",
+					"wurf" : "0",
+					"gesamt" : "1",
+					"sp" : "",
+					"satz" : [
+						"38", "39", "30", "31"
+					]
+				},
+				{
+					"spielername" : "e e",
+					"spielername_aw" : "",
+					"wurf" : "5",
+					"gesamt" : "1",
+					"sp" : "1",
+					"satz" : [
+						"28", "29", "20", "21"
+					]
+				},
+				{
+					"spielername" : "f f",
+					"spielername_aw" : "",
+					"wurf" : "123",
+					"gesamt" : "1",
+					"sp" : "3",
+					"satz" : [
+						"18", "19", "10", "11"
+					]
+				}
+			]
+		}
+	]
+}
