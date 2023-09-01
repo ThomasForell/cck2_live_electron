@@ -189,7 +189,9 @@ body {overflow:hidden; /* Hide scrollbars */}
         return pub; // expose externally
     }());
 
-  showMannschaft("tvlinks_config.json", stateModule, true, false);
-  setInterval(showMannschaft, 1000, "tvlinks_config.json", stateModule, true, false); 
+  
+  const configName = window.location.pathname.slice(0, -4) + "json";
+  showMannschaft(configName, stateModule, true, false);
+  setInterval(showMannschaft, 1000, configName, stateModule, true, false); 
 </script>
 </html>

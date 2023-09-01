@@ -280,6 +280,8 @@ body {overflow:hidden; /* Hide scrollbars */}
         return pub; // expose externally
     }());
 
-  setInterval(showMannschaft, 1000, "mannschaft_config.json", stateModule, false, true); 
+  const configName = window.location.pathname.slice(0, -4) + "json";
+  showMannschaft(configName, stateModule, false, true);
+  setInterval(showMannschaft, 1000, configName, stateModule, false, true); 
 </script>
 </html>
