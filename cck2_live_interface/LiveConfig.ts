@@ -6,7 +6,7 @@ export interface TeamConfig {
     anzahl_saetze: number;
     satzpunkte_anzeigen: string;
     token_datei: string;
-    token_bahn: string;
+    bahn_anzeigen: boolean;
     anzeigedauer_s: number;
     anzahl_bahnen: number;
 };

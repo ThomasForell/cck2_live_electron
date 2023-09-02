@@ -103,7 +103,7 @@ body {overflow:hidden; /* Hide scrollbars */}
   </table>
 </div>
 
-<div "display6lanes">
+<div id="display6lanes">
   <table class="result-tg" align="center">
     <tr>
       <td class="result-data" colspan="4"><div class="result-block-cap" id="name6lanes"></div></td>
@@ -368,7 +368,7 @@ body {overflow:hidden; /* Hide scrollbars */}
 <script src="mannschaft.js"></script>
 <script>
   const configName = window.location.pathname.slice(0, -4) + "json";
-  showMannschaft(configName, false, true);
-  setInterval(showMannschaft, 1000, configName, false, true); 
+  showMannschaft(configName, false);
+  setInterval(showMannschaft, 1000, configName, false); 
 </script>
 </html>

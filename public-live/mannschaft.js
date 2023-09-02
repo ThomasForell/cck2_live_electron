@@ -1,18 +1,18 @@
 
-function showMannschaft(configSrc, reducedOutput, showLanes) {
+function showMannschaft(configSrc, reducedOutput) {
   try {
     var requestURL = configSrc + "?" + Date.now().toString();
     var request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'arraybuffer';
-    request.onload = loadConfigAndShow.bind(null, request, reducedOutput, showLanes);
+    request.onload = loadConfigAndShow.bind(null, request, reducedOutput);
     request.send();
   } catch (ex) {
     console.error("showMannschaft", ex.message);
   }
 }
 
-function loadConfigAndShow(request, reducedOutput, showLanes) {
+function loadConfigAndShow(request, reducedOutput) {
   var decoder = new TextDecoder("utf8");
   try {  
     var config = JSON.parse(decoder.decode(request.response));
@@ -30,30 +30,28 @@ function loadConfigAndShow(request, reducedOutput, showLanes) {
       if (timeCurrent >= timeCounter && timeCurrent < timeCounter + config_teams[i].anzeigedauer_s) {
         loadBilder(config_teams[i].bild_heim, config_teams[i].bild_gast);
         loadMannschaftData(config_teams[i].token_datei, config_teams[i].anzahl_spieler, config_teams[i].anzahl_saetze, 
-          config_teams[i].satzpunkte_anzeigen == "ja", reducedOutput)
-        if (config_teams[i].token_bahn != "") {
-          if (showLanes) {     
-            var el = document.getElementById("display4lanes");
-            if (el != null) {
-              el.hidden = config_teams[i].anzahl_bahnen != 4;
-            }
-            var el = document.getElementById("display6lanes");
-            if (el != null) {
-              el.hidden = config_teams[i].anzahl_bahnen != 6;
-            }
-            loadLaneData(config_teams[i].token_bahn, config_teams[i].anzahl_bahnen, config_teams[i].satzpunkte_anzeigen == "ja");
+        config_teams[i].satzpunkte_anzeigen == "ja", reducedOutput)
+        if (config_teams[i].bahn_anzeigen) {     
+          var el = document.getElementById("display4lanes");
+          if (el != null) {
+            el.hidden = config_teams[i].anzahl_bahnen != 4;
           }
-          else {
-            var el = document.getElementById("display4lanes");
-            if (el != null) {
-              el.hidden = true;
-            }
-            var el = document.getElementById("display6lanes");
-            if (el != null) {
-              el.hidden = true;
-            }
+          var el = document.getElementById("display6lanes");
+          if (el != null) {
+            el.hidden = config_teams[i].anzahl_bahnen != 6;
           }
-       }      
+          loadLaneData(config_teams[i].token_datei, config_teams[i].anzahl_bahnen, config_teams[i].satzpunkte_anzeigen == "ja");
+        }
+        else {
+          var el = document.getElementById("display4lanes");
+          if (el != null) {
+            el.hidden = true;
+          }
+          var el = document.getElementById("display6lanes");
+          if (el != null) {
+            el.hidden = true;
+          }
+        }
         break;  
       }  
       timeCounter += config_teams[i].anzeigedauer_s;

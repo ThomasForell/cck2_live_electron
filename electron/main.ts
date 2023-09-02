@@ -55,7 +55,7 @@ function createConfig(outputId: number) {
         anzahl_bahnen: Number(configValues.team.num_lanes[i]), 
         anzahl_spieler: Number(configValues.team.num_players[i]), 
         anzeigedauer_s: Number(configValues.team.time_values[i][outputId]), 
-        token_bahn: configValues.team.cck2_file[i], 
+        bahn_anzeigen: configValues.setup.lanes[outputId], 
         token_datei: configValues.team.cck2_file[i], 
         anzahl_saetze: 4, 
         satzpunkte_anzeigen: (configValues.team.set_points[i]) ? "ja" : "nein"} as TeamConfig);
