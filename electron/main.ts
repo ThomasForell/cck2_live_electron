@@ -47,7 +47,6 @@ function createIndex(req, res) {
 }
 
 function createConfig(outputId: number) {
-  console.log("createConfig " + outputId);
   let teams: Array<TeamConfig> = [];
   for (let i = 0; i < configValues.team.name.length; ++i) {
     teams.push({
@@ -99,17 +98,22 @@ catch (err) {
 let express_app = express();
 express_app.use( express.static('./public-live') );
 express_app.use( (req, res, next) => { 
-  if (indexUrls.includes(req.originalUrl)) {
+  var url = req.originalUrl;
+  console.log(url);
+  if (url.indexOf("?") >= 0) {
+    url = url.slice(0, url.indexOf("?"));
+  }
+  if (indexUrls.includes(url)) {
     createIndex(req, res);
   }  
-  else if (displayUrls.includes(req.originalUrl)) {
+  else if (displayUrls.includes(url)) {
     res.sendFile(path.resolve(`${__dirname}/../../static-html/display.html`));
   }
-  else if (streamUrls.includes(req.originalUrl)) {
+  else if (streamUrls.includes(url)) {
     res.sendFile(path.resolve(`${__dirname}/../../static-html/stream.html`));
   }
-  else if (configUrls.indexOf(req.originalUrl) >= 0) {
-    const id = configUrls.indexOf(req.originalUrl);
+  else if (configUrls.indexOf(url) >= 0) {
+    const id = configUrls.indexOf(url);
     res.json(createConfig(id));
   }
   else {
@@ -175,9 +179,9 @@ app.on('activate', () => {
 const httpServer = createServer();
 const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}, maxHttpBufferSize: 1e8});
 io.on('connection', (socket) => {
-  socket.on("save_setup", (data) => {fs.writeFileSync("app-data/setup.json", JSON.stringify(data)); UpdateFileLookup(data)});
-  socket.on("save_team", (data) => {fs.writeFileSync("app-data/team.json", JSON.stringify(data));});
-  socket.on("save_adv", (data) => {fs.writeFileSync("app-data/adv.json", JSON.stringify(data));});
+  socket.on("save_setup", (data) => {fs.writeFileSync("app-data/setup.json", JSON.stringify(data)); UpdateFileLookup(data); configValues.setup = {...data};});
+  socket.on("save_team", (data) => {fs.writeFileSync("app-data/team.json", JSON.stringify(data)); configValues.team = {...data};});
+  socket.on("save_adv", (data) => {fs.writeFileSync("app-data/adv.json", JSON.stringify(data)); configValues.adv = {...data};});
 
   socket.on("logo", (type: string, name: string, file: any, callback: any) => {
     let target = "public-live/logos/team/" + name;

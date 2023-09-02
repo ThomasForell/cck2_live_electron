@@ -1,18 +1,18 @@
 
-function showMannschaft(configSrc, stateModule, reducedOutput, showLanes) {
+function showMannschaft(configSrc, reducedOutput, showLanes) {
   try {
     var requestURL = configSrc + "?" + Date.now().toString();
     var request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'arraybuffer';
-    request.onload = loadConfigAndShow.bind(null, request, stateModule, reducedOutput, showLanes);
+    request.onload = loadConfigAndShow.bind(null, request, reducedOutput, showLanes);
     request.send();
   } catch (ex) {
     console.error("showMannschaft", ex.message);
   }
 }
 
-function loadConfigAndShow(request, stateModule, reducedOutput, showLanes) {
+function loadConfigAndShow(request, reducedOutput, showLanes) {
   var decoder = new TextDecoder("utf8");
   try {  
     var config = JSON.parse(decoder.decode(request.response));
@@ -22,7 +22,7 @@ function loadConfigAndShow(request, stateModule, reducedOutput, showLanes) {
     for (var i = 0; i < config_teams.length; ++i) {
       time_total_teams += config_teams[i].anzeigedauer_s;
     }
-    var timeCurrent = stateModule.getState() % time_total_teams;
+    var timeCurrent = Math.trunc(Date.now() / 1000) % time_total_teams;
 
     // find team to load
     var timeCounter = 0;
@@ -84,9 +84,9 @@ function loadConfigAndShow(request, stateModule, reducedOutput, showLanes) {
 
 function loadBilder(imgHome, imgGuest) {
   var imgReplace = document.getElementById("img_home")
-  imgReplace.src = imgHome + "?" + Date.now().toString();
+  imgReplace.src = "logos/team/" + imgHome + "?" + Date.now().toString();
   imgReplace = document.getElementById("img_guest")
-  imgReplace.src = imgGuest + "?" + Date.now().toString();
+  imgReplace.src = "logos/team/" + imgGuest + "?" + Date.now().toString();
 }
 
 function loadMannschaftData(requestURL, teamSize, setCount, displaySP, reducedOutput) {
@@ -106,7 +106,7 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
   try {
     var decoder = new TextDecoder("utf8");
     var data = JSON.parse(decoder.decode(request.response));
-    var mannschaft = data.mannschaft0;
+    var mannschaft = data.mannschaft[0];
     var el = document.getElementById("mannschaft0");
     var gesamt_diff = data.mannschaft0.gesamt - data.mannschaft1.gesamt;
     if (gesamt_diff >= 0)
@@ -139,9 +139,7 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
     }
 
 
-    var spielerArray = [mannschaft.spieler0, mannschaft.spieler1,
-    mannschaft.spieler2, mannschaft.spieler3,
-    mannschaft.spieler4, mannschaft.spieler5];
+    var spielerArray = mannschaft.spieler;
     for (var i = 0; i < teamSize; i++) {
       var spieler = spielerArray[i];
       el = document.getElementById("spieler0" + i.toString());
@@ -170,7 +168,7 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
         el.innerHTML = "";
     }
 
-    mannschaft = data.mannschaft1;
+    mannschaft = data.mannschaft[1];
     el = document.getElementById("mannschaft1");
     if (gesamt_diff <= 0)
       el.innerHTML = "(+" + (-gesamt_diff) + ") " + mannschaft.name;
@@ -192,9 +190,7 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
       el.innerHTML = mannschaft.mp;
     else
       el.innerHTML = "";
-    var spielerArray = [mannschaft.spieler0, mannschaft.spieler1,
-      mannschaft.spieler2, mannschaft.spieler3,
-      mannschaft.spieler4, mannschaft.spieler5];
+    spielerArray = mannschaft.spieler;
     for (var i = 0; i < teamSize; i++) {
       var spieler = spielerArray[i];
       el = document.getElementById("spieler1" + i.toString());
@@ -241,7 +237,7 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
 function loadWerbung(img, id) {
   var imgReplace = document.getElementById(id)
   if (imgReplace) {
-    imgReplace.src = img + "?" + Date.now().toString();
+    imgReplace.src = "logos/adv/" + img + "?" + Date.now().toString();
   }
 }
 
@@ -262,10 +258,9 @@ function writeLane(request, numLanes, showSetPoints) {
     var laneCnt;
     var decoder = new TextDecoder("utf8");
     var data = JSON.parse(decoder.decode(request.response));
-    var lane = [data.bahn0, data.bahn1, data.bahn2, data.bahn3,
-      data.bahn4, data.bahn5, data.bahn6, data.bahn7];
+    var lane = data.bahn;
 
-    var el = document.getElementById("name");
+    var el = document.getElementById("name" + numLanes + "lanes");
     for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
       var spieler = lane[laneCnt].spielername;
       if (showSetPoints) {
@@ -277,7 +272,7 @@ function writeLane(request, numLanes, showSetPoints) {
       }
     }
 
-    var el = document.getElementById("team");
+    var el = document.getElementById("team" + numLanes + "lanes");
     for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
       el.innerHTML = lane[laneCnt].mannschaft;
       if (laneCnt < numLanes -1) {
@@ -285,7 +280,7 @@ function writeLane(request, numLanes, showSetPoints) {
       }
     }
 
-    var el = document.getElementById("total");
+    var el = document.getElementById("total" + numLanes + "lanes");
     for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
       el.innerHTML = lane[laneCnt].wurf;
       el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
@@ -295,7 +290,7 @@ function writeLane(request, numLanes, showSetPoints) {
       }
     }
 
-    var el = document.getElementById("heat");
+    var el = document.getElementById("heat" + numLanes + "lanes");
     for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
       el.innerHTML = lane[laneCnt].durchgang_wurf;
       el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
