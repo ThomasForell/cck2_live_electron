@@ -367,23 +367,8 @@ body {overflow:hidden; /* Hide scrollbars */}
 </div>
 <script src="mannschaft.js"></script>
 <script>
-  var stateModule = (function () {
-        var state = 0; // Private Variable
-        var pub = {};// public object - returned at end of module
-
-        pub.changeState = function (newstate) {
-            state = newstate;
-        };
-
-        pub.getState = function() {
-            return state;
-        }
-
-        return pub; // expose externally
-    }());
-
   const configName = window.location.pathname.slice(0, -4) + "json";
-  showMannschaft(configName, stateModule, false, true);
-  setInterval(showMannschaft, 1000, configName, stateModule, false, true); 
+  showMannschaft(configName, false, true);
+  setInterval(showMannschaft, 1000, configName, false, true); 
 </script>
 </html>

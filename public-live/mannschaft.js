@@ -31,9 +31,29 @@ function loadConfigAndShow(request, reducedOutput, showLanes) {
         loadBilder(config_teams[i].bild_heim, config_teams[i].bild_gast);
         loadMannschaftData(config_teams[i].token_datei, config_teams[i].anzahl_spieler, config_teams[i].anzahl_saetze, 
           config_teams[i].satzpunkte_anzeigen == "ja", reducedOutput)
-        if (config_teams[i].token_bahn != "" && showLanes) {
-          loadLaneData(config_teams[i].token_bahn, config_teams[i].anzahl_bahnen, config_teams[i].satzpunkte_anzeigen == "ja");
-        }      
+        if (config_teams[i].token_bahn != "") {
+          if (showLanes) {     
+            var el = document.getElementById("display4lanes");
+            if (el != null) {
+              el.hidden = config_teams[i].anzahl_bahnen != 4;
+            }
+            var el = document.getElementById("display6lanes");
+            if (el != null) {
+              el.hidden = config_teams[i].anzahl_bahnen != 6;
+            }
+            loadLaneData(config_teams[i].token_bahn, config_teams[i].anzahl_bahnen, config_teams[i].satzpunkte_anzeigen == "ja");
+          }
+          else {
+            var el = document.getElementById("display4lanes");
+            if (el != null) {
+              el.hidden = true;
+            }
+            var el = document.getElementById("display6lanes");
+            if (el != null) {
+              el.hidden = true;
+            }
+          }
+       }      
         break;  
       }  
       timeCounter += config_teams[i].anzeigedauer_s;
@@ -45,7 +65,7 @@ function loadConfigAndShow(request, reducedOutput, showLanes) {
       for (var i = 0; i < config_werbung.length; ++i) {
         time_total_werbung += config_werbung[i].anzeigedauer_s;
       }
-      var timeCurrent = stateModule.getState() % time_total_werbung;
+      var timeCurrent = Math.trunc(Date.now() / 1000) % time_total_werbung;
 
       // find adv to load
       var timeCounter = 0;
@@ -74,9 +94,6 @@ function loadConfigAndShow(request, reducedOutput, showLanes) {
         timeCounter += config_werbung[i].anzeigedauer_s;
       }
     }
-
-    // update state
-    stateModule.changeState(stateModule.getState() + 1);
   } catch (ex) {
       console.error("loadConfigAndShow", ex.message)
   }
@@ -108,7 +125,7 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
     var data = JSON.parse(decoder.decode(request.response));
     var mannschaft = data.mannschaft[0];
     var el = document.getElementById("mannschaft0");
-    var gesamt_diff = data.mannschaft0.gesamt - data.mannschaft1.gesamt;
+    var gesamt_diff = data.mannschaft[0].gesamt - data.mannschaft[1].gesamt;
     if (gesamt_diff >= 0)
       el.innerHTML = mannschaft.name + " (+" + gesamt_diff + ")";
     else
@@ -133,7 +150,7 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
     el = document.getElementById("mp_center");
     if (el != null) {
       if (displaySP) 
-        el.innerHTML = data.mannschaft0.mp + " : " + data.mannschaft1.mp
+        el.innerHTML = data.mannschaft[0].mp + " : " + data.mannschaft[1].mp
       else
         el.innerHTML = ""
     }
@@ -150,7 +167,7 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
         el.innerHTML = spieler.wurf;
         el = el.parentElement.nextElementSibling.firstChild;
       }      
-      var satzArray = spieler.satz.split(";")
+      var satzArray = spieler.satz;
       for (var j = 0; j < setCount; j++) {
         el.innerHTML = satzArray[j];
         el = el.parentElement.nextElementSibling.firstChild;
@@ -201,7 +218,7 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
         el.innerHTML = spieler.wurf;
         el = el.parentElement.previousElementSibling.firstChild;
       }      
-      var satzArray = spieler.satz.split(";")
+      var satzArray = spieler.satz;
       for (var j = 0; j < setCount; j++) {
         el.innerHTML = satzArray[j];
         el = el.parentElement.previousElementSibling.firstChild;
