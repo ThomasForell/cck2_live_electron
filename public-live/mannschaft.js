@@ -58,38 +58,48 @@ function loadConfigAndShow(request, reducedOutput) {
     }
 
     // draw advertisments
+    var showAdv = false;
     if (config_werbung.length > 0) {
-      var time_total_werbung = 0;
-      for (var i = 0; i < config_werbung.length; ++i) {
-        time_total_werbung += config_werbung[i].anzeigedauer_s;
-      }
-      var timeCurrent = Math.trunc(Date.now() / 1000) % time_total_werbung;
-
-      // find adv to load
-      var timeCounter = 0;
-      for (var i = 0; i < config_werbung.length; ++i) {
-        if (timeCurrent >= timeCounter && timeCurrent < timeCounter + config_werbung[i].anzeigedauer_s) {
-          loadWerbung(config_werbung[i].bild, "img_center");
-          loadWerbung(config_werbung[i].bild, "img_1");
-          var img_2_shown = false;
-          for (var j = i + 1; j < config_werbung.length && !img_2_shown; ++j) {
-            if (config_werbung[j].anzeigedauer_s > 0) {
-              loadWerbung(config_werbung[j].bild, "img_2");
-              img_2_shown = true;
-            }
-          }
-          for (var j = 0; j < i && !img_2_shown; ++j) {
-            if (config_werbung[j].anzeigedauer_s > 0) {
-              loadWerbung(config_werbung[j].bild, "img_2");
-              img_2_shown = true;
-            }
-          }
-          if (!img_2_shown) {
-            loadWerbung(config_werbung[i].bild, "img_2");
-          }
-          break;
+      showAdv = config_werbung[0].werbung_anzeigen;
+    }
+    var el = document.getElementById("displayAdv");
+    if (el != null) {
+      el.hidden = !showAdv;
+    }
+    if (showAdv) {
+      if (config_werbung.length > 0) {
+        var time_total_werbung = 0;
+        for (var i = 0; i < config_werbung.length; ++i) {
+          time_total_werbung += config_werbung[i].anzeigedauer_s;
         }
-        timeCounter += config_werbung[i].anzeigedauer_s;
+        var timeCurrent = Math.trunc(Date.now() / 1000) % time_total_werbung;
+
+        // find adv to load
+        var timeCounter = 0;
+        for (var i = 0; i < config_werbung.length; ++i) {
+          if (timeCurrent >= timeCounter && timeCurrent < timeCounter + config_werbung[i].anzeigedauer_s) {
+            loadWerbung(config_werbung[i].bild, "img_center");
+            loadWerbung(config_werbung[i].bild, "img_1");
+            var img_2_shown = false;
+            for (var j = i + 1; j < config_werbung.length && !img_2_shown; ++j) {
+              if (config_werbung[j].anzeigedauer_s > 0) {
+                loadWerbung(config_werbung[j].bild, "img_2");
+                img_2_shown = true;
+              }
+            }
+            for (var j = 0; j < i && !img_2_shown; ++j) {
+              if (config_werbung[j].anzeigedauer_s > 0) {
+                loadWerbung(config_werbung[j].bild, "img_2");
+                img_2_shown = true;
+              }
+            }
+            if (!img_2_shown) {
+              loadWerbung(config_werbung[i].bild, "img_2");
+            }
+            break;
+          }
+          timeCounter += config_werbung[i].anzeigedauer_s;
+        }
       }
     }
   } catch (ex) {

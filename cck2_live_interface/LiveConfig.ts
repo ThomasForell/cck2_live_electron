@@ -12,6 +12,7 @@ export interface TeamConfig {
 };
 
 export interface AdvConfig {
+    werbung_anzeigen: boolean;
     bild: string;
     anzeigedauer_s: number;
 };

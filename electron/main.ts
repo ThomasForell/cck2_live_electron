@@ -62,7 +62,9 @@ function createConfig(outputId: number) {
   }
   let adv: Array<AdvConfig> = [];
   for (let i = 0; i < configValues.adv.logo.length; ++i) {
-    adv.push({bild: configValues.adv.logo[i], anzeigedauer_s:configValues.adv.time_values[i][outputId] } as AdvConfig)
+    adv.push({bild: configValues.adv.logo[i], 
+      werbung_anzeigen: configValues.setup.adv[outputId],
+      anzeigedauer_s:configValues.adv.time_values[i][outputId] } as AdvConfig);
   }
 
   return {teams: teams, werbung: adv}; 
