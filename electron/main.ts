@@ -189,9 +189,9 @@ io.on('connection', (socket) => {
   socket.on("save_adv", (data) => {fs.writeFileSync("app-data/adv.json", JSON.stringify(data)); configValues.adv = {...data};});
 
   socket.on("logo", (type: string, name: string, file: any, callback: any) => {
-    let target = "public-live/logos/team/" + name;
+    let target = "public/logos/team/" + name;
     if (type === "adv") {
-      target = "public-live/logos/adv/" + name;
+      target = "public/logos/adv/" + name;
     }
     fs.writeFile(target, file, (err) => {
       if (err) {
