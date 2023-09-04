@@ -118,6 +118,9 @@ express_app.use( (req, res, next) => {
     const id = configUrls.indexOf(url);
     res.json(createConfig(id));
   }
+  else if (configValues.team.cck2_file.indexOf(url.slice(1)) >= 0) {
+    res.sendFile(path.resolve(configValues.setup.cck2_output_path + url));
+  }
   else {
     next();
   }

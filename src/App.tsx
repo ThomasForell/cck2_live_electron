@@ -110,7 +110,9 @@ function ComponentDelete(reference: string) {
   const i = Number(id);
   if (component === "setup") {
     for (const v of Object.values(tmp.setup)) {
-      v.splice(i, 1);
+      if (Array.isArray(v)) { 
+        v.splice(i, 1);
+      }
     }
   }
   else if (component === "team") {
@@ -132,7 +134,9 @@ function ComponentUp(reference: string) {
   const i = Number(id);
   if (component === "setup") {
     for (const v of Object.values(tmp.setup)) {
-      [v[i], v[i - 1]] = [v[i - 1], v[i]];
+      if (Array.isArray(v)) { 
+        [v[i], v[i - 1]] = [v[i - 1], v[i]];
+      }
     }
     setValueFunc("setup", tmp.setup);
   }
@@ -156,7 +160,9 @@ function ComponentDown(reference: string) {
   const i = Number(id);
   if (component === "setup") {
     for (const v of Object.values(tmp.setup)) {
-      [v[i], v[i + 1]] = [v[i + 1], v[i]];
+      if (Array.isArray(v)) { 
+        [v[i], v[i + 1]] = [v[i + 1], v[i]];
+      }
     }
     setValueFunc("setup", tmp.setup);
   }
@@ -240,6 +246,7 @@ function CreateSetupSettings({register, control, settings}: {register: any, cont
     s.push(<SetupSettings key={"CreateSetupSettings" + i.toString()} register={register} control={control} count={i} 
       disableDelete={settings.output_name.length === 1} disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
   }
+  s.push(<TextField key="cck2_output_path" label="CCK2 Ausgabeverzeichnis" variant={variant} defaultValue="" {...register("setup.cck2_output_path")}/>);
   return (<>{s}</>)
 }
 
