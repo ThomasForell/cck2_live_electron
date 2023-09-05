@@ -130,6 +130,14 @@ function loadMannschaftData(requestURL, teamSize, setCount, displaySP, reducedOu
   }
 }
 
+function reducePlayerName(name) {
+  const posSpace = name.search(" ");
+  if (posSpace > 0) {
+    return name.slice(posSpace + 1);
+  }
+  return name;
+} 
+
 function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) {
   try {
     var decoder = new TextDecoder("utf8");
@@ -174,7 +182,12 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
     for (var i = 0; i < teamSize; i++) {
       var spieler = spielerArray[i];
       el = document.getElementById("spieler0" + i.toString());
-      el.innerHTML = spieler.spielername;
+      if (spieler.spielername_aw === "") {
+        el.innerHTML = spieler.spielername;
+      }
+      else {
+        el.innerHTML = reducePlayerName(spieler.spielername) + " | " + reducePlayerName(spieler.spielername_aw);
+      }
       el = el.parentElement.nextElementSibling.firstChild;
       if (!reducedOutput)
       {
@@ -225,7 +238,12 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
     for (var i = 0; i < teamSize; i++) {
       var spieler = spielerArray[i];
       el = document.getElementById("spieler1" + i.toString());
-      el.innerHTML = spieler.spielername;
+      if (spieler.spielername_aw === "") {
+        el.innerHTML = spieler.spielername;
+      }
+      else {
+        el.innerHTML = reducePlayerName(spieler.spielername) + " | " + reducePlayerName(spieler.spielername_aw);
+      }
       el = el.parentElement.previousElementSibling.firstChild;
       if (!reducedOutput)
       {      

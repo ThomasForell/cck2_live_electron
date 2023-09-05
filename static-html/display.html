@@ -10,7 +10,7 @@ body {overflow:hidden; /* Hide scrollbars */}
 .block-num-large {width:210px;max-width:210px;text-align-last:center;}
 .block-cap {width:420px;max-width:420px}
 .block-team {width:420px;max-width:420px;min-height:100px;max-height:100px;vertical-align:bottom;}
-.tg    {border-collapse:collapse;border-spacing:0;table-layout:fixed;}
+.tg    {border-collapse:collapse;border-spacing:0;table-layout:fixed;  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .tg td {font-family:Geneva, sans-serif;font-size:40px;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
 .tg th {font-family:Geneva, sans-serif;font-size:40px;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
 .tg .logo          {background-color:#ffffff;text-align:center;white-space:nowrap}
@@ -35,8 +35,8 @@ body {overflow:hidden; /* Hide scrollbars */}
     <td class="no-border-top" colspan="2"></td>
   </tr>
   <tr>
-    <td class="no-border-top" colspan="2"><div id="mannschaft0" class="block-team"></div></td>
-    <td class="no-border-top" colspan="2"><div id="mannschaft1" class="block-team"></div></td>
+    <td class="no-border-top" colspan="2" style="white-space:break-spaces"><div id="mannschaft0" class="block-team"></div></td>
+    <td class="no-border-top" colspan="2" style="white-space:break-spaces"><div id="mannschaft1" class="block-team"></div></td>
   </tr>
   <tr>
     <td class="no-border-pic" colspan="2" height="300px"><img src="Heim.png" alt="Logo Heimmannschaft" height="270px" width="auto" class="center" id="img_home"/></td>
