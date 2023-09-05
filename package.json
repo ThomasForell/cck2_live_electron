@@ -49,13 +49,18 @@
     "eject": "react-scripts eject"
   },
   "build": {
+    "appId": "de.skv-lorsch.cck2_live_electron",
     "extends": null,
     "files": [
       "build/**/*"
     ],
     "directories": {
       "buildResources": "assets"
-    }
+    },
+    "extraFiles": [
+      "static-html",
+      "app-data"
+    ]
   },
   "eslintConfig": {
     "extends": [

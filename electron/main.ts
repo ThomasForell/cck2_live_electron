@@ -98,7 +98,7 @@ catch (err) {
 
 
 let express_app = express();
-express_app.use( express.static('./public-live') );
+express_app.use( express.static('./static-html') );
 express_app.use( (req, res, next) => { 
   var url = req.originalUrl;
   console.log(url);
@@ -109,10 +109,10 @@ express_app.use( (req, res, next) => {
     createIndex(req, res);
   }  
   else if (displayUrls.includes(url)) {
-    res.sendFile(path.resolve(`${__dirname}/../../static-html/display.html`));
+    res.sendFile(path.resolve('./static-html/display.html'));
   }
   else if (streamUrls.includes(url)) {
-    res.sendFile(path.resolve(`${__dirname}/../../static-html/stream.html`));
+    res.sendFile(path.resolve('./static-html/stream.html'));
   }
   else if (configUrls.indexOf(url) >= 0) {
     const id = configUrls.indexOf(url);
