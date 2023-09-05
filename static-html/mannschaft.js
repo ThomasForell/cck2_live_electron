@@ -13,9 +13,12 @@ function showMannschaft(configSrc, reducedOutput) {
 }
 
 function loadConfigAndShow(request, reducedOutput) {
-  var decoder = new TextDecoder("utf8");
   try {  
-    var config = JSON.parse(decoder.decode(request.response));
+    var decoder = new TextDecoder("utf8");
+    var decoded = decoder.decode(request.response);
+    if (decoded.charCodeAt(0) === 0xFEFF)
+      decoded = decoded.substring(1);
+    var config = JSON.parse(decoded);
     var config_teams = config.teams;
     var config_werbung = config.werbung;
     var time_total_teams = 0;
@@ -130,7 +133,10 @@ function loadMannschaftData(requestURL, teamSize, setCount, displaySP, reducedOu
 function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) {
   try {
     var decoder = new TextDecoder("utf8");
-    var data = JSON.parse(decoder.decode(request.response));
+    var decoded = decoder.decode(request.response);
+    if (decoded.charCodeAt(0) === 0xFEFF)
+      decoded = decoded.substring(1);
+    var data = JSON.parse(decoded);
     var mannschaft = data.mannschaft[0];
     var el = document.getElementById("mannschaft0");
     var gesamt_diff = data.mannschaft[0].gesamt - data.mannschaft[1].gesamt;
@@ -282,7 +288,10 @@ function writeLane(request, numLanes, showSetPoints) {
   try {
     var laneCnt;
     var decoder = new TextDecoder("utf8");
-    var data = JSON.parse(decoder.decode(request.response));
+    var decoded = decoder.decode(request.response);
+    if (decoded.charCodeAt(0) === 0xFEFF)
+      decoded = decoded.substring(1);
+    var data = JSON.parse(decoded);
     var lane = data.bahn;
 
     var el = document.getElementById("name" + numLanes + "lanes");
