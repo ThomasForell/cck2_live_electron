@@ -101,7 +101,6 @@ let express_app = express();
 express_app.use( express.static('./static-html') );
 express_app.use( (req, res, next) => { 
   var url = req.originalUrl;
-  console.log(url);
   if (url.indexOf("?") >= 0) {
     url = url.slice(0, url.indexOf("?"));
   }
@@ -189,9 +188,9 @@ io.on('connection', (socket) => {
   socket.on("save_adv", (data) => {fs.writeFileSync("app-data/adv.json", JSON.stringify(data)); configValues.adv = {...data};});
 
   socket.on("logo", (type: string, name: string, file: any, callback: any) => {
-    let target = "public/logos/team/" + name;
+    let target = "static-html/logos/team/" + name;
     if (type === "adv") {
-      target = "public/logos/adv/" + name;
+      target = "static-html/logos/adv/" + name;
     }
     fs.writeFile(target, file, (err) => {
       if (err) {

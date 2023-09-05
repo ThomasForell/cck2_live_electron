@@ -2,7 +2,7 @@
 	"bahn" : [
 		{
 			"mannschaft" : "SKC Nibelungen Lorsch 2",
-			"spielername" : "Holger Walter",
+			"spielername" : "Tom Walter",
 			"sp": "1,5",
 			"wurf" : "120",
 			"gesamt" : "799",
@@ -80,11 +80,11 @@
 			"volle" : "456",
 			"abr" : "123",
 			"f" : "1",
-			"gesamt": "3788",
+			"gesamt": "3608",
 			"mp": "3",
 			"spieler" : [
 				{
-					"spielername" : "Holger Walter",
+					"spielername" : "Tom Walter",
 					"spielername_aw" : "",
 					"wurf" : "10",
 					"gesamt" : "80",

@@ -265,7 +265,7 @@ function LogoDropzone({label, name, value, control, socket}: {label: string, nam
           {label} 
         </div>
       </Box>
-      <Box sx={{ height: 120, width: 175}}>
+      <Box sx={{ height: 120, width: 250}}>
         <div style={{textAlign: "center"}}> 
           <img id={name} src={source} alt=" Warte auf Logo" height="120" width="auto" /> 
         </div>
