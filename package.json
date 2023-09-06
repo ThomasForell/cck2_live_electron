@@ -60,7 +60,11 @@
     "extraFiles": [
       "static-html",
       "app-data"
-    ]
+    ],
+    "win": {
+      "icon": "public/icon.png"
+   }
+
   },
   "eslintConfig": {
     "extends": [
