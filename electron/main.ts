@@ -123,6 +123,20 @@ catch (err) {
   console.log(err);
 }
 
+// init
+try {
+  var buff = fs.readFileSync(path.join(appDir, "setup.json"), "utf-8");
+  var setup = JSON.parse(buff);
+  buff = fs.readFileSync(path.join(appDir, "team.json"), "utf-8");
+  var team = JSON.parse(buff);
+  buff = fs.readFileSync(path.join(appDir, "adv.json"), "utf-8");
+  var adv = JSON.parse(buff);
+  configValues = { setup: setup, team: team, adv: adv };
+}
+catch (err) {
+  console.log(err);
+}
+
 let express_app = express();
 express_app.use( express.static('./static-html') );
 express_app.use( express.static(appDir) );  // serve logo files
@@ -159,8 +173,9 @@ nativeTheme.themeSource = "dark";
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    useContentSize: true,
+    width: 1200,
+    height: 800,
     webPreferences: {
       nodeIntegration: true
     }
@@ -173,6 +188,7 @@ function createWindow() {
   }
 
   win.on('closed', () => win = null);
+  win.setMenuBarVisibility(false);
 
   // Hot Reloading
   if (isDev) {
