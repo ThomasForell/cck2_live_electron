@@ -6,9 +6,10 @@ import * as express from 'express';
 import {Server} from 'socket.io';
 import {createServer} from 'http';
 import * as fs from 'fs';
+import * as os from 'os';
 
 import {ConfigValues} from '../cck2_live_interface/ConfigValues';
-import {LiveConfig, TeamConfig, AdvConfig} from '../cck2_live_interface/LiveConfig';
+import {TeamConfig, AdvConfig} from '../cck2_live_interface/LiveConfig';
 
 const indexUrls = ["/", "/index.html"]
 const displayUrls = ["/TVLinks.html", "/TVRechts.html"];
@@ -16,6 +17,9 @@ const streamUrls = ["/Stream.html"];
 const configUrls = ["/TVLinks.json", "/TVRechts.json", "/Stream.json"];
 
 let configValues: ConfigValues;
+
+const appDir = os.homedir() + "/cck2_live_electron";
+console.log(appDir);
 
 function createIndex(req, res) {
   let index =       
@@ -87,8 +91,31 @@ function UpdateFileLookup(setup: ConfigValues["setup"]) {
   }
 }
 
+// initialize user directory
+if (!fs.existsSync(appDir)) {
+  fs.mkdirSync(appDir);
+}
+if (!fs.existsSync(path.join(appDir, "logos"))) {
+  fs.mkdirSync(path.join(appDir, "logos"));
+}
+if (!fs.existsSync(path.join(appDir, "logos", "team"))) {
+  fs.mkdirSync(path.join(appDir, "logos", "team"));
+}
+if (!fs.existsSync(path.join(appDir, "logos", "adv"))) {
+  fs.mkdirSync(path.join(appDir, "logos", "adv"));
+}
+if (!fs.existsSync(path.join(appDir, "setup.json"))) {
+  fs.copyFileSync(path.join("app-data", "setup.json"), path.join(appDir, "setup.json"));
+}
+if (!fs.existsSync(path.join(appDir, "team.json"))) {
+  fs.copyFileSync(path.join("app-data", "team.json"), path.join(appDir, "team.json"));
+}
+if (!fs.existsSync(path.join(appDir, "adv.json"))) {
+  fs.copyFileSync(path.join("app-data", "adv.json"),path.join(appDir, "adv.json"));
+}
+
 try {
-  let buff = fs.readFileSync("app-data/setup.json", "utf-8"); 
+  let buff = fs.readFileSync(path.join(appDir, "setup.json"), "utf-8"); 
   const setup = JSON.parse(buff);
   UpdateFileLookup(setup);
 }
@@ -96,9 +123,9 @@ catch (err) {
   console.log(err);
 }
 
-
 let express_app = express();
 express_app.use( express.static('./static-html') );
+express_app.use( express.static(appDir) );  // serve logo files
 express_app.use( (req, res, next) => { 
   var url = req.originalUrl;
   if (url.indexOf("?") >= 0) {
@@ -113,7 +140,7 @@ express_app.use( (req, res, next) => {
   else if (streamUrls.includes(url)) {
     res.sendFile(path.resolve('./static-html/stream.html'));
   }
-  else if (configUrls.indexOf(url) >= 0) {
+  else if (configUrls.includes(url)) {
     const id = configUrls.indexOf(url);
     res.json(createConfig(id));
   }
@@ -183,14 +210,14 @@ app.on('activate', () => {
 const httpServer = createServer();
 const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}, maxHttpBufferSize: 1e8});
 io.on('connection', (socket) => {
-  socket.on("save_setup", (data) => {fs.writeFileSync("app-data/setup.json", JSON.stringify(data)); UpdateFileLookup(data); configValues.setup = {...data};});
-  socket.on("save_team", (data) => {fs.writeFileSync("app-data/team.json", JSON.stringify(data)); configValues.team = {...data};});
-  socket.on("save_adv", (data) => {fs.writeFileSync("app-data/adv.json", JSON.stringify(data)); configValues.adv = {...data};});
+  socket.on("save_setup", (data) => {fs.writeFileSync(path.join(appDir, "setup.json"), JSON.stringify(data)); UpdateFileLookup(data); configValues.setup = {...data};});
+  socket.on("save_team", (data) => {fs.writeFileSync(path.join(appDir, "team.json"), JSON.stringify(data)); configValues.team = {...data};});
+  socket.on("save_adv", (data) => {fs.writeFileSync(path.join(appDir, "adv.json"), JSON.stringify(data)); configValues.adv = {...data};});
 
   socket.on("logo", (type: string, name: string, file: any, callback: any) => {
-    let target = "static-html/logos/team/" + name;
+    let target = path.join(appDir, "logos", "team", name);
     if (type === "adv") {
-      target = "static-html/logos/adv/" + name;
+      target = path.join(appDir, "logos", "adv", name);
     }
     fs.writeFile(target, file, (err) => {
       if (err) {
@@ -202,11 +229,11 @@ io.on('connection', (socket) => {
   });
 
   socket.on("load", () => {
-    let buff = fs.readFileSync("app-data/setup.json", "utf-8"); 
+    let buff = fs.readFileSync(path.join(appDir, "setup.json"), "utf-8"); 
     const setup = JSON.parse(buff);
-    buff = fs.readFileSync("app-data/team.json", "utf-8");
+    buff = fs.readFileSync(path.join(appDir, "team.json"), "utf-8");
     const team = JSON.parse(buff);
-    buff = fs.readFileSync("app-data/adv.json", "utf-8");
+    buff = fs.readFileSync(path.join(appDir, "adv.json"), "utf-8");
     const adv = JSON.parse(buff);
     
     configValues = {setup: setup, team: team, adv: adv};
