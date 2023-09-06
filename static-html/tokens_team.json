@@ -164,8 +164,8 @@
 					]
 				},
 				{
-					"spielername" : "[Spielername 2, 1]",
-					"spielername_aw" : "[Auswechselspielername 2, 1]",
+					"spielername" : "[Spielername 2, 2]",
+					"spielername_aw" : "[Auswechselspielername 2, 2]",
 					"wurf" : "[Wurf Spieler 2, 2]",
 					"gesamt" : "[Holz Spieler 2, 2]",
 					"sp" : "[Satzpunkte Spieler 2, 2]",
