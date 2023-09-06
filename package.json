@@ -2,7 +2,7 @@
   "name": "cck2_live_electron",
   "version": "0.1.0",
   "author": "Thomas Forell",
-  "description": "Tool für Livestream und -ergebnisse aus CCK2",
+  "description": "Tool für Livestream und Ergebnisanzeige aus CCK2",
   "private": true,
   "homepage": ".",
   "main": "build/electron/main.js",
