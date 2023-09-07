@@ -1,6 +1,7 @@
 {
   "name": "cck2_live_electron",
-  "version": "0.1.0",
+  "productName": "CCK2 Live Electron",
+  "version": "0.2.0",
   "author": "Thomas Forell",
   "description": "Tool für Livestream und Ergebnisanzeige aus CCK2",
   "private": true,
