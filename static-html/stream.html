@@ -200,11 +200,13 @@ body {overflow:hidden; /* Hide scrollbars */}
   <table class="result-tg" align="center" style="width: 100%">
     <tr>
       <td class="result-data" style="text-align: center; min-width: 225px;">
-        <img src="Werbung/stream-kempa.png" alt="Logo" height="auto" width="220px" id="img_1"/>
+        <img src="" alt="" height="auto" width="220px" id="img_1"/><br>
+        <small style="font-weight: normal;">Werbung</small>
       </td>
       <td class="free" style="width:75%"></td>
       <td class="result-data" style="text-align: center; min-width: 225px;">
-        <img src="Werbung/stream-kempa.png" alt="Logo" height="auto" width="220px" id="img_2"/>
+        <img src="" alt="" height="auto" width="220px" id="img_2"/><br>
+        <small style="font-weight: normal;">Werbung</small>
       </td>
     </tr>
   </table>
@@ -372,7 +374,7 @@ body {overflow:hidden; /* Hide scrollbars */}
 <script src="mannschaft.js"></script>
 <script>
   const configName = window.location.pathname.slice(0, -4) + "json";
-  showMannschaft(configName, false);
-  setInterval(showMannschaft, 1000, configName, false); 
+  showData(configName, false);
+  setInterval(showData, 1000, configName, false); 
 </script>
 </html>

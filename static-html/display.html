@@ -30,7 +30,7 @@ body {overflow:hidden; /* Hide scrollbars */}
     <td class="no-border-top" colspan="2" height="50px"></td>
     <td class="free" rowspan="6">
       <div id="displayAdv">
-        <img src="kc-lorsch.png" alt="Advertize" height="650px" width="auto" class="center" id="img_center"/></td>
+        <img src="logos/adv/kc-lorsch.png" alt="" height="650px" width="auto" class="center" id="img_center"/></td>
       </div>
     <td class="no-border-top" colspan="2"></td>
   </tr>
@@ -178,7 +178,7 @@ body {overflow:hidden; /* Hide scrollbars */}
 <script src="mannschaft.js"></script>
 <script>
   const configName = window.location.pathname.slice(0, -4) + "json";
-  showMannschaft(configName, true);
-  setInterval(showMannschaft, 1000, configName, true); 
+  showData(configName, true);
+  setInterval(showData, 1000, configName, true); 
 </script>
 </html>

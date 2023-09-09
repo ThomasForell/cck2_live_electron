@@ -1,133 +1,103 @@
 
-function showMannschaft(configSrc, reducedOutput) {
+async function showData(configSrc, reducedOutput) {
   try {
-    var requestURL = configSrc + "?" + Date.now().toString();
-    var request = new XMLHttpRequest();
-    request.open('GET', requestURL);
-    request.responseType = 'arraybuffer';
-    request.onload = loadConfigAndShow.bind(null, request, reducedOutput);
-    request.send();
+    const requestURL = configSrc + "?" + Date.now().toString();
+    fetch(requestURL)
+      .then((response) => { return response.text(); })
+      .then((decoded) => {
+        if (decoded.charCodeAt(0) === 0xFEFF) {
+          decoded = decoded.substring(1);
+        }
+        const config = JSON.parse(decoded);
+        showTeam(config.teams, reducedOutput);
+        showAdv(config.werbung);
+      });
   } catch (ex) {
-    console.error("showMannschaft", ex.message);
+    console.error("showData", ex.message);
   }
 }
 
-function loadConfigAndShow(request, reducedOutput) {
-  try {  
-    var decoder = new TextDecoder("utf8");
-    var decoded = decoder.decode(request.response);
-    if (decoded.charCodeAt(0) === 0xFEFF)
-      decoded = decoded.substring(1);
-    var config = JSON.parse(decoded);
-    var config_teams = config.teams;
-    var config_werbung = config.werbung;
-    var time_total_teams = 0;
-    for (var i = 0; i < config_teams.length; ++i) {
-      time_total_teams += config_teams[i].anzeigedauer_s;
-    }
-    var timeCurrent = Math.trunc(Date.now() / 1000) % time_total_teams;
+async function showTeam(configTeams, reducedOutput) {
+  var timeTotalTeams = 0;
+  for (var i = 0; i < configTeams.length; ++i) {
+    timeTotalTeams += configTeams[i].anzeigedauer_s;
+  }
+  var timeCurrent = Math.trunc(Date.now() / 1000) % timeTotalTeams;
+  // find team to load
+  var timeCounter = 0;
+  for (var i = 0; i < configTeams.length; ++i) {
+    if (timeCurrent >= timeCounter && timeCurrent < timeCounter + configTeams[i].anzeigedauer_s) {
+      const requestURL = configTeams[i].token_datei + "?" + Date.now().toString();
+      fetch(requestURL)
+        .then((response) => { return response.text(); })
+        .then((decoded) => {
+          if (decoded.charCodeAt(0) === 0xFEFF) {
+            decoded = decoded.substring(1);
+          }
+          const data = JSON.parse(decoded);
+            
+          showTeamData(data.mannschaft, configTeams[i].anzahl_spieler, configTeams[i].anzahl_saetze, 
+            configTeams[i].satzpunkte_anzeigen == "ja", reducedOutput);          
+          showTeamLogos(configTeams[i].bild_heim, configTeams[i].bild_gast);
+          showLaneData(data.bahn, configTeams[i].bahn_anzeigen, configTeams[i].anzahl_bahnen, configTeams[i].satzpunkte_anzeigen == "ja");
+        });
+      break;  
+    }  
+    timeCounter += configTeams[i].anzeigedauer_s;
+  }
+}
 
-    // find team to load
-    var timeCounter = 0;
-    for (var i = 0; i < config_teams.length; ++i) {
-      if (timeCurrent >= timeCounter && timeCurrent < timeCounter + config_teams[i].anzeigedauer_s) {
-        loadBilder(config_teams[i].bild_heim, config_teams[i].bild_gast);
-        loadMannschaftData(config_teams[i].token_datei, config_teams[i].anzahl_spieler, config_teams[i].anzahl_saetze, 
-        config_teams[i].satzpunkte_anzeigen == "ja", reducedOutput)
-        if (config_teams[i].bahn_anzeigen) {     
-          var el = document.getElementById("display4lanes");
-          if (el != null) {
-            el.hidden = config_teams[i].anzahl_bahnen != 4;
-          }
-          var el = document.getElementById("display6lanes");
-          if (el != null) {
-            el.hidden = config_teams[i].anzahl_bahnen != 6;
-          }
-          loadLaneData(config_teams[i].token_datei, config_teams[i].anzahl_bahnen, config_teams[i].satzpunkte_anzeigen == "ja");
-        }
-        else {
-          var el = document.getElementById("display4lanes");
-          if (el != null) {
-            el.hidden = true;
-          }
-          var el = document.getElementById("display6lanes");
-          if (el != null) {
-            el.hidden = true;
-          }
-        }
-        break;  
-      }  
-      timeCounter += config_teams[i].anzeigedauer_s;
-    }
+async function showAdv(configAdv) {
+  var showAdv = false;
+  if (configAdv.length > 0) {
+    showAdv = configAdv[0].werbung_anzeigen;
+  }
+  var el = document.getElementById("displayAdv");
+  if (el != null) {
+    el.hidden = !showAdv;
+  }
+  if (showAdv) {
+    if (configAdv.length > 0) {
+      var timeTotalWerbung = 0;
+      for (var i = 0; i < configAdv.length; ++i) {
+        timeTotalWerbung += configAdv[i].anzeigedauer_s;
+      }
+      var timeCurrent = Math.trunc(Date.now() / 1000) % timeTotalWerbung;
 
-    // draw advertisments
-    var showAdv = false;
-    if (config_werbung.length > 0) {
-      showAdv = config_werbung[0].werbung_anzeigen;
-    }
-    var el = document.getElementById("displayAdv");
-    if (el != null) {
-      el.hidden = !showAdv;
-    }
-    if (showAdv) {
-      if (config_werbung.length > 0) {
-        var time_total_werbung = 0;
-        for (var i = 0; i < config_werbung.length; ++i) {
-          time_total_werbung += config_werbung[i].anzeigedauer_s;
-        }
-        var timeCurrent = Math.trunc(Date.now() / 1000) % time_total_werbung;
-
-        // find adv to load
-        var timeCounter = 0;
-        for (var i = 0; i < config_werbung.length; ++i) {
-          if (timeCurrent >= timeCounter && timeCurrent < timeCounter + config_werbung[i].anzeigedauer_s) {
-            loadWerbung(config_werbung[i].bild, "img_center");
-            loadWerbung(config_werbung[i].bild, "img_1");
-            var img_2_shown = false;
-            for (var j = i + 1; j < config_werbung.length && !img_2_shown; ++j) {
-              if (config_werbung[j].anzeigedauer_s > 0) {
-                loadWerbung(config_werbung[j].bild, "img_2");
-                img_2_shown = true;
-              }
+      // find adv to load
+      var timeCounter = 0;
+      for (var i = 0; i < configAdv.length; ++i) {
+        if (timeCurrent >= timeCounter && timeCurrent < timeCounter + configAdv[i].anzeigedauer_s) {
+          loadWerbung(configAdv[i].bild, "img_center");
+          loadWerbung(configAdv[i].bild, "img_1");
+          // find next picture
+          var nextPic = null;
+          for (var j = i + 1; j < configAdv.length && nextPic == null; ++j) {
+            if (configAdv[j].anzeigedauer_s > 0) {
+              nextPic = configAdv[j].bild;
             }
-            for (var j = 0; j < i && !img_2_shown; ++j) {
-              if (config_werbung[j].anzeigedauer_s > 0) {
-                loadWerbung(config_werbung[j].bild, "img_2");
-                img_2_shown = true;
-              }
-            }
-            if (!img_2_shown) {
-              loadWerbung(config_werbung[i].bild, "img_2");
-            }
-            break;
           }
-          timeCounter += config_werbung[i].anzeigedauer_s;
+          for (var j = 0; j <= i && nextPic == null; ++j) {
+            if (configAdv[j].anzeigedauer_s > 0) {
+              nextPic = configAdv[j].bild;
+            }
+          }
+          if (nextPic != null) {
+            loadWerbung(nextPic, "img_2");
+          }
+          break;
         }
+        timeCounter += configAdv[i].anzeigedauer_s;
       }
     }
-  } catch (ex) {
-      console.error("loadConfigAndShow", ex.message)
   }
 }
 
-function loadBilder(imgHome, imgGuest) {
+function showTeamLogos(imgHome, imgGuest) {
   var imgReplace = document.getElementById("img_home")
   imgReplace.src = "logos/team/" + imgHome + "?" + Date.now().toString();
   imgReplace = document.getElementById("img_guest")
   imgReplace.src = "logos/team/" + imgGuest + "?" + Date.now().toString();
-}
-
-function loadMannschaftData(requestURL, teamSize, setCount, displaySP, reducedOutput) {
-  try {
-    var request = new XMLHttpRequest();
-    request.open('GET', requestURL + "?" + Date.now().toString());
-    request.responseType = 'arraybuffer';
-    request.onload = writeMannschaft.bind(null, request, teamSize,
-      setCount, displaySP, reducedOutput);
-    request.send();
-  } catch (ex) {
-    console.error("loadMannschaftData", ex.message);
-  }
 }
 
 function reducePlayerName(name) {
@@ -138,47 +108,41 @@ function reducePlayerName(name) {
   return name;
 } 
 
-function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) {
+function showTeamData(teams, teamSize, setCount, displaySP, reducedOutput) {
   try {
-    var decoder = new TextDecoder("utf8");
-    var decoded = decoder.decode(request.response);
-    if (decoded.charCodeAt(0) === 0xFEFF)
-      decoded = decoded.substring(1);
-    var data = JSON.parse(decoded);
-    var mannschaft = data.mannschaft[0];
+    var team = teams[0];
     var el = document.getElementById("mannschaft0");
-    var gesamt_diff = data.mannschaft[0].gesamt - data.mannschaft[1].gesamt;
+    var gesamt_diff = teams[0].gesamt - teams[1].gesamt;
     if (gesamt_diff >= 0)
-      el.innerHTML = mannschaft.name + " (+" + gesamt_diff + ")";
+      el.innerHTML = team.name + " (+" + gesamt_diff + ")";
     else
-      el.innerHTML = mannschaft.name;
+      el.innerHTML = team.name;
     el = document.getElementById("gesamt0");
     if (!reducedOutput)
     {
-      el.innerHTML = mannschaft.volle;
+      el.innerHTML = team.volle;
       el = el.parentElement.nextElementSibling.firstChild;
-      el.innerHTML = mannschaft.abr;
+      el.innerHTML = team.abr;
       el = el.parentElement.nextElementSibling.firstChild;
-      el.innerHTML = mannschaft.f;
+      el.innerHTML = team.f;
       el = el.parentElement.nextElementSibling.firstChild;
     }
-    el.innerHTML = mannschaft.gesamt;
+    el.innerHTML = team.gesamt;
     el = el.parentElement.nextElementSibling.firstChild;
     if (displaySP)
-      el.innerHTML = mannschaft.mp;
+      el.innerHTML = team.mp;
     else
       el.innerHTML = "";
 
     el = document.getElementById("mp_center");
     if (el != null) {
       if (displaySP) 
-        el.innerHTML = data.mannschaft[0].mp + " : " + data.mannschaft[1].mp
+        el.innerHTML = teams[0].mp + " : " + teams[1].mp
       else
         el.innerHTML = ""
     }
 
-
-    var spielerArray = mannschaft.spieler;
+    var spielerArray = team.spieler;
     for (var i = 0; i < teamSize; i++) {
       var spieler = spielerArray[i];
       el = document.getElementById("spieler0" + i.toString());
@@ -212,29 +176,29 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
         el.innerHTML = "";
     }
 
-    mannschaft = data.mannschaft[1];
+    team = teams[1];
     el = document.getElementById("mannschaft1");
     if (gesamt_diff <= 0)
-      el.innerHTML = "(+" + (-gesamt_diff) + ") " + mannschaft.name;
+      el.innerHTML = "(+" + (-gesamt_diff) + ") " + team.name;
     else
-      el.innerHTML = mannschaft.name;
+      el.innerHTML = team.name;
     el = document.getElementById("gesamt1");
     if (!reducedOutput)
     {
-      el.innerHTML = mannschaft.volle;
+      el.innerHTML = team.volle;
       el = el.parentElement.previousElementSibling.firstChild;
-      el.innerHTML = mannschaft.abr;
+      el.innerHTML = team.abr;
       el = el.parentElement.previousElementSibling.firstChild;
-      el.innerHTML = mannschaft.f;
+      el.innerHTML = team.f;
       el = el.parentElement.previousElementSibling.firstChild;
     }
-    el.innerHTML = mannschaft.gesamt;
+    el.innerHTML = team.gesamt;
     el = el.parentElement.previousElementSibling.firstChild;
     if (displaySP)
-      el.innerHTML = mannschaft.mp;
+      el.innerHTML = team.mp;
     else
       el.innerHTML = "";
-    spielerArray = mannschaft.spieler;
+    spielerArray = team.spieler;
     for (var i = 0; i < teamSize; i++) {
       var spieler = spielerArray[i];
       el = document.getElementById("spieler1" + i.toString());
@@ -277,9 +241,8 @@ function writeMannschaft(request, teamSize, setCount, displaySP, reducedOutput) 
         el.innerHTML = "";  
       el.innerHTML = "";
     }
-
   } catch (ex) {
-    console.error("writeMannschaft", ex.message);
+    console.error("showTeamData", ex.message);
   }
 }
 
@@ -290,27 +253,19 @@ function loadWerbung(img, id) {
   }
 }
 
-function loadLaneData(requestURL, numLanes, showSetPoints) {
+function showLaneData(lane, showLanes, numLanes, showSetPoints) {
   try {
-    var request = new XMLHttpRequest();
-    request.open('GET', requestURL + "?" +  Date.now().toString());
-    request.responseType = 'arraybuffer';
-    request.onload = writeLane.bind(null, request, numLanes, showSetPoints);
-    request.send();
-  } catch (ex) {
-    console.error("loadBahnData", ex.message);
-  }
-}
-
-function writeLane(request, numLanes, showSetPoints) {
-  try {
-    var laneCnt;
-    var decoder = new TextDecoder("utf8");
-    var decoded = decoder.decode(request.response);
-    if (decoded.charCodeAt(0) === 0xFEFF)
-      decoded = decoded.substring(1);
-    var data = JSON.parse(decoded);
-    var lane = data.bahn;
+    var el = document.getElementById("display4lanes");
+    if (el != null) {
+      el.hidden = (numLanes != 4 || !showLanes);
+    }
+    var el = document.getElementById("display6lanes");
+    if (el != null) {
+      el.hidden = (numLanes != 6  || !showLanes);
+    }
+    if (!showLanes) {
+      return;
+    }
 
     var el = document.getElementById("name" + numLanes + "lanes");
     for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
