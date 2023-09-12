@@ -39,6 +39,7 @@ import { Socket } from 'socket.io-client';
 import Dropzone from 'react-dropzone';
 
 import {ConfigValues} from '../cck2_live_interface/ConfigValues';
+import { List, ListItem } from '@mui/material';
 
 const darkTheme = createTheme({
   palette: {
@@ -483,6 +484,7 @@ function App({socket}: {socket: Socket}) {
             <Tab label="Teams" id="tab-team" sx={{alignItems:'start'}}/>
             <Tab label="Werbung" id="tab-adv" sx={{alignItems:'start'}}/>
             <Tab label="Setup" id="tab-setup" sx={{alignItems:'start'}}/>
+            <Tab label="Info" id="tab-info" sx={{alignItems:'start'}}/>
           </Tabs>
           <TabPanel  value={valuePanel} index={0}>
             <Stack spacing={4} direction="column">
@@ -515,6 +517,28 @@ function App({socket}: {socket: Socket}) {
               <Stack spacing={2} direction="column" alignItems="left">
                 <CreateSetupSettings register={register} control={control} settings={values.setup} />
               </Stack>
+            </Stack>
+          </TabPanel>
+          <TabPanel value={valuePanel} index={3}>
+            <Stack spacing={2} direction="column">
+              <Typography component='div' variant="h3">Info - CCK2 Live Electron</Typography>
+              <Typography component='div' variant="h5">Autor</Typography>
+              <Typography component='div'><ul><li>Thomas Forell</li></ul></Typography>
+              <Typography component='div' variant="h5">Lizenz</Typography>
+              <Typography component='div'><ul><li>CCK2 Live Electron ist freie Software unter der GNU General Public License, 
+                Version 3 - <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html" target="_blank">Lizenztext</a></li></ul> 
+              </Typography>
+              <Typography component='div' variant="h5">Third Party Pakete</Typography>
+              <Typography component='div'>
+                <ul>
+                  <li><a href="https://www.electronjs.org" target="_blank">Elektron</a></li>
+                  <li><a href="https://react.dev" target="_blank">React</a></li>
+                  <li><a href="https://mui.com" target="_blank">MUI</a></li> 
+                  <li><a href="https://socket.io" target="_blank">Socket.IO</a></li>
+                  <li>Die vollständige Liste der Pakete mit Lizenzhinweis und Source-Code 
+                    auf <a href="https://github.com/ThomasForell/cck2_live_electron" target="_blank">GitHub</a> </li>
+                </ul>
+              </Typography>
             </Stack>
           </TabPanel>
         </Box>
