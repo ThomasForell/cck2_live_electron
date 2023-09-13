@@ -40,7 +40,7 @@ import Dropzone from 'react-dropzone';
 
 import {ConfigValues} from '../cck2_live_interface/ConfigValues';
 
-const currentVersion = require("../package.json").version;
+const currentVersion = "0.2.0"; // require("../package.json").version;
 
 const darkTheme = createTheme({
   palette: {
