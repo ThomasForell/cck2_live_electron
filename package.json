@@ -5,7 +5,7 @@
   "author": "Thomas Forell",
   "description": "Tool für Livestream und Ergebnisanzeige aus CCK2",
   "private": false,
-  "homepage": "https://skv-lorsch.de",
+  "homepage": ".",
   "main": "build/electron/main.js",
   "license": "GPL-3.0-or-later",
   "dependencies": {
