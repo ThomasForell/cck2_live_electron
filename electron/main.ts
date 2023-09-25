@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme } from 'electron';
+import { app, BrowserWindow, nativeTheme, dialog } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
@@ -165,7 +165,61 @@ express_app.use( (req, res, next) => {
     next();
   }
 } );
-express_app.listen(80);
+
+express_app.listen(80).on("error", () => {
+    dialog.showErrorBox("Fehler beim Programmstart", 
+      "Es ist bereits eine Instanz von CCK2 Live Elektron geöffnet\n"
+      + "oder eine andere Anwendung nutzt Port 80.\n"
+      + "Bitte beenden sie diese Anwendung und starten sie danch CCK2 Live Elektron erneut. \n\n" 
+      + "Das Programm nach dem Drücken von OK beendet.");
+    app.exit(-1);
+  }
+)
+
+// communication
+const httpServer = createServer();
+const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}, maxHttpBufferSize: 1e8});
+io.on('connection', (socket) => {
+  socket.on("save_setup", (data) => {fs.writeFileSync(path.join(appDir, "setup.json"), JSON.stringify(data)); UpdateFileLookup(data); configValues.setup = {...data};});
+  socket.on("save_team", (data) => {fs.writeFileSync(path.join(appDir, "team.json"), JSON.stringify(data)); configValues.team = {...data};});
+  socket.on("save_adv", (data) => {fs.writeFileSync(path.join(appDir, "adv.json"), JSON.stringify(data)); configValues.adv = {...data};});
+
+  socket.on("logo", (type: string, name: string, file: any, callback: any) => {
+    let target = path.join(appDir, "logos", "team", name);
+    if (type === "adv") {
+      target = path.join(appDir, "logos", "adv", name);
+    }
+    fs.writeFile(target, file, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        callback(name);
+      }});
+  });
+
+  socket.on("load", () => {
+    let buff = fs.readFileSync(path.join(appDir, "setup.json"), "utf-8"); 
+    const setup = JSON.parse(buff);
+    buff = fs.readFileSync(path.join(appDir, "team.json"), "utf-8");
+    const team = JSON.parse(buff);
+    buff = fs.readFileSync(path.join(appDir, "adv.json"), "utf-8");
+    const adv = JSON.parse(buff);
+    
+    configValues = {setup: setup, team: team, adv: adv};
+
+    socket.emit("load return", configValues);
+  });
+});
+httpServer.listen(1512).on("error", () => {
+  dialog.showErrorBox("Fehler beim Programmstart", 
+  "Es ist bereits eine Instanz von CCK2 Live Elektron geöffnet\n"
+  + "oder eine andere Anwendung nutzt Port 1512.\n"
+  + "Bitte beenden sie diese Anwendung und starten sie danch CCK2 Live Elektron erneut. \n\n" 
+  + "Das Programm nach dem Drücken von OK beendet.");
+  app.exit(-2);
+});
+
 
 let win: BrowserWindow | null = null;
 
@@ -222,39 +276,3 @@ app.on('activate', () => {
   }
 });
 
-// communication
-const httpServer = createServer();
-const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}, maxHttpBufferSize: 1e8});
-io.on('connection', (socket) => {
-  socket.on("save_setup", (data) => {fs.writeFileSync(path.join(appDir, "setup.json"), JSON.stringify(data)); UpdateFileLookup(data); configValues.setup = {...data};});
-  socket.on("save_team", (data) => {fs.writeFileSync(path.join(appDir, "team.json"), JSON.stringify(data)); configValues.team = {...data};});
-  socket.on("save_adv", (data) => {fs.writeFileSync(path.join(appDir, "adv.json"), JSON.stringify(data)); configValues.adv = {...data};});
-
-  socket.on("logo", (type: string, name: string, file: any, callback: any) => {
-    let target = path.join(appDir, "logos", "team", name);
-    if (type === "adv") {
-      target = path.join(appDir, "logos", "adv", name);
-    }
-    fs.writeFile(target, file, (err) => {
-      if (err) {
-        console.log(err);
-      }
-      else {
-        callback(name);
-      }});
-  });
-
-  socket.on("load", () => {
-    let buff = fs.readFileSync(path.join(appDir, "setup.json"), "utf-8"); 
-    const setup = JSON.parse(buff);
-    buff = fs.readFileSync(path.join(appDir, "team.json"), "utf-8");
-    const team = JSON.parse(buff);
-    buff = fs.readFileSync(path.join(appDir, "adv.json"), "utf-8");
-    const adv = JSON.parse(buff);
-    
-    configValues = {setup: setup, team: team, adv: adv};
-
-    socket.emit("load return", configValues);
-  });
-});
-httpServer.listen(1512);
