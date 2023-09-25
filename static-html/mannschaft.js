@@ -101,9 +101,13 @@ function showTeamLogos(imgHome, imgGuest) {
 }
 
 function reducePlayerName(name) {
+  const posCommaSpace = name.search(", ");
+  if (posCommaSpace > 0) {  // Bavarian name notation  
+    return name.slice(0, posCommaSpace);  // return first part of name
+  }
   const posSpace = name.search(" ");
   if (posSpace > 0) {
-    return name.slice(posSpace + 1);
+    return name.slice(posSpace + 1);  // return second part of name
   }
   return name;
 } 
