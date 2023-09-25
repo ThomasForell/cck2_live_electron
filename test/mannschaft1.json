@@ -1,1 +1,254 @@
-﻿{ 	"bahn" : [ 		{ 			"mannschaft" : "SKC Nibelungen Lorsch", 			"spielername" : "Alexander Beck", 			"sp": "0.5", 			"wurf" : "0", 			"gesamt" : "0", 			"durchgang_wurf" : "0", 			"durchgang_gesamt": "0" 		}, 		{ 			"mannschaft" : "KV Hainstadt", 			"spielername" : "Alexander Ankert", 			"sp": "0.5", 			"wurf" : "0", 			"gesamt" : "0", 			"durchgang_wurf" : "0", 			"durchgang_gesamt": "0" 		}, 		{ 			"mannschaft" : "SKC Nibelungen Lorsch", 			"spielername" : "Nico Botz", 			"sp": "0.5", 			"wurf" : "0", 			"gesamt" : "0", 			"durchgang_wurf" : "0", 			"durchgang_gesamt": "0" 		}, 		{ 			"mannschaft" : "KV Hainstadt", 			"spielername" : "Gerhard Emmert", 			"sp": "0.5", 			"wurf" : "0", 			"gesamt" : "0", 			"durchgang_wurf" : "0", 			"durchgang_gesamt": "0" 		}, 		{ 			"mannschaft" : "SKC Nibelungen Lorsch", 			"spielername" : "Sven Dammeyer", 			"sp": "0.5", 			"wurf" : "0", 			"gesamt" : "0", 			"durchgang_wurf" : "0", 			"durchgang_gesamt": "0" 		}, 		{ 			"mannschaft" : "KV Hainstadt", 			"spielername" : "Christopher Götz", 			"sp": "0.5", 			"wurf" : "0", 			"gesamt" : "0", 			"durchgang_wurf" : "0", 			"durchgang_gesamt": "0" 		}, 		{ 			"mannschaft" : "", 			"spielername" : "", 			"sp": "", 			"wurf" : "", 			"gesamt" : "", 			"durchgang_wurf" : "", 			"durchgang_gesamt": "" 		}, 		{ 			"mannschaft" : "", 			"spielername" : "", 			"sp": "", 			"wurf" : "", 			"gesamt" : "", 			"durchgang_wurf" : "", 			"durchgang_gesamt": "" 		} 	], 	 	"mannschaft" : [ 		{ 			"name" : "SKC Nibelungen Lorsch", 			"volle" : "0", 			"abr" : "0", 			"f" : "0", 			"gesamt": "0", 			"mp": "2.5", 			"spieler" : [ 				{ 					"spielername" : "Alexander Beck", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0.5", 					"satz" : [ 						"0", "0", "0", "0" 					] 				}, 				{ 					"spielername" : "Gerhard Emmert", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0.5", 					"satz" : [ 						"0", "0", "0", "0" 					] 				}, 				{ 					"spielername" : "Sven Dammeyer", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0.5", 					"satz" : [ 						"0", "0", "0", "0" 					] 				}, 				{ 					"spielername" : "Andreas Dietz", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0", 					"satz" : [ 						"0", "0", "0", "0" 					] 				}, 				{ 					"spielername" : "Lars Ebert", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0", 					"satz" : [ 						"0", "0", "0", "0" 					] 				}, 				{ 					"spielername" : "Matthias Ebert", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0", 					"satz" : [ 						"0", "0", "0", "0" 					] 				} 			] 		}, 		{ 			"name" : "KV Hainstadt", 			"volle" : "0", 			"abr" : "0", 			"f" : "0", 			"gesamt": "0", 			"mp": "2.5", 			"spieler" : [ 				{ 					"spielername" : "Alexander Ankert", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0.5", 					"satz" : [ 						"0", "0", "0", "0" 					] 				}, 				{ 					"spielername" : "Alexander Ankert", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0.5", 					"satz" : [ 						"0", "0", "0", "0" 					] 				}, 				{ 					"spielername" : "Christopher Götz", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0.5", 					"satz" : [ 						"0", "0", "0", "0" 					] 				}, 				{ 					"spielername" : "Jürgen Götz", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0", 					"satz" : [ 						"0", "0", "0", "0" 					] 				}, 				{ 					"spielername" : "Marcel Hamburger", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0", 					"satz" : [ 						"0", "0", "0", "0" 					] 				}, 				{ 					"spielername" : "Denis Heinemann", 					"spielername_aw" : "", 					"wurf" : "0", 					"gesamt" : "0", 					"sp" : "0", 					"satz" : [ 						"0", "0", "0", "0" 					] 				} 			] 		} 	] } 
+﻿{
+    "bahn": [
+        {
+            "mannschaft": "SKC Nibelungen Lorsch",
+            "spielername": "Alexander Beck",
+            "sp": "0.5",
+            "wurf": "0",
+            "gesamt": "0",
+            "durchgang_wurf": "0",
+            "durchgang_gesamt": "0"
+        },
+        {
+            "mannschaft": "KV Hainstadt",
+            "spielername": "Alexander Ankert",
+            "sp": "0.5",
+            "wurf": "0",
+            "gesamt": "0",
+            "durchgang_wurf": "0",
+            "durchgang_gesamt": "0"
+        },
+        {
+            "mannschaft": "SKC Nibelungen Lorsch",
+            "spielername": "Nico Botz",
+            "sp": "0.5",
+            "wurf": "0",
+            "gesamt": "0",
+            "durchgang_wurf": "0",
+            "durchgang_gesamt": "0"
+        },
+        {
+            "mannschaft": "KV Hainstadt",
+            "spielername": "Gerhard Emmert",
+            "sp": "0.5",
+            "wurf": "0",
+            "gesamt": "0",
+            "durchgang_wurf": "0",
+            "durchgang_gesamt": "0"
+        },
+        {
+            "mannschaft": "SKC Nibelungen Lorsch",
+            "spielername": "Sven Dammeyer",
+            "sp": "0.5",
+            "wurf": "0",
+            "gesamt": "0",
+            "durchgang_wurf": "0",
+            "durchgang_gesamt": "0"
+        },
+        {
+            "mannschaft": "KV Hainstadt",
+            "spielername": "Christopher Götz",
+            "sp": "0.5",
+            "wurf": "0",
+            "gesamt": "0",
+            "durchgang_wurf": "0",
+            "durchgang_gesamt": "0"
+        },
+        {
+            "mannschaft": "",
+            "spielername": "",
+            "sp": "",
+            "wurf": "",
+            "gesamt": "",
+            "durchgang_wurf": "",
+            "durchgang_gesamt": ""
+        },
+        {
+            "mannschaft": "",
+            "spielername": "",
+            "sp": "",
+            "wurf": "",
+            "gesamt": "",
+            "durchgang_wurf": "",
+            "durchgang_gesamt": ""
+        }
+    ],
+    "mannschaft": [
+        {
+            "name": "SKC Nibelungen Lorsch",
+            "volle": "0",
+            "abr": "0",
+            "f": "0",
+            "gesamt": "0",
+            "mp": "2.5",
+            "spieler": [
+                {
+                    "spielername": "Alexander Beck",
+                    "spielername_aw": "",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0.5",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                },
+                {
+                    "spielername": "Gerhard Emmert",
+                    "spielername_aw": "Louis van Gaal",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0.5",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                },
+                {
+                    "spielername": "Sven Dammeyer",
+                    "spielername_aw": "",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0.5",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                },
+                {
+                    "spielername": "Andreas Dietz",
+                    "spielername_aw": "",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                },
+                {
+                    "spielername": "Lars Ebert",
+                    "spielername_aw": "",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                },
+                {
+                    "spielername": "Matthias Ebert",
+                    "spielername_aw": "",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "KV Hainstadt",
+            "volle": "0",
+            "abr": "0",
+            "f": "0",
+            "gesamt": "0",
+            "mp": "2.5",
+            "spieler": [
+                {
+                    "spielername": "Alexander Ankert",
+                    "spielername_aw": "",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0.5",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                },
+                {
+                    "spielername": "Ankert, Alexander",
+                    "spielername_aw": "Aiwanger, Hubert",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0.5",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                },
+                {
+                    "spielername": "Christopher Götz",
+                    "spielername_aw": "",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0.5",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                },
+                {
+                    "spielername": "Jürgen Götz",
+                    "spielername_aw": "",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                },
+                {
+                    "spielername": "Marcel Hamburger",
+                    "spielername_aw": "",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                },
+                {
+                    "spielername": "Denis Heinemann",
+                    "spielername_aw": "",
+                    "wurf": "0",
+                    "gesamt": "0",
+                    "sp": "0",
+                    "satz": [
+                        "0",
+                        "0",
+                        "0",
+                        "0"
+                    ]
+                }
+            ]
+        }
+    ]
+}
