@@ -40,7 +40,7 @@ import Dropzone from 'react-dropzone';
 
 import {ConfigValues} from '../cck2_live_interface/ConfigValues';
 
-const currentVersion = "0.2.0"; // require("../package.json").version;
+let currentVersion = "";
 
 const darkTheme = createTheme({
   palette: {
@@ -452,8 +452,9 @@ function App({socket}: {socket: Socket}) {
     setValue("adv", stateUpdate.adv);
   }, [stateUpdate]);
 
-  socket.on("load return", (data: ConfigValues) => {
+  socket.on("load return", (data: ConfigValues, version: string) => {
     setStateUpdate(data);
+    currentVersion = version;
     console.log("load return");
   });
 

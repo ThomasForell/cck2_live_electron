@@ -208,7 +208,7 @@ io.on('connection', (socket) => {
     
     configValues = {setup: setup, team: team, adv: adv};
 
-    socket.emit("load return", configValues);
+    socket.emit("load return", configValues, app.getVersion());
   });
 });
 httpServer.listen(1512).on("error", () => {
