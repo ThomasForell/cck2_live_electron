@@ -276,3 +276,22 @@ app.on('activate', () => {
   }
 });
 
+// check for update
+async function Check4Update() {
+  const serverVersionFile = "https://skv-lorsch.de/live/cck2_live_electron_latest.json";
+  fetch(serverVersionFile)
+    .then((response) => {return response.json()})
+    .then((v) => {
+      if (v.version !== app.getVersion()) {
+        dialog.showMessageBox({
+          "type": "info",
+          "title": "Neue Version verfügbar", 
+          "message": "Es steht eine neue Version von CCK2 Live Electron zum Download zur verfügung.\n"
+            + "Die neue Version kann im Info-Bereich der Anwendung heruntergeladen werden.",
+          "buttons": []})
+          }  
+      }  
+    );
+};
+setTimeout(Check4Update, 5000);
+
