@@ -1,10 +1,8 @@
-import { app, BrowserWindow, nativeTheme, dialog } from 'electron';
+import { app, BrowserWindow, nativeTheme, dialog, ipcMain } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 import * as express from 'express';
-import {Server} from 'socket.io';
-import {createServer} from 'http';
 import * as fs from 'fs';
 import * as os from 'os';
 
@@ -19,7 +17,6 @@ const configUrls = ["/TVLinks.json", "/TVRechts.json", "/Stream.json"];
 let configValues: ConfigValues;
 
 const appDir = os.homedir() + "/cck2_live_electron";
-console.log(appDir);
 
 function createIndex(req, res) {
   let index =       
@@ -176,51 +173,6 @@ express_app.listen(80).on("error", () => {
   }
 )
 
-// communication
-const httpServer = createServer();
-const io = new Server(httpServer, {cors: {origin: "http://localhost:3000"}, maxHttpBufferSize: 1e8});
-io.on('connection', (socket) => {
-  socket.on("save_setup", (data) => {fs.writeFileSync(path.join(appDir, "setup.json"), JSON.stringify(data)); UpdateFileLookup(data); configValues.setup = {...data};});
-  socket.on("save_team", (data) => {fs.writeFileSync(path.join(appDir, "team.json"), JSON.stringify(data)); configValues.team = {...data};});
-  socket.on("save_adv", (data) => {fs.writeFileSync(path.join(appDir, "adv.json"), JSON.stringify(data)); configValues.adv = {...data};});
-
-  socket.on("logo", (type: string, name: string, file: any, callback: any) => {
-    let target = path.join(appDir, "logos", "team", name);
-    if (type === "adv") {
-      target = path.join(appDir, "logos", "adv", name);
-    }
-    fs.writeFile(target, file, (err) => {
-      if (err) {
-        console.log(err);
-      }
-      else {
-        callback(name);
-      }});
-  });
-
-  socket.on("load", () => {
-    let buff = fs.readFileSync(path.join(appDir, "setup.json"), "utf-8"); 
-    const setup = JSON.parse(buff);
-    buff = fs.readFileSync(path.join(appDir, "team.json"), "utf-8");
-    const team = JSON.parse(buff);
-    buff = fs.readFileSync(path.join(appDir, "adv.json"), "utf-8");
-    const adv = JSON.parse(buff);
-    
-    configValues = {setup: setup, team: team, adv: adv};
-
-    socket.emit("load return", configValues, app.getVersion());
-  });
-});
-httpServer.listen(1512).on("error", () => {
-  dialog.showErrorBox("Fehler beim Programmstart", 
-  "Es ist bereits eine Instanz von CCK2 Live Elektron geöffnet\n"
-  + "oder eine andere Anwendung nutzt Port 1512.\n"
-  + "Bitte beenden sie diese Anwendung und starten sie danch CCK2 Live Elektron erneut. \n\n" 
-  + "Das Programm nach dem Drücken von OK beendet.");
-  app.exit(-2);
-});
-
-
 let win: BrowserWindow | null = null;
 
 nativeTheme.themeSource = "dark";
@@ -231,7 +183,9 @@ function createWindow() {
     width: 1200,
     height: 800,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true
     }
   })
 
@@ -242,7 +196,7 @@ function createWindow() {
   }
 
   win.on('closed', () => win = null);
-  win.setMenuBarVisibility(false);
+//  win.setMenuBarVisibility(false);
 
   // Hot Reloading
   if (isDev) {
@@ -262,6 +216,39 @@ function createWindow() {
   if (isDev) {
     win.webContents.openDevTools();
   }
+
+
+  // communication using ipcMain 
+  ipcMain.on("save_setup", (event, data) => {fs.writeFileSync(path.join(appDir, "setup.json"), JSON.stringify(data)); UpdateFileLookup(data); configValues.setup = {...data};});
+  ipcMain.on("save_team", (event, data) => {fs.writeFileSync(path.join(appDir, "team.json"), JSON.stringify(data)); configValues.team = {...data};});
+  ipcMain.on("save_adv", (event, data) => {fs.writeFileSync(path.join(appDir, "adv.json"), JSON.stringify(data)); configValues.adv = {...data};});
+
+  ipcMain.on("logo", (event, type: string, name: string, file: any, callback: any) => {
+    let target = path.join(appDir, "logos", "team", name);
+    if (type === "adv") {
+      target = path.join(appDir, "logos", "adv", name);
+    }
+    fs.writeFile(target, file, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        callback(name);
+      }});
+  });
+
+  ipcMain.handle("load", () => {
+    let buff = fs.readFileSync(path.join(appDir, "setup.json"), "utf-8"); 
+    const setup = JSON.parse(buff);
+    buff = fs.readFileSync(path.join(appDir, "team.json"), "utf-8");
+    const team = JSON.parse(buff);
+    buff = fs.readFileSync(path.join(appDir, "adv.json"), "utf-8");
+    const adv = JSON.parse(buff);
+    
+    configValues = {setup: setup, team: team, adv: adv};
+
+    return {config: configValues, version: app.getVersion()};
+  });
 }
 
 app.on('ready', createWindow);
@@ -282,7 +269,7 @@ async function Check4Update() {
   fetch(serverVersionFile)
     .then((response) => {return response.json()})
     .then((v) => {
-      if (v.version !== app.getVersion()) {
+      if (v.version > app.getVersion()) {
         dialog.showMessageBox({
           "type": "info",
           "title": "Neue Version verfügbar", 

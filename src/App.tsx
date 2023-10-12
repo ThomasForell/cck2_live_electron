@@ -34,8 +34,6 @@ import { useForm } from 'react-hook-form';
 import { Control } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 
-import { Socket } from 'socket.io-client';
-
 import Dropzone from 'react-dropzone';
 
 import {ConfigValues} from '../cck2_live_interface/ConfigValues';
@@ -252,7 +250,7 @@ function CreateSetupSettings({register, control, settings}: {register: any, cont
   return (<>{s}</>)
 }
 
-function LogoDropzone({label, name, value, control, socket}: {label: string, name: string, value: string, control: Control, socket: Socket}) {
+function LogoDropzone({label, name, value, control}: {label: string, name: string, value: string, control: Control}) {
   let source = "";
   if (name.startsWith("adv")) {
     source = "http://localhost/logos/adv/" + value;
@@ -280,10 +278,10 @@ function LogoDropzone({label, name, value, control, socket}: {label: string, nam
             multiple={false}
             onDrop={(acceptedFiles: File[]) => {
               if (name.startsWith("team")) {
-                socket.emit("logo", "team", acceptedFiles[0].name, acceptedFiles[0], onChange);
+                (window as any).electronAPI.logo("team", acceptedFiles[0].name, acceptedFiles[0], onChange);
               }
               else {
-                socket.emit("logo", "adv", acceptedFiles[0].name, acceptedFiles[0], onChange);
+                (window as any).electronAPI.logo("adv", acceptedFiles[0].name, acceptedFiles[0], onChange);
               }
             }}>
               {({getRootProps, getInputProps, open, isDragReject, isDragActive, isDragAccept}) => (
@@ -305,8 +303,8 @@ function LogoDropzone({label, name, value, control, socket}: {label: string, nam
 }
 
 
-function TeamSettings({register, control, team, setup, count, disableDelete, disableUp, disableDown, socket}: {register: any, control: any, team: ConfigValues["team"], 
-  setup: ConfigValues["setup"], count: number, disableDelete:boolean, disableUp:boolean, disableDown:boolean, socket: Socket}) {
+function TeamSettings({register, control, team, setup, count, disableDelete, disableUp, disableDown}: {register: any, control: any, team: ConfigValues["team"], 
+  setup: ConfigValues["setup"], count: number, disableDelete:boolean, disableUp:boolean, disableDown:boolean}) {
   return (
     <div>
       <Accordion>
@@ -319,8 +317,8 @@ function TeamSettings({register, control, team, setup, count, disableDelete, dis
         </AccordionSummary>
         <AccordionDetails key={"teamDetails." + count.toString()}>
           <Stack spacing={2} direction="column">
-            <LogoDropzone label="Logo Heim" name={"team.logo_home." + count.toString()} value={team.logo_home[count]} control={control} socket={socket}/>
-            <LogoDropzone label="Logo Gast" name={"team.logo_guest." + count.toString()} value={team.logo_guest[count]} control={control} socket={socket}/>
+            <LogoDropzone label="Logo Heim" name={"team.logo_home." + count.toString()} value={team.logo_home[count]} control={control}/>
+            <LogoDropzone label="Logo Gast" name={"team.logo_guest." + count.toString()} value={team.logo_guest[count]} control={control}/>
             <Stack spacing={4} direction="row">
               <FormControl>
                 <FormLabel id="num_player_label">Anzahl Spieler</FormLabel>
@@ -367,7 +365,7 @@ function TeamSettings({register, control, team, setup, count, disableDelete, dis
   );
 }
 
-function CreateTeamSettings(props: {register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"], socket: Socket}) {
+function CreateTeamSettings(props: {register: any, control: any, team: ConfigValues["team"], setup: ConfigValues["setup"]}) {
   let t = [];
   for (let i = 0; props.team &&  i < props.team.name.length; ++i) {
     t.push(<TeamSettings key={"team_settings_" + i.toString()} {...props}  count={i} disableDelete={props.team.name.length === 1} disableUp={i === 0} disableDown={i === props.team.name.length - 1} />);
@@ -375,9 +373,9 @@ function CreateTeamSettings(props: {register: any, control: any, team: ConfigVal
   return (<>{t}</>)
 }
 
-function AdvSettings({register, control, adv, setup, count, disableDelete, disableUp, disableDown, socket}: 
+function AdvSettings({register, control, adv, setup, count, disableDelete, disableUp, disableDown}: 
   {register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], count: number,
-    disableDelete:boolean, disableUp:boolean, disableDown:boolean, socket: Socket}) {
+    disableDelete:boolean, disableUp:boolean, disableDown:boolean}) {
 
   return (
     <>
@@ -392,7 +390,7 @@ function AdvSettings({register, control, adv, setup, count, disableDelete, disab
         </AccordionSummary>
         <AccordionDetails key={"advDetail." + count.toString()}>
           <Stack spacing={2} direction="column">
-            <LogoDropzone label="Logo Werbung" name={"adv.logo." + count.toString()} value={adv.logo[count]} control={control} socket={socket}/>
+            <LogoDropzone label="Logo Werbung" name={"adv.logo." + count.toString()} value={adv.logo[count]} control={control}/>
           </Stack>
         </AccordionDetails>
       </Accordion>
@@ -400,7 +398,7 @@ function AdvSettings({register, control, adv, setup, count, disableDelete, disab
   );
 }
 
-function CreateAdvSettings(props: {register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"], socket: Socket}) {
+function CreateAdvSettings(props: {register: any, control: any, adv: ConfigValues["adv"], setup: ConfigValues["setup"]}) {
   let a = [];
   for (let i = 0; props.adv && i < props.adv.name.length; ++i) {
     a.push(<AdvSettings key={"adv_settings_" + i.toString() } {...props} count={i} disableDelete={props.adv.name.length === 1} disableUp={i === 0} disableDown={i === props.adv.name.length - 1} />);
@@ -438,7 +436,7 @@ let watchedValues: ConfigValues;
 let setValueFunc: any;
 let setStateUpdate: any;
 
-function App({socket}: {socket: Socket}) {
+function App() {
   const { control, register, watch, setValue } = useForm<ConfigValues>();
   watchedValues = watch();
   setValueFunc = setValue;
@@ -452,15 +450,14 @@ function App({socket}: {socket: Socket}) {
     setValue("adv", stateUpdate.adv);
   }, [stateUpdate]);
 
-  socket.on("load return", (data: ConfigValues, version: string) => {
-    setStateUpdate(data);
-    currentVersion = version;
-    console.log("load return");
-  });
-
   useEffect(
-    () => {socket.emit("load", "hello!")}, []
-  );
+    () => {
+      (window as any).electronAPI.load().then(({config: data, version: version}: {config: ConfigValues, version: string}) => {
+        setStateUpdate(data);
+        currentVersion = version;
+        console.log("load return");
+      }); 
+      return () => { };}, [] );
 
   const [valuePanel, setValuePanel] = useState(0);
 
@@ -492,10 +489,10 @@ function App({socket}: {socket: Socket}) {
             <Stack spacing={4} direction="column">
               <Stack spacing={2} direction="row" justifyContent="space-between">
                 <Typography component='div' variant="h3">Team Konfiguration</Typography>
-                <Button onClick={() => {console.log(watchedValues.team); socket.emit("save_team", watchedValues.team);}} variant="contained">Speichern</Button>
+                <Button onClick={() => {console.log(watchedValues.team); (window as any).electronAPI.saveTeam(watchedValues.team);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack spacing={2} direction="column" alignItems="left">
-                <CreateTeamSettings key="create_team_settings" register={register} control={control} team={values.team} setup={values.setup} socket={socket} />
+                <CreateTeamSettings key="create_team_settings" register={register} control={control} team={values.team} setup={values.setup}/>
               </Stack>
             </Stack>
           </TabPanel>
@@ -503,10 +500,10 @@ function App({socket}: {socket: Socket}) {
             <Stack spacing={4} direction="column">
               <Stack spacing={2} direction="row"  justifyContent="space-between">
               <Typography component='div' variant="h3">Werbung Konfiguration</Typography>
-                <Button onClick={() => {console.log(watchedValues.adv); socket.emit("save_adv", watchedValues.adv);}} variant="contained">Speichern</Button>
+                <Button onClick={() => {console.log(watchedValues.adv); (window as any).electronAPI.saveAdv(watchedValues.adv);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
-                <CreateAdvSettings key="create_adv_settings" register={register} control={control} adv={values.adv} setup={values.setup} socket={socket} />
+                <CreateAdvSettings key="create_adv_settings" register={register} control={control} adv={values.adv} setup={values.setup}/>
               </Stack>
             </Stack>
           </TabPanel>
@@ -514,7 +511,7 @@ function App({socket}: {socket: Socket}) {
             <Stack spacing={4} direction="column">
               <Stack spacing={2} direction="row"  justifyContent="space-between">
                 <Typography component='div' variant="h3">Setup</Typography>
-                <Button onClick={() => {console.log(watchedValues.setup); socket.emit("save_setup", watchedValues.setup);}} variant="contained">Speichern</Button>
+                <Button onClick={() => {console.log(watchedValues.setup); (window as any).electronAPI.saveSetup(watchedValues.setup);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack spacing={2} direction="column" alignItems="left">
                 <CreateSetupSettings register={register} control={control} settings={values.setup} />
@@ -536,7 +533,6 @@ function App({socket}: {socket: Socket}) {
                   <li><a href="https://www.electronjs.org" target="_blank" rel="noreferrer">Elektron</a></li>
                   <li><a href="https://react.dev" target="_blank" rel="noreferrer">React</a></li>
                   <li><a href="https://mui.com" target="_blank" rel="noreferrer">MUI</a></li> 
-                  <li><a href="https://socket.io" target="_blank" rel="noreferrer">Socket.IO</a></li>
                   <li>Die vollständige Liste der Pakete mit Lizenzhinweis und Source-Code 
                     auf <a href="https://github.com/ThomasForell/cck2_live_electron" target="_blank" rel="noreferrer">GitHub</a> </li>
                 </ul>
