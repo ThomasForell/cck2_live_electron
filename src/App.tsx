@@ -278,10 +278,12 @@ function LogoDropzone({label, name, value, control}: {label: string, name: strin
             multiple={false}
             onDrop={(acceptedFiles: File[]) => {
               if (name.startsWith("team")) {
-                (window as any).electronAPI.logo("team", acceptedFiles[0].name, acceptedFiles[0], onChange);
+                (window as any).electronAPI.logo("team", acceptedFiles[0].name, (acceptedFiles[0] as any).path).then(
+                  (filename: string|null) => { if (filename != null) { onChange(filename); } });
               }
               else {
-                (window as any).electronAPI.logo("adv", acceptedFiles[0].name, acceptedFiles[0], onChange);
+                (window as any).electronAPI.logo("adv", acceptedFiles[0].name, (acceptedFiles[0] as any).path).then(
+                  (filename: string|null) => { if (filename != null) { onChange(filename); } });
               }
             }}>
               {({getRootProps, getInputProps, open, isDragReject, isDragActive, isDragAccept}) => (
@@ -489,7 +491,7 @@ function App() {
             <Stack spacing={4} direction="column">
               <Stack spacing={2} direction="row" justifyContent="space-between">
                 <Typography component='div' variant="h3">Team Konfiguration</Typography>
-                <Button onClick={() => {console.log(watchedValues.team); (window as any).electronAPI.saveTeam(watchedValues.team);}} variant="contained">Speichern</Button>
+                <Button onClick={() => {(window as any).electronAPI.saveTeam(watchedValues.team);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack spacing={2} direction="column" alignItems="left">
                 <CreateTeamSettings key="create_team_settings" register={register} control={control} team={values.team} setup={values.setup}/>
@@ -500,7 +502,7 @@ function App() {
             <Stack spacing={4} direction="column">
               <Stack spacing={2} direction="row"  justifyContent="space-between">
               <Typography component='div' variant="h3">Werbung Konfiguration</Typography>
-                <Button onClick={() => {console.log(watchedValues.adv); (window as any).electronAPI.saveAdv(watchedValues.adv);}} variant="contained">Speichern</Button>
+                <Button onClick={() => {(window as any).electronAPI.saveAdv(watchedValues.adv);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
                 <CreateAdvSettings key="create_adv_settings" register={register} control={control} adv={values.adv} setup={values.setup}/>
@@ -511,7 +513,7 @@ function App() {
             <Stack spacing={4} direction="column">
               <Stack spacing={2} direction="row"  justifyContent="space-between">
                 <Typography component='div' variant="h3">Setup</Typography>
-                <Button onClick={() => {console.log(watchedValues.setup); (window as any).electronAPI.saveSetup(watchedValues.setup);}} variant="contained">Speichern</Button>
+                <Button onClick={() => {(window as any).electronAPI.saveSetup(watchedValues.setup);}} variant="contained">Speichern</Button>
               </Stack>
               <Stack spacing={2} direction="column" alignItems="left">
                 <CreateSetupSettings register={register} control={control} settings={values.setup} />

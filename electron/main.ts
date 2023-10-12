@@ -220,21 +220,21 @@ function createWindow() {
 
   // communication using ipcMain 
   ipcMain.on("save_setup", (event, data) => {fs.writeFileSync(path.join(appDir, "setup.json"), JSON.stringify(data)); UpdateFileLookup(data); configValues.setup = {...data};});
-  ipcMain.on("save_team", (event, data) => {fs.writeFileSync(path.join(appDir, "team.json"), JSON.stringify(data)); configValues.team = {...data};});
+  ipcMain.on("save_team", (event, data) => { console.log(JSON.stringify(data)); fs.writeFileSync(path.join(appDir, "team.json"), JSON.stringify(data)); configValues.team = {...data};});
   ipcMain.on("save_adv", (event, data) => {fs.writeFileSync(path.join(appDir, "adv.json"), JSON.stringify(data)); configValues.adv = {...data};});
 
-  ipcMain.on("logo", (event, type: string, name: string, file: any, callback: any) => {
+  ipcMain.handle("logo", (event, type: string, name: string, filepath: string) => {
     let target = path.join(appDir, "logos", "team", name);
     if (type === "adv") {
       target = path.join(appDir, "logos", "adv", name);
     }
-    fs.writeFile(target, file, (err) => {
-      if (err) {
-        console.log(err);
-      }
-      else {
-        callback(name);
-      }});
+    try {
+      fs.copyFileSync(filepath, target); 
+    } catch {
+      console.log("cannot copy file: " + filepath + " to " + target);
+      return null;
+    }
+    return name;
   });
 
   ipcMain.handle("load", () => {
