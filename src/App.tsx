@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext, createContext } from 'react';
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -38,8 +38,6 @@ import Dropzone from 'react-dropzone';
 
 import {ConfigValues} from '../cck2_live_interface/ConfigValues';
 
-let currentVersion = "";
-
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -47,6 +45,7 @@ const darkTheme = createTheme({
 });
 
 const variant = "standard";
+const controlFktContext = createContext((null as any)as {watchedValues: ConfigValues, setStateUpdate: Function, setValue: Function} );
 
 function TimeSelect(control: Control, name: string, label: string, value: number)
 {
@@ -75,8 +74,9 @@ function CreateTimeSelect(control: any, name: string, setup: ConfigValues["setup
   return (<>{t}</>)
 }
 
-function ComponentAdd(reference: string) {
+function ComponentAdd(reference: string, watchedValues: ConfigValues, setStateUpdate: Function) {
   let tmp = {...watchedValues};
+
   const numTimeEntries = tmp.setup.output_name.length;
   const [component, id] = reference.split(".");
   const i = Number(id);
@@ -104,7 +104,7 @@ function ComponentAdd(reference: string) {
   setStateUpdate(tmp);
 }
 
-function ComponentDelete(reference: string) {
+function ComponentDelete(reference: string, watchedValues: ConfigValues, setStateUpdate: Function) {
   let tmp = {...watchedValues};
   const [component, id] = reference.split(".");
   const i = Number(id);
@@ -128,7 +128,7 @@ function ComponentDelete(reference: string) {
   setStateUpdate(tmp);
 }
 
-function ComponentUp(reference: string) {
+function ComponentUp(reference: string, watchedValues: ConfigValues, setValue: Function) {
   let tmp = {...watchedValues};
   const [component, id] = reference.split(".");
   const i = Number(id);
@@ -138,23 +138,23 @@ function ComponentUp(reference: string) {
         [v[i], v[i - 1]] = [v[i - 1], v[i]];
       }
     }
-    setValueFunc("setup", tmp.setup);
+    setValue("setup", tmp.setup);
   }
   else if (component === "team") {
     for (const v of Object.values(tmp.team)) {
       [v[i], v[i - 1]] = [v[i - 1], v[i]];
     }
-    setValueFunc("team", tmp.team);
+    setValue("team", tmp.team);
   }
   else if (component === "adv") {
     for (const v of Object.values(tmp.adv)) {
       [v[i], v[i - 1]] = [v[i - 1], v[i]];
     }
-    setValueFunc("adv", tmp.adv);
+    setValue("adv", tmp.adv);
   }
 }
 
-function ComponentDown(reference: string) {
+function ComponentDown(reference: string, watchedValues: ConfigValues, setValue: Function) {
   let tmp = {...watchedValues};
   const [component, id] = reference.split(".");
   const i = Number(id);
@@ -164,46 +164,47 @@ function ComponentDown(reference: string) {
         [v[i], v[i + 1]] = [v[i + 1], v[i]];
       }
     }
-    setValueFunc("setup", tmp.setup);
+    setValue("setup", tmp.setup);
   }
   else if (component === "team") {
     for (const v of Object.values(tmp.team)) {
       [v[i], v[i + 1]] = [v[i + 1], v[i]];
     }
-    setValueFunc("team", tmp.team);
+    setValue("team", tmp.team);
   }
   else if (component === "adv") {
     for (const v of Object.values(tmp.adv)) {
       [v[i], v[i + 1]] = [v[i + 1], v[i]];
     }
-    setValueFunc("adv", tmp.adv);
+    setValue("adv", tmp.adv);
   }
 }
 
 function NavigationButtons({callback_id, disableDelete=false, disableUp=false, disableDown=false}: {callback_id: string, disableDelete: boolean, 
-  disableUp: boolean, disableDown: boolean}
-  ) {
+  disableUp: boolean, disableDown: boolean}) {
+  let fktContext = useContext(controlFktContext);
   return (        
     <ButtonGroup variant="outlined" size="small">
-      <Button onClick={() => ComponentAdd(callback_id)}><AddIcon/></Button>
-      <Button disabled={disableDelete} onClick={() => ComponentDelete(callback_id)}><DeleteForeverIcon/></Button>
-      <Button disabled={disableUp} onClick={() => ComponentUp(callback_id)}><ArrowCircleUpIcon/></Button>
-      <Button disabled={disableDown} onClick={() => ComponentDown(callback_id)}><ArrowCircleDownIcon/></Button>
+      <Button onClick={() => ComponentAdd(callback_id, fktContext.watchedValues, fktContext.setStateUpdate)}><AddIcon/></Button>
+      <Button disabled={disableDelete} onClick={() => ComponentDelete(callback_id, fktContext.watchedValues, fktContext.setStateUpdate)}><DeleteForeverIcon/></Button>
+      <Button disabled={disableUp} onClick={() => ComponentUp(callback_id, fktContext.watchedValues, fktContext.setValue)}><ArrowCircleUpIcon/></Button>
+      <Button disabled={disableDown} onClick={() => ComponentDown(callback_id, fktContext.watchedValues, fktContext.setValue)}><ArrowCircleDownIcon/></Button>
     </ButtonGroup>  
   )
 }
 
 function SetupSettings({register, control, count, disableDelete, disableUp, disableDown}: 
   {register: any, control: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean}) {
-  return ( 
+    let fktContext = useContext(controlFktContext);
+    return ( 
       <Stack spacing={4} direction="row" alignItems="center">
         <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" 
           {...register("setup.output_name." + count.toString())}
           onChange={(event: React.FormEvent<HTMLInputElement>) => {
-            const values = {...watchedValues};   
+            const values = {...fktContext.watchedValues};   
             if (event.target){
               values.setup.output_name[count] = ((event.target) as HTMLInputElement).value;
-              setStateUpdate(values);
+              fktContext.setStateUpdate(values);
             }
           }}/>
         <FormControl sx={{ m: 1, minWidth: 90 }}>
@@ -434,16 +435,14 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-let watchedValues: ConfigValues;
-let setValueFunc: any;
-let setStateUpdate: any;
 
 function App() {
-  const { control, register, watch, setValue } = useForm<ConfigValues>();
-  watchedValues = watch();
-  setValueFunc = setValue;
+  let currentVersion = "";
 
+  const { control, register, watch, setValue } = useForm<ConfigValues>();
+  let watchedValues: ConfigValues = watch();
   let stateUpdate: ConfigValues;
+  let setStateUpdate: Function;
   [stateUpdate, setStateUpdate] = useState(watchedValues);
 
   useEffect(() => {
@@ -469,8 +468,15 @@ function App() {
 
   const values: ConfigValues = {...watchedValues};
 
+
+  // watchedValues
+  // setStateUpdate
+  // setValue
+  
+  const dataStuff = {watchedValues: watchedValues, setStateUpdate: setStateUpdate, setValue: setValue}; 
+
   return (
-    <>
+    <controlFktContext.Provider value={dataStuff}>
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
@@ -549,7 +555,7 @@ function App() {
           </TabPanel>
         </Box>
       </ThemeProvider>
-    </>
+    </controlFktContext.Provider>
   );
 }
 
