@@ -5,6 +5,7 @@ export interface ConfigValues {
         lanes: Array<boolean>;
         adv: Array<boolean>;
         cck2_output_path: string;
+        active_output: string;
     };
     team: {
         name: Array<string>;

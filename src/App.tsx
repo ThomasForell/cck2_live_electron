@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useEffect, useState, useContext, createContext } from 'react';
+import React, { useEffect, useState, useContext, createContext } from 'react';
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -19,6 +19,8 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import WiFi from '@mui/icons-material/Wifi';
+import SignalWifiStatusbarNullIcon from '@mui/icons-material/SignalWifiStatusbarNull';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -242,7 +244,24 @@ function SetupSettings({register, control, count, disableDelete, disableUp, disa
 }
 
 function CreateSetupSettings({register, control, settings}: {register: any, control: any, settings: ConfigValues["setup"]}) {
-  let s = [];
+  let s = [              
+    <FormControl>
+      <FormLabel id="active-module">Aktive Ausage</FormLabel>
+      <Controller
+        defaultValue={settings.active_output}
+        render={({ field }) => (
+          <RadioGroup {...field}>
+            <FormControlLabel value="league" control={<Radio />} label="Liga" key="active_league" />
+            <FormControlLabel value="single" control={<Radio />} label="Einzel" key="active_single" />
+            <FormControlLabel value="sprint" control={<Radio />} label="Sprint" key="active_sprint" />
+            <FormControlLabel value="team" control={<Radio />} label="Team" key="active_team" />
+          </RadioGroup>)}
+        name={"setup.active_output"}
+        control={control}
+      />
+    </FormControl>
+  ];
+
   for (let i = 0; settings && i < settings.output_name.length; ++i) {
     s.push(<SetupSettings key={"CreateSetupSettings" + i.toString()} register={register} control={control} count={i} 
       disableDelete={settings.output_name.length === 1} disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
@@ -439,6 +458,10 @@ function TabPanel(props: TabPanelProps) {
 function App() {
   let currentVersion = "";
 
+  function setCurrentVersion(version: string) {
+    currentVersion = version;
+  }
+
   const { control, register, watch, setValue } = useForm<ConfigValues>();
   let watchedValues: ConfigValues = watch();
   let stateUpdate: ConfigValues;
@@ -451,49 +474,62 @@ function App() {
     setValue("adv", stateUpdate.adv);
   }, [stateUpdate]);
 
+  const [mainValuePanel, setMainValuePanel] = useState(0);
+  const handleChangeMainMenu = (event: React.SyntheticEvent, newValue: number) => {
+    setMainValuePanel(newValue);
+  };
+
+  const [leagueValuePanel, setLeagueValuePanel] = useState(0);
+  const handleChangeLeaguePanel = (event: React.SyntheticEvent, newValue: number) => {
+    setLeagueValuePanel(newValue);
+  }
+
+  const [activeOutput, setActiveOutput] = useState("liga");
+
+  const values: ConfigValues = {...watchedValues};
+  const dataStuff = {watchedValues: watchedValues, 
+    setStateUpdate: setStateUpdate, 
+    setValue: setValue
+  }; 
+
   useEffect(
     () => {
       (window as any).electronAPI.load().then(({config: data, version: version}: {config: ConfigValues, version: string}) => {
         setStateUpdate(data);
-        currentVersion = version;
+        setCurrentVersion(version);
+        setActiveOutput(data.setup.active_output);
         console.log("load return");
       }); 
       return () => { };}, [] );
-
-  const [valuePanel, setValuePanel] = useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValuePanel(newValue);
-  };
-
-  const values: ConfigValues = {...watchedValues};
-
-
-  // watchedValues
-  // setStateUpdate
-  // setValue
-  
-  const dataStuff = {watchedValues: watchedValues, setStateUpdate: setStateUpdate, setValue: setValue}; 
 
   return (
     <controlFktContext.Provider value={dataStuff}>
       <ThemeProvider theme={darkTheme}>
       <CssBaseline />
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={mainValuePanel} onChange={handleChangeMainMenu} aria-label="basic tabs example">
+          <Tab icon={activeOutput === "league" ? <WiFi/> : <SignalWifiStatusbarNullIcon/>} iconPosition="start" label="Liga" id="main-panel-liga"/>
+          <Tab icon={activeOutput === "single" ? <WiFi/> : <SignalWifiStatusbarNullIcon/>} iconPosition="start" label="Einzel" id="main-panel-single"/>
+          <Tab icon={activeOutput === "sprint" ? <WiFi/> : <SignalWifiStatusbarNullIcon/>} iconPosition="start" label="Sprint" id="main-panel-spirnt"/>
+          <Tab icon={activeOutput === "team" ? <WiFi/> : <SignalWifiStatusbarNullIcon/>} iconPosition="start" label="Team" id="main-panel-team"/>
+          <Tab label="Setup" id="main-panel-2"/>
+          <Tab label="Info" id="main-panel-3"/>
+        </Tabs>
+      </Box>
+      <TabPanel value={mainValuePanel} index={0}>
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
           <Tabs
             orientation="vertical"
             variant="scrollable"
-            value={valuePanel}
-            onChange={handleChange}
+            value={leagueValuePanel}
+            onChange={handleChangeLeaguePanel}
             aria-label="Vertical tabs"
             sx={{ borderRight: 1, borderColor: 'divider' }}
           >
-            <Tab label="Teams" id="tab-team" sx={{alignItems:'start'}}/>
-            <Tab label="Werbung" id="tab-adv" sx={{alignItems:'start'}}/>
-            <Tab label="Setup" id="tab-setup" sx={{alignItems:'start'}}/>
-            <Tab label="Info" id="tab-info" sx={{alignItems:'start'}}/>
+            <Tab label="Teams" id="tab-leagure-team" sx={{alignItems:'start'}}/>
+            <Tab label="Werbung" id="tab-league-adv" sx={{alignItems:'start'}}/>
           </Tabs>
-          <TabPanel  value={valuePanel} index={0}>
+          <TabPanel value={leagueValuePanel} index={0}>
             <Stack spacing={4} direction="column">
               <Stack spacing={2} direction="row" justifyContent="space-between">
                 <Typography component='div' variant="h3">Team Konfiguration</Typography>
@@ -504,7 +540,7 @@ function App() {
               </Stack>
             </Stack>
           </TabPanel>
-          <TabPanel value={valuePanel} index={1}>
+          <TabPanel value={leagueValuePanel} index={1}>
             <Stack spacing={4} direction="column">
               <Stack spacing={2} direction="row"  justifyContent="space-between">
               <Typography component='div' variant="h3">Werbung Konfiguration</Typography>
@@ -515,18 +551,38 @@ function App() {
               </Stack>
             </Stack>
           </TabPanel>
-          <TabPanel value={valuePanel} index={2}>
+        </Box>
+      </TabPanel>
+      <TabPanel value={mainValuePanel} index={1}>
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
+          <h1>Einzelmeisterschaft</h1>
+        </Box>
+      </TabPanel>
+      <TabPanel value={mainValuePanel} index={2}>
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
+          <h1>Sprint</h1>
+        </Box>
+      </TabPanel>
+      <TabPanel value={mainValuePanel} index={3}>
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
+          <h1>Team</h1>
+        </Box>
+      </TabPanel>
+      <TabPanel value={mainValuePanel} index={4}>
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
             <Stack spacing={4} direction="column">
               <Stack spacing={2} direction="row"  justifyContent="space-between">
                 <Typography component='div' variant="h3">Setup</Typography>
-                <Button onClick={() => {(window as any).electronAPI.saveSetup(watchedValues.setup);}} variant="contained">Speichern</Button>
+                <Button onClick={() => {(window as any).electronAPI.saveSetup(watchedValues.setup); setActiveOutput(watchedValues.setup.active_output)}} variant="contained">Speichern</Button>
               </Stack>
               <Stack spacing={2} direction="column" alignItems="left">
                 <CreateSetupSettings register={register} control={control} settings={values.setup} />
               </Stack>
             </Stack>
-          </TabPanel>
-          <TabPanel value={valuePanel} index={3}>
+        </Box>
+      </TabPanel>
+      <TabPanel value={mainValuePanel} index={5}>
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
             <Stack spacing={2} direction="column">
               <Typography component='div' variant="h3">Info - CCK2 Live Electron {currentVersion}</Typography>
               <Typography component='div' variant="h5">Autor</Typography>
@@ -552,8 +608,9 @@ function App() {
                   </ul>
               </Typography>
             </Stack>
-          </TabPanel>
         </Box>
+      </TabPanel>
+
       </ThemeProvider>
     </controlFktContext.Provider>
   );

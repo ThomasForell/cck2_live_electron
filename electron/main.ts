@@ -196,7 +196,7 @@ function createWindow() {
   }
 
   win.on('closed', () => win = null);
-//  win.setMenuBarVisibility(false);
+  win.setMenuBarVisibility(false);
 
   // Hot Reloading
   if (isDev) {
