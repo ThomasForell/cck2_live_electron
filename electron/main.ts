@@ -189,6 +189,14 @@ function createWindow() {
     }
   })
 
+  // DevTools
+  if (isDev) {
+    installExtension(REACT_DEVELOPER_TOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err));
+    win.webContents.openDevTools();
+  }
+
   if (isDev) {
     win.loadURL('http://localhost:3000/index.html');
   } else {
@@ -196,7 +204,7 @@ function createWindow() {
   }
 
   win.on('closed', () => win = null);
-  win.setMenuBarVisibility(false);
+  win.setMenuBarVisibility(isDev);
 
   // Hot Reloading
   if (isDev) {
@@ -207,16 +215,6 @@ function createWindow() {
       hardResetMethod: 'exit'
     });
   }
-
-  // DevTools
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
-
-  if (isDev) {
-    win.webContents.openDevTools();
-  }
-
 
   // communication using ipcMain 
   ipcMain.on("save_setup", (event, data) => {fs.writeFileSync(path.join(appDir, "setup.json"), JSON.stringify(data)); UpdateFileLookup(data); configValues.setup = {...data};});
