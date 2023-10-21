@@ -19,9 +19,6 @@ import WiFi from '@mui/icons-material/Wifi';
 import SignalWifiStatusbarNullIcon from '@mui/icons-material/SignalWifiStatusbarNull';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -37,6 +34,7 @@ import {ConfigValues} from '../cck2_live_interface/ConfigValues';
 import TabInfo from './TabInfo';
 import TabSetup from './TabSetup';
 import NavigationButtons from './NavigationButtons';
+import TimeSelect from './TimeSelect';
 
 const darkTheme = createTheme({
   palette: {
@@ -44,35 +42,8 @@ const darkTheme = createTheme({
   },
 });
 
-const variant = "standard";
+export const variant = "standard";
 const controlFktContext = createContext((null as any) as {watchedValues: ConfigValues, setStateUpdate: Function, setValue: Function} );
-
-function TimeSelect(control: Control, name: string, label: string, value: number)
-{
-  return (
-    <FormControl key={name + "_fc_" + value.toString()} sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel key={name + "_il_" + value.toString()}>{label}</InputLabel>
-        <Controller key={name + "_c_" + value.toString()} control={control} name={name} defaultValue={value} render={({ field }) => (
-          <Select key={name + "_s_" + value.toString()} {...field} label={label} variant={variant}>
-            <MenuItem key={name + "_i_0_" + value.toString()} value={0}>0s</MenuItem>
-            <MenuItem key={name + "_i_5_" + value.toString()} value={5}>5s</MenuItem>
-            <MenuItem key={name + "_i_10_" + value.toString()} value={10}>10s</MenuItem>
-            <MenuItem key={name + "_i_20_" + value.toString()} value={20}>20s</MenuItem>
-            <MenuItem key={name + "_i_30_" + value.toString()} value={30}>30s</MenuItem>
-            <MenuItem key={name + "_i_45_" + value.toString()} value={45}>45s</MenuItem>
-            <MenuItem key={name + "_i_60_" + value.toString()} value={60}>60s</MenuItem>
-          </Select>)}/>
-    </FormControl>
-  );
-}
-
-function CreateTimeSelect(control: any, name: string, setup: ConfigValues["setup"]) {
-  let t = [];
-  for (let i = 0; i < setup.output_name.length; ++i) {
-    t.push(TimeSelect(control, name + "." + i.toString(), "Zeit " + setup.output_name[i], 0));
-  }
-  return (<>{t}</>)
-}
 
 function LogoDropzone({label, name, value, control}: {label: string, name: string, value: string, control: Control}) {
   let source = "";
@@ -137,7 +108,7 @@ function TeamSettings({register, control, team, setup, count, disableDelete, dis
         <AccordionSummary key={"teamSummary." + count.toString()} expandIcon={<ExpandMoreIcon />}>
             <Stack spacing={2} direction="row" alignItems="center"  onClick={(event: any) => event.stopPropagation()}>
               <TextField key="team_name" label="Teamname" variant={variant} defaultValue={team.name[count]} {...register("team.name." + count.toString())}/>
-              {CreateTimeSelect(control, "team.time_values." + count.toString(), setup)}
+              <TimeSelect control={control} name={"team.time_values." + count.toString()} setup={setup} />
               <NavigationButtons controlFktContext={controlFktContext} callback_id={"team." + count.toString()} 
                 disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
             </Stack>
@@ -211,7 +182,7 @@ function AdvSettings({register, control, adv, setup, count, disableDelete, disab
           expandIcon={<ExpandMoreIcon />}> 
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue={adv.logo[count]} {...register("adv.name." + count.toString())}/>
-              {CreateTimeSelect(control, "adv.time_values." + count.toString(), setup)}
+              <TimeSelect control={control} name={"adv.time_values." + count.toString()} setup={setup} />
               <NavigationButtons controlFktContext={controlFktContext} callback_id={"adv." + count.toString()} 
                 disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
             </Stack>
