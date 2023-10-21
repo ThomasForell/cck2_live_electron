@@ -31,10 +31,15 @@ import { Control } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 
 import {ConfigValues} from '../cck2_live_interface/ConfigValues';
-import TabInfo from './TabInfo';
-import TabSetup from './TabSetup';
 import NavigationButtons from './NavigationButtons';
 import TimeSelect from './TimeSelect';
+//import TabLeague from'./TabLeague';
+import TabSingle from './TabSingle';
+import TabSprint from './TabSprint';
+import TabTeam from './TabTeam';
+import TabSetup from './TabSetup';
+import TabInfo from './TabInfo';
+
 
 const darkTheme = createTheme({
   palette: {
@@ -330,19 +335,13 @@ function App() {
         </Box>
       </TabPanel>
       <TabPanel value={mainValuePanel} index={1}>
-        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
-          <h1>Einzelmeisterschaft</h1>
-        </Box>
+        <TabSingle/>
       </TabPanel>
       <TabPanel value={mainValuePanel} index={2}>
-        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
-          <h1>Sprint</h1>
-        </Box>
+        <TabSprint/>
       </TabPanel>
       <TabPanel value={mainValuePanel} index={3}>
-        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
-          <h1>Team</h1>
-        </Box>
+        <TabTeam/>
       </TabPanel>
       <TabPanel value={mainValuePanel} index={4}>
         <TabSetup register={register} control={control} settings={values.setup} watchedValues={watchedValues} setActiveOutput={setActiveOutput}/>
