@@ -1,6 +1,6 @@
 import './App.css';
 
-import React, { useEffect, useState, useContext, createContext } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -15,13 +15,8 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import WiFi from '@mui/icons-material/Wifi';
 import SignalWifiStatusbarNullIcon from '@mui/icons-material/SignalWifiStatusbarNull';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import InputLabel from '@mui/material/InputLabel';
@@ -32,13 +27,16 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 
+import Dropzone from 'react-dropzone';
+
 import { useForm } from 'react-hook-form';
 import { Control } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 
-import Dropzone from 'react-dropzone';
-
 import {ConfigValues} from '../cck2_live_interface/ConfigValues';
+import TabInfo from './TabInfo';
+import TabSetup from './TabSetup';
+import NavigationButtons from './NavigationButtons';
 
 const darkTheme = createTheme({
   palette: {
@@ -47,7 +45,7 @@ const darkTheme = createTheme({
 });
 
 const variant = "standard";
-const controlFktContext = createContext((null as any)as {watchedValues: ConfigValues, setStateUpdate: Function, setValue: Function} );
+const controlFktContext = createContext((null as any) as {watchedValues: ConfigValues, setStateUpdate: Function, setValue: Function} );
 
 function TimeSelect(control: Control, name: string, label: string, value: number)
 {
@@ -74,200 +72,6 @@ function CreateTimeSelect(control: any, name: string, setup: ConfigValues["setup
     t.push(TimeSelect(control, name + "." + i.toString(), "Zeit " + setup.output_name[i], 0));
   }
   return (<>{t}</>)
-}
-
-function ComponentAdd(reference: string, watchedValues: ConfigValues, setStateUpdate: Function) {
-  let tmp = {...watchedValues};
-
-  const numTimeEntries = tmp.setup.output_name.length;
-  const [component, id] = reference.split(".");
-  const i = Number(id);
-  if (component === "setup") {
-    tmp.setup.output_name.splice(i, 0, "Stream");
-    tmp.setup.type.splice(i, 0, "Stream");
-    tmp.setup.lanes.splice(i, 0, true);
-    tmp.setup.adv.splice(i, 0, true);
-  }
-  else if (component === "team") {
-    tmp.team.name.splice(i, 0, "Mannschaft");
-    tmp.team.time_values.splice(i, 0, new Array(numTimeEntries).fill(0));
-    tmp.team.logo_home.splice(i, 0, "Default Heim.png");
-    tmp.team.logo_guest.splice(i, 0, "Default Gast.png");
-    tmp.team.num_players.splice(i, 0, "6");
-    tmp.team.num_lanes.splice(i, 0, "4");
-    tmp.team.set_points.splice(i, 0, true);
-    tmp.team.cck2_file.splice(i, 0, "mannschaft");
-  }
-  else if (component === "adv") {
-    tmp.adv.name.splice(i, 0, "Werbung");
-    tmp.adv.time_values.splice(i, 0, new Array(numTimeEntries).fill(0));
-    tmp.adv.logo.splice(i, 0, "");
-  }
-  setStateUpdate(tmp);
-}
-
-function ComponentDelete(reference: string, watchedValues: ConfigValues, setStateUpdate: Function) {
-  let tmp = {...watchedValues};
-  const [component, id] = reference.split(".");
-  const i = Number(id);
-  if (component === "setup") {
-    for (const v of Object.values(tmp.setup)) {
-      if (Array.isArray(v)) { 
-        v.splice(i, 1);
-      }
-    }
-  }
-  else if (component === "team") {
-    for (const v of Object.values(tmp.team)) {
-      v.splice(i, 1);
-    }
-  }
-  else if (component === "adv") {
-    for (const v of Object.values(tmp.adv)) {
-      v.splice(i, 1);
-    }
-  }
-  setStateUpdate(tmp);
-}
-
-function ComponentUp(reference: string, watchedValues: ConfigValues, setValue: Function) {
-  let tmp = {...watchedValues};
-  const [component, id] = reference.split(".");
-  const i = Number(id);
-  if (component === "setup") {
-    for (const v of Object.values(tmp.setup)) {
-      if (Array.isArray(v)) { 
-        [v[i], v[i - 1]] = [v[i - 1], v[i]];
-      }
-    }
-    setValue("setup", tmp.setup);
-  }
-  else if (component === "team") {
-    for (const v of Object.values(tmp.team)) {
-      [v[i], v[i - 1]] = [v[i - 1], v[i]];
-    }
-    setValue("team", tmp.team);
-  }
-  else if (component === "adv") {
-    for (const v of Object.values(tmp.adv)) {
-      [v[i], v[i - 1]] = [v[i - 1], v[i]];
-    }
-    setValue("adv", tmp.adv);
-  }
-}
-
-function ComponentDown(reference: string, watchedValues: ConfigValues, setValue: Function) {
-  let tmp = {...watchedValues};
-  const [component, id] = reference.split(".");
-  const i = Number(id);
-  if (component === "setup") {
-    for (const v of Object.values(tmp.setup)) {
-      if (Array.isArray(v)) { 
-        [v[i], v[i + 1]] = [v[i + 1], v[i]];
-      }
-    }
-    setValue("setup", tmp.setup);
-  }
-  else if (component === "team") {
-    for (const v of Object.values(tmp.team)) {
-      [v[i], v[i + 1]] = [v[i + 1], v[i]];
-    }
-    setValue("team", tmp.team);
-  }
-  else if (component === "adv") {
-    for (const v of Object.values(tmp.adv)) {
-      [v[i], v[i + 1]] = [v[i + 1], v[i]];
-    }
-    setValue("adv", tmp.adv);
-  }
-}
-
-function NavigationButtons({callback_id, disableDelete=false, disableUp=false, disableDown=false}: {callback_id: string, disableDelete: boolean, 
-  disableUp: boolean, disableDown: boolean}) {
-  let fktContext = useContext(controlFktContext);
-  return (        
-    <ButtonGroup variant="outlined" size="small">
-      <Button onClick={() => ComponentAdd(callback_id, fktContext.watchedValues, fktContext.setStateUpdate)}><AddIcon/></Button>
-      <Button disabled={disableDelete} onClick={() => ComponentDelete(callback_id, fktContext.watchedValues, fktContext.setStateUpdate)}><DeleteForeverIcon/></Button>
-      <Button disabled={disableUp} onClick={() => ComponentUp(callback_id, fktContext.watchedValues, fktContext.setValue)}><ArrowCircleUpIcon/></Button>
-      <Button disabled={disableDown} onClick={() => ComponentDown(callback_id, fktContext.watchedValues, fktContext.setValue)}><ArrowCircleDownIcon/></Button>
-    </ButtonGroup>  
-  )
-}
-
-function SetupSettings({register, control, count, disableDelete, disableUp, disableDown}: 
-  {register: any, control: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean}) {
-    let fktContext = useContext(controlFktContext);
-    return ( 
-      <Stack spacing={4} direction="row" alignItems="center">
-        <TextField label="Ausgabe Name" variant={variant} defaultValue="TV oder Stream" 
-          {...register("setup.output_name." + count.toString())}
-          onChange={(event: React.FormEvent<HTMLInputElement>) => {
-            const values = {...fktContext.watchedValues};   
-            if (event.target){
-              values.setup.output_name[count] = ((event.target) as HTMLInputElement).value;
-              fktContext.setStateUpdate(values);
-            }
-          }}/>
-        <FormControl sx={{ m: 1, minWidth: 90 }}>
-          <InputLabel>Anzeigetyp</InputLabel>
-          <Controller control={control} name={"setup.type." + count.toString()} defaultValue={"stream"} render={({ field }) => (
-            <Select key={"setup.type." + count.toString()} {...field} label={"Anzeigetyp"} variant={variant}>
-              <MenuItem key={"setup.type.stream." + count.toString()} value="stream">Stream</MenuItem>
-              <MenuItem key={"setup.type.display." + count.toString()} value="display">Display</MenuItem>
-          </Select>)}/>
-        </FormControl>  
-        <Controller
-          control={control}
-          name={"setup.lanes." + count.toString()}
-          defaultValue={true}
-          render={({ field: { onChange, value } }) => (
-            <FormControlLabel label="Bahnanzeige"
-              control={
-                <Checkbox checked={value} onChange={onChange} />
-              }/>
-            )}/>
-        <Controller
-          control={control}
-          name={"setup.adv." + count.toString()}
-          defaultValue={true}
-          render={({ field: { onChange, value } }) => (
-            <FormControlLabel label="Werbung"
-              control={
-                <Checkbox checked={value} onChange={onChange} />
-              }/>
-            )}/>
-
-        <NavigationButtons callback_id={"setup." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
-      </Stack>
-  )
-}
-
-function CreateSetupSettings({register, control, settings}: {register: any, control: any, settings: ConfigValues["setup"]}) {
-  let s = [              
-    <FormControl>
-      <FormLabel id="active-module">Aktive Ausage</FormLabel>
-      <Controller
-        defaultValue={settings.active_output}
-        render={({ field }) => (
-          <RadioGroup {...field}>
-            <FormControlLabel value="league" control={<Radio />} label="Liga" key="active_league" />
-            <FormControlLabel value="single" control={<Radio />} label="Einzel" key="active_single" />
-            <FormControlLabel value="sprint" control={<Radio />} label="Sprint" key="active_sprint" />
-            <FormControlLabel value="team" control={<Radio />} label="Team" key="active_team" />
-          </RadioGroup>)}
-        name={"setup.active_output"}
-        control={control}
-      />
-    </FormControl>
-  ];
-
-  for (let i = 0; settings && i < settings.output_name.length; ++i) {
-    s.push(<SetupSettings key={"CreateSetupSettings" + i.toString()} register={register} control={control} count={i} 
-      disableDelete={settings.output_name.length === 1} disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
-  }
-  s.push(<TextField key="cck2_output_path" label="CCK2 Ausgabeverzeichnis" variant={variant} defaultValue="" {...register("setup.cck2_output_path")}/>);
-  return (<>{s}</>)
 }
 
 function LogoDropzone({label, name, value, control}: {label: string, name: string, value: string, control: Control}) {
@@ -334,7 +138,8 @@ function TeamSettings({register, control, team, setup, count, disableDelete, dis
             <Stack spacing={2} direction="row" alignItems="center"  onClick={(event: any) => event.stopPropagation()}>
               <TextField key="team_name" label="Teamname" variant={variant} defaultValue={team.name[count]} {...register("team.name." + count.toString())}/>
               {CreateTimeSelect(control, "team.time_values." + count.toString(), setup)}
-              <NavigationButtons callback_id={"team." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
+              <NavigationButtons controlFktContext={controlFktContext} callback_id={"team." + count.toString()} 
+                disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
             </Stack>
         </AccordionSummary>
         <AccordionDetails key={"teamDetails." + count.toString()}>
@@ -407,7 +212,8 @@ function AdvSettings({register, control, adv, setup, count, disableDelete, disab
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue={adv.logo[count]} {...register("adv.name." + count.toString())}/>
               {CreateTimeSelect(control, "adv.time_values." + count.toString(), setup)}
-              <NavigationButtons callback_id={"adv." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
+              <NavigationButtons controlFktContext={controlFktContext} callback_id={"adv." + count.toString()} 
+                disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
             </Stack>
         </AccordionSummary>
         <AccordionDetails key={"advDetail." + count.toString()}>
@@ -576,39 +382,13 @@ function App() {
                 <Button onClick={() => {(window as any).electronAPI.saveSetup(watchedValues.setup); setActiveOutput(watchedValues.setup.active_output)}} variant="contained">Speichern</Button>
               </Stack>
               <Stack spacing={2} direction="column" alignItems="left">
-                <CreateSetupSettings register={register} control={control} settings={values.setup} />
+                <TabSetup register={register} control={control} settings={values.setup} variant={variant} controlFktContext={controlFktContext}/>
               </Stack>
             </Stack>
         </Box>
       </TabPanel>
       <TabPanel value={mainValuePanel} index={5}>
-        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
-            <Stack spacing={2} direction="column">
-              <Typography component='div' variant="h3">Info - CCK2 Live Electron {currentVersion}</Typography>
-              <Typography component='div' variant="h5">Autor</Typography>
-              <Typography component='div'><ul><li>Thomas Forell</li></ul></Typography>
-              <Typography component='div' variant="h5">Lizenz</Typography>
-              <Typography component='div'><ul><li>CCK2 Live Electron ist freie Software unter der GNU General Public License, 
-                Version 3 - <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html" target="_blank" rel="noreferrer">Lizenztext</a></li></ul> 
-              </Typography>
-              <Typography component='div' variant="h5">Third Party Pakete</Typography>
-              <Typography component='div'>
-                <ul>
-                  <li><a href="https://www.electronjs.org" target="_blank" rel="noreferrer">Elektron</a></li>
-                  <li><a href="https://react.dev" target="_blank" rel="noreferrer">React</a></li>
-                  <li><a href="https://mui.com" target="_blank" rel="noreferrer">MUI</a></li> 
-                  <li>Die vollständige Liste der Pakete mit Lizenzhinweis und Source-Code 
-                    auf <a href="https://github.com/ThomasForell/cck2_live_electron" target="_blank" rel="noreferrer">GitHub</a> </li>
-                </ul>
-                </Typography>
-                <Typography component='div' variant="h5">Download</Typography>
-                <Typography component='div'>
-                  <ul>
-                  <li>Neue Versionen werden auf <a href="https://skv-lorsch.de/cck2-live-electron" target="_blank" rel="noreferrer">skv-lorsch.de</a> veröffentlicht</li>
-                  </ul>
-              </Typography>
-            </Stack>
-        </Box>
+        <TabInfo version={currentVersion}/>
       </TabPanel>
 
       </ThemeProvider>
