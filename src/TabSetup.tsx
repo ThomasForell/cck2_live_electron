@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
@@ -9,6 +10,8 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 import { Controller } from 'react-hook-form';
 import React, { useContext } from 'react';
@@ -68,7 +71,8 @@ function SetupSettings({register, control, count, disableDelete, disableUp, disa
   }
   
   
-function TabSetup({register, control, settings}: {register: any, control: any, settings: ConfigValues["setup"]}) {
+function TabSetup({register, control, settings, watchedValues, setActiveOutput}: 
+      {register: any, control: any, settings: ConfigValues["setup"], watchedValues: ConfigValues, setActiveOutput: Function}) {
     let s = [              
       <FormControl key="tabssetup_fc_active_output">
         <FormLabel>Aktive Ausage</FormLabel>
@@ -92,7 +96,19 @@ function TabSetup({register, control, settings}: {register: any, control: any, s
         disableDelete={settings.output_name.length === 1} disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
     }
     s.push(<TextField key="cck2_output_path" label="CCK2 Ausgabeverzeichnis" variant={variant} defaultValue="" {...register("setup.cck2_output_path")}/>);
-    return (<>{s}</>)
-}
-  
+    return (
+      <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
+            <Stack spacing={4} direction="column">
+              <Stack spacing={2} direction="row"  justifyContent="space-between">
+                <Typography component='div' variant="h3">Setup</Typography>
+                <Button onClick={() => {(window as any).electronAPI.saveSetup(watchedValues.setup); setActiveOutput(watchedValues.setup.active_output)}} variant="contained">Speichern</Button>
+              </Stack>
+              <Stack spacing={2} direction="column" alignItems="left">
+                {s}
+              </Stack>
+            </Stack>
+        </Box>
+    );
+  };
+
 export default TabSetup;

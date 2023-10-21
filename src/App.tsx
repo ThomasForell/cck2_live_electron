@@ -345,17 +345,7 @@ function App() {
         </Box>
       </TabPanel>
       <TabPanel value={mainValuePanel} index={4}>
-        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
-            <Stack spacing={4} direction="column">
-              <Stack spacing={2} direction="row"  justifyContent="space-between">
-                <Typography component='div' variant="h3">Setup</Typography>
-                <Button onClick={() => {(window as any).electronAPI.saveSetup(watchedValues.setup); setActiveOutput(watchedValues.setup.active_output)}} variant="contained">Speichern</Button>
-              </Stack>
-              <Stack spacing={2} direction="column" alignItems="left">
-                <TabSetup register={register} control={control} settings={values.setup}/>
-              </Stack>
-            </Stack>
-        </Box>
+        <TabSetup register={register} control={control} settings={values.setup} watchedValues={watchedValues} setActiveOutput={setActiveOutput}/>
       </TabPanel>
       <TabPanel value={mainValuePanel} index={5}>
         <TabInfo version={currentVersion}/>
