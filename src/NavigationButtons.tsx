@@ -9,6 +9,8 @@ import React, { useContext } from 'react';
 
 import { ConfigValues } from '../cck2_live_interface/ConfigValues';
 
+import { controlFktContext } from './App';
+
 function ComponentAdd(reference: string, watchedValues: ConfigValues, setStateUpdate: Function) {
     let tmp = {...watchedValues};
   
@@ -115,9 +117,8 @@ function ComponentAdd(reference: string, watchedValues: ConfigValues, setStateUp
     }
   }
   
-function NavigationButtons({callback_id, disableDelete=false, disableUp=false, disableDown=false, controlFktContext}: 
-    {callback_id: string, disableDelete: boolean, disableUp: boolean, disableDown: boolean, 
-        controlFktContext: React.Context<{watchedValues: ConfigValues, setStateUpdate: Function, setValue: Function}>}) {
+function NavigationButtons({callback_id, disableDelete=false, disableUp=false, disableDown=false}: 
+    {callback_id: string, disableDelete: boolean, disableUp: boolean, disableDown: boolean}) {
     let fktContext = useContext(controlFktContext);
     return (        
       <ButtonGroup variant="outlined" size="small">

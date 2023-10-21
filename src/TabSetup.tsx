@@ -16,10 +16,11 @@ import React, { useContext } from 'react';
 import { ConfigValues } from '../cck2_live_interface/ConfigValues';
 import NavigationButtons from './NavigationButtons';
 
-function SetupSettings({register, control, count, disableDelete, disableUp, disableDown, variant, controlFktContext}: 
-    {register: any, control: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean, 
-      variant: "filled" | "outlined" | "standard" | undefined, 
-      controlFktContext: React.Context<{watchedValues: ConfigValues, setStateUpdate: Function, setValue: Function}>}) {
+import { variant } from './App';
+import { controlFktContext } from './App';
+
+function SetupSettings({register, control, count, disableDelete, disableUp, disableDown}: 
+    {register: any, control: any, count: number, disableDelete:boolean, disableUp: boolean, disableDown: boolean}) {
       let fktContext = useContext(controlFktContext);
       return ( 
         <Stack spacing={4} direction="row" alignItems="center">
@@ -61,17 +62,13 @@ function SetupSettings({register, control, count, disableDelete, disableUp, disa
                 }/>
               )}/>
   
-          <NavigationButtons controlFktContext={controlFktContext} callback_id={"setup." + count.toString()}
-            disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
+          <NavigationButtons callback_id={"setup." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown}/>
         </Stack>
     )
   }
   
   
-function TabSetup({register, control, settings, variant, controlFktContext}: 
-  {register: any, control: any, settings: ConfigValues["setup"], 
-  variant: "filled" | "outlined" | "standard" | undefined, 
-  controlFktContext: React.Context<{watchedValues: ConfigValues, setStateUpdate: Function, setValue: Function}>}) {
+function TabSetup({register, control, settings}: {register: any, control: any, settings: ConfigValues["setup"]}) {
     let s = [              
       <FormControl key="tabssetup_fc_active_output">
         <FormLabel>Aktive Ausage</FormLabel>
@@ -91,8 +88,7 @@ function TabSetup({register, control, settings, variant, controlFktContext}:
     ];
   
     for (let i = 0; settings && i < settings.output_name.length; ++i) {
-      s.push(<SetupSettings controlFktContext={controlFktContext} variant={variant}
-        key={"CreateSetupSettings" + i.toString()} register={register} control={control} count={i} 
+      s.push(<SetupSettings key={"CreateSetupSettings" + i.toString()} register={register} control={control} count={i} 
         disableDelete={settings.output_name.length === 1} disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
     }
     s.push(<TextField key="cck2_output_path" label="CCK2 Ausgabeverzeichnis" variant={variant} defaultValue="" {...register("setup.cck2_output_path")}/>);

@@ -43,7 +43,7 @@ const darkTheme = createTheme({
 });
 
 export const variant = "standard";
-const controlFktContext = createContext((null as any) as {watchedValues: ConfigValues, setStateUpdate: Function, setValue: Function} );
+export const controlFktContext = createContext((null as any) as {watchedValues: ConfigValues, setStateUpdate: Function, setValue: Function} );
 
 function LogoDropzone({label, name, value, control}: {label: string, name: string, value: string, control: Control}) {
   let source = "";
@@ -109,7 +109,7 @@ function TeamSettings({register, control, team, setup, count, disableDelete, dis
             <Stack spacing={2} direction="row" alignItems="center"  onClick={(event: any) => event.stopPropagation()}>
               <TextField key="team_name" label="Teamname" variant={variant} defaultValue={team.name[count]} {...register("team.name." + count.toString())}/>
               <TimeSelect control={control} name={"team.time_values." + count.toString()} setup={setup} />
-              <NavigationButtons controlFktContext={controlFktContext} callback_id={"team." + count.toString()} 
+              <NavigationButtons callback_id={"team." + count.toString()} 
                 disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
             </Stack>
         </AccordionSummary>
@@ -183,8 +183,7 @@ function AdvSettings({register, control, adv, setup, count, disableDelete, disab
             <Stack spacing={4} direction="row" alignItems="center" onClick={(event) => event.stopPropagation()}>
               <TextField id="standard-basic" label="Werbung" variant={variant} defaultValue={adv.logo[count]} {...register("adv.name." + count.toString())}/>
               <TimeSelect control={control} name={"adv.time_values." + count.toString()} setup={setup} />
-              <NavigationButtons controlFktContext={controlFktContext} callback_id={"adv." + count.toString()} 
-                disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
+              <NavigationButtons callback_id={"adv." + count.toString()} disableDelete={disableDelete} disableUp={disableUp} disableDown={disableDown} />
             </Stack>
         </AccordionSummary>
         <AccordionDetails key={"advDetail." + count.toString()}>
@@ -353,7 +352,7 @@ function App() {
                 <Button onClick={() => {(window as any).electronAPI.saveSetup(watchedValues.setup); setActiveOutput(watchedValues.setup.active_output)}} variant="contained">Speichern</Button>
               </Stack>
               <Stack spacing={2} direction="column" alignItems="left">
-                <TabSetup register={register} control={control} settings={values.setup} variant={variant} controlFktContext={controlFktContext}/>
+                <TabSetup register={register} control={control} settings={values.setup}/>
               </Stack>
             </Stack>
         </Box>
