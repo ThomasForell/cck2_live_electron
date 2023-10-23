@@ -19,7 +19,7 @@ function ComponentAdd(reference: string, watchedValues: ConfigValues, setStateUp
     const i = Number(id);
     if (component === "setup") {
       tmp.setup.output_name.splice(i, 0, "Stream");
-      tmp.setup.type.splice(i, 0, "Stream");
+      tmp.setup.type.splice(i, 0, "stream");
       tmp.setup.lanes.splice(i, 0, true);
       tmp.setup.adv.splice(i, 0, true);
     }
