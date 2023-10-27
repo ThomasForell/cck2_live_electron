@@ -195,7 +195,7 @@ function TabLeague({register, control, watchedValues}:
             <Stack spacing={4} direction="column">
                 <Stack spacing={2} direction="row" justifyContent="space-between">
                     <Typography component='div' variant="h3">Team Konfiguration</Typography>
-                    <Button onClick={() => { (window as any).electronAPI.saveTeam(watchedValues.team); }} variant="contained">Speichern</Button>
+                    <Button onClick={() => { (window as any).electronAPI.saveLeagueTeam(watchedValues.team); }} variant="contained">Speichern</Button>
                 </Stack>
                 <Stack spacing={2} direction="column" alignItems="left">
                     <CreateTeamSettings key="create_team_settings" register={register} control={control} team={watchedValues.team} setup={watchedValues.setup} />
@@ -206,7 +206,7 @@ function TabLeague({register, control, watchedValues}:
             <Stack spacing={4} direction="column">
                 <Stack spacing={2} direction="row" justifyContent="space-between">
                     <Typography component='div' variant="h3">Werbung Konfiguration</Typography>
-                    <Button onClick={() => { (window as any).electronAPI.saveAdv(watchedValues.adv); }} variant="contained">Speichern</Button>
+                    <Button onClick={() => { (window as any).electronAPI.saveLeagueAdv(watchedValues.adv); }} variant="contained">Speichern</Button>
                 </Stack>
                 <Stack key="adv_details_stack" spacing={2} direction="column" alignItems="left">
                     <CreateAdvSettings key="create_adv_settings" register={register} control={control} adv={watchedValues.adv} setup={watchedValues.setup} />

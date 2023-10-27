@@ -1,9 +1,11 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    saveSetup: (data) => {console.log("saveSetup ipc"); ipcRenderer.send("save_setup", data)},
-    saveTeam: (data) => {console.log("saveTeam ipc"); ipcRenderer.send("save_team", data)},
-    saveAdv: (data) => {console.log("saveAdv ipc"); ipcRenderer.send("save_adv", data)},
+    saveSetup: (data) => {ipcRenderer.send("save_setup", data)},
+    saveLeagueTeam: (data) => {ipcRenderer.send("save_league_team", data)},
+    saveLeagueAdv: (data) => {ipcRenderer.send("save_league_adv", data)},
+    saveTeamSetup: (data) => {ipcRenderer.send("save_team_setup", data)},
     logo: (type, name, file, callback) => ipcRenderer.invoke("logo", type, name, file),
-    load: () => ipcRenderer.invoke("load")
+    load: () => ipcRenderer.invoke("load"),
+    loadTeamSetup: () => ipcRenderer.invoke("load_team_setup")
 });

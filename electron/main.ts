@@ -218,9 +218,9 @@ function createWindow() {
 
   // communication using ipcMain 
   ipcMain.on("save_setup", (event, data) => {fs.writeFileSync(path.join(appDir, "setup.json"), JSON.stringify(data)); UpdateFileLookup(data); configValues.setup = {...data};});
-  ipcMain.on("save_team", (event, data) => { console.log(JSON.stringify(data)); fs.writeFileSync(path.join(appDir, "team.json"), JSON.stringify(data)); configValues.team = {...data};});
-  ipcMain.on("save_adv", (event, data) => {fs.writeFileSync(path.join(appDir, "adv.json"), JSON.stringify(data)); configValues.adv = {...data};});
-
+  ipcMain.on("save_league_team", (event, data) => { console.log(JSON.stringify(data)); fs.writeFileSync(path.join(appDir, "team.json"), JSON.stringify(data)); configValues.team = {...data};});
+  ipcMain.on("save_league_adv", (event, data) => {fs.writeFileSync(path.join(appDir, "adv.json"), JSON.stringify(data)); configValues.adv = {...data};});
+  ipcMain.on("save_team_setup", (event, data) => {fs.writeFileSync(path.join(appDir, "team_setup.json"), JSON.stringify(data)); })
   ipcMain.handle("logo", (event, type: string, name: string, filepath: string) => {
     let target = path.join(appDir, "logos", "team", name);
     if (type === "adv") {
@@ -246,6 +246,17 @@ function createWindow() {
     configValues = {setup: setup, team: team, adv: adv};
 
     return {config: configValues, version: app.getVersion()};
+  });
+
+  ipcMain.handle("load_team_setup", () => {
+    try {
+        const buff = fs.readFileSync(path.join(appDir, "team_setup.json"), "utf-8");
+        const team_setup = JSON.parse(buff);
+        return team_setup;
+    }
+    catch (error) {
+        return null;
+    }
   });
 }
 
