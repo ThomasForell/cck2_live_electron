@@ -258,6 +258,9 @@ function createWindow() {
         return null;
     }
   });
+
+  ipcMain.on("team_processing_start", (event) => { console.log("team_processing_start"); });
+  ipcMain.on("team_processing_stop", (event) => { console.log("team_processing_stop"); });
 }
 
 app.on('ready', createWindow);

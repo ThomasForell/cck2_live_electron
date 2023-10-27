@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -14,6 +14,7 @@ function TabTeam() {
     const { control, register, watch, reset } = useForm();
     const { isDirty } = useFormState( {control} );
     const watchedValues = watch();
+    const [active, setActive] = useState(true);
 
     useEffect(
         () => {
@@ -22,7 +23,7 @@ function TabTeam() {
                     reset(data);
             });
             return () => { };
-        }, []);
+        }, [reset]);
 
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
@@ -45,8 +46,10 @@ function TabTeam() {
                     <Stack spacing={2} direction="row">
                         <TextField key="team_output_game_data" label="Spielstand Ausgabedatei im CSV-Format" variant={variant} defaultValue="ergebnis.csv" 
                             {...register("output_game_data")} fullWidth/>
-                        <Button variant="contained">Ausgabe Pausieren</Button>
-                        <Button variant="contained">Lesen und Fortsetzen</Button>
+                        <Button variant="contained" onClick={() => { setActive(false); (window as any).electronAPI.teamProcessingStop(); }} 
+                            disabled={!active}>Ausgabe Pausieren</Button>
+                        <Button variant="contained" onClick={() => { setActive(true); (window as any).electronAPI.teamProcessingStart(); }} 
+                            disabled={active}>Lesen und Fortsetzen</Button>
                     </Stack>                    
                 </Stack>
             </Stack>
