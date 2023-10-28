@@ -9,6 +9,8 @@ import * as os from 'os';
 import { ConfigValues } from '../cck2_live_interface/ConfigValues';
 import { TeamConfig, AdvConfig } from '../cck2_live_interface/LiveConfig';
 
+import TeamProcessing from './TeamProcessing';
+
 const indexUrls = ["/", "/index.html"]
 const displayUrls = ["/TVLinks.html", "/TVRechts.html"];
 const streamUrls = ["/Stream.html"];
@@ -262,8 +264,22 @@ function createWindow() {
         }
     });
 
-    ipcMain.on("team_processing_start", (event) => { console.log("team_processing_start"); });
-    ipcMain.on("team_processing_stop", (event) => { console.log("team_processing_stop"); });
+    let tp = null as TeamProcessing;
+    let tpIntervalId: ReturnType<typeof setInterval>;
+    ipcMain.on("team_processing_start", (event) => { 
+        console.log("team_processing_start"); 
+        if (tp == null) {
+            tp = new TeamProcessing; tp.do(); 
+            tpIntervalId = setInterval(() => {if (tp != null) tp.do();}, 3000);
+        }
+    });
+    ipcMain.on("team_processing_stop", (event) => { 
+        console.log("team_processing_stop");
+        if (tp != null) { 
+            clearInterval(tpIntervalId);
+            tp = null; 
+        }
+    });
 }
 
 app.on('ready', createWindow);

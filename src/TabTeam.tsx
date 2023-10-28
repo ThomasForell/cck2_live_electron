@@ -14,7 +14,7 @@ function TabTeam() {
     const { control, register, watch, reset } = useForm();
     const { isDirty } = useFormState( {control} );
     const watchedValues = watch();
-    const [active, setActive] = useState(true);
+    const [active, setActive] = useState(false);
 
     useEffect(
         () => {
