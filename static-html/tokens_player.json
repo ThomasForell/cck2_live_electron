@@ -1,0 +1,100 @@
+{
+	"bahn" : [
+		{
+			"mannschaft" : "[Mannschaftsname Bahn 1]",
+			"spielername" : "[Spielername Bahn 1]",
+            "id": "[Spielerpassnummer Bahn 1]",
+            "spielername_aw": "[Auswechselspielername Bahn 1]",
+            "id_aw": "[Auswechselspielerpassnummer Bahn 1]",
+            "sp": "[Satzpunkte Spieler Bahn 1]",
+			"wurf" : "[Wurf Spieler Bahn 1]",
+			"gesamt" : "[Holz Spieler Bahn 1]",
+			"durchgang_wurf" : "[Wurf Satz $, 1]",
+			"durchgang_gesamt": "[Holz Satz $, 1]"
+		},
+		{
+			"mannschaft" : "[Mannschaftsname Bahn 2]",
+            "spielername": "[Spielername Bahn 2]",
+            "id": "[Spielerpassnummer Bahn 2]",
+            "spielername_aw": "[Auswechselspielername Bahn 2]",
+            "id_aw": "[Auswechselspielerpassnummer Bahn 2]",
+            "sp": "[Satzpunkte Spieler Bahn 2]",
+			"wurf" : "[Wurf Spieler Bahn 2]",
+			"gesamt" : "[Holz Spieler Bahn 2]",
+			"durchgang_wurf" : "[Wurf Satz $, 2]",
+			"durchgang_gesamt": "[Holz Satz $, 2]"
+		},
+		{
+			"mannschaft" : "[Mannschaftsname Bahn 3]",
+            "spielername": "[Spielername Bahn 3]",
+            "id": "[Spielerpassnummer Bahn 3]",
+            "spielername_aw": "[Auswechselspielername Bahn 3]",
+            "id_aw": "[Auswechselspielerpassnummer Bahn 3]",
+            "sp": "[Satzpunkte Spieler Bahn 3]",
+			"wurf" : "[Wurf Spieler Bahn 3]",
+			"gesamt" : "[Holz Spieler Bahn 3]",
+			"durchgang_wurf" : "[Wurf Satz $, 3]",
+			"durchgang_gesamt": "[Holz Satz $, 3]"
+		},
+		{
+			"mannschaft" : "[Mannschaftsname Bahn 4]",
+            "spielername": "[Spielername Bahn 4]",
+            "id": "[Spielerpassnummer Bahn 4]",
+            "spielername_aw": "[Auswechselspielername Bahn 4]",
+            "id_aw": "[Auswechselspielerpassnummer Bahn 4]",
+            "sp": "[Satzpunkte Spieler Bahn 4]",
+			"wurf" : "[Wurf Spieler Bahn 4]",
+			"gesamt" : "[Holz Spieler Bahn 4]",
+			"durchgang_wurf" : "[Wurf Satz $, 4]",
+			"durchgang_gesamt": "[Holz Satz $, 4]"
+		},
+		{
+			"mannschaft" : "[Mannschaftsname Bahn 5]",
+            "spielername": "[Spielername Bahn 5]",
+            "id": "[Spielerpassnummer Bahn 5]",
+            "spielername_aw": "[Auswechselspielername Bahn 5]",
+            "id_aw": "[Auswechselspielerpassnummer Bahn 5]",
+            "sp": "[Satzpunkte Spieler Bahn 5]",
+			"wurf" : "[Wurf Spieler Bahn 5]",
+			"gesamt" : "[Holz Spieler Bahn 5]",
+			"durchgang_wurf" : "[Wurf Satz $, 5]",
+			"durchgang_gesamt": "[Holz Satz $, 5]"
+		},
+		{
+			"mannschaft" : "[Mannschaftsname Bahn 6]",
+            "spielername": "[Spielername Bahn 6]",
+            "id": "[Spielerpassnummer Bahn 6]",
+            "spielername_aw": "[Auswechselspielername Bahn 6]",
+            "id_aw": "[Auswechselspielerpassnummer Bahn 6]",
+            "sp": "[Satzpunkte Spieler Bahn 6]",
+			"wurf" : "[Wurf Spieler Bahn 6]",
+			"gesamt" : "[Holz Spieler Bahn 6]",
+			"durchgang_wurf" : "[Wurf Satz $, 6]",
+			"durchgang_gesamt": "[Holz Satz $, 6]"
+		},
+		{
+			"mannschaft" : "[Mannschaftsname Bahn 7]",
+            "spielername": "[Spielername Bahn 7]",
+            "id": "[Spielerpassnummer Bahn 7]",
+            "spielername_aw": "[Auswechselspielername Bahn 7]",
+            "id_aw": "[Auswechselspielerpassnummer Bahn 7]",
+            "sp": "[Satzpunkte Spieler Bahn 7]",
+			"wurf" : "[Wurf Spieler Bahn 7]",
+			"gesamt" : "[Holz Spieler Bahn 7]",
+			"durchgang_wurf" : "[Wurf Satz $, 7]",
+			"durchgang_gesamt": "[Holz Satz $, 7]"
+		},
+		{
+			"mannschaft" : "[Mannschaftsname Bahn 8]",
+            "spielername": "[Spielername Bahn 8]",
+            "id": "[Spielerpassnummer Bahn 8]",
+            "spielername_aw": "[Auswechselspielername Bahn 8]",
+            "id_aw": "[Auswechselspielerpassnummer Bahn 8]",
+            "sp": "[Satzpunkte Spieler Bahn 8]",
+			"wurf" : "[Wurf Spieler Bahn 8]",
+			"gesamt" : "[Holz Spieler Bahn 8]",
+			"durchgang_wurf" : "[Wurf Satz $, 8]",
+			"durchgang_gesamt": "[Holz Satz $, 8]"
+		}
+	]
+}
