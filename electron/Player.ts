@@ -1,5 +1,5 @@
 
-class Result {
+export class Result {
     all: number;
     clear: number;
     fault: number;
@@ -23,9 +23,13 @@ class Result {
         this.total += v.total;
         this.setPoint += v.setPoint;
     }
-};
 
-class Extra {
+    toCsvLine(): string {
+        return this.all + ";" + this.clear + ";" + this.fault + ";" + this.total + ";" + this.setPoint + ";" + this.suddenVictory;  
+    }
+ };
+
+export class Extra {
     total: number;
     comment: string;
 
@@ -35,25 +39,38 @@ class Extra {
     }
 };
 
-class Player {
+export default class Player {
     private id: string = "";
     private name: string = "";
+    private substitute: boolean = false;
     private team: string = "";
     private group: string = "";
     active: boolean = false;
     private results: Array<Result> = [];
-    private extra: Array<Extra> = [];
+    private extras: Array<Extra> = [];
 
     constructor(csvLine: string) {
-
+        const csvLineSplit = csvLine.split(";");
+        this.id = csvLineSplit[0];
+        this.name = csvLineSplit[1];
+        this.substitute = csvLineSplit[2] == String(true);
+        this.team = csvLineSplit[3];
+        this.group = csvLineSplit[4];
+        for (let i = 5; i < csvLineSplit.length; i += 6) {
+            this.results.push(new Result(Number(csvLineSplit[i]), Number(csvLineSplit[i + 1]), Number(csvLineSplit[i + 2]), 
+                Number(csvLineSplit[i + 3]), Number(csvLineSplit[i + 4]), Number(csvLineSplit[i + 5])));
+        }       
     }
 
     addExtra(csvLine: string): void {
-
+        const csvLineSplit = csvLine.split(";");
+        this.extras.push(new Extra(Number(csvLineSplit[0]), csvLineSplit[1]));
     }
 
-    toCvsLine(): string {
-        return "";
+    toCsvLine(): string {
+        let v = this.id + ";" + this.name + ";" + String(this.substitute) + ";" + this.team + ";" + this.group;
+        this.results.forEach((r) => { v += ";" + r.toCsvLine(); }); 
+        return v;
     }
 
     updateResult(match: number, setsPerMatch: number, r: Array<Result>) {
@@ -93,12 +110,23 @@ class Player {
 
     getExtraTotal(): number {
         let r = 0;
-        this.extra.forEach((e) => {r += e.total;});
+        this.extras.forEach((e) => { r += e.total; });
+        return r;
+    }
+
+    getResultTotalWithExtra(): Result {
+        let r = this.getResultTotal();
+        if (this.substitute) {
+            r.total += this.getExtraTotal() * 0.5;
+        }
+        else {
+            r.total += this.getExtraTotal();
+        }
         return r;
     }
 }
 
-function PlayerCompare(a: Player, b: Player) {
+export function PlayerCompare(a: Player, b: Player): number {
     const aTotal = a.getResultTotal();
     const aExtra = a.getExtraTotal();
     const bTotal = b.getResultTotal();
@@ -123,5 +151,3 @@ function PlayerCompare(a: Player, b: Player) {
 
     return -1;
 }
-
-export default Player;
