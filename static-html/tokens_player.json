@@ -10,8 +10,26 @@
 			"wurf" : "[Wurf Spieler Bahn 1]",
 			"gesamt" : "[Holz Spieler Bahn 1]",
 			"durchgang_wurf" : "[Wurf Satz $, 1]",
-			"durchgang_gesamt": "[Holz Satz $, 1]"
-		},
+			"durchgang_gesamt": "[Holz Satz $, 1]",
+            "volle": [
+                "[Volle Satz 1, 1]",
+                "[Volle Satz 2, 1]",
+                "[Volle Satz 3, 1]",
+                "[Volle Satz 4, 1]"
+            ],
+            "abr": [
+                "[Abraeumer Satz 1, 1]",
+                "[Abraeumer Satz 2, 1]",
+                "[Abraeumer Satz 3, 1]",
+                "[Abraeumer Satz 4, 1]"
+            ],
+            "fehlwurf": [
+                "[Fehlwuerfe Satz 1, 1]",
+                "[Fehlwuerfe Satz 2, 1]",
+                "[Fehlwuerfe Satz 3, 1]",
+                "[Fehlwuerfe Satz 4, 1]"
+            ]
+        },
 		{
 			"mannschaft" : "[Mannschaftsname Bahn 2]",
             "spielername": "[Spielername Bahn 2]",
@@ -22,8 +40,26 @@
 			"wurf" : "[Wurf Spieler Bahn 2]",
 			"gesamt" : "[Holz Spieler Bahn 2]",
 			"durchgang_wurf" : "[Wurf Satz $, 2]",
-			"durchgang_gesamt": "[Holz Satz $, 2]"
-		},
+			"durchgang_gesamt": "[Holz Satz $, 2]",
+            "volle": [
+                "[Volle Satz 1, 2]",
+                "[Volle Satz 2, 2]",
+                "[Volle Satz 3, 2]",
+                "[Volle Satz 4, 2]"
+            ],
+            "abr": [
+                "[Abraeumer Satz 1, 2]",
+                "[Abraeumer Satz 2, 2]",
+                "[Abraeumer Satz 3, 2]",
+                "[Abraeumer Satz 4, 2]"
+            ],
+            "fehlwurf": [
+                "[Fehlwuerfe Satz 1, 2]",
+                "[Fehlwuerfe Satz 2, 2]",
+                "[Fehlwuerfe Satz 3, 2]",
+                "[Fehlwuerfe Satz 4, 2]"
+            ]
+        },
 		{
 			"mannschaft" : "[Mannschaftsname Bahn 3]",
             "spielername": "[Spielername Bahn 3]",
@@ -34,7 +70,25 @@
 			"wurf" : "[Wurf Spieler Bahn 3]",
 			"gesamt" : "[Holz Spieler Bahn 3]",
 			"durchgang_wurf" : "[Wurf Satz $, 3]",
-			"durchgang_gesamt": "[Holz Satz $, 3]"
+			"durchgang_gesamt": "[Holz Satz $, 3]",
+            "volle": [
+                "[Volle Satz 1, 3]",
+                "[Volle Satz 2, 3]",
+                "[Volle Satz 3, 3]",
+                "[Volle Satz 4, 3]"
+            ],
+            "abr": [
+                "[Abraeumer Satz 1, 3]",
+                "[Abraeumer Satz 2, 3]",
+                "[Abraeumer Satz 3, 3]",
+                "[Abraeumer Satz 4, 3]"
+            ],
+            "fehlwurf": [
+                "[Fehlwuerfe Satz 1, 3]",
+                "[Fehlwuerfe Satz 2, 3]",
+                "[Fehlwuerfe Satz 3, 3]",
+                "[Fehlwuerfe Satz 4, 3]"
+            ]
 		},
 		{
 			"mannschaft" : "[Mannschaftsname Bahn 4]",
@@ -46,7 +100,25 @@
 			"wurf" : "[Wurf Spieler Bahn 4]",
 			"gesamt" : "[Holz Spieler Bahn 4]",
 			"durchgang_wurf" : "[Wurf Satz $, 4]",
-			"durchgang_gesamt": "[Holz Satz $, 4]"
+			"durchgang_gesamt": "[Holz Satz $, 4]",
+            "volle": [
+                "[Volle Satz 1, 4]",
+                "[Volle Satz 2, 4]",
+                "[Volle Satz 3, 4]",
+                "[Volle Satz 4, 4]"
+            ],
+            "abr": [
+                "[Abraeumer Satz 1, 4]",
+                "[Abraeumer Satz 2, 4]",
+                "[Abraeumer Satz 3, 4]",
+                "[Abraeumer Satz 4, 4]"
+            ],
+            "fehlwurf": [
+                "[Fehlwuerfe Satz 1, 4]",
+                "[Fehlwuerfe Satz 2, 4]",
+                "[Fehlwuerfe Satz 3, 4]",
+                "[Fehlwuerfe Satz 4, 4]"
+            ]
 		},
 		{
 			"mannschaft" : "[Mannschaftsname Bahn 5]",
@@ -58,7 +130,25 @@
 			"wurf" : "[Wurf Spieler Bahn 5]",
 			"gesamt" : "[Holz Spieler Bahn 5]",
 			"durchgang_wurf" : "[Wurf Satz $, 5]",
-			"durchgang_gesamt": "[Holz Satz $, 5]"
+			"durchgang_gesamt": "[Holz Satz $, 5]",
+            "volle": [
+                "[Volle Satz 1, 5]",
+                "[Volle Satz 2, 5]",
+                "[Volle Satz 3, 5]",
+                "[Volle Satz 4, 5]"
+            ],
+            "abr": [
+                "[Abraeumer Satz 1, 5]",
+                "[Abraeumer Satz 2, 5]",
+                "[Abraeumer Satz 3, 5]",
+                "[Abraeumer Satz 4, 5]"
+            ],
+            "fehlwurf": [
+                "[Fehlwuerfe Satz 1, 5]",
+                "[Fehlwuerfe Satz 2, 5]",
+                "[Fehlwuerfe Satz 3, 5]",
+                "[Fehlwuerfe Satz 4, 5]"
+            ]
 		},
 		{
 			"mannschaft" : "[Mannschaftsname Bahn 6]",
@@ -70,7 +160,25 @@
 			"wurf" : "[Wurf Spieler Bahn 6]",
 			"gesamt" : "[Holz Spieler Bahn 6]",
 			"durchgang_wurf" : "[Wurf Satz $, 6]",
-			"durchgang_gesamt": "[Holz Satz $, 6]"
+			"durchgang_gesamt": "[Holz Satz $, 6]",
+            "volle": [
+                "[Volle Satz 1, 6]",
+                "[Volle Satz 2, 6]",
+                "[Volle Satz 3, 6]",
+                "[Volle Satz 4, 6]"
+            ],
+            "abr": [
+                "[Abraeumer Satz 1, 6]",
+                "[Abraeumer Satz 2, 6]",
+                "[Abraeumer Satz 3, 6]",
+                "[Abraeumer Satz 4, 6]"
+            ],
+            "fehlwurf": [
+                "[Fehlwuerfe Satz 1, 6]",
+                "[Fehlwuerfe Satz 2, 6]",
+                "[Fehlwuerfe Satz 3, 6]",
+                "[Fehlwuerfe Satz 4, 6]"
+            ]
 		},
 		{
 			"mannschaft" : "[Mannschaftsname Bahn 7]",
@@ -82,7 +190,25 @@
 			"wurf" : "[Wurf Spieler Bahn 7]",
 			"gesamt" : "[Holz Spieler Bahn 7]",
 			"durchgang_wurf" : "[Wurf Satz $, 7]",
-			"durchgang_gesamt": "[Holz Satz $, 7]"
+			"durchgang_gesamt": "[Holz Satz $, 7]",
+            "volle": [
+                "[Volle Satz 1, 7]",
+                "[Volle Satz 2, 7]",
+                "[Volle Satz 3, 7]",
+                "[Volle Satz 4, 7]"
+            ],
+            "abr": [
+                "[Abraeumer Satz 1, 7]",
+                "[Abraeumer Satz 2, 7]",
+                "[Abraeumer Satz 3, 7]",
+                "[Abraeumer Satz 4, 7]"
+            ],
+            "fehlwurf": [
+                "[Fehlwuerfe Satz 1, 7]",
+                "[Fehlwuerfe Satz 2, 7]",
+                "[Fehlwuerfe Satz 3, 7]",
+                "[Fehlwuerfe Satz 4, 7]"
+            ]
 		},
 		{
 			"mannschaft" : "[Mannschaftsname Bahn 8]",
@@ -94,7 +220,25 @@
 			"wurf" : "[Wurf Spieler Bahn 8]",
 			"gesamt" : "[Holz Spieler Bahn 8]",
 			"durchgang_wurf" : "[Wurf Satz $, 8]",
-			"durchgang_gesamt": "[Holz Satz $, 8]"
+			"durchgang_gesamt": "[Holz Satz $, 8]",
+            "volle": [
+                "[Volle Satz 1, 8]",
+                "[Volle Satz 2, 8]",
+                "[Volle Satz 3, 8]",
+                "[Volle Satz 4, 8]"
+            ],
+            "abr": [
+                "[Abraeumer Satz 1, 8]",
+                "[Abraeumer Satz 2, 8]",
+                "[Abraeumer Satz 3, 8]",
+                "[Abraeumer Satz 4, 8]"
+            ],
+            "fehlwurf": [
+                "[Fehlwuerfe Satz 1, 8]",
+                "[Fehlwuerfe Satz 2, 8]",
+                "[Fehlwuerfe Satz 3, 8]",
+                "[Fehlwuerfe Satz 4, 8]"
+            ]
 		}
 	]
 }
