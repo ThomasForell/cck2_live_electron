@@ -151,3 +151,14 @@ export function PlayerCompare(a: Player, b: Player): number {
 
     return -1;
 }
+
+export function Cck2Result(cck2Result: any, setsPerMatch: number): Array<Result> {
+    let v = [] as Array<Result>;
+    for (let i = 0; i < setsPerMatch; ++i) {
+        const all = Number(cck2Result.volle[i]);
+        const clear = Number(cck2Result.abr[i]);
+        const fault = Number(cck2Result.fehlwurf[i]);
+        v.push(new Result(all, clear, fault, all + clear));
+    }
+    return v;
+}
