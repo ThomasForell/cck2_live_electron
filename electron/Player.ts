@@ -170,7 +170,6 @@ export function PlayerCompare(a: Player, b: Player): number {
 
 export function Cck2Result(cck2: any, setsPerMatch: number): Array<Result> {
     let v = [] as Array<Result>;
-    console.log(cck2);
     for (let i = 0; i < setsPerMatch; ++i) {
         const all = Number(cck2.volle[i]);
         const clear = Number(cck2.abr[i]);

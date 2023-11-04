@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import Team from './Team';
+import Team, { TeamCompare } from './Team';
 
 import Player from './Player';
 import { Extra } from './Player';
@@ -158,7 +158,7 @@ class TeamProcessing {
             // extract teams in group
             let teamGroup = [] as Array<Team>;
             g.forEach((t) => { teamGroup.push(t)});
-            
+            teamGroup.sort(TeamCompare);
             fs.writeFileSync(path.join(this.resultOutputPath, "team_" + key + ".json"), JSON.stringify(teamGroup));
         });
     }
