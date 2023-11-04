@@ -56,16 +56,6 @@ async function showTeam() {
             catch (e) {
                 console.log(e);
             }
-            try {
-                let offset = 0;
-                if (window.location.pathname.search("Rechts") >= 0) {
-                    offset = 4;
-                }
-                showLaneData(data.bahn, true, 4, offset, false);
-            } 
-            catch {
-                console.log(e);
-            }
         });
     
 }
@@ -279,7 +269,7 @@ function showLaneData(lane, showLanes, numLanes, offset, showSetPoints) {
                 spieler = lane[laneCnt].spielername_aw
             }
             el.innerHTML = spieler;
-            if (laneCnt < numLanes - 1) {
+            if (laneCnt < offset + numLanes - 1) {
                 el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
             }
         }
@@ -287,7 +277,7 @@ function showLaneData(lane, showLanes, numLanes, offset, showSetPoints) {
         var el = document.getElementById("team" + numLanes + "lanes");
         for (laneCnt = offset; laneCnt < numLanes + offset; laneCnt++) {
             el.innerHTML = lane[laneCnt].mannschaft;
-            if (laneCnt < numLanes - 1) {
+            if (laneCnt < offset + numLanes - 1) {
                 el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
             }
         }
@@ -297,7 +287,7 @@ function showLaneData(lane, showLanes, numLanes, offset, showSetPoints) {
             el.innerHTML = lane[laneCnt].wurf;
             el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
             el.innerHTML = lane[laneCnt].gesamt;
-            if (laneCnt < numLanes - 1) {
+            if (laneCnt < offset + numLanes - 1) {
                 el = el.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.firstChild;
             }
         }
