@@ -24,7 +24,7 @@ export default class Team {
         this.result = new Result();
         this.extra = [];
         this.player.forEach((p) => { 
-            this.result.add(p.getResultTotal()); 
+            this.result.add(p.getResultTotal());
             p.extras.forEach((v, i) => {
                 if (this.extra.length == i) {
                     this.extra.push(0);
@@ -57,7 +57,7 @@ export function TeamCompare(a: Team, b: Team): number {
             return 1;
         }
         if (aTotal.clear == bTotal.clear) {
-            if (aTotal.fault < bTotal.fault) {
+            if (aTotal.fault > bTotal.fault) {
                 return 1;
             }
             if (aTotal.fault == bTotal.fault) {

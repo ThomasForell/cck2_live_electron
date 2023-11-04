@@ -128,9 +128,11 @@ function reducePlayerName(name) {
 function showTeamData(teams) {
     try {
         teams.forEach((t, i) => {
-            var el = document.getElementById("team0" + i);
+            var el = document.getElementById("team0" + Number(7-i));
             el.innerHTML = t.player[0].team;
-            el = el.parentElement.nextElementSibling.firstChild;
+            el = el.parentElement;
+            el = el.nextElementSibling;
+            el = el.firstChild;
             el.innerHTML = t.result.all;
             el = el.parentElement.nextElementSibling.firstChild;
             el.innerHTML = t.result.clear;
@@ -142,104 +144,9 @@ function showTeamData(teams) {
             el.innerHTML = t.extra[0];
             el = el.parentElement.nextElementSibling.firstChild;
             el.innerHTML = t.extra[1];
+            el = el.parentElement.nextElementSibling.firstChild;
+            el.innerHTML = t.result.total + t.extra[1] + t.extra[0];
       });
-
-  
-        var spielerArray = team.spieler;
-        for (var i = 0; i < teamSize; i++) {
-            var spieler = spielerArray[i];
-            el = document.getElementById("spieler0" + i.toString());
-            if (spieler.spielername_aw === "") {
-                el.innerHTML = spieler.spielername;
-            }
-            else {
-                el.innerHTML = reducePlayerName(spieler.spielername) + " | " + reducePlayerName(spieler.spielername_aw);
-            }
-            el = el.parentElement.nextElementSibling.firstChild;
-            if (!reducedOutput) {
-                el.innerHTML = spieler.wurf;
-                el = el.parentElement.nextElementSibling.firstChild;
-            }
-            var satzArray = spieler.satz;
-            for (var j = 0; j < setCount; j++) {
-                el.innerHTML = satzArray[j];
-                el = el.parentElement.nextElementSibling.firstChild;
-            }
-            for (var j = setCount; j < 4; ++j) {
-                el.innerHTML = "";
-                el = el.parentElement.nextElementSibling.firstChild;
-            }
-            el.innerHTML = spieler.gesamt;
-            el = el.parentElement.nextElementSibling.firstChild;
-            if (displaySP)
-                el.innerHTML = spieler.sp;
-            else
-                el.innerHTML = "";
-        }
-
-        team = teams[1];
-        el = document.getElementById("mannschaft1");
-        if (gesamt_diff <= 0)
-            el.innerHTML = "(+" + (-gesamt_diff) + ") " + team.name;
-        else
-            el.innerHTML = team.name;
-        el = document.getElementById("gesamt1");
-        if (!reducedOutput) {
-            el.innerHTML = team.volle;
-            el = el.parentElement.previousElementSibling.firstChild;
-            el.innerHTML = team.abr;
-            el = el.parentElement.previousElementSibling.firstChild;
-            el.innerHTML = team.f;
-            el = el.parentElement.previousElementSibling.firstChild;
-        }
-        el.innerHTML = team.gesamt;
-        el = el.parentElement.previousElementSibling.firstChild;
-        if (displaySP)
-            el.innerHTML = team.mp;
-        else
-            el.innerHTML = "";
-        spielerArray = team.spieler;
-        for (var i = 0; i < teamSize; i++) {
-            var spieler = spielerArray[i];
-            el = document.getElementById("spieler1" + i.toString());
-            if (spieler.spielername_aw === "") {
-                el.innerHTML = spieler.spielername;
-            }
-            else {
-                el.innerHTML = reducePlayerName(spieler.spielername) + " | " + reducePlayerName(spieler.spielername_aw);
-            }
-            el = el.parentElement.previousElementSibling.firstChild;
-            if (!reducedOutput) {
-                el.innerHTML = spieler.wurf;
-                el = el.parentElement.previousElementSibling.firstChild;
-            }
-            var satzArray = spieler.satz;
-            for (var j = 0; j < setCount; j++) {
-                el.innerHTML = satzArray[j];
-                el = el.parentElement.previousElementSibling.firstChild;
-            }
-            for (var j = setCount; j < 4; ++j) {
-                el.innerHTML = "";
-                el = el.parentElement.previousElementSibling.firstChild;
-            }
-            el.innerHTML = spieler.gesamt;
-            el = el.parentElement.previousElementSibling.firstChild;
-            if (displaySP)
-                el.innerHTML = spieler.sp;
-            else
-                el.innerHTML = "";
-        }
-
-        // clear rows
-        var columnCount = 7;
-        if (!reducedOutput)
-            ++columnCount;
-        for (var i = teamSize; i < 6; ++i) {
-            el = document.getElementById("spieler0" + i.toString());
-            for (var j = 0; j < columnCount * 2 - 1; ++j, el = el.parentElement.nextElementSibling.firstChild)
-                el.innerHTML = "";
-            el.innerHTML = "";
-        }
     } catch (ex) {
         console.error("showTeamData", ex.message);
     }
