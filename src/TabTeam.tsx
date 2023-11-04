@@ -39,7 +39,7 @@ function TabTeam() {
                         {...register("cck2_output_files")} defaultValue="result.json" />
                     <TextField key="team_data_path" label="Datenverzeichnis" variant={variant} defaultValue="c:\\users\\[Benutzername]\\Documents\\Veranstaltung" 
                         {...register("data_path")} />
-                    <TextField key="team_player_data" label="Spielerliste (Spieler ID,Vorname,Nachname,Gruppe,Kommentar) im CSV-Format" variant={variant} 
+                    <TextField key="team_player_data" label="Spielerliste (Spieler ID,Name,Mannschaft,Gruppe) im CSV-Format" variant={variant} 
                         {...register("player_data")} />
                     <TextField key="team_additional_data" label="Zusätzliche Punkte (Spieler ID,Punkte,Kommentar) im CSV-Format, mehrere Dateien mit Komma trennen" 
                         {...register("additional_data")} variant={variant} defaultValue=" " />

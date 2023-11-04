@@ -269,7 +269,11 @@ function createWindow() {
     ipcMain.on("team_processing_start", (event) => { 
         console.log("team_processing_start"); 
         if (tp == null) {
-            tp = new TeamProcessing; tp.do(); 
+            const buff = fs.readFileSync(path.join(appDir, "team_setup.json"), "utf-8");
+            let team_setup = JSON.parse(buff);
+            team_setup.cck2_output_files = path.join(configValues.setup.cck2_output_path, team_setup.cck2_output_files);
+            tp = new TeamProcessing(team_setup); 
+            tp.do(); 
             tpIntervalId = setInterval(() => {if (tp != null) tp.do();}, 3000);
         }
     });

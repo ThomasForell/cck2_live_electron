@@ -1,0 +1,244 @@
+{
+	"bahn" : [
+		{
+			"mannschaft" : "Thüringen",
+			"spielername" : "a a",
+            "id": "m001",
+            "spielername_aw": "",
+            "id_aw": "",
+            "sp": "",
+			"wurf" : "1",
+			"gesamt" : "1",
+			"durchgang_wurf" : "1",
+			"durchgang_gesamt": "11",
+            "volle": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "abr": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "fehlwurf": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ]
+        },
+		{
+            "mannschaft": "Thüringen",
+            "spielername": "a a",
+            "id": "m002",
+            "spielername_aw": "",
+            "id_aw": "",
+            "sp": "",
+            "wurf": "1",
+            "gesamt": "1",
+            "durchgang_wurf": "1",
+            "durchgang_gesamt": "11",
+            "volle": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "abr": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "fehlwurf": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ]
+        },
+		{
+            "mannschaft": "Thüringen",
+            "spielername": "a a",
+            "id": "m003",
+            "spielername_aw": "",
+            "id_aw": "",
+            "sp": "",
+            "wurf": "1",
+            "gesamt": "1",
+            "durchgang_wurf": "1",
+            "durchgang_gesamt": "11",
+            "volle": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "abr": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "fehlwurf": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ]
+        },
+		{
+            "mannschaft": "Thüringen",
+            "spielername": "a a",
+            "id": "m004",
+            "spielername_aw": "",
+            "id_aw": "",
+            "sp": "",
+            "wurf": "1",
+            "gesamt": "1",
+            "durchgang_wurf": "1",
+            "durchgang_gesamt": "11",
+            "volle": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "abr": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "fehlwurf": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ]
+        },
+		{
+            "mannschaft": "Thüringen",
+            "spielername": "a a",
+            "id": "w001",
+            "spielername_aw": "",
+            "id_aw": "",
+            "sp": "",
+            "wurf": "1",
+            "gesamt": "1",
+            "durchgang_wurf": "1",
+            "durchgang_gesamt": "11",
+            "volle": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "abr": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "fehlwurf": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ]
+        },
+		{
+            "mannschaft": "Thüringen",
+            "spielername": "a a",
+            "id": "w002",
+            "spielername_aw": "",
+            "id_aw": "",
+            "sp": "",
+            "wurf": "1",
+            "gesamt": "1",
+            "durchgang_wurf": "1",
+            "durchgang_gesamt": "11",
+            "volle": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "abr": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "fehlwurf": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ]
+        },
+		{
+            "mannschaft": "Thüringen",
+            "spielername": "a a",
+            "id": "w003",
+            "spielername_aw": "",
+            "id_aw": "",
+            "sp": "",
+            "wurf": "1",
+            "gesamt": "1",
+            "durchgang_wurf": "1",
+            "durchgang_gesamt": "11",
+            "volle": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "abr": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "fehlwurf": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ]
+        },
+		{
+            "mannschaft": "Thüringen",
+            "spielername": "a a",
+            "id": "w004",
+            "spielername_aw": "",
+            "id_aw": "",
+            "sp": "",
+            "wurf": "1",
+            "gesamt": "1",
+            "durchgang_wurf": "1",
+            "durchgang_gesamt": "11",
+            "volle": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "abr": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ],
+            "fehlwurf": [
+                "11",
+                "21",
+                "31",
+                "41"
+            ]
+        }
+	]
+}

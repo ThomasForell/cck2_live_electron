@@ -40,35 +40,42 @@ export class Extra {
 };
 
 export default class Player {
-    private id: string = "";
+    id: string = "";
     private name: string = "";
-    private substitute: boolean = false;
-    private team: string = "";
-    private group: string = "";
+    substitute: string = "";
+    team: string = "";
+    group: string = "";
     active: boolean = false;
     private results: Array<Result> = [];
-    private extras: Array<Extra> = [];
+    extras: Array<Extra> = [];
 
     constructor(csvLine: string) {
         const csvLineSplit = csvLine.split(";");
-        this.id = csvLineSplit[0];
-        this.name = csvLineSplit[1];
-        this.substitute = csvLineSplit[2] == String(true);
-        this.team = csvLineSplit[3];
-        this.group = csvLineSplit[4];
-        for (let i = 5; i < csvLineSplit.length; i += 6) {
-            this.results.push(new Result(Number(csvLineSplit[i]), Number(csvLineSplit[i + 1]), Number(csvLineSplit[i + 2]), 
-                Number(csvLineSplit[i + 3]), Number(csvLineSplit[i + 4]), Number(csvLineSplit[i + 5])));
-        }       
+        if (csvLineSplit.length == 4) {
+            this.id = csvLineSplit[0];
+            this.name = csvLineSplit[1];
+            this.team = csvLineSplit[2];
+            this.group = csvLineSplit[3];
+        }
+        else {
+            this.id = csvLineSplit[0];
+            this.name = csvLineSplit[1];
+            this.team = csvLineSplit[2];
+            this.group = csvLineSplit[3];
+            this.substitute = csvLineSplit[4];
+            for (let i = 5; i < csvLineSplit.length; i += 6) {
+                this.results.push(new Result(Number(csvLineSplit[i]), Number(csvLineSplit[i + 1]), Number(csvLineSplit[i + 2]),
+                    Number(csvLineSplit[i + 3]), Number(csvLineSplit[i + 4]), Number(csvLineSplit[i + 5])));
+            }       
+        }
     }
 
-    addExtra(csvLine: string): void {
-        const csvLineSplit = csvLine.split(";");
-        this.extras.push(new Extra(Number(csvLineSplit[0]), csvLineSplit[1]));
+    setExtra(extras: Array<Extra>): void {
+        this.extras = extras;
     }
 
     toCsvLine(): string {
-        let v = this.id + ";" + this.name + ";" + String(this.substitute) + ";" + this.team + ";" + this.group;
+        let v = this.id + ";" + this.name + ";" + this.team + ";" + this.group + ";" + String(this.substitute);
         this.results.forEach((r) => { v += ";" + r.toCsvLine(); }); 
         return v;
     }
@@ -87,6 +94,15 @@ export default class Player {
                 Object.assign(this.results[match * setsPerMatch + i], r[i]);
             }
         }
+    }
+
+    substractPlayer(player: Player): void {
+        this.results.forEach((r, i) => {
+            r.all -= player.results[i].all;
+            r.clear -= player.results[i].clear;
+            r.fault -= player.results[i].fault;
+            r.total -= player.results[i].total;
+        });
     }
 
     getResultSet(match: number, set: number, setsPerMatch: number): Result {
@@ -116,7 +132,7 @@ export default class Player {
 
     getResultTotalWithExtra(): Result {
         let r = this.getResultTotal();
-        if (this.substitute) {
+        if (this.substitute != "") {
             r.total += this.getExtraTotal() * 0.5;
         }
         else {
@@ -152,12 +168,13 @@ export function PlayerCompare(a: Player, b: Player): number {
     return -1;
 }
 
-export function Cck2Result(cck2Result: any, setsPerMatch: number): Array<Result> {
+export function Cck2Result(cck2: any, setsPerMatch: number): Array<Result> {
     let v = [] as Array<Result>;
+    console.log(cck2);
     for (let i = 0; i < setsPerMatch; ++i) {
-        const all = Number(cck2Result.volle[i]);
-        const clear = Number(cck2Result.abr[i]);
-        const fault = Number(cck2Result.fehlwurf[i]);
+        const all = Number(cck2.volle[i]);
+        const clear = Number(cck2.abr[i]);
+        const fault = Number(cck2.fehlwurf[i]);
         v.push(new Result(all, clear, fault, all + clear));
     }
     return v;
