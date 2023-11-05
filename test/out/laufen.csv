@@ -1,43 +1,43 @@
-m001;0;;Neo Karatochwil;Sachsen;m
-m002;0;;Henry Möritz;Sachsen;m
-m003;0;;Felix Wunderlich;Sachsen;m
-m004;0;;Kevin Küfner;Sachsen;m
-m005;0;;Edgar Vogel;Sachsen;m
-m007;0;;Ben Hofmann;Württemberg;m
-m008;0;;Nils Wottrich;Württemberg;m
-m009;0;;Ben Häußler;Württemberg;m
-m010;0;;Manuel Oberschmid;Württemberg;m
-m011;0;;Victor Röhm;Württemberg;m
-m013;0;;Ben Koschinsky;Thüringen;m
-m014;0;;Robin Zymny;Thüringen;m
-m015;0;;Fynn Luca Kaufmann;Thüringen;m
-m016;0;;Felix Scherf;Thüringen;m
-m017;0;;Jan Blöthner;Thüringen;m
-m019;0;;Yannik Seiffert;Brandenburg;m
-m020;0;;Janek Masche;Brandenburg;m
-m021;0;;Oskar Lehmpfuhl;Brandenburg;m
-m022;0;;Thure Münchow;Brandenburg;m
-m023;0;;Paul Brumme;Brandenburg;m
-m025;0;;Lukas Tippl ;Nordbaden;m
-m026;0;;Elias  König ;Nordbaden;m
-m027;0;;Elias Jäger;Nordbaden;m
-m028;0;;Luca Sauer;Nordbaden;m
-m029;0;;Louis  Schränkler;Nordbaden;m
-m031;0;;Kristian Bach;Hessen;m
-m032;0;;Hendrik Lüftner;Hessen;m
-m033;0;;Marcel Scholz;Hessen;m
-m034;0;;Luis Fleckenstein;Hessen;m
-m035;0;;Max Steigerwald;Hessen;m
-m037;0;;John Alexander;Südbaden;m
-m038;0;;Mickael Abida;Südbaden;m
-m039;0;;Jan-Leon Dittrich;Südbaden;m
-m040;0;;Felix Schulze;Südbaden;m
-m043;0;;Kian Hilbert;Rheinland-Pfalz;m
-m044;0;;Leo Eschenbaum;Rheinland-Pfalz;m
-m045;0;;Marlon Schmitt;Rheinland-Pfalz;m
-m046;0;;Moritz Alfred Jung;Rheinland-Pfalz;m
-m047;0;;Fynn Hildebrandt;Rheinland-Pfalz;m
-m048;0;;Niclas Schmitt;Rheinland-Pfalz;m
+m001;58.30;;Neo Karatochwil;Sachsen;m
+m002;54.00;;Henry Möritz;Sachsen;m
+m003;42.10;;Felix Wunderlich;Sachsen;m
+m004;47.20;;Kevin Küfner;Sachsen;m
+m005;48.00;;Edgar Vogel;Sachsen;m
+m007;54.80;;Ben Hofmann;Württemberg;m
+m008;52.30;;Nils Wottrich;Württemberg;m
+m009;50.90;;Ben Häußler;Württemberg;m
+m010;42.20;;Manuel Oberschmid;Württemberg;m
+m011;38.80;;Victor Röhm;Württemberg;m
+m013;37.00;;Ben Koschinsky;Thüringen;m
+m014;56.00;;Robin Zymny;Thüringen;m
+m015;41.40;;Fynn Luca Kaufmann;Thüringen;m
+m016;47.80;;Felix Scherf;Thüringen;m
+m017;52.40;;Jan Blöthner;Thüringen;m
+m019;51.10;;Yannik Seiffert;Brandenburg;m
+m020;44.20;;Janek Masche;Brandenburg;m
+m021;50.40;;Oskar Lehmpfuhl;Brandenburg;m
+m022;40.20;;Thure Münchow;Brandenburg;m
+m023;48.00;;Paul Brumme;Brandenburg;m
+m025;39.60;;"Lukas Tippl ";Nordbaden;m
+m026;39.80;;"Elias  König ";Nordbaden;m
+m027;47.50;;Elias Jäger;Nordbaden;m
+m028;53.80;;Luca Sauer;Nordbaden;m
+m029;46.10;;Louis  Schränkler;Nordbaden;m
+m031;52.20;;Kristian Bach;Hessen;m
+m032;48.60;;Hendrik Lüftner;Hessen;m
+m033;44.10;;Marcel Scholz;Hessen;m
+m034;38.90;;Luis Fleckenstein;Hessen;m
+m035;51.80;;Max Steigerwald;Hessen;m
+m037;43.50;;John Alexander;Südbaden;m
+m038;54.70;;Mickael Abida;Südbaden;m
+m039;42.80;;Jan-Leon Dittrich;Südbaden;m
+m040;3.10;;Felix Schulze;Südbaden;m
+m043;40.40;;Kian Hilbert;Rheinland-Pfalz;m
+m044;55.00;;Leo Eschenbaum;Rheinland-Pfalz;m
+m045;48.10;;Marlon Schmitt;Rheinland-Pfalz;m
+m046;38.30;;Moritz Alfred Jung;Rheinland-Pfalz;m
+m047;18.60;;Fynn Hildebrandt;Rheinland-Pfalz;m
+m048;41.80;;Niclas Schmitt;Rheinland-Pfalz;m
 w001;0;;Anna Müller;Sachsen;w
 w002;0;;Nora Heinisch;Sachsen;w
 w003;0;;Katharine Schulze;Sachsen;w
@@ -60,9 +60,9 @@ w022;0;;Zoe Köhler;Brandenburg;w
 w023;0;;Luise Paulick;Brandenburg;w
 w025;0;;Elisabeth  Bergmüller;Nordbaden;w
 w026;0;;Greta  Schumann;Nordbaden;w
-w027;0;;Felicitas  Meier ;Nordbaden;w
+w027;0;;"Felicitas  Meier ";Nordbaden;w
 w028;0;;Pauline  Jahn;Nordbaden;w
-w029;0;;Emilia  Geist ;Nordbaden;w
+w029;0;;"Emilia  Geist ";Nordbaden;w
 w031;0;;Mia Wiesner;Hessen;w
 w032;0;;Kira Nagel;Hessen;w
 w033;0;;Amelie Nun;Hessen;w
