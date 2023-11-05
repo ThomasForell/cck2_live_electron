@@ -163,7 +163,7 @@ express_app.use((req, res, next) => {
     else if (configValues.team.cck2_file.indexOf(url.slice(1)) >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url));
     }
-    else if (url.search("result") >= 0 || url.search("team_") >= 0) {
+    else if (url.search("result") >= 0 || url.search("team_") >= 0 || url.search("sv") >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url));
     }
     else {

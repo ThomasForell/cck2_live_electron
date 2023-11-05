@@ -19,45 +19,66 @@ async function showData(configSrc, reducedOutput) {
 
 async function showTeam() {
     // find team to load
-    const requestURL = "result.json" + "?" + Date.now().toString();
-    fetch(requestURL)
-        .then((response) => { return response.text(); })
-        .then((decoded) => {
-            if (decoded.charCodeAt(0) === 0xFEFF) {
-                decoded = decoded.substring(1);
-            }
-            const data = JSON.parse(decoded);
-
-            try {
-                let offset = 0;
-                if (window.location.pathname.search("Rechts") >= 0) {
-                    offset = 4;
+    try {
+        const requestURL = "result.json" + "?" + Date.now().toString();
+        fetch(requestURL)
+            .then((response) => { return response.text(); })
+            .then((decoded) => {
+                if (decoded.charCodeAt(0) === 0xFEFF) {
+                    decoded = decoded.substring(1);
                 }
-                showLaneData(data.bahn, true, 4, offset, false);
-            }
-            catch {
-                console.log(e);
-            }
-        });
-
-
-    const requestTeamURL = "team_m.json" + "?" + Date.now().toString();
-    fetch(requestTeamURL)
-        .then((response) => { return response.text(); })
-        .then((decoded) => {
-            if (decoded.charCodeAt(0) === 0xFEFF) {
-                decoded = decoded.substring(1);
-            }
-            const data = JSON.parse(decoded);
-
-            try {
-                showTeamData(data);
-            }
-            catch (e) {
-                console.log(e);
-            }
-        });
-    
+                const data = JSON.parse(decoded);
+                try {
+                    data.bahn.forEach((player, i) => {
+                        var el = document.getElementById("player0" + i);
+                        el.innerHTML = player.spielername;
+                        el = document.getElementById("player_res1_0" + i)
+                        el.innerHTML = Number(player.volle[0]) + Number(player.abr[0]);
+                        el = document.getElementById("player_res2_0" + i)
+                        el.innerHTML = Number(player.volle[1]) + Number(player.abr[1]);
+                    });
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            });    
+    } 
+    catch (e) {
+        console.log(e);
+    }
+    try {
+        // find team to load
+        const svRequestURL = "sv.json" + "?" + Date.now().toString();
+        fetch(svRequestURL)
+            .then((response) => { return response.text(); })
+            .then((decoded) => {
+                if (decoded.charCodeAt(0) === 0xFEFF) {
+                    decoded = decoded.substring(1);
+                }
+                const data = JSON.parse(decoded);
+                try {
+                    el = document.getElementById("finale");
+                    el.innerHTML = data.sv_title;
+                    data.sv_data.forEach((sv, i) => {
+                        el = document.getElementById("player_sv1_0" + i);
+                        el.innerHTML = sv[0];
+                        el = document.getElementById("player_sv2_0" + i);
+                        el.innerHTML = sv[1];
+                        el = document.getElementById("player_p_0" + i);
+                        el.innerHTML = sv[2];
+                        el = document.getElementById("player_sv_0" + i);
+                        el.innerHTML = sv[3];
+                    });
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            });   
+    }
+    catch (e) {
+        console.log(e);
+    }
+ 
 }
 
 async function showAdv(configAdv) {
