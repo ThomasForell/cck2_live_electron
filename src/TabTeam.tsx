@@ -8,10 +8,12 @@ import Button from '@mui/material/Button';
 
 import { useForm, useFormState } from 'react-hook-form';
 
+import DirectorySelectorElectron from './DirectorySelectorElectron'
+
 import { variant } from './App'; 
 
 function TabTeam() {
-    const { control, register, watch, reset } = useForm();
+    const { control, register, watch, reset, setValue, getValues } = useForm();
     const { isDirty } = useFormState( {control} );
     const watchedValues = watch();
     const [active, setActive] = useState(false);
@@ -37,10 +39,10 @@ function TabTeam() {
                 <Stack spacing={2} direction="column">
                     <TextField key="team_cck2_output_files" label="CCK2 Ausgabedateien, mehrere Dateien mit Komma trennen" variant={variant}  
                         {...register("cck2_output_files")} defaultValue="result.json" />
-                    <TextField key="team_data_path" label="Datenverzeichnis" variant={variant} defaultValue="c:\\users\\[Benutzername]\\Documents\\Veranstaltung" 
-                        {...register("data_path")} />
+                    <DirectorySelectorElectron key="tab_team_data_dse" register={register} registerName="data_path" setValue={setValue} getValues={getValues}
+                        defaultValue="c:\\users\\[Benutzername]\\Documents\\Veranstaltung" label="Datenverzeichnis"/>
                     <TextField key="team_player_data" label="Spielerliste (Spieler ID,Name,Mannschaft,Gruppe) im CSV-Format" variant={variant} 
-                        {...register("player_data")} />
+                        {...register("player_data")} defaultValue="spieler.csv"/>
                     <TextField key="team_additional_data" label="Zusätzliche Punkte (Spieler ID,Punkte,Kommentar) im CSV-Format, mehrere Dateien mit Komma trennen" 
                         {...register("additional_data")} variant={variant} defaultValue=" " />
                     <Stack spacing={2} direction="row">

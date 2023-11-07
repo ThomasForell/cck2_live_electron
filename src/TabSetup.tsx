@@ -97,7 +97,8 @@ function TabSetup({ register, control, settings, watchedValues, setActiveOutput,
             disableDelete={settings.output_name.length === 1} disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
     }
     s.push(
-        <DirectorySelectorElectron key="SetupSettings_dse" register={register} registerName="setup.cck2_output_path" setValue={setValue} getValues={getValues}/>
+        <DirectorySelectorElectron key="SetupSettings_dse" register={register} registerName="setup.cck2_output_path" setValue={setValue} getValues={getValues}
+            defaultValue="C:\\Users\\[Benutzername]\\Documents\\Live" label="CCK2 Ausgabeverzeichnis"/>
         );
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
