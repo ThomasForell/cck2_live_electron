@@ -18,6 +18,7 @@ import React, { useContext } from 'react';
 
 import { ConfigValues } from '../cck2_live_interface/ConfigValues';
 import NavigationButtons from './NavigationButtons';
+import DirectorySelectorElectron from './DirectorySelectorElectron';
 
 import { variant } from './App';
 import { controlFktContext } from './App';
@@ -71,8 +72,8 @@ function SetupSettings({ register, control, count, disableDelete, disableUp, dis
 }
 
 
-function TabSetup({ register, control, settings, watchedValues, setActiveOutput }:
-    { register: any, control: any, settings: ConfigValues["setup"], watchedValues: ConfigValues, setActiveOutput: Function }) {
+function TabSetup({ register, control, settings, watchedValues, setActiveOutput, setValue, getValues }:
+    { register: any, control: any, settings: ConfigValues["setup"], watchedValues: ConfigValues, setActiveOutput: Function, setValue: Function, getValues: Function }) {
     let s = [
         <FormControl key="tabssetup_fc_active_output">
             <FormLabel>Aktive Ausage</FormLabel>
@@ -95,13 +96,16 @@ function TabSetup({ register, control, settings, watchedValues, setActiveOutput 
         s.push(<SetupSettings key={"CreateSetupSettings" + i.toString()} register={register} control={control} count={i}
             disableDelete={settings.output_name.length === 1} disableUp={i === 0} disableDown={i === settings.output_name.length - 1} />);
     }
-    s.push(<TextField key="cck2_output_path" label="CCK2 Ausgabeverzeichnis" variant={variant} defaultValue="" {...register("setup.cck2_output_path")} />);
+    s.push(
+        <DirectorySelectorElectron key="SetupSettings_dse" register={register} registerName="setup.cck2_output_path" setValue={setValue} getValues={getValues}/>
+        );
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
             <Stack spacing={4} direction="column">
                 <Stack spacing={2} direction="row" justifyContent="space-between">
                     <Typography component='div' variant="h3">Setup</Typography>
-                    <Button onClick={() => { (window as any).electronAPI.saveSetup(watchedValues.setup); setActiveOutput(watchedValues.setup.active_output) }} variant="contained">Speichern</Button>
+                    <Button onClick={() => { (window as any).electronAPI.saveSetup(watchedValues.setup); setActiveOutput(watchedValues.setup.active_output) }} 
+                        variant="contained">Speichern</Button>
                 </Stack>
                 <Stack spacing={2} direction="column" alignItems="left">
                     {s}

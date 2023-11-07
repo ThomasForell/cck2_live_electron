@@ -64,7 +64,7 @@ function App() {
         currentVersion = version;
     }
 
-    const { control, register, watch, setValue } = useForm<ConfigValues>();
+    const { control, register, watch, setValue, getValues } = useForm<ConfigValues>();
     let watchedValues: ConfigValues = watch();
     let stateUpdate: ConfigValues;
     let setStateUpdate: Function;
@@ -128,7 +128,8 @@ function App() {
                     <TabTeam />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={4}>
-                    <TabSetup register={register} control={control} settings={values.setup} watchedValues={watchedValues} setActiveOutput={setActiveOutput} />
+                    <TabSetup register={register} control={control} settings={values.setup} watchedValues={watchedValues} setActiveOutput={setActiveOutput} 
+                        setValue={setValue} getValues={getValues}/>
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={5}>
                     <TabInfo version={currentVersion} />

@@ -287,6 +287,10 @@ function createWindow() {
             tp = null; 
         }
     });
+    ipcMain.handle("select_directory", async (event: Electron.IpcMainInvokeEvent, path: string) => {
+        console.log("select_directory");
+        return await dialog.showOpenDialog({properties: ["openDirectory"], defaultPath: path});
+    });
 }
 
 app.on('ready', createWindow);
