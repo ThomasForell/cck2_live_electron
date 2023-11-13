@@ -267,6 +267,14 @@ function createWindow() {
         }
     });
 
+    ipcMain.handle("load_single_setup", () => {
+        return null;
+    });
+
+    ipcMain.handle("load_sprint_setup", () => {
+        return null;
+    });
+
     let tp = null as TeamProcessing;
     let tpIntervalId: ReturnType<typeof setInterval>;
     ipcMain.on("team_processing_start", (event) => { 
@@ -286,6 +294,18 @@ function createWindow() {
             clearInterval(tpIntervalId);
             tp = null; 
         }
+    });
+    ipcMain.on("single_processing_start", (event) => { 
+        console.log("single_processing_start"); 
+    });
+    ipcMain.on("single_processing_stop", (event) => { 
+        console.log("single_processing_stop");
+    });
+    ipcMain.on("sprint_processing_start", (event) => { 
+        console.log("sprint_processing_start"); 
+    });
+    ipcMain.on("team_processing_stop", (event) => { 
+        console.log("team_processing_stop");
     });
     ipcMain.handle("select_directory", async (event: Electron.IpcMainInvokeEvent, path: string) => {
         console.log("select_directory");

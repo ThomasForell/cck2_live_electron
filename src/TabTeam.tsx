@@ -34,7 +34,7 @@ function TabTeam() {
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: "100%" }}>
             <Stack spacing={4} direction="column">
-                <Stack spacing={2} direction="row" justifyContent="space-between">
+                <Stack spacing={25} direction="row" justifyContent="space-between">
                     <Typography component='div' variant="h3">Team-Turnier</Typography>
                     <Button onClick={() => { 
                         reset(watchedValues); 
@@ -45,7 +45,7 @@ function TabTeam() {
                         {...register("cck2_output_files")} defaultValue="result.json" />
                     <DirectorySelectorElectron key="tab_team_data_dse" register={register} registerName="data_path" setValue={setValue} getValues={getValues}
                         defaultValue="c:\\users\\[Benutzername]\\Documents\\Veranstaltung" label="Datenverzeichnis – Ein- und Ausgabe für das Turnier"/>
-                    <TextField key="team_player_data" label="Spielerliste (Spieler ID,Name,Mannschaft,Gruppe) im CSV-Format" variant={variant} 
+                    <TextField key="team_player_data" label="Spielerliste (Spieler ID,Name,Mannschaft,Gruppe,Kommentar) im CSV-Format" variant={variant} 
                         {...register("player_data")} defaultValue="spieler.csv"/>
                     <TextField key="team_additional_data" label="Zusätzliche Punkte (Spieler ID,Punkte,Kommentar) im CSV-Format, mehrere Dateien mit Komma trennen" 
                         {...register("additional_data")} variant={variant} defaultValue=" " />
