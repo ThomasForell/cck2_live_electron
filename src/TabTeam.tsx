@@ -114,14 +114,14 @@ function TabTeamLogos() {
                     reset(watchedValues); 
                     (window as any).electronAPI.saveTeamSetup(watchedValues); }} disabled={!isDirty} variant="contained">Speichern</Button>
             </Stack>
-            <LogoDropzone label="Turnier Banner" name={"teamTurnamentBanner"} value={""} control={control} />
+            <LogoDropzone label="Turnier Banner" name={"teamTurnamentBanner"} value={""} control={control} dense/>
 
-            <LogoDropzone label="Team Nibelungen" name={"teamTurnamentLogo.0"} value={""} control={control} />
-            <LogoDropzone label="Team Kriemhild" name={"teamTurnamentLogo.1"} value={""} control={control} />
-            <LogoDropzone label="Team Test 2" name={"teamTurnamentLogo.2"} value={""} control={control} />
-            <LogoDropzone label="Team Test 3" name={"teamTurnamentLogo.3"} value={""} control={control} />
-            <LogoDropzone label="Team Test 4" name={"teamTurnamentLogo.4"} value={""} control={control} />
-            <LogoDropzone label="Team Test 5" name={"teamTurnamentLogo.5"} value={""} control={control} />
+            <LogoDropzone label="Team Nibelungen" name={"teamTurnamentLogo.0"} value={""} control={control} dense/>
+            <LogoDropzone label="Team Kriemhild" name={"teamTurnamentLogo.1"} value={""} control={control} dense/>
+            <LogoDropzone label="Team Test 2" name={"teamTurnamentLogo.2"} value={""} control={control} dense/>
+            <LogoDropzone label="Team Test 3" name={"teamTurnamentLogo.3"} value={""} control={control} dense/>
+            <LogoDropzone label="Team Test 4" name={"teamTurnamentLogo.4"} value={""} control={control} dense/>
+            <LogoDropzone label="Team Test 5" name={"teamTurnamentLogo.5"} value={""} control={control} dense/>
         </Stack>
     );
 }
