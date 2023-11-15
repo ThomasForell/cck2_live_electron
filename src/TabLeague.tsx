@@ -27,6 +27,7 @@ import TimeSelect from './TimeSelect';
 import LogoDropzone from './LogoDropzone';
 
 import { variant } from './App'
+import TabPanel from './TabPanel';
 
 function TeamSettings({ register, control, team, setup, count, disableDelete, disableUp, disableDown }: {
     register: any, control: any, team: ConfigValues["team"],
@@ -142,33 +143,6 @@ function CreateAdvSettings(props: { register: any, control: any, adv: ConfigValu
         a.push(<AdvSettings key={"adv_settings_" + i.toString()} {...props} count={i} disableDelete={props.adv.name.length === 1} disableUp={i === 0} disableDown={i === props.adv.name.length - 1} />);
     }
     return (<>{a}</>)
-}
-
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    {children}
-                </Box>
-            )}
-        </div>
-    );
 }
 
 
