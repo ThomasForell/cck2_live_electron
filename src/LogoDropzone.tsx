@@ -8,13 +8,8 @@ import { Controller } from "react-hook-form";
 
 
 function LogoDropzone({ label, name, value, control, dense=false }: { label: string; name: string; value: string; control: Control, dense?: boolean; }) {
-    let source = "";
-    if (name.startsWith("adv")) {
-        source = "http://localhost/logos/adv/" + value;
-    }
-    else {
-        source = "http://localhost/logos/team/" + value;
-    }
+    const group = name.split(".")[0];
+    const source = "http://localhost/logos/" + group + "/" + value;
     
     let height = 120;
     if (dense) {
@@ -39,14 +34,8 @@ function LogoDropzone({ label, name, value, control, dense=false }: { label: str
                     accept={{ 'image/*': ['.jpeg', '.png'] }}
                     multiple={false}
                     onDrop={(acceptedFiles: File[]) => {
-                        if (name.startsWith("team")) {
-                            (window as any).electronAPI.logo("team", acceptedFiles[0].name, (acceptedFiles[0] as any).path).then(
-                                (filename: string | null) => { if (filename != null) { onChange(filename); } });
-                        }
-                        else {
-                            (window as any).electronAPI.logo("adv", acceptedFiles[0].name, (acceptedFiles[0] as any).path).then(
-                                (filename: string | null) => { if (filename != null) { onChange(filename); } });
-                        }
+                        (window as any).electronAPI.logo(group, acceptedFiles[0].name, (acceptedFiles[0] as any).path).then(
+                            (filename: string | null) => { if (filename != null) { onChange(filename); } });
                     }}>
                     {({ getRootProps, getInputProps, open, isDragReject, isDragActive, isDragAccept }) => (
                         <Box sx={{
