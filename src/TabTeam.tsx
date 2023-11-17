@@ -11,8 +11,8 @@ import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Paper from '@mui/material/Paper';
-
+import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
 
 import { useForm, useFormState, Controller } from 'react-hook-form';
 
@@ -21,7 +21,6 @@ import LogoDropzone from './LogoDropzone';
 import TabPanel from './TabPanel';
 
 import { variant } from './App'; 
-import { FormControl } from '@mui/material';
 
 function TabTeamTurnament() {
     const { control, register, watch, reset, setValue, getValues } = useForm();
@@ -115,7 +114,7 @@ function TabTeamLogos() {
                     (window as any).electronAPI.saveTeamSetup(watchedValues); }} disabled={!isDirty} variant="contained">Speichern</Button>
             </Stack>
             <LogoDropzone label="Turnier Banner" name={"teamTurnamentBanner"} value={""} control={control} dense/>
-
+            <Divider/>
             <LogoDropzone label="Team Nibelungen" name={"teamTurnamentLogo.0"} value={""} control={control} dense/>
             <LogoDropzone label="Team Kriemhild" name={"teamTurnamentLogo.1"} value={""} control={control} dense/>
             <LogoDropzone label="Team Test 2" name={"teamTurnamentLogo.2"} value={""} control={control} dense/>
