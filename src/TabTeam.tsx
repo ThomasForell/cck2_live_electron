@@ -105,6 +105,15 @@ function TabTeamLogos() {
             return () => { };
         }, [reset]);
     
+    // test!
+    useEffect(
+        () => {
+            setValue("teamTurnamentBanner", "HVMM.png") 
+            setValue("teamTurnamentLogo", ["", "", "", "", ""]);
+            return () => {};
+        }, []);
+
+    console.log(watchedValues);
     return ( 
         <Stack spacing={4} direction="column">               
             <Stack spacing={25} direction="row" justifyContent="space-between">
@@ -113,14 +122,14 @@ function TabTeamLogos() {
                     reset(watchedValues); 
                     (window as any).electronAPI.saveTeamSetup(watchedValues); }} disabled={!isDirty} variant="contained">Speichern</Button>
             </Stack>
-            <LogoDropzone label="Turnier Banner" name={"teamTurnamentBanner"} value={""} control={control} dense/>
+            <LogoDropzone label="Turnier Banner" name={"teamTurnamentBanner"} value={"teamTurnamentBanner" in watchedValues ? watchedValues.teamTurnamentBanner : ""} control={control} dense/>
             <Divider/>
-            <LogoDropzone label="Team Nibelungen" name={"teamTurnamentLogo.0"} value={""} control={control} dense/>
-            <LogoDropzone label="Team Kriemhild" name={"teamTurnamentLogo.1"} value={""} control={control} dense/>
-            <LogoDropzone label="Team Test 2" name={"teamTurnamentLogo.2"} value={""} control={control} dense/>
-            <LogoDropzone label="Team Test 3" name={"teamTurnamentLogo.3"} value={""} control={control} dense/>
-            <LogoDropzone label="Team Test 4" name={"teamTurnamentLogo.4"} value={""} control={control} dense/>
-            <LogoDropzone label="Team Test 5" name={"teamTurnamentLogo.5"} value={""} control={control} dense/>
+            <LogoDropzone label="Team Nibelungen" name={"teamTurnamentLogo.0"} value={"teamTurnamentLogo" in watchedValues ? watchedValues.teamTurnamentLogo[0] : ""} control={control} dense/>
+            <LogoDropzone label="Team Kriemhild" name={"teamTurnamentLogo.1"} value={"teamTurnamentLogo" in watchedValues ? watchedValues.teamTurnamentLogo[1] : ""} control={control} dense/>
+            <LogoDropzone label="Team Test 2" name={"teamTurnamentLogo.2"} value={"teamTurnamentLogo" in watchedValues ? watchedValues.teamTurnamentLogo[2] : ""} control={control} dense/>
+            <LogoDropzone label="Team Test 3" name={"teamTurnamentLogo.3"} value={"teamTurnamentLogo" in watchedValues ? watchedValues.teamTurnamentLogo[3] : ""} control={control} dense/>
+            <LogoDropzone label="Team Test 4" name={"teamTurnamentLogo.4"} value={"teamTurnamentLogo" in watchedValues ? watchedValues.teamTurnamentLogo[4] : ""} control={control} dense/>
+            <LogoDropzone label="Team Test 5" name={"teamTurnamentLogo.5"} value={"teamTurnamentLogo" in watchedValues ? watchedValues.teamTurnamentLogo[5] : ""} control={control} dense/>
         </Stack>
     );
 }
