@@ -100,12 +100,6 @@ if (!fs.existsSync(appDir)) {
 if (!fs.existsSync(path.join(appDir, "logos"))) {
     fs.mkdirSync(path.join(appDir, "logos"));
 }
-if (!fs.existsSync(path.join(appDir, "logos", "team"))) {
-    fs.mkdirSync(path.join(appDir, "logos", "team"));
-}
-if (!fs.existsSync(path.join(appDir, "logos", "adv"))) {
-    fs.mkdirSync(path.join(appDir, "logos", "adv"));
-}
 if (!fs.existsSync(path.join(appDir, "setup.json"))) {
     fs.copyFileSync(path.join("app-data", "setup.json"), path.join(appDir, "setup.json"));
 }
@@ -230,11 +224,11 @@ function createWindow() {
     ipcMain.on("save_league_adv", (event, data) => { fs.writeFileSync(path.join(appDir, "adv.json"), JSON.stringify(data)); configValues.adv = { ...data }; });
     ipcMain.on("save_team_setup", (event, data) => { fs.writeFileSync(path.join(appDir, "team_setup.json"), JSON.stringify(data)); })
     ipcMain.handle("logo", (event, type: string, name: string, filepath: string) => {
-        let target = path.join(appDir, "logos", "team", name);
-        if (type === "adv") {
-            target = path.join(appDir, "logos", "adv", name);
-        }
+        let target = path.join(appDir, "logos", type, name);
         try {
+            if (!fs.existsSync(path.join(appDir, "logos", type))) {
+                fs.mkdirSync(path.join(appDir, "logos", type));
+            }
             fs.copyFileSync(filepath, target);
         } catch {
             console.log("cannot copy file: " + filepath + " to " + target);
