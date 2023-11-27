@@ -23,9 +23,20 @@ function LogoDropzone({ label, name, value, control, dense=false }: { label: str
                     {label}
                 </div>
             </Box>
-            <Box sx={{ height: {height}, width: 250 }}>
+            <Box sx={{ height: {height}, width: 350 }}>
                 <div style={{ textAlign: "center" }}>
-                    <img id={name} src={source} alt=" Warte auf Logo" height={height} width="auto" />
+                    <img id={name} src={source} alt="Warte auf Logo" onLoad={(event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                        const w = (event.target as HTMLImageElement).width;
+                        const h = (event.target as HTMLImageElement).height;
+                        const ratioW = w / 350;
+                        const ratioH = h / height;
+                        // set only one dimension - element keeps ratio!
+                        if (ratioW < ratioH) {
+                            (event.target as HTMLImageElement).width /= ratioH;
+                        }
+                        else {
+                            (event.target as HTMLImageElement).width /= ratioW;
+                        }}} />
                 </div>
             </Box>
             <Controller control={control} name={name}
