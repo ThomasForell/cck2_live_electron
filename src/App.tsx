@@ -119,12 +119,16 @@ function ComponentDelete(reference: string) {
   }
   else if (component === "team") {
     for (const v of Object.values(tmp.team)) {
-      v.splice(i, 1);
+      if (Array.isArray(v)) {
+        v.splice(i, 1);
+      }
     }
   }
   else if (component === "adv") {
     for (const v of Object.values(tmp.adv)) {
-      v.splice(i, 1);
+      if (Array.isArray(v)) {
+        v.splice(i, 1);
+      }
     }
   }
   setStateUpdate(tmp);
@@ -144,13 +148,17 @@ function ComponentUp(reference: string) {
   }
   else if (component === "team") {
     for (const v of Object.values(tmp.team)) {
-      [v[i], v[i - 1]] = [v[i - 1], v[i]];
+      if (Array.isArray(v)) {
+        [v[i], v[i + 1]] = [v[i + 1], v[i]];
+      }
     }
     setValueFunc("team", tmp.team);
   }
   else if (component === "adv") {
     for (const v of Object.values(tmp.adv)) {
-      [v[i], v[i - 1]] = [v[i - 1], v[i]];
+      if (Array.isArray(v)) {
+        [v[i], v[i + 1]] = [v[i + 1], v[i]];
+      }
     }
     setValueFunc("adv", tmp.adv);
   }
@@ -170,13 +178,17 @@ function ComponentDown(reference: string) {
   }
   else if (component === "team") {
     for (const v of Object.values(tmp.team)) {
-      [v[i], v[i + 1]] = [v[i + 1], v[i]];
+      if (Array.isArray(v)) {
+        [v[i], v[i + 1]] = [v[i + 1], v[i]];
+      }
     }
     setValueFunc("team", tmp.team);
   }
   else if (component === "adv") {
     for (const v of Object.values(tmp.adv)) {
-      [v[i], v[i + 1]] = [v[i + 1], v[i]];
+      if (Array.isArray(v)) {
+        [v[i], v[i + 1]] = [v[i + 1], v[i]];
+      }
     }
     setValueFunc("adv", tmp.adv);
   }
@@ -434,7 +446,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-let watchedValues: ConfigValues;
+let watchedValues: any;
 let setValueFunc: any;
 let setStateUpdate: any;
 
