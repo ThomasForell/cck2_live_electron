@@ -47,7 +47,6 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
-
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -65,8 +64,8 @@ function App() {
     }
 
     const { control, register, watch, setValue, getValues } = useForm<ConfigValues>();
-    let watchedValues: ConfigValues = watch();
-    let stateUpdate: ConfigValues;
+    let watchedValues = watch();
+    let stateUpdate: any;
     let setStateUpdate: Function;
     [stateUpdate, setStateUpdate] = useState(watchedValues);
 
@@ -83,7 +82,7 @@ function App() {
 
     const [activeOutput, setActiveOutput] = useState("liga");
 
-    const values: ConfigValues = { ...watchedValues };
+    const values: any = { ...watchedValues };
     const dataStuff = {
         watchedValues: watchedValues,
         setStateUpdate: setStateUpdate,
@@ -102,7 +101,7 @@ function App() {
         }, []);
 
     return (
-        <controlFktContext.Provider value={dataStuff}>
+        <controlFktContext.Provider value={dataStuff as any}>
             <ThemeProvider theme={darkTheme}>
                 <CssBaseline />
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -116,7 +115,7 @@ function App() {
                     </Tabs>
                 </Box>
                 <TabPanel value={mainValuePanel} index={0}>
-                    <TabLeague register={register} control={control} watchedValues={watchedValues} />
+                    <TabLeague register={register} control={control} watchedValues={watchedValues as ConfigValues} />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={1}>
                     <TabSingle />
@@ -128,7 +127,7 @@ function App() {
                     <TabTeam />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={4}>
-                    <TabSetup register={register} control={control} settings={values.setup} watchedValues={watchedValues} setActiveOutput={setActiveOutput} 
+                    <TabSetup register={register} control={control} settings={values.setup} watchedValues={watchedValues as ConfigValues} setActiveOutput={setActiveOutput} 
                         setValue={setValue} getValues={getValues}/>
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={5}>
