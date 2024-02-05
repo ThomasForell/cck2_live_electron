@@ -1,9 +1,18 @@
 {
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+        "editor.formatOnPaste": false, // required 
+        "editor.formatOnType": false, // required
+        "editor.formatOnSave": true, // optional 
+        "editor.formatOnSaveMode": "file", // required to format on save
+        "editor.indentSize": "tabSize",
+        "editor.detectIndentation": false,
+        "files.autoSave": "onFocusChange", // optional but recommended
+        "vs-code-prettier-eslint.prettierLast": "false" // set as "true" to run 'prettier' last not first
   },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

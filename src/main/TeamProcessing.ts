@@ -1,194 +1,194 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'fs'
+import * as path from 'path'
 
-import Team, { TeamCompare } from './Team';
+import Team, { TeamCompare } from './Team'
 
-import Player from './Player';
-import { Extra } from './Player';
-import { Cck2Result } from './Player';
-import { PlayerCompare } from './Player';
+import Player from './Player'
+import { Extra } from './Player'
+import { Cck2Result } from './Player'
+import { PlayerCompare } from './Player'
 
 class TeamProcessing {
-
     constructor(teamSetup: any) {
-        this.resultDB = path.join(teamSetup.data_path, teamSetup.output_game_data);
-        this.cck2File = teamSetup.cck2_output_files;
-        this.resultOutputPath = teamSetup.data_path;
-        const extraFiles = teamSetup.additional_data.split(",");
-        extraFiles.forEach((ef) => {this.extraFiles.push( path.join(teamSetup.data_path , ef.trim()) );});
+        this.resultDB = path.join(teamSetup.data_path, teamSetup.output_game_data)
+        this.cck2File = teamSetup.cck2_output_files
+        this.resultOutputPath = teamSetup.data_path
+        const extraFiles = teamSetup.additional_data.split(',')
+        extraFiles.forEach((ef) => {
+            this.extraFiles.push(path.join(teamSetup.data_path, ef.trim()))
+        })
 
-        this.readResultDB();
-        this.readPlayerDB(path.join(teamSetup.data_path, teamSetup.player_data));  // add data of remaining players
+        this.readResultDB()
+        this.readPlayerDB(path.join(teamSetup.data_path, teamSetup.player_data)) // add data of remaining players
     }
 
     do(): void {
-        const cck2Result = this.readCck2Result();
-        this.updateResult(cck2Result);
-        this.updateExtra();
+        const cck2Result = this.readCck2Result()
+        this.updateResult(cck2Result)
+        this.updateExtra()
 
-        this.writeResultDB();
-        this.writeTeamResult();
-        this.writeSingleResult();
-    } 
+        this.writeResultDB()
+        this.writeTeamResult()
+        this.writeSingleResult()
+    }
 
     private readPlayerDB(playerDB: string): void {
-        const buf = fs.readFileSync(playerDB, "utf-8");
-        const lines = buf.split("\n");
+        const buf = fs.readFileSync(playerDB, 'utf-8')
+        const lines = buf.split('\n')
         lines.forEach((l) => {
-            const ll = l.replace("\r", "");
-            if (ll.search(";") >= 0) {
-                let p = new Player(ll);
+            const ll = l.replace('\r', '')
+            if (ll.search(';') >= 0) {
+                const p = new Player(ll)
                 if (!this.players.has(p.id)) {
-                    this.players.set(p.id, p);
+                    this.players.set(p.id, p)
                 }
             }
-        });
+        })
     }
 
     private readResultDB(): void {
         try {
-            const buf = fs.readFileSync(this.resultDB, "utf-8");
-            const lines = buf.split("\n");
+            const buf = fs.readFileSync(this.resultDB, 'utf-8')
+            const lines = buf.split('\n')
             lines.forEach((l) => {
-                const ll = l.replace("\r", "");
-                if (ll.search(";") >= 0) {
-                    let p = new Player(ll);
-                    this.players.set(p.id, p);
+                const ll = l.replace('\r', '')
+                if (ll.search(';') >= 0) {
+                    const p = new Player(ll)
+                    this.players.set(p.id, p)
                 }
-            });
-        } 
-        catch {
-
-        }
+            })
+        } catch {}
     }
 
     private readCck2Result(): any {
         try {
-            let buf = fs.readFileSync(this.cck2File, "utf-8");
-            if (buf.charCodeAt(0) === 0xFEFF) {
-                buf = buf.substring(1);
+            let buf = fs.readFileSync(this.cck2File, 'utf-8')
+            if (buf.charCodeAt(0) === 0xfeff) {
+                buf = buf.substring(1)
             }
-            return JSON.parse(buf);
-            } 
-        catch (e) {
-            console.log(e);
+            return JSON.parse(buf)
+        } catch (e) {
+            console.log(e)
         }
     }
 
     private updateResult(data: any): void {
         this.players.forEach((p) => {
-            p.active = false;
-        });
+            p.active = false
+        })
 
         data.bahn.forEach((p) => {
-            if (p.id_aw != "") {
-                let player = this.players.get(p.id_aw);
-                const result = Cck2Result(p, 4);
-                player.updateResult(0, 4, result);
-                player.substitute = "e";
-                this.players.get(p.id).substitute = "a";
-                player.substractPlayer(this.players.get(p.id));
+            if (p.id_aw != '') {
+                const player = this.players.get(p.id_aw)
+                const result = Cck2Result(p, 4)
+                player.updateResult(0, 4, result)
+                player.substitute = 'e'
+                this.players.get(p.id).substitute = 'a'
+                player.substractPlayer(this.players.get(p.id))
+            } else if (p.id != '') {
+                const result = Cck2Result(p, 4)
+                this.players.get(p.id).updateResult(0, 4, result)
             }
-            else if (p.id != "") {
-                const result = Cck2Result(p, 4);
-                this.players.get(p.id).updateResult(0, 4, result);
-            }
-        });
+        })
     }
 
     private updateExtra(): void {
-        let extras = new Map<string, Array<Extra>>();
+        const extras = new Map<string, Array<Extra>>()
         try {
             this.extraFiles.forEach((extraFile) => {
-                let buf = fs.readFileSync(extraFile).toString();
-                let lines = buf.split("\n");
+                const buf = fs.readFileSync(extraFile).toString()
+                const lines = buf.split('\n')
                 lines.forEach((line) => {
-                    if (line.search(";") >= 0) { 
-                        let es = line.replace("\r", "").split(";");
+                    if (line.search(';') >= 0) {
+                        const es = line.replace('\r', '').split(';')
                         if (!extras.has(es[0])) {
-                            extras.set(es[0], [new Extra(Number(es[1]), es[2])]);
-                        }
-                        else {
-                            extras.get(es[0]).push(new Extra(Number(es[1]), es[2]));
+                            extras.set(es[0], [new Extra(Number(es[1]), es[2])])
+                        } else {
+                            extras.get(es[0]).push(new Extra(Number(es[1]), es[2]))
                         }
                     }
                 })
             })
-        } 
-        catch (e) {
-            console.log(e);
+        } catch (e) {
+            console.log(e)
         }
         extras.forEach((v, k) => {
             if (this.players.has(k)) {
-                this.players.get(k).setExtra(v);
+                this.players.get(k).setExtra(v)
             }
-        });
+        })
     }
 
     private writeResultDB(): void {
-        let out = "";
+        let out = ''
         this.players.forEach((p) => {
-            out += p.toCsvLine() + "\n";
-        });
-        fs.writeFileSync(this.resultDB, out);
+            out += p.toCsvLine() + '\n'
+        })
+        fs.writeFileSync(this.resultDB, out)
     }
 
     private writeTeamResult(): void {
         // map players into teams per group and mixed
-        let teams = new Map<String, Map<String, Team>>();
-        teams.set("mixed", new Map<String, Team>());
+        const teams = new Map<string, Map<string, Team>>()
+        teams.set('mixed', new Map<string, Team>())
         this.players.forEach((p) => {
-            const group = p.group;
-            const team = p.team;
+            const group = p.group
+            const team = p.team
             if (!teams.has(group)) {
-                teams.set(group, new Map<String, Team>());
+                teams.set(group, new Map<string, Team>())
             }
             if (!teams.get(group).has(team)) {
-                teams.get(group).set(team, new Team());
+                teams.get(group).set(team, new Team())
             }
-            teams.get(group).get(team).addPlayer(p);
-            if (!teams.get("mixed").has(team)) {
-                teams.get("mixed").set(team, new Team());
+            teams.get(group).get(team).addPlayer(p)
+            if (!teams.get('mixed').has(team)) {
+                teams.get('mixed').set(team, new Team())
             }
-            teams.get("mixed").get(team).addPlayer(p);
+            teams.get('mixed').get(team).addPlayer(p)
         })
 
         // extract teams and sort
         teams.forEach((g, key) => {
             // extract teams in group
-            let teamGroup = [] as Array<Team>;
-            g.forEach((t) => { teamGroup.push(t)});
-            teamGroup.sort(TeamCompare);
-            fs.writeFileSync(path.join(this.resultOutputPath, "team_" + key + ".json"), JSON.stringify(teamGroup));
-        });
+            const teamGroup = [] as Array<Team>
+            g.forEach((t) => {
+                teamGroup.push(t)
+            })
+            teamGroup.sort(TeamCompare)
+            fs.writeFileSync(
+                path.join(this.resultOutputPath, 'team_' + key + '.json'),
+                JSON.stringify(teamGroup)
+            )
+        })
     }
 
     private writeSingleResult(): void {
-        let groups = new Map<String, Array<Player>>();
+        const groups = new Map<string, Array<Player>>()
 
         // split by group
         this.players.forEach((p) => {
             if (!groups.has(p.group)) {
                 groups.set(p.group, [p])
+            } else {
+                groups.get(p.group).push(p)
             }
-            else {
-                groups.get(p.group).push(p);
-            }
-        });
+        })
 
         // sort and write
         groups.forEach((group, groupName) => {
-            group.sort(PlayerCompare);
-            fs.writeFileSync(path.join(this.resultOutputPath, "single_" + groupName + ".json"), JSON.stringify(group));
-        });
-    }   
+            group.sort(PlayerCompare)
+            fs.writeFileSync(
+                path.join(this.resultOutputPath, 'single_' + groupName + '.json'),
+                JSON.stringify(group)
+            )
+        })
+    }
 
-    private resultDB = "";
-    private players = new Map<string, Player>();
-    private cck2File = "";
-    private resultOutputPath = "";
-    private extraFiles = new Array<string>;
+    private resultDB = ''
+    private players = new Map<string, Player>()
+    private cck2File = ''
+    private resultOutputPath = ''
+    private extraFiles = new Array<string>()
+}
 
-};
-
-export default TeamProcessing;
+export default TeamProcessing
