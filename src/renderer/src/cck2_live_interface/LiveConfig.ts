@@ -25,5 +25,9 @@ export interface TeamsConfig {
     cck2_output_files: string
     data_path: string
     player_data: string
-    additional_data: string   
+    additional_data: string
+    result_team_groups: boolean
+    result_team_combined: boolean
+    result_single_groups: boolean
+    result_single_combined: boolean
 }
