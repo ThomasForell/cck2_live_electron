@@ -20,3 +20,8 @@ export interface LiveConfig {
     teams: Array<TeamConfig>
     werbung: Array<AdvConfig>
 }
+
+export interface TeamsConfig {
+    cck2_output_files: string
+    
+}

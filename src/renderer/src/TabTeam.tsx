@@ -22,7 +22,7 @@ import TabPanel from './TabPanel'
 
 import { variant } from './App'
 
-function TabTeamTurnament() {
+function TabTeamTurnament(): JSX.Element {
     const { control, register, watch, reset, setValue, getValues } = useForm()
     const { isDirty } = useFormState({ control })
     const watchedValues = watch()
@@ -159,7 +159,7 @@ function TabTeamTurnament() {
     )
 }
 
-function TabTeamLogos() {
+function TabTeamLogos(): JSX.Element {
     const { control, register, watch, reset, setValue, getValues } = useForm()
     const { isDirty } = useFormState({ control })
     const watchedValues = watch()
@@ -266,7 +266,7 @@ function TabTeamLogos() {
     )
 }
 
-function TabTeam() {
+function TabTeam(): JSX.Element {
     // vertical panel
     const [teamValuePanel, setTeamValuePanel] = useState(0)
     const handleChangeTeamPanel = (event: React.SyntheticEvent, newValue: number) => {

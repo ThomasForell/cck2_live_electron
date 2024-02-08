@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import * as path from 'path'
@@ -305,9 +305,9 @@ app.whenReady().then(() => {
         return null
     })
 
-    let tp = null as TeamProcessing
+    let tp: null | TeamProcessing = null
     let tpIntervalId: ReturnType<typeof setInterval>
-    ipcMain.on('team_processing_start', (event) => {
+    ipcMain.on('team_processing_start', () => {
         console.log('team_processing_start')
         if (tp == null) {
             const buff = fs.readFileSync(path.join(appDir, 'team_setup.json'), 'utf-8')
@@ -323,26 +323,26 @@ app.whenReady().then(() => {
             }, 3000)
         }
     })
-    ipcMain.on('team_processing_stop', (event) => {
+    ipcMain.on('team_processing_stop', () => {
         console.log('team_processing_stop')
         if (tp != null) {
             clearInterval(tpIntervalId)
             tp = null
         }
     })
-    ipcMain.on('single_processing_start', (event) => {
+    ipcMain.on('single_processing_start', () => {
         console.log('single_processing_start')
     })
-    ipcMain.on('single_processing_stop', (event) => {
+    ipcMain.on('single_processing_stop', () => {
         console.log('single_processing_stop')
     })
-    ipcMain.on('sprint_processing_start', (event) => {
+    ipcMain.on('sprint_processing_start', () => {
         console.log('sprint_processing_start')
     })
-    ipcMain.on('team_processing_stop', (event) => {
+    ipcMain.on('team_processing_stop', () => {
         console.log('team_processing_stop')
     })
-    ipcMain.handle('select_directory', async (event: Electron.IpcMainInvokeEvent, path: string) => {
+    ipcMain.handle('select_directory', async (_event: Electron.IpcMainInvokeEvent, path: string) => {
         console.log('select_directory')
         return await dialog.showOpenDialog({ properties: ['openDirectory'], defaultPath: path })
     })

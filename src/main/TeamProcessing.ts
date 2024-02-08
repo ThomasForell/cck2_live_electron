@@ -9,6 +9,12 @@ import { Cck2Result } from './Player'
 import { PlayerCompare } from './Player'
 
 class TeamProcessing {
+    private resultDB = ''
+    private players = new Map<string, Player>()
+    private cck2File = ''
+    private resultOutputPath = ''
+    private extraFiles = new Array<string>()
+
     constructor(teamSetup: any) {
         this.resultDB = path.join(teamSetup.data_path, teamSetup.output_game_data)
         this.cck2File = teamSetup.cck2_output_files
@@ -81,10 +87,12 @@ class TeamProcessing {
             if (p.id_aw != '') {
                 const player = this.players.get(p.id_aw)
                 const result = Cck2Result(p, 4)
-                player.updateResult(0, 4, result)
-                player.substitute = 'e'
-                this.players.get(p.id).substitute = 'a'
-                player.substractPlayer(this.players.get(p.id))
+                if (player != null) {
+                    player.updateResult(0, 4, result)
+                    player.substitute = 'e'
+                    this.players.get(p.id).substitute = 'a'
+                    player.substractPlayer(this.players.get(p.id))
+                }
             } else if (p.id != '') {
                 const result = Cck2Result(p, 4)
                 this.players.get(p.id).updateResult(0, 4, result)
@@ -183,12 +191,6 @@ class TeamProcessing {
             )
         })
     }
-
-    private resultDB = ''
-    private players = new Map<string, Player>()
-    private cck2File = ''
-    private resultOutputPath = ''
-    private extraFiles = new Array<string>()
 }
 
 export default TeamProcessing
