@@ -23,5 +23,7 @@ export interface LiveConfig {
 
 export interface TeamsConfig {
     cck2_output_files: string
-    
+    data_path: string
+    player_data: string
+    additional_data: string   
 }
