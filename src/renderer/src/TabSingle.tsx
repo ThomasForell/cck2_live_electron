@@ -16,7 +16,7 @@ import DirectorySelectorElectron from './DirectorySelectorElectron'
 import { variant } from './App'
 import { FormControl } from '@mui/material'
 
-function TabSingle() {
+function TabSingle(): JSX.Element {
     const { control, register, watch, reset, setValue, getValues } = useForm()
     const { isDirty } = useFormState({ control })
     const watchedValues = watch()

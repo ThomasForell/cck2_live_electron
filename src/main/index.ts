@@ -7,7 +7,7 @@ import * as os from 'os'
 import express, { Express } from 'express'
 
 import { ConfigValues } from '../renderer/src/cck2_live_interface/ConfigValues'
-import { TeamConfig, AdvConfig } from '../renderer/src/cck2_live_interface/LiveConfig'
+import { TeamConfig, AdvConfig, SingleConfig, TeamsConfig } from '../renderer/src/cck2_live_interface/LiveConfig'
 
 import TeamProcessing from './TeamProcessing'
 
@@ -243,24 +243,27 @@ app.whenReady().then(() => {
     })
 
     // communication using ipcMain
-    ipcMain.on('save_setup', (event, data) => {
+    ipcMain.on('save_setup', (_, data) => {
         fs.writeFileSync(path.join(appDir, 'setup.json'), JSON.stringify(data))
         UpdateFileLookup(data)
         configValues.setup = { ...data }
     })
-    ipcMain.on('save_league_team', (event, data) => {
+    ipcMain.on('save_league_team', (_, data) => {
         console.log(JSON.stringify(data))
         fs.writeFileSync(path.join(appDir, 'team.json'), JSON.stringify(data))
         configValues.team = { ...data }
     })
-    ipcMain.on('save_league_adv', (event, data) => {
+    ipcMain.on('save_league_adv', (_, data) => {
         fs.writeFileSync(path.join(appDir, 'adv.json'), JSON.stringify(data))
         configValues.adv = { ...data }
     })
-    ipcMain.on('save_team_setup', (event, data) => {
+    ipcMain.on('save_team_setup', (_, data: TeamsConfig) => {
         fs.writeFileSync(path.join(appDir, 'team_setup.json'), JSON.stringify(data))
     })
-    ipcMain.handle('logo', (event, type: string, name: string, filepath: string) => {
+    ipcMain.on('save_single_setup', (_, data: SingleConfig) => {
+        fs.writeFileSync(path.join(appDir, 'single_setup.json'), JSON.stringify(data))
+    })
+    ipcMain.handle('logo', (_, type: string, name: string, filepath: string) => {
         const target = path.join(appDir, 'logos', type, name)
         try {
             if (!fs.existsSync(path.join(appDir, 'logos', type))) {
@@ -287,7 +290,7 @@ app.whenReady().then(() => {
         return { config: configValues, version: app.getVersion() }
     })
 
-    ipcMain.handle('load_team_setup', () => {
+    ipcMain.handle('load_team_setup', (): null | TeamsConfig => {
         try {
             const buff = fs.readFileSync(path.join(appDir, 'team_setup.json'), 'utf-8')
             const team_setup = JSON.parse(buff)
@@ -297,8 +300,14 @@ app.whenReady().then(() => {
         }
     })
 
-    ipcMain.handle('load_single_setup', () => {
-        return null
+    ipcMain.handle('load_single_setup', (): null | SingleConfig => {
+        try {
+            const buff = fs.readFileSync(path.join(appDir, 'single_setup.json'), 'utf-8')
+            const single_setup: SingleConfig = JSON.parse(buff)
+            return single_setup
+        } catch (error) {
+            return null
+        }
     })
 
     ipcMain.handle('load_sprint_setup', () => {

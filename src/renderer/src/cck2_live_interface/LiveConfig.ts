@@ -31,3 +31,13 @@ export interface TeamsConfig {
     result_single_groups: boolean
     result_single_combined: boolean
 }
+
+export interface SingleConfig {
+    match_day: number
+    num_match_days: number
+    cck2_output_files: string
+    data_path: string
+    player_data: string
+    result_single_groups: boolean
+    result_single_combined: boolean
+}
