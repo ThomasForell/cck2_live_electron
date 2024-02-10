@@ -7,7 +7,12 @@ import * as os from 'os'
 import express, { Express } from 'express'
 
 import { ConfigValues } from '../renderer/src/cck2_live_interface/ConfigValues'
-import { TeamConfig, AdvConfig, SingleConfig, TeamsConfig } from '../renderer/src/cck2_live_interface/LiveConfig'
+import {
+    TeamConfig,
+    AdvConfig,
+    SingleConfig,
+    TeamsConfig
+} from '../renderer/src/cck2_live_interface/LiveConfig'
 
 import TeamProcessing from './TeamProcessing'
 
@@ -351,7 +356,7 @@ app.whenReady().then(() => {
     ipcMain.on('team_processing_stop', () => {
         console.log('team_processing_stop')
     })
-    ipcMain.handle('select_directory', async (_event: Electron.IpcMainInvokeEvent, path: string) => {
+    ipcMain.handle('select_directory', async (_, path: string) => {
         console.log('select_directory')
         return await dialog.showOpenDialog({ properties: ['openDirectory'], defaultPath: path })
     })

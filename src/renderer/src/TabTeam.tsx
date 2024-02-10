@@ -21,6 +21,7 @@ import LogoDropzone from './LogoDropzone'
 import TabPanel from './TabPanel'
 
 import { variant } from './App'
+import { TeamsConfig } from './cck2_live_interface/LiveConfig'
 
 function TabTeamTurnament(): JSX.Element {
     const { control, register, watch, reset, setValue, getValues } = useForm()
@@ -29,8 +30,10 @@ function TabTeamTurnament(): JSX.Element {
     const [active, setActive] = useState(false)
 
     useEffect(() => {
-        ;(window as any).electronAPI.loadTeamSetup().then((data: any) => {
-            if (data != null) reset(data)
+        ;(window as any).electronAPI.loadTeamSetup().then((data: null | TeamsConfig) => {
+            if (data != null) {
+                reset(data)
+            }
         })
         return () => {}
     }, [reset])
@@ -160,10 +163,10 @@ function TabTeamTurnament(): JSX.Element {
 }
 
 function TabTeamLogos(): JSX.Element {
-    const { control, register, watch, reset, setValue, getValues } = useForm()
+    const { control, watch, reset, setValue } = useForm()
     const { isDirty } = useFormState({ control })
     const watchedValues = watch()
-    const [active, setActive] = useState(false)
+    //    const [active, setActive] = useState(false)
 
     useEffect(() => {
         //            (window as any).electronAPI.loadTeamLogos().then((data: any) => {
@@ -269,7 +272,7 @@ function TabTeamLogos(): JSX.Element {
 function TabTeam(): JSX.Element {
     // vertical panel
     const [teamValuePanel, setTeamValuePanel] = useState(0)
-    const handleChangeTeamPanel = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChangeTeamPanel = (_, newValue: number): void => {
         setTeamValuePanel(newValue)
     }
 
