@@ -26,7 +26,7 @@ interface TabPanelProps {
     value: number
 }
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: TabPanelProps): JSX.Element {
     const { children, value, index, ...other } = props
 
     return (
@@ -53,10 +53,10 @@ export const controlFktContext = createContext(
     null as any as { watchedValues: ConfigValues; setStateUpdate: Function; setValue: Function }
 )
 
-function App() {
+function App(): JSX.Element {
     let currentVersion = ''
 
-    function setCurrentVersion(version: string) {
+    function setCurrentVersion(version: string): void {
         currentVersion = version
     }
 
@@ -64,7 +64,7 @@ function App() {
     const watchedValues = watch()
     let stateUpdate: any
     let setStateUpdate: Function
-    ;[stateUpdate, setStateUpdate] = useState(watchedValues)
+    [stateUpdate, setStateUpdate] = useState(watchedValues)
 
     useEffect(() => {
         setValue('setup', stateUpdate.setup)
@@ -73,7 +73,7 @@ function App() {
     }, [stateUpdate])
 
     const [mainValuePanel, setMainValuePanel] = useState(0)
-    const handleChangeMainMenu = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChangeMainMenu = (_, newValue: number): void => {
         setMainValuePanel(newValue)
     }
 
