@@ -1,33 +1,25 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-import Team, { TeamCompare } from './Team'
-
 import Player from './Player'
-import { Extra } from './Player'
 import { Cck2Result } from './Player'
 import { PlayerCompare } from './Player'
 
-import { TeamsConfig } from '../renderer/src/cck2_live_interface/LiveConfig'
+import { SingleConfig } from '../renderer/src/cck2_live_interface/LiveConfig'
 
-class TeamProcessing {
+class PlayerProcessing {
     private resultDB = ''
     private players = new Map<string, Player>()
     private cck2File = ''
     private resultOutputPath = ''
-    private extraFiles = new Array<string>()
 
-    constructor(teamSetup: TeamsConfig) {
-        this.resultOutputPath = teamSetup.data_path
-        this.resultDB = path.join(teamSetup.data_path, 'result.csv')
-        this.cck2File = teamSetup.cck2_output_files
-        const extraFiles = teamSetup.additional_data.split(',')
-        extraFiles.forEach((ef) => {
-            this.extraFiles.push(path.join(teamSetup.data_path, ef.trim()))
-        })
+    constructor(playerSetup: SingleConfig) {
+        this.resultOutputPath = playerSetup.data_path
+        this.resultDB = path.join(playerSetup.data_path, 'result.csv')
+        this.cck2File = playerSetup.cck2_output_files
 
         this.readResultDB()
-        this.readPlayerDB(path.join(teamSetup.data_path, teamSetup.player_data)) // add data of remaining players
+        this.readPlayerDB(path.join(playerSetup.data_path, playerSetup.player_data)) // add data of remaining players
     }
 
     do(): void {
@@ -36,7 +28,6 @@ class TeamProcessing {
         this.updateExtra()
 
         this.writeResultDB()
-        this.writeTeamResult()
         this.writeSingleResult()
     }
 
@@ -55,17 +46,15 @@ class TeamProcessing {
     }
 
     private readResultDB(): void {
-        try {
-            const buf = fs.readFileSync(this.resultDB, 'utf-8')
-            const lines = buf.split('\n')
-            lines.forEach((l) => {
-                const ll = l.replace('\r', '')
-                if (ll.search(';') >= 0) {
-                    const p = new Player(ll)
-                    this.players.set(p.id, p)
-                }
-            })
-        } catch {}
+        const buf = fs.readFileSync(this.resultDB, 'utf-8')
+        const lines = buf.split('\n')
+        lines.forEach((l) => {
+            const ll = l.replace('\r', '')
+            if (ll.search(';') >= 0) {
+                const p = new Player(ll)
+                this.players.set(p.id, p)
+            }
+        })
     }
 
     private readCck2Result(): any {
@@ -195,4 +184,4 @@ class TeamProcessing {
     }
 }
 
-export default TeamProcessing
+export default PlayerProcessing

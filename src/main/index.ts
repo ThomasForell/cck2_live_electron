@@ -15,6 +15,7 @@ import {
 } from '../renderer/src/cck2_live_interface/LiveConfig'
 
 import TeamProcessing from './TeamProcessing'
+import PlayerProcessing from './PlayerProcessing'
 
 const indexUrls = ['/', '/index.html']
 const displayUrls = ['/TVLinks.html', '/TVRechts.html']
@@ -305,11 +306,16 @@ app.whenReady().then(() => {
         }
     })
 
+    let singleSetupLoaded = false
     ipcMain.handle('load_single_setup', (): null | SingleConfig => {
         try {
-            const buff = fs.readFileSync(path.join(appDir, 'single_setup.json'), 'utf-8')
-            const single_setup: SingleConfig = JSON.parse(buff)
-            return single_setup
+            if (!singleSetupLoaded) {
+                const buff = fs.readFileSync(path.join(appDir, 'single_setup.json'), 'utf-8')
+                const single_setup: SingleConfig = JSON.parse(buff)
+                singleSetupLoaded = true
+                return single_setup
+            }
+            return null
         } catch (error) {
             return null
         }
@@ -334,7 +340,7 @@ app.whenReady().then(() => {
             tp.do()
             tpIntervalId = setInterval(() => {
                 if (tp != null) tp.do()
-            }, 3000)
+            }, 1000)
         }
     })
     ipcMain.on('team_processing_stop', () => {
@@ -344,11 +350,30 @@ app.whenReady().then(() => {
             tp = null
         }
     })
+    let pp: null | PlayerProcessing = null
+    let ppIntervalId: ReturnType<typeof setInterval>
     ipcMain.on('single_processing_start', () => {
         console.log('single_processing_start')
+        if (tp == null) {
+            const buff = fs.readFileSync(path.join(appDir, 'single_setup.json'), 'utf-8')
+            const single_setup = JSON.parse(buff)
+            single_setup.cck2_output_files = path.join(
+                configValues.setup.cck2_output_path,
+                single_setup.cck2_output_files
+            )
+            pp = new PlayerProcessing(single_setup)
+            pp.do()
+            ppIntervalId = setInterval(() => {
+                if (pp != null) pp.do()
+            }, 1000)
+        }
     })
     ipcMain.on('single_processing_stop', () => {
         console.log('single_processing_stop')
+        if (pp != null) {
+            clearInterval(ppIntervalId)
+            pp = null
+        }
     })
     ipcMain.on('sprint_processing_start', () => {
         console.log('sprint_processing_start')

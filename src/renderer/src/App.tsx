@@ -13,6 +13,7 @@ import Tab from '@mui/material/Tab'
 import { useForm } from 'react-hook-form'
 
 import { ConfigValues } from './cck2_live_interface/ConfigValues'
+import { SingleConfig } from './cck2_live_interface/LiveConfig'
 import TabLeague from './TabLeague'
 import TabSingle from './TabSingle'
 import TabSprint from './TabSprint'
@@ -50,7 +51,11 @@ const darkTheme = createTheme({
 
 export const variant = 'standard'
 export const controlFktContext = createContext(
-    null as any as { watchedValues: ConfigValues; setStateUpdate: Function; setValue: Function }
+    null as any as {
+        watchedValues: ConfigValues
+        setStateUpdate: Function
+        setValue: Function
+    }
 )
 
 function App(): JSX.Element {
@@ -64,7 +69,9 @@ function App(): JSX.Element {
     const watchedValues = watch()
     let stateUpdate: any
     let setStateUpdate: Function
-    [stateUpdate, setStateUpdate] = useState(watchedValues)
+    ;[stateUpdate, setStateUpdate] = useState(watchedValues)
+
+    let singleConfig: null | SingleConfig = null
 
     useEffect(() => {
         setValue('setup', stateUpdate.setup)
@@ -166,7 +173,7 @@ function App(): JSX.Element {
                     />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={1}>
-                    <TabSingle />
+                    <TabSingle config={singleConfig} />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={2}>
                     <TabSprint />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 
 import Box from '@mui/material/Box'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -9,25 +9,39 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
+import { FormControl } from '@mui/material'
+
 import { useForm, useFormState, Controller } from 'react-hook-form'
 
 import DirectorySelectorElectron from './DirectorySelectorElectron'
 
 import { variant } from './App'
-import { FormControl } from '@mui/material'
+import { SingleConfig } from './cck2_live_interface/LiveConfig'
 
-function TabSingle(): JSX.Element {
+function TabSingle({config}: {config: null | SingleConfig}): JSX.Element {
     const { control, register, watch, reset, setValue, getValues } = useForm()
     const { isDirty } = useFormState({ control })
     const watchedValues = watch()
     const [active, setActive] = useState(false)
 
     useEffect(() => {
-        ;(window as any).electronAPI.loadSingleSetup().then((data: any) => {
-            if (data != null) reset(data)
-        })
+        if (config == null) {
+            ;(window as any).electronAPI.loadSingleSetup().then((data: null | SingleConfig) => {
+                if (data != null) {
+                    reset(data)
+                    config = { ...data }
+                }
+            })
+        } else {
+            reset(config)
+        }
         return () => {}
     }, [reset])
+
+    useEffect(() => {
+        config = { ...(watchedValues as SingleConfig) }
+        return () => {}
+    }, [watchedValues])
 
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}>

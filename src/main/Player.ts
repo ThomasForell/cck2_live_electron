@@ -50,6 +50,22 @@ export class Extra {
     }
 }
 
+export interface Cck2Player {
+    mannschaft: string
+    spielername: string
+    id: string
+    spielername_aw: string
+    id_aw: string
+    sp: string
+    wurf: string
+    gesamt: string
+    durchgang_wurf: string
+    durchgang_gesamt: string
+    volle: Array<string>
+    abr: Array<string>
+    fehlwurf: Array<string>
+}
+
 export default class Player {
     id: string = ''
     private name: string = ''
@@ -109,7 +125,7 @@ export default class Player {
         return v
     }
 
-    updateResult(match: number, setsPerMatch: number, r: Array<Result>) {
+    updateResult(match: number, setsPerMatch: number, r: Array<Result>): void {
         this.active = true
         if (match * setsPerMatch == this.results.length) {
             for (let i = 0; i < setsPerMatch; ++i) {
@@ -198,7 +214,7 @@ export function PlayerCompare(a: Player, b: Player): number {
     return -1
 }
 
-export function Cck2Result(cck2: any, setsPerMatch: number): Array<Result> {
+export function Cck2Result(cck2: Cck2Player, setsPerMatch: number): Array<Result> {
     const v = [] as Array<Result>
     for (let i = 0; i < setsPerMatch; ++i) {
         const all = Number(cck2.volle[i])
