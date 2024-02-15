@@ -3,7 +3,7 @@ import { Result } from './Player'
 
 export default class Team {
     private player: Array<Player> = []
-    private result: Result = null
+    private result: Result = new Result()
     private extra: Array<number> = []
 
     constructor() {}

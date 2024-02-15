@@ -25,7 +25,6 @@ class PlayerProcessing {
     do(): void {
         const cck2Result = this.readCck2Result()
         this.updateResult(cck2Result)
-        this.updateExtra()
 
         this.writeResultDB()
         this.writeSingleResult()
@@ -81,39 +80,18 @@ class PlayerProcessing {
                 if (player != null) {
                     player.updateResult(0, 4, result)
                     player.substitute = 'e'
-                    this.players.get(p.id).substitute = 'a'
-                    player.substractPlayer(this.players.get(p.id))
+                    const pid = this.players.get(p.id)
+                    if (pid) {
+                        pid.substitute = 'a'
+                        player.substractPlayer(pid)
+                    }
                 }
             } else if (p.id != '') {
                 const result = Cck2Result(p, 4)
-                this.players.get(p.id).updateResult(0, 4, result)
-            }
-        })
-    }
-
-    private updateExtra(): void {
-        const extras = new Map<string, Array<Extra>>()
-        try {
-            this.extraFiles.forEach((extraFile) => {
-                const buf = fs.readFileSync(extraFile).toString()
-                const lines = buf.split('\n')
-                lines.forEach((line) => {
-                    if (line.search(';') >= 0) {
-                        const es = line.replace('\r', '').split(';')
-                        if (!extras.has(es[0])) {
-                            extras.set(es[0], [new Extra(Number(es[1]), es[2])])
-                        } else {
-                            extras.get(es[0]).push(new Extra(Number(es[1]), es[2]))
-                        }
-                    }
-                })
-            })
-        } catch (e) {
-            console.log(e)
-        }
-        extras.forEach((v, k) => {
-            if (this.players.has(k)) {
-                this.players.get(k).setExtra(v)
+                const pid = this.players.get(p.id)
+                if (pid) {
+                    pid.updateResult(0, 4, result)
+                }
             }
         })
     }
@@ -126,41 +104,6 @@ class PlayerProcessing {
         fs.writeFileSync(this.resultDB, out)
     }
 
-    private writeTeamResult(): void {
-        // map players into teams per group and mixed
-        const teams = new Map<string, Map<string, Team>>()
-        teams.set('mixed', new Map<string, Team>())
-        this.players.forEach((p) => {
-            const group = p.group
-            const team = p.team
-            if (!teams.has(group)) {
-                teams.set(group, new Map<string, Team>())
-            }
-            if (!teams.get(group).has(team)) {
-                teams.get(group).set(team, new Team())
-            }
-            teams.get(group).get(team).addPlayer(p)
-            if (!teams.get('mixed').has(team)) {
-                teams.get('mixed').set(team, new Team())
-            }
-            teams.get('mixed').get(team).addPlayer(p)
-        })
-
-        // extract teams and sort
-        teams.forEach((g, key) => {
-            // extract teams in group
-            const teamGroup = [] as Array<Team>
-            g.forEach((t) => {
-                teamGroup.push(t)
-            })
-            teamGroup.sort(TeamCompare)
-            fs.writeFileSync(
-                path.join(this.resultOutputPath, 'team_' + key + '.json'),
-                JSON.stringify(teamGroup)
-            )
-        })
-    }
-
     private writeSingleResult(): void {
         const groups = new Map<string, Array<Player>>()
 
@@ -169,7 +112,10 @@ class PlayerProcessing {
             if (!groups.has(p.group)) {
                 groups.set(p.group, [p])
             } else {
-                groups.get(p.group).push(p)
+                const group = groups.get(p.group)
+                if (group) {
+                    group.push(p)
+                }
             }
         })
 

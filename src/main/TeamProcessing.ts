@@ -92,12 +92,18 @@ class TeamProcessing {
                 if (player != null) {
                     player.updateResult(0, 4, result)
                     player.substitute = 'e'
-                    this.players.get(p.id).substitute = 'a'
-                    player.substractPlayer(this.players.get(p.id))
+                    const pid = this.players.get(p.id)
+                    if (pid) {
+                        pid.substitute = 'a'
+                        player.substractPlayer(pid)
+                    }
                 }
             } else if (p.id != '') {
                 const result = Cck2Result(p, 4)
-                this.players.get(p.id).updateResult(0, 4, result)
+                const pid = this.players.get(p.id)
+                if (pid) {
+                    pid.updateResult(0, 4, result)
+                }
             }
         })
     }
@@ -114,7 +120,10 @@ class TeamProcessing {
                         if (!extras.has(es[0])) {
                             extras.set(es[0], [new Extra(Number(es[1]), es[2])])
                         } else {
-                            extras.get(es[0]).push(new Extra(Number(es[1]), es[2]))
+                            const ees = extras.get(es[0])
+                            if (ees) {
+                                ees.push(new Extra(Number(es[1]), es[2]))
+                            }
                         }
                     }
                 })
@@ -124,7 +133,10 @@ class TeamProcessing {
         }
         extras.forEach((v, k) => {
             if (this.players.has(k)) {
-                this.players.get(k).setExtra(v)
+                const pk = this.players.get(k);
+                if (pk) {
+                    pk.setExtra(v)
+                }
             }
         })
     }
@@ -147,14 +159,26 @@ class TeamProcessing {
             if (!teams.has(group)) {
                 teams.set(group, new Map<string, Team>())
             }
-            if (!teams.get(group).has(team)) {
-                teams.get(group).set(team, new Team())
+            const tg = teams.get(group) 
+            if (tg) {
+                if (!tg.has(team)) {
+                    tg.set(team, new Team())
+                }
+                const tgt = tg.get(team)
+                if (tgt) {
+                    tgt.addPlayer(p)
+                }
             }
-            teams.get(group).get(team).addPlayer(p)
-            if (!teams.get('mixed').has(team)) {
-                teams.get('mixed').set(team, new Team())
+            const tm = teams.get('mixed')
+            if (tm) {
+                if (!tm.has(team)) {
+                    tm.set(team, new Team())
+                }
+                const tmt = tm.get(team)
+                if (tmt) {
+                    tmt.addPlayer(p)
+                }
             }
-            teams.get('mixed').get(team).addPlayer(p)
         })
 
         // extract teams and sort
@@ -180,7 +204,10 @@ class TeamProcessing {
             if (!groups.has(p.group)) {
                 groups.set(p.group, [p])
             } else {
-                groups.get(p.group).push(p)
+                const gp = groups.get(p.group)
+                if (gp) {
+                    gp.push(p)
+                }
             }
         })
 

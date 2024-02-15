@@ -56,7 +56,7 @@ function LogoDropzone({
             <Controller
                 control={control}
                 name={name}
-                render={({ field: { onChange, value } }) => (
+                render={({ field: { onChange } }) => (
                     <Dropzone
                         noClick
                         noKeyboard
