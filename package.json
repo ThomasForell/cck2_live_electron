@@ -50,5 +50,16 @@
     "react-dom": "^18.2.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.12"
+  },
+  "build": {
+    "appId": "de.skv-lorsch.cck2_live_electron",
+    "extends": null,
+    "extraFiles": [
+      "static-html",
+      "app-data"
+    ],
+    "win": {
+      "icon": "resources/icon.png"
+    }
   }
 }
