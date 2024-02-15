@@ -2,13 +2,12 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
-import React from 'react'
 
 import { Control } from 'react-hook-form'
 import { Controller } from 'react-hook-form'
 
 import { variant } from './App'
-import { ConfigValues } from '../cck2_live_interface/ConfigValues'
+import { ConfigValues } from './cck2_live_interface/ConfigValues'
 
 function SingleTimeSelect({
     control,
@@ -18,7 +17,7 @@ function SingleTimeSelect({
     control: Control
     name: string
     label: string
-}) {
+}): JSX.Element {
     return (
         <FormControl key={name + '_fc'} sx={{ m: 1, minWidth: 120 }}>
             <InputLabel key={name + '_il'}>{label}</InputLabel>
@@ -65,8 +64,8 @@ function TimeSelect({
     control: any
     name: string
     setup: ConfigValues['setup']
-}) {
-    const t = []
+}): JSX.Element {
+    const t: JSX.Element[] = []
     for (let i = 0; i < setup.output_name.length; ++i) {
         t.push(
             <SingleTimeSelect
@@ -74,8 +73,7 @@ function TimeSelect({
                 name={name + '.' + i.toString()}
                 label={'Zeit ' + setup.output_name[i]}
                 key={'TimeSelect.' + name + '.' + i.toString()}
-            />
-        )
+            />)
     }
     return <>{t}</>
 }

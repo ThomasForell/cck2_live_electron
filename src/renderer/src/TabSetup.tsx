@@ -16,14 +16,14 @@ import Typography from '@mui/material/Typography'
 import { Controller } from 'react-hook-form'
 import React, { useContext } from 'react'
 
-import { ConfigValues } from '../cck2_live_interface/ConfigValues'
+import { ConfigValues } from './cck2_live_interface/ConfigValues'
 import NavigationButtons from './NavigationButtons'
 import DirectorySelectorElectron from './DirectorySelectorElectron'
 
 import { variant } from './App'
 import { controlFktContext } from './App'
 
-function SetupSettings ({
+function SetupSettings({
     register,
     control,
     count,
@@ -70,7 +70,10 @@ function SetupSettings ({
                             <MenuItem key={'setup.type.stream.' + count.toString()} value="stream">
                                 Stream
                             </MenuItem>
-                            <MenuItem key={'setup.type.display.' + count.toString()} value="display">
+                            <MenuItem
+                                key={'setup.type.display.' + count.toString()}
+                                value="display"
+                            >
                                 Display
                             </MenuItem>
                         </Select>
@@ -102,7 +105,11 @@ function SetupSettings ({
                     <FormControlLabel
                         label="Werbung"
                         control={
-                            <Checkbox checked={value} onChange={onChange} key={'setup.adv.' + count.toString()} />
+                            <Checkbox
+                                checked={value}
+                                onChange={onChange}
+                                key={'setup.adv.' + count.toString()}
+                            />
                         }
                     />
                 )}
@@ -135,7 +142,7 @@ function TabSetup({
     setValue: Function
     getValues: Function
 }): JSX.Element {
-    let s = [
+    const s: JSX.Element[] = [
         <FormControl key="tabssetup_fc_active_output">
             <FormLabel>Aktive Ausage</FormLabel>
             <Controller
@@ -196,7 +203,8 @@ function TabSetup({
             getValues={getValues}
             defaultValue="C:\\Users\\[Benutzername]\\Documents\\Live"
             label="CCK2 Ausgabeverzeichnis"
-        />)
+        />
+    )
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}>
             <Stack spacing={4} direction="column">

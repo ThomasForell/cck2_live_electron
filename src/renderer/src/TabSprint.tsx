@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
-function TabSprint() {
+function TabSprint(): JSX.Element {
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}>
             <Stack spacing={4} direction="column">

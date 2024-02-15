@@ -20,7 +20,7 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import Checkbox from '@mui/material/Checkbox'
 
-import { ConfigValues } from '../cck2_live_interface/ConfigValues'
+import { ConfigValues } from './cck2_live_interface/ConfigValues'
 import NavigationButtons from './NavigationButtons'
 import TimeSelect from './TimeSelect'
 import LogoDropzone from './LogoDropzone'
@@ -46,7 +46,7 @@ function TeamSettings({
     disableDelete: boolean
     disableUp: boolean
     disableDown: boolean
-}) {
+}): JSX.Element {
     return (
         <div>
             <Accordion>
@@ -174,8 +174,8 @@ function CreateTeamSettings(props: {
     control: any
     team: ConfigValues['team']
     setup: ConfigValues['setup']
-}) {
-    const t = []
+}): JSX.Element {
+    const t: JSX.Element[] = []
     for (let i = 0; props.team && i < props.team.name.length; ++i) {
         t.push(
             <TeamSettings
@@ -209,7 +209,7 @@ function AdvSettings({
     disableDelete: boolean
     disableUp: boolean
     disableDown: boolean
-}) {
+}): JSX.Element {
     return (
         <>
             <Accordion>
@@ -263,8 +263,8 @@ function CreateAdvSettings(props: {
     control: any
     adv: ConfigValues['adv']
     setup: ConfigValues['setup']
-}) {
-    const a = []
+}): JSX.Element {
+    const a: JSX.Element[] = []
     for (let i = 0; props.adv && i < props.adv.name.length; ++i) {
         a.push(
             <AdvSettings
@@ -288,9 +288,9 @@ function TabLeague({
     register: any
     control: any
     watchedValues: ConfigValues
-}) {
+}): JSX.Element {
     const [leagueValuePanel, setLeagueValuePanel] = useState(0)
-    const handleChangeLeaguePanel = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChangeLeaguePanel = (_: React.SyntheticEvent, newValue: number): void => {
         setLeagueValuePanel(newValue)
     }
 

@@ -5,13 +5,17 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown'
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp'
 
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 
-import { ConfigValues } from '../cck2_live_interface/ConfigValues'
+import { ConfigValues } from './cck2_live_interface/ConfigValues'
 
 import { controlFktContext } from './App'
 
-function ComponentAdd(reference: string, watchedValues: ConfigValues, setStateUpdate: Function) {
+function ComponentAdd(
+    reference: string,
+    watchedValues: ConfigValues,
+    setStateUpdate: Function
+): void {
     const tmp = { ...watchedValues }
 
     const numTimeEntries = tmp.setup.output_name.length
@@ -39,7 +43,11 @@ function ComponentAdd(reference: string, watchedValues: ConfigValues, setStateUp
     setStateUpdate(tmp)
 }
 
-function ComponentDelete(reference: string, watchedValues: ConfigValues, setStateUpdate: Function) {
+function ComponentDelete(
+    reference: string,
+    watchedValues: ConfigValues,
+    setStateUpdate: Function
+): void {
     const tmp = { ...watchedValues }
     const [component, id] = reference.split('.')
     const i = Number(id)
@@ -61,7 +69,7 @@ function ComponentDelete(reference: string, watchedValues: ConfigValues, setStat
     setStateUpdate(tmp)
 }
 
-function ComponentUp(reference: string, watchedValues: ConfigValues, setValue: Function) {
+function ComponentUp(reference: string, watchedValues: ConfigValues, setValue: Function): void {
     const tmp = { ...watchedValues }
     const [component, id] = reference.split('.')
     const i = Number(id)
@@ -85,7 +93,7 @@ function ComponentUp(reference: string, watchedValues: ConfigValues, setValue: F
     }
 }
 
-function ComponentDown(reference: string, watchedValues: ConfigValues, setValue: Function) {
+function ComponentDown(reference: string, watchedValues: ConfigValues, setValue: Function): void {
     const tmp = { ...watchedValues }
     const [component, id] = reference.split('.')
     const i = Number(id)
@@ -119,7 +127,7 @@ function NavigationButtons({
     disableDelete: boolean
     disableUp: boolean
     disableDown: boolean
-}) {
+}): JSX.Element {
     const fktContext = useContext(controlFktContext)
     return (
         <ButtonGroup variant="outlined" size="small">

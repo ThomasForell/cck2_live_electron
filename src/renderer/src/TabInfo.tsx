@@ -2,7 +2,7 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 
-function TabInfo({ version }: { version: string }) {
+function TabInfo({ version }: { version: string }): JSX.Element {
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}>
             <Stack spacing={2} direction="column">

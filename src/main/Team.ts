@@ -6,8 +6,6 @@ export default class Team {
     private result: Result = new Result()
     private extra: Array<number> = []
 
-    constructor() {}
-
     addPlayer(p: Player): void {
         this.player.push(p)
         this.player.sort((a: Player, b: Player): number => {

@@ -55,17 +55,15 @@ class TeamProcessing {
     }
 
     private readResultDB(): void {
-        try {
-            const buf = fs.readFileSync(this.resultDB, 'utf-8')
-            const lines = buf.split('\n')
-            lines.forEach((l) => {
-                const ll = l.replace('\r', '')
-                if (ll.search(';') >= 0) {
-                    const p = new Player(ll)
-                    this.players.set(p.id, p)
-                }
-            })
-        } catch {}
+        const buf = fs.readFileSync(this.resultDB, 'utf-8')
+        const lines = buf.split('\n')
+        lines.forEach((l) => {
+            const ll = l.replace('\r', '')
+            if (ll.search(';') >= 0) {
+                const p = new Player(ll)
+                this.players.set(p.id, p)
+            }
+        })
     }
 
     private readCck2Result(): any {
@@ -133,7 +131,7 @@ class TeamProcessing {
         }
         extras.forEach((v, k) => {
             if (this.players.has(k)) {
-                const pk = this.players.get(k);
+                const pk = this.players.get(k)
                 if (pk) {
                     pk.setExtra(v)
                 }
@@ -159,7 +157,7 @@ class TeamProcessing {
             if (!teams.has(group)) {
                 teams.set(group, new Map<string, Team>())
             }
-            const tg = teams.get(group) 
+            const tg = teams.get(group)
             if (tg) {
                 if (!tg.has(team)) {
                     tg.set(team, new Team())

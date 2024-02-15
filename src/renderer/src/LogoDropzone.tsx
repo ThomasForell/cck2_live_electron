@@ -18,7 +18,7 @@ function LogoDropzone({
     value: string
     control: Control
     dense?: boolean
-}) {
+}): JSX.Element {
     const group = name.split('.')[0]
     const source = 'http://localhost/logos/' + group + '/' + value
 

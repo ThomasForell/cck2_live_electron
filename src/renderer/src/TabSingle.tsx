@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -18,7 +18,7 @@ import DirectorySelectorElectron from './DirectorySelectorElectron'
 import { variant } from './App'
 import { SingleConfig } from './cck2_live_interface/LiveConfig'
 
-function TabSingle({config}: {config: null | SingleConfig}): JSX.Element {
+function TabSingle({ config }: { config: null | SingleConfig }): JSX.Element {
     const { control, register, watch, reset, setValue, getValues } = useForm()
     const { isDirty } = useFormState({ control })
     const watchedValues = watch()
