@@ -361,7 +361,7 @@ app.whenReady().then(() => {
                 configValues.setup.cck2_output_path,
                 single_setup.cck2_output_files
             )
-            pp = new PlayerProcessing(single_setup)
+            pp = new PlayerProcessing(single_setup, configValues.setup.cck2_output_path)
             pp.do()
             ppIntervalId = setInterval(() => {
                 if (pp != null) pp.do()

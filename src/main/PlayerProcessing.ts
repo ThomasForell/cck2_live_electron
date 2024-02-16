@@ -7,23 +7,46 @@ import { PlayerCompare } from './Player'
 
 import { SingleConfig } from '../renderer/src/cck2_live_interface/LiveConfig'
 
+interface Bahn {
+    mannschaft: string
+    spielername: string
+    id: string
+    spielername_aw: string
+    id_aw: string
+    sp: string
+    wurf: string
+    gesamt: string
+    durchgang_wurf: string
+    durchgang_gesamt: string
+    volle: string[]
+    abr: string[]
+    fehlwurf: string[]
+}
+
+interface Cck2Bahnen {
+    Bahn: Bahn[]
+}
+
 class PlayerProcessing {
     private resultDB = ''
     private players = new Map<string, Player>()
-    private cck2File = ''
+    private cck2Files = ['']
     private resultOutputPath = ''
 
-    constructor(playerSetup: SingleConfig) {
+    constructor(playerSetup: SingleConfig, cck2path: string) {
         this.resultOutputPath = playerSetup.data_path
         this.resultDB = path.join(playerSetup.data_path, 'result.csv')
-        this.cck2File = playerSetup.cck2_output_files
+        this.cck2Files = playerSetup.cck2_output_files.split(',')
+        this.cck2Files.forEach((f) => {
+            path.join(cck2path, f.trim())
+        })
 
         this.readResultDB()
         this.readPlayerDB(path.join(playerSetup.data_path, playerSetup.player_data)) // add data of remaining players
     }
 
     do(): void {
-        const cck2Result = this.readCck2Result()
+        const cck2Result: Bahn[] = this.readCck2Result()
         this.updateResult(cck2Result)
 
         this.writeResultDB()
@@ -56,24 +79,28 @@ class PlayerProcessing {
         })
     }
 
-    private readCck2Result(): any {
+    private readCck2Result(): Bahn[] {
+        const results: Bahn[] = []
         try {
-            let buf = fs.readFileSync(this.cck2File, 'utf-8')
-            if (buf.charCodeAt(0) === 0xfeff) {
-                buf = buf.substring(1)
-            }
-            return JSON.parse(buf)
+            this.cck2Files.forEach((f) => {
+                let buf = fs.readFileSync(f, 'utf-8')
+                if (buf.charCodeAt(0) === 0xfeff) {
+                    buf = buf.substring(1)
+                }
+                results.concat((JSON.parse(buf) as Cck2Bahnen).Bahn)
+            })
         } catch (e) {
             console.log(e)
         }
+        return results
     }
 
-    private updateResult(data: any): void {
+    private updateResult(data: Bahn[]): void {
         this.players.forEach((p) => {
             p.active = false
         })
 
-        data.bahn.forEach((p) => {
+        data.forEach((p) => {
             if (p.id_aw != '') {
                 const player = this.players.get(p.id_aw)
                 const result = Cck2Result(p, 4)
