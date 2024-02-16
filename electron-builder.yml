@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: cck2_live_electron.skv-lorsch.de
 productName: cck2_live_electron
 directories:
   buildResources: build
@@ -39,5 +39,5 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  provider: Thomas Forell
+  url: https://skv-lorsch.de/cck2-live-electron
