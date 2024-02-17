@@ -154,7 +154,12 @@ class PlayerProcessing {
         })
 
         // sort and output for visualization
-        groups.forEach((group, groupName) => {
+        const config = {
+            zeit: 20,
+            files: [] as string[],
+            group_names: [] as string[]
+        }
+        groups.forEach((group, groupName, idx) => {
             group.sort(PlayerCompare)
 
             const groupOut: ResultDisplay[] = []
@@ -170,11 +175,14 @@ class PlayerProcessing {
                 groupOut.push(pOut)
             })
 
-            fs.writeFileSync(
-                path.join(this.resultOutputPath, 'single_' + groupName + '.json'),
-                JSON.stringify(groupOut)
-            )
+            const fname = 'single_' + idx.toString() + '.json'
+            config.files.push(fname)
+            config.group_names.push(groupName)
+            fs.writeFileSync(path.join(this.resultOutputPath, fname), JSON.stringify(groupOut))
         })
+
+        // write config file
+        fs.writeFileSync(path.join(this.resultOutputPath, 'config.json'), JSON.stringify(config))
     }
 }
 
