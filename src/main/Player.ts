@@ -68,13 +68,13 @@ export interface Cck2Player {
 
 export default class Player {
     id: string = ''
-    private name: string = ''
+    name: string = ''
     substitute: string = ''
     team: string = ''
     group: string = ''
     active: boolean = false
-    private results: Array<Result> = []
-    extras: Array<Extra> = []
+    private results: Result[] = []
+    extras: Extra[] = []
 
     constructor(csvLine: string) {
         const csvLineSplit = csvLine.split(';')
@@ -160,6 +160,15 @@ export default class Player {
             r.add(this.results[match * setsPerMatch + i])
         }
         return r
+    }
+
+    getResultMatchAll(setsPerMatch: number): Result[] {
+        const numMatches = this.results.length / setsPerMatch
+        const rs: Result[] = []
+        for (let i = 0; i < numMatches; ++i) {
+            rs.push(this.getResultMatch(i, setsPerMatch))
+        }
+        return rs
     }
 
     getResultTotal(): Result {

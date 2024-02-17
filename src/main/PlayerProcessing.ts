@@ -27,6 +27,13 @@ interface Cck2Bahnen {
     Bahn: Bahn[]
 }
 
+interface ResultDisplay {
+    name: string
+    mannschaft: string
+    durchgang: string[]
+    gesamt: string
+}
+
 class PlayerProcessing {
     private resultDB = ''
     private players = new Map<string, Player>()
@@ -146,12 +153,26 @@ class PlayerProcessing {
             }
         })
 
-        // sort and write
+        // sort and output for visualization
         groups.forEach((group, groupName) => {
             group.sort(PlayerCompare)
+
+            const groupOut: ResultDisplay[] = []
+            group.forEach((p) => {
+                const pOut: ResultDisplay = {
+                    name: p.name,
+                    mannschaft: p.team,
+                    durchgang: p.getResultMatchAll(4).map((r) => {
+                        return r.total.toString()
+                    }),
+                    gesamt: p.getResultTotal().total.toString()
+                }
+                groupOut.push(pOut)
+            })
+
             fs.writeFileSync(
                 path.join(this.resultOutputPath, 'single_' + groupName + '.json'),
-                JSON.stringify(group)
+                JSON.stringify(groupOut)
             )
         })
     }
