@@ -30,6 +30,7 @@ interface Cck2Bahnen {
 interface ResultDisplay {
     name: string
     mannschaft: string
+    active: boolean
     durchgang: string[]
     gesamt: string
 }
@@ -173,6 +174,7 @@ class PlayerProcessing {
                 const pOut: ResultDisplay = {
                     name: p.name,
                     mannschaft: p.team,
+                    active: p.active,
                     durchgang: p.getResultMatchAll(4).map((r) => {
                         return r.total.toString()
                     }),

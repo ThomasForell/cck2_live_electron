@@ -69,6 +69,18 @@ body {overflow:hidden; /* Hide scrollbars */}
 
             for (let i = 0; i < data.length; ++i) {
                 const p = data[i]; 
+
+                el = document.getElementById("spieler" + i.toString())
+                const colorActive = "#50C878";
+                const colorInactive = "#ffffff";
+                const color = p.active ? colorActive : colorInactive
+                for (let j = 0; j < 5; ++j) {
+                    el.style.backgroundColor = color
+                    if (j < 4) {
+                        el = el.parentElement.nextElementSibling.firstChild;
+                    } 
+                }
+
                 el = document.getElementById("spieler" + i.toString())
                 el.innerHTML = p.name
                 el = el.parentElement.nextElementSibling.firstChild;
@@ -89,6 +101,12 @@ body {overflow:hidden; /* Hide scrollbars */}
                 el.innerHTML = p.gesamt
             }
             for (let i = data.length; i < 12; ++i) {
+                for (let j = 0; j < 5; ++j) {
+                    el.style.backgroundColor = "#ffffff"
+                    if (j < 4) {
+                        el = el.parentElement.nextElementSibling.firstChild;
+                    } 
+                }
                 el = document.getElementById("spieler" + i.toString())
                 el.innerHTML = " "
                 el = el.parentElement.nextElementSibling.firstChild;
