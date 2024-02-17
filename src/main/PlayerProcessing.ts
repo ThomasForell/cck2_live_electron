@@ -24,7 +24,7 @@ interface Bahn {
 }
 
 interface Cck2Bahnen {
-    Bahn: Bahn[]
+    bahn: Bahn[]
 }
 
 interface ResultDisplay {
@@ -75,26 +75,31 @@ class PlayerProcessing {
     }
 
     private readResultDB(): void {
-        const buf = fs.readFileSync(this.resultDB, 'utf-8')
-        const lines = buf.split('\n')
-        lines.forEach((l) => {
-            const ll = l.replace('\r', '')
-            if (ll.search(';') >= 0) {
-                const p = new Player(ll)
-                this.players.set(p.id, p)
-            }
-        })
+        try {
+            const buf = fs.readFileSync(this.resultDB, 'utf-8')
+            const lines = buf.split('\n')
+            lines.forEach((l) => {
+                const ll = l.replace('\r', '')
+                if (ll.search(';') >= 0) {
+                    const p = new Player(ll)
+                    this.players.set(p.id, p)
+                }
+            })
+        } catch {
+            console.log("Cannot load result file")
+        }
     }
 
     private readCck2Result(): Bahn[] {
-        const results: Bahn[] = []
+        let results: Bahn[] = []
         try {
             this.cck2Files.forEach((f) => {
                 let buf = fs.readFileSync(f, 'utf-8')
                 if (buf.charCodeAt(0) === 0xfeff) {
                     buf = buf.substring(1)
                 }
-                results.concat((JSON.parse(buf) as Cck2Bahnen).Bahn)
+                const r = (JSON.parse(buf) as Cck2Bahnen).bahn
+                results = results.concat(r)
             })
         } catch (e) {
             console.log(e)
@@ -159,7 +164,8 @@ class PlayerProcessing {
             files: [] as string[],
             group_names: [] as string[]
         }
-        groups.forEach((group, groupName, idx) => {
+        let idx = 0
+        groups.forEach((group, groupName) => {
             group.sort(PlayerCompare)
 
             const groupOut: ResultDisplay[] = []
@@ -179,6 +185,7 @@ class PlayerProcessing {
             config.files.push(fname)
             config.group_names.push(groupName)
             fs.writeFileSync(path.join(this.resultOutputPath, fname), JSON.stringify(groupOut))
+            ++idx
         })
 
         // write config file
