@@ -48,12 +48,84 @@ body {overflow:hidden; /* Hide scrollbars */}
     current_pos = document.getElementById("table")
     current_pos.innerHTML = GenerateSingleResultTable()
 </script>
-<!--
-<script src="mannschaft.js"></script>
 <script>
   const configName = window.location.pathname.slice(0, -4) + "json";
-  showData(configName, true);
-  setInterval(showData, 1000, configName, true); 
+
+  function showPlayers(dataName, group) {
+    try {
+        const requestURL = dataName + "?" + Date.now().toString()
+        fetch(requestURL)
+        .then((response) => { return response.text() })
+        .then((decoded) => {
+            if (decoded.charCodeAt(0) === 0xFEFF) {
+                decoded = decoded.substring(1);
+            }
+            const data = JSON.parse(decoded);
+
+            let el = document.getElementById("group")
+            if (el != null) {
+                el.innerHTML = group
+            }
+
+            for (let i = 0; i < data.length; ++i) {
+                const p = data[i]; 
+                el = document.getElementById("spieler" + i.toString())
+                el.innerHTML = p.name
+                el = el.parentElement.nextElementSibling.firstChild;
+                el.innerHTML = p.mannschaft
+                el = el.parentElement.nextElementSibling.firstChild;
+                if (p.durchgang.length >= 1) {
+                    el.innerHTML = p.durchgang[0]
+                } else {
+                    el.innerHTML = "0"
+                }
+                el = el.parentElement.nextElementSibling.firstChild;
+                if (p.durchgang.length >= 2) {
+                    el.innerHTML = p.durchgang[1]
+                } else {
+                    el.innerHTML = "0"
+                }
+                el = el.parentElement.nextElementSibling.firstChild;
+                el.innerHTML = p.gesamt
+            }
+            for (let i = data.length; i < 12; ++i) {
+                el = document.getElementById("spieler" + i.toString())
+                el.innerHTML = " "
+                el = el.parentElement.nextElementSibling.firstChild;
+                el.innerHTML = " "
+                el = el.parentElement.nextElementSibling.firstChild;
+                el.innerHTML = "0"
+                el = el.parentElement.nextElementSibling.firstChild;
+                el.innerHTML = "0"
+                el = el.parentElement.nextElementSibling.firstChild;
+                el.innerHTML = "0"
+            }
+
+    }) } catch (ex) {
+        console.error("showData", ex.message);
+    }
+  }
+
+  function showData(configName) {
+    try {
+        const requestURL = configName + "?" + Date.now().toString()
+        fetch(requestURL)
+        .then((response) => { return response.text() })
+        .then((decoded) => {
+            if (decoded.charCodeAt(0) === 0xFEFF) {
+            decoded = decoded.substring(1);
+            }
+            const config = JSON.parse(decoded);
+
+            const timeCurrent = Math.trunc(Date.now() / 1000) % (config.zeit * config.files.length)
+            const idx = Math.trunc(timeCurrent / config.zeit)
+
+            showPlayers(config.files[idx], config.group_names[idx])
+    }) } catch (ex) {
+        console.error("showData", ex.message);
+    }
+  }
+
+  setInterval(showData, 1000, configName); 
 </script>
--->
 </html>

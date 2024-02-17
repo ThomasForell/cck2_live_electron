@@ -23,6 +23,7 @@ const streamUrls = ['/Stream.html']
 const configUrls = ['/TVLinks.json', '/TVRechts.json', '/Stream.json']
 
 let configValues: ConfigValues
+let singleSetup: null | SingleConfig = null 
 
 const appDir = os.homedir() + '/cck2_live_electron'
 
@@ -85,7 +86,7 @@ function createIndex(req, res): void {
 }
 
 function createConfig(outputId: number): { teams; werbung } {
-    const teams: Array<TeamConfig> = []
+    const teams: TeamConfig[] = []
     for (let i = 0; i < configValues.team.name.length; ++i) {
         teams.push({
             bild_heim: configValues.team.logo_home[i],
@@ -176,16 +177,20 @@ express_app.use((req, res, next) => {
     if (indexUrls.includes(url)) {
         createIndex(req, res)
     } else if (displayUrls.includes(url)) {
-        res.sendFile(path.resolve('./static-html/display.html'))
+        //        res.sendFile(path.resolve('./static-html/display.html'))
+        res.sendFile(path.resolve('./static-html/display_single.html'))
     } else if (streamUrls.includes(url)) {
         res.sendFile(path.resolve('./static-html/stream.html'))
     } else if (configUrls.includes(url)) {
-        const id = configUrls.indexOf(url)
-        res.json(createConfig(id))
+        //        const id = configUrls.indexOf(url)
+        //        res.json(createConfig(id))
+        res.sendFile(path.resolve(singleSetup.data_path + "/config.json"))
     } else if (configValues.team.cck2_file.indexOf(url.slice(1)) >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
     } else if (url.search('result') >= 0 || url.search('team_') >= 0 || url.search('sv') >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
+    } else if (url.search('single_') >= 0) {
+        res.sendFile(path.resolve(singleSetup.data_path + url))
     } else {
         next()
     }
@@ -306,16 +311,14 @@ app.whenReady().then(() => {
         }
     })
 
-    let singleSetupLoaded = false
     ipcMain.handle('load_single_setup', (): null | SingleConfig => {
         try {
-            if (!singleSetupLoaded) {
+            if (!singleSetup) {
                 const buff = fs.readFileSync(path.join(appDir, 'single_setup.json'), 'utf-8')
-                const single_setup: SingleConfig = JSON.parse(buff)
-                singleSetupLoaded = true
-                return single_setup
+                singleSetup = JSON.parse(buff)
+                return singleSetup
             }
-            return null
+            return singleSetup
         } catch (error) {
             return null
         }
