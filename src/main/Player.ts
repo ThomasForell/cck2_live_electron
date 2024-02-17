@@ -205,14 +205,14 @@ export function PlayerCompare(a: Player, b: Player): number {
     const bExtra = b.getExtraTotal()
 
     if (aTotal.total + aExtra > bTotal.total + bExtra) {
-        return 1
+        return -1
     } else if (aTotal.total + aExtra == bTotal.total + bExtra) {
         if (aTotal.clear > bTotal.clear) {
-            return 1
+            return -1
         }
         if (aTotal.clear == bTotal.clear) {
             if (aTotal.fault < bTotal.fault) {
-                return 1
+                return -1
             }
             if (aTotal.fault == bTotal.fault) {
                 return 0
@@ -220,7 +220,7 @@ export function PlayerCompare(a: Player, b: Player): number {
         }
     }
 
-    return -1
+    return 1
 }
 
 export function Cck2Result(cck2: Cck2Player, setsPerMatch: number): Array<Result> {
