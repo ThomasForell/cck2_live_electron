@@ -8,8 +8,8 @@ import express, { Express } from 'express'
 
 import { ConfigValues } from '../renderer/src/cck2_live_interface/ConfigValues'
 import {
-    TeamConfig,
-    AdvConfig,
+    //    TeamConfig,
+    //    AdvConfig,
     SingleConfig,
     TeamsConfig
 } from '../renderer/src/cck2_live_interface/LiveConfig'
@@ -85,32 +85,32 @@ function createIndex(req, res): void {
     res.send(index)
 }
 
-function createConfig(outputId: number): { teams; werbung } {
-    const teams: TeamConfig[] = []
-    for (let i = 0; i < configValues.team.name.length; ++i) {
-        teams.push({
-            bild_heim: configValues.team.logo_home[i],
-            bild_gast: configValues.team.logo_guest[i],
-            anzahl_bahnen: Number(configValues.team.num_lanes[i]),
-            anzahl_spieler: Number(configValues.team.num_players[i]),
-            anzeigedauer_s: Number(configValues.team.time_values[i][outputId]),
-            bahn_anzeigen: configValues.setup.lanes[outputId],
-            token_datei: configValues.team.cck2_file[i],
-            anzahl_saetze: 4,
-            satzpunkte_anzeigen: configValues.team.set_points[i] ? 'ja' : 'nein'
-        } as TeamConfig)
-    }
-    const adv: Array<AdvConfig> = []
-    for (let i = 0; i < configValues.adv.logo.length; ++i) {
-        adv.push({
-            bild: configValues.adv.logo[i],
-            werbung_anzeigen: configValues.setup.adv[outputId],
-            anzeigedauer_s: configValues.adv.time_values[i][outputId]
-        } as AdvConfig)
-    }
-
-    return { teams: teams, werbung: adv }
-}
+//function createConfig(outputId: number): { teams; werbung } {
+//    const teams: TeamConfig[] = []
+//    for (let i = 0; i < configValues.team.name.length; ++i) {
+//        teams.push({
+//            bild_heim: configValues.team.logo_home[i],
+//            bild_gast: configValues.team.logo_guest[i],
+//            anzahl_bahnen: Number(configValues.team.num_lanes[i]),
+//            anzahl_spieler: Number(configValues.team.num_players[i]),
+//            anzeigedauer_s: Number(configValues.team.time_values[i][outputId]),
+//            bahn_anzeigen: configValues.setup.lanes[outputId],
+//            token_datei: configValues.team.cck2_file[i],
+//            anzahl_saetze: 4,
+//            satzpunkte_anzeigen: configValues.team.set_points[i] ? 'ja' : 'nein'
+//        } as TeamConfig)
+//    }
+//    const adv: Array<AdvConfig> = []
+//    for (let i = 0; i < configValues.adv.logo.length; ++i) {
+//        adv.push({
+//            bild: configValues.adv.logo[i],
+//            werbung_anzeigen: configValues.setup.adv[outputId],
+//            anzeigedauer_s: configValues.adv.time_values[i][outputId]
+//        } as AdvConfig)
+//    }
+//
+//    return { teams: teams, werbung: adv }
+//}
 
 function UpdateFileLookup(setup: ConfigValues['setup']): void {
     displayUrls.length = 0
@@ -184,13 +184,17 @@ express_app.use((req, res, next) => {
     } else if (configUrls.includes(url)) {
         //        const id = configUrls.indexOf(url)
         //        res.json(createConfig(id))
-        res.sendFile(path.resolve(singleSetup.data_path + "/config.json"))
+        if (singleSetup) {
+            res.sendFile(path.resolve(singleSetup.data_path + "/config.json"))
+        }
     } else if (configValues.team.cck2_file.indexOf(url.slice(1)) >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
     } else if (url.search('result') >= 0 || url.search('team_') >= 0 || url.search('sv') >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
     } else if (url.search('single_') >= 0) {
-        res.sendFile(path.resolve(singleSetup.data_path + url))
+        if (singleSetup) {
+            res.sendFile(path.resolve(singleSetup.data_path + url))
+        }
     } else {
         next()
     }
