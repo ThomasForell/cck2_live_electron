@@ -127,8 +127,8 @@ export default class Player {
 
     updateResult(match: number, setsPerMatch: number, r: Array<Result>): void {
         this.active = true
-        if (match * setsPerMatch == this.results.length) {
-            for (let i = 0; i < setsPerMatch; ++i) {
+        if (match * setsPerMatch >= this.results.length) {
+            for (let i = this.results.length; i < match * setsPerMatch; ++i) {
                 const v = new Result()
                 Object.assign(v, r[i])
                 this.results.push(v)

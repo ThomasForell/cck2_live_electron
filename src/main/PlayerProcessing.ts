@@ -40,14 +40,20 @@ class PlayerProcessing {
     private players = new Map<string, Player>()
     private cck2Files = ['']
     private resultOutputPath = ''
+    private matchDay = 0
+    private numSetsPerMatch = 4
 
     constructor(playerSetup: SingleConfig, cck2path: string) {
         this.resultOutputPath = playerSetup.data_path
         this.resultDB = path.join(playerSetup.data_path, 'result.csv')
-        this.cck2Files = playerSetup.cck2_output_files.split(',')
-        this.cck2Files.forEach((f) => {
-            path.join(cck2path, f.trim())
-        })
+
+        const cck2 = playerSetup.cck2_output_files.split(',')
+        this.cck2Files = []
+        for (let i = 0; i < cck2.length; ++i) {
+            this.cck2Files[i] = path.join(cck2path, cck2[i].trim())
+        }
+
+        this.matchDay = playerSetup.match_day - 1
 
         this.readResultDB()
         this.readPlayerDB(path.join(playerSetup.data_path, playerSetup.player_data)) // add data of remaining players
@@ -87,7 +93,7 @@ class PlayerProcessing {
                 }
             })
         } catch {
-            console.log("Cannot load result file")
+            console.log('Cannot load result file')
         }
     }
 
@@ -116,9 +122,9 @@ class PlayerProcessing {
         data.forEach((p) => {
             if (p.id_aw != '') {
                 const player = this.players.get(p.id_aw)
-                const result = Cck2Result(p, 4)
+                const result = Cck2Result(p, this.numSetsPerMatch)
                 if (player != null) {
-                    player.updateResult(0, 4, result)
+                    player.updateResult(this.matchDay, this.numSetsPerMatch, result)
                     player.substitute = 'e'
                     const pid = this.players.get(p.id)
                     if (pid) {
@@ -127,10 +133,10 @@ class PlayerProcessing {
                     }
                 }
             } else if (p.id != '') {
-                const result = Cck2Result(p, 4)
+                const result = Cck2Result(p, this.numSetsPerMatch)
                 const pid = this.players.get(p.id)
                 if (pid) {
-                    pid.updateResult(0, 4, result)
+                    pid.updateResult(this.matchDay, this.numSetsPerMatch, result)
                 }
             }
         })
@@ -175,7 +181,7 @@ class PlayerProcessing {
                     name: p.name,
                     mannschaft: p.team,
                     active: p.active,
-                    durchgang: p.getResultMatchAll(4).map((r) => {
+                    durchgang: p.getResultMatchAll(this.numSetsPerMatch).map((r) => {
                         return r.total.toString()
                     }),
                     gesamt: p.getResultTotal().total.toString()

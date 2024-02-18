@@ -23,7 +23,7 @@ const streamUrls = ['/Stream.html']
 const configUrls = ['/TVLinks.json', '/TVRechts.json', '/Stream.json']
 
 let configValues: ConfigValues
-let singleSetup: null | SingleConfig = null 
+let singleSetup: null | SingleConfig = null
 
 const appDir = os.homedir() + '/cck2_live_electron'
 
@@ -185,7 +185,7 @@ express_app.use((req, res, next) => {
         //        const id = configUrls.indexOf(url)
         //        res.json(createConfig(id))
         if (singleSetup) {
-            res.sendFile(path.resolve(singleSetup.data_path + "/config.json"))
+            res.sendFile(path.resolve(singleSetup.data_path + '/config.json'))
         }
     } else if (configValues.team.cck2_file.indexOf(url.slice(1)) >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
@@ -364,10 +364,6 @@ app.whenReady().then(() => {
         if (tp == null) {
             const buff = fs.readFileSync(path.join(appDir, 'single_setup.json'), 'utf-8')
             const single_setup = JSON.parse(buff)
-            single_setup.cck2_output_files = path.join(
-                configValues.setup.cck2_output_path,
-                single_setup.cck2_output_files
-            )
             pp = new PlayerProcessing(single_setup, configValues.setup.cck2_output_path)
             pp.do()
             ppIntervalId = setInterval(() => {
