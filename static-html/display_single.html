@@ -136,6 +136,7 @@ body {overflow:hidden; /* Hide scrollbars */}
             }
             const config = JSON.parse(decoded);
 
+            // config.zeit = 2
             const timeCurrent = Math.trunc(Date.now() / 1000) % (config.zeit * config.files.length)
             const idx = Math.trunc(timeCurrent / config.zeit)
 
