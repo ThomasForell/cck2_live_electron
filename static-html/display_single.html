@@ -73,7 +73,7 @@ body {overflow:hidden; /* Hide scrollbars */}
                 el = document.getElementById("spieler" + i.toString())
                 const colorActive = "#50C878";
                 const colorInactive = "#ffffff";
-                const color = p.active ? colorActive : colorInactive
+                const color = (p.active && p.name != " ") ? colorActive : colorInactive
                 for (let j = 0; j < 5; ++j) {
                     el.style.backgroundColor = color
                     if (j < 4) {
@@ -101,6 +101,7 @@ body {overflow:hidden; /* Hide scrollbars */}
                 el.innerHTML = p.gesamt
             }
             for (let i = data.length; i < 12; ++i) {
+                el = document.getElementById("spieler" + i.toString())
                 for (let j = 0; j < 5; ++j) {
                     el.style.backgroundColor = "#ffffff"
                     if (j < 4) {
