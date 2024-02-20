@@ -20,9 +20,10 @@ body {overflow:hidden; /* Hide scrollbars */}
 
 .block-num{width:78px;max-width:78px}
 .block-cap{width:255px;max-width:255px}
-.block-scr{width:40px;max-width:40px;text-align:right}
+.block-pic{width:120px;max-width:120px;text-align:center}
 .block-gsm{width:210px;max-width:240px}
 .block-mp {width:60px;max-width:240px}
+.block-right{width:65px;max-width:65px}
 .tg    {border-collapse:collapse;border-spacing:0;table-layout:fixed;  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .tg td{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
 .tg th{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
@@ -119,7 +120,7 @@ body {overflow:hidden; /* Hide scrollbars */}
   </table>
 </div>
 
-<div style="position: fixed; bottom: 5px; width:100%; align-content: center;">
+<div style="position: fixed; bottom: 5px; width:100%; align-content: center;" >
   <table class="tg">
   <tr>
     <td class="caption" colspan="19" align="center">U14 Ländervergleich</td>
@@ -150,7 +151,7 @@ body {overflow:hidden; /* Hide scrollbars */}
 </tr>
   <tr>
     <td class="label-num"><div class="block-num">1</div></td>
-    <td class="data"><div class="block-cap" id="team00"></div></td>
+    <td class="data"><div class="block-cap" id="8team0"></div></td>
     <td class="data-num"><div class="block-num">0</div></td>
     <td class="data-num"><div class="block-num">0</div></td>
     <td class="data-num"><div class="block-num">0</div></td>
@@ -160,7 +161,7 @@ body {overflow:hidden; /* Hide scrollbars */}
     <td class="data-num"><div class="block-num">0</div></td>
     <td class="free"></td>
     <td class="label-num"><div class="block-num">5</div></td>
-    <td class="data"><div class="block-cap" id="team04"></div></td>
+    <td class="data"><div class="block-cap" id="8team4"></div></td>
     <td class="data-num"><div class="block-num">0</div></td>
     <td class="data-num"><div class="block-num">0</div></td>
     <td class="data-num"><div class="block-num">0</div></td>
@@ -173,7 +174,7 @@ body {overflow:hidden; /* Hide scrollbars */}
     <td class="label-num">
         <div class="block-num">2</div>
     </td>
-    <td class="data"><div class="block-cap" id="team01"></div>
+    <td class="data"><div class="block-cap" id="8team1"></div>
     </td>
     <td class="data-num"><div class="block-num">0</div>
     </td>
@@ -194,7 +195,7 @@ body {overflow:hidden; /* Hide scrollbars */}
         <div class="block-num">6</div>
     </td>
     <td class="data">
-        <div class="block-cap" id="team05"></div>
+        <div class="block-cap" id="8team5"></div>
     </td>
     <td class="data-num"><div class="block-num">0</div>
     </td>
@@ -215,7 +216,7 @@ body {overflow:hidden; /* Hide scrollbars */}
     <td class="label-num">
         <div class="block-num">3</div>
     </td>
-    <td class="data"><div class="block-cap" id="team02"></div>
+    <td class="data"><div class="block-cap" id="8team2"></div>
     </td>
     <td class="data-num"><div class="block-num">0</div>
     </td>
@@ -234,7 +235,7 @@ body {overflow:hidden; /* Hide scrollbars */}
     <td class="free"></td>
     <td class="label-num"><div class="block-num">7</div>
     </td>
-    <td class="data"><div class="block-cap" id="team06"></div>
+    <td class="data"><div class="block-cap" id="8team6"></div>
     </td>
     <td class="data-num"><div class="block-num">0</div>
     </td>
@@ -254,7 +255,7 @@ body {overflow:hidden; /* Hide scrollbars */}
   <tr>
     <td class="label-num"><div class="block-num">4</div>
     </td>
-    <td class="data"><div class="block-cap" id="team03"></div>
+    <td class="data"><div class="block-cap" id="8team3"></div>
     </td>
     <td class="data-num"><div class="block-num">0</div>
     </td>
@@ -273,7 +274,7 @@ body {overflow:hidden; /* Hide scrollbars */}
     <td class="free"></td>
     <td class="label-num"><div class="block-num">8</div>
     </td>
-    <td class="data"><div class="block-cap" id="team07"></div>
+    <td class="data"><div class="block-cap" id="8team7"></div>
     </td>
     <td class="data-num"><div class="block-num">0</div>
     </td>
@@ -291,6 +292,107 @@ body {overflow:hidden; /* Hide scrollbars */}
     </td>
   </tr>
 </table>
+</div>
+<div style="position: fixed; bottom: 5px; width:100%; align-content: center;" hidden>
+  <table class="tg">
+    <tr>
+        <td class="caption" colspan="15" align="center">U23 Ländervergleich</td>
+      </tr>
+      <tr>
+        <td class="free" colspan="15"></td>
+    </tr>
+    <tr>
+      <td class="label" colspan="3" id="4team0">Team 1</td>
+        <td class="free" rowspan="9"></td>
+      <td class="label" colspan="3" id="4team1">Team 2</td>
+        <td class="free" rowspan="9"></td>
+      <td class="label" colspan="3" id="4team2">Team 3</td>
+        <td class="free" rowspan="9"></td>
+      <td class="label" colspan="3" id="4team3">Team 4</td>
+    </tr>
+    <tr>
+      <td class="label-num" style="text-align: left">Platz 1</td>
+      <td class="data"><div class="block-cap" id="spieler00"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num" style="text-align: left">Platz 2</td>
+      <td class="data"><div class="block-cap" id="spieler10"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num" style="text-align: left">Platz 3</td>
+      <td class="data"><div class="block-cap" id="spieler20"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num" style="text-align: left">Platz 4</td>
+      <td class="data"><div class="block-cap" id="spieler30"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="logo" rowspan="5"><div class="block-pic"><img src="" alt="Logo" height="auto" width="150" id="team0_img"/></div></td>
+      <td class="data"><div class="block-cap" id="spieler01"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="logo" rowspan="5"><div class="block-pic"></div><img src="" alt="Logo" height="auto" width="150" id="team1_img"/></div></td>
+      <td class="data"><div class="block-cap" id="spieler11"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="logo" rowspan="5"><div class="block-pic"></div><img src="" alt="Logo" height="auto" width="150" id="team2_img"/></div></td>
+      <td class="data"><div class="block-cap" id="spieler21"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="logo" rowspan="5"><div class="block-pic"></div><img src="" alt="Logo" height="auto" width="150" id="team3_img"/></div></td>
+      <td class="data"><div class="block-cap" id="spieler31"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="data"><div class="block-cap" id="spieler02"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler12"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler22"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler32"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="data"><div class="block-cap" id="spieler03"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler13"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler23"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler33"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="data"><div class="block-cap" id="spieler04"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler14"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler24"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler34"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="data"><div class="block-cap" id="spieler05"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler15"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler25"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler35"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="label-num"></td>
+      <td class="label"><div class="block-cap" id="team0_total"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num"></td>
+      <td class="label"><div class="block-cap" id="team1_total"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num"></td>
+      <td class="label"><div class="block-cap" id="team2_total"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num"></td>
+      <td class="label"><div class="block-cap" id="team3_total"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+  </table>
 </div>
 <script src="team.js"></script>
 <script>
