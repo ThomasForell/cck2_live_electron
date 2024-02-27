@@ -1,3 +1,5 @@
+// TeamProcessing should not be needed any more - transfer implementation into PlayerProcessing
+
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -9,6 +11,8 @@ import { Cck2Result } from './Player'
 import { PlayerCompare } from './Player'
 
 import { TeamsConfig } from '../renderer/src/cck2_live_interface/LiveConfig'
+
+import { Cck2Bahnen, Bahn } from './PlayerProcessing'
 
 class TeamProcessing {
     private resultDB = ''
@@ -31,8 +35,8 @@ class TeamProcessing {
     }
 
     do(): void {
-        const cck2Result = this.readCck2Result()
-        this.updateResult(cck2Result)
+        const bahnen = this.readCck2Result()
+        this.updateResult(bahnen)
         this.updateExtra()
 
         this.writeResultDB()
@@ -66,24 +70,27 @@ class TeamProcessing {
         })
     }
 
-    private readCck2Result(): any {
+    private readCck2Result(): Bahn[] {
+        let results: Bahn[] = []
         try {
             let buf = fs.readFileSync(this.cck2File, 'utf-8')
             if (buf.charCodeAt(0) === 0xfeff) {
                 buf = buf.substring(1)
             }
-            return JSON.parse(buf)
+            const r = (JSON.parse(buf) as Cck2Bahnen).bahn
+            results = results.concat(r)
         } catch (e) {
             console.log(e)
         }
+        return results
     }
 
-    private updateResult(data: any): void {
+    private updateResult(bahnen: Bahn[]): void {
         this.players.forEach((p) => {
             p.active = false
         })
 
-        data.bahn.forEach((p) => {
+        bahnen.forEach((p) => {
             if (p.id_aw != '') {
                 const player = this.players.get(p.id_aw)
                 const result = Cck2Result(p, 4)

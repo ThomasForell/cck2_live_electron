@@ -1,13 +1,17 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
+import { Extra } from './Player'
 import Player from './Player'
 import { Cck2Result } from './Player'
 import { PlayerCompare } from './Player'
 
-import { SingleConfig } from '../renderer/src/cck2_live_interface/LiveConfig'
+import Team, { TeamCompare } from './Team'
 
-interface Bahn {
+import { SingleConfig } from '../renderer/src/cck2_live_interface/LiveConfig'
+import { TeamsConfig } from '../renderer/src/cck2_live_interface/LiveConfig'
+
+export interface Bahn {
     mannschaft: string
     spielername: string
     id: string
@@ -23,7 +27,7 @@ interface Bahn {
     fehlwurf: string[]
 }
 
-interface Cck2Bahnen {
+export interface Cck2Bahnen {
     bahn: Bahn[]
 }
 
@@ -42,29 +46,57 @@ class PlayerProcessing {
     private resultOutputPath = ''
     private matchDay = 0
     private numSetsPerMatch = 4
+    private extraFiles = ['']
 
-    constructor(playerSetup: SingleConfig, cck2path: string) {
-        this.resultOutputPath = playerSetup.data_path
-        this.resultDB = path.join(playerSetup.data_path, 'result.csv')
+    constructor(
+        playerSetup: null | SingleConfig,
+        teamsSetup: null | TeamsConfig,
+        cck2path: string
+    ) {
+        if (playerSetup != null) {
+            this.resultOutputPath = playerSetup.data_path
+            this.resultDB = path.join(playerSetup.data_path, 'result.csv')
 
-        const cck2 = playerSetup.cck2_output_files.split(',')
-        this.cck2Files = []
-        for (let i = 0; i < cck2.length; ++i) {
-            this.cck2Files[i] = path.join(cck2path, cck2[i].trim())
+            const cck2 = playerSetup.cck2_output_files.split(',')
+            this.cck2Files = []
+            for (let i = 0; i < cck2.length; ++i) {
+                this.cck2Files[i] = path.join(cck2path, cck2[i].trim())
+            }
+
+            this.matchDay = playerSetup.match_day - 1
+
+            this.readPlayerDB(path.join(playerSetup.data_path, playerSetup.player_data)) // add data of remaining players
+        }
+        if (teamsSetup != null) {
+            this.resultOutputPath = teamsSetup.data_path
+            this.resultDB = path.join(teamsSetup.data_path, 'result.csv')
+
+            const cck2 = teamsSetup.cck2_output_files.split(',')
+            this.cck2Files = []
+            for (let i = 0; i < cck2.length; ++i) {
+                this.cck2Files[i] = path.join(cck2path, cck2[i].trim())
+            }
+
+            const extra = teamsSetup.additional_data.split(',')
+            this.extraFiles = []
+            for (let i = 0; i < cck2.length; ++i) {
+                this.extraFiles[i] = path.join(teamsSetup.data_path, extra[i].trim())
+            }
+
+            this.readPlayerDB(path.join(teamsSetup.data_path, teamsSetup.player_data)) // add data of remaining players
         }
 
-        this.matchDay = playerSetup.match_day - 1
-
         this.readResultDB()
-        this.readPlayerDB(path.join(playerSetup.data_path, playerSetup.player_data)) // add data of remaining players
     }
 
     do(): void {
         const cck2Result: Bahn[] = this.readCck2Result()
         this.updateResult(cck2Result)
+        this.updateExtra()
 
         this.writeResultDB()
         this.writeSingleResult()
+        this.writeTeamResult()
     }
 
     private readPlayerDB(playerDB: string): void {
@@ -198,6 +230,90 @@ class PlayerProcessing {
 
         // write config file
         fs.writeFileSync(path.join(this.resultOutputPath, 'config.json'), JSON.stringify(config))
+    }
+
+    private writeTeamResult(): void {
+        // map players into teams per group and mixed
+        const teams = new Map<string, Map<string, Team>>()
+        teams.set('mixed', new Map<string, Team>())
+        this.players.forEach((p) => {
+            const group = p.group
+            const team = p.team
+            if (!teams.has(group)) {
+                teams.set(group, new Map<string, Team>())
+            }
+            const tg = teams.get(group)
+            if (tg) {
+                if (!tg.has(team)) {
+                    tg.set(team, new Team())
+                }
+                const tgt = tg.get(team)
+                if (tgt) {
+                    tgt.addPlayer(p)
+                }
+            }
+            const tm = teams.get('mixed')
+            if (tm) {
+                if (!tm.has(team)) {
+                    tm.set(team, new Team())
+                }
+                const tmt = tm.get(team)
+                if (tmt) {
+                    tmt.addPlayer(p)
+                }
+            }
+        })
+
+        // extract teams and sort
+        teams.forEach((g, key) => {
+            // extract teams in group
+            const teamGroup: Team[] = []
+            g.forEach((t) => {
+                teamGroup.push(t)
+            })
+            teamGroup.sort(TeamCompare)
+            fs.writeFileSync(
+                path.join(this.resultOutputPath, 'team_' + key + '.json'),
+                JSON.stringify(teamGroup)
+            )
+        })
+    }
+
+    private updateExtra(): void {
+        const extras = new Map<string, Extra[]>()
+        try {
+            this.extraFiles.forEach((extraFile) => {
+                const buf = fs.readFileSync(extraFile).toString()
+                const lines = buf.split('\n')
+                lines.forEach((line) => {
+                    if (line.search(';') >= 0) {
+                        const es = line.replace('\r', '').split(';')
+                        if (es.length == 3) {
+                            if (!extras.has(es[0])) {
+                                extras.set(es[0], [new Extra(Number(es[1]), es[2])])
+                            } else {
+                                const ees = extras.get(es[0])
+                                if (ees) {
+                                    ees.push(new Extra(Number(es[1]), es[2]))
+                                }
+                            }
+                        } else {
+                            throw 'Expecting 3 entries per row in extra file'
+                        }
+                    }
+                })
+            })
+        } catch (e) {
+            console.log(e)
+        }
+        extras.forEach((v, k) => {
+            if (this.players.has(k)) {
+                const pk = this.players.get(k)
+                if (pk) {
+                    pk.setExtra(v)
+                }
+            }
+        })
     }
 }
 
