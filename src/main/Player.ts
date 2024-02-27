@@ -73,8 +73,8 @@ export default class Player {
     team: string = ''
     group: string = ''
     active: boolean = false
+    extras: Extra[] = []
     private results: Result[] = []
-    private extras: Extra[] = []
 
     constructor(csvLine: string) {
         const csvLineSplit = csvLine.split(';')
