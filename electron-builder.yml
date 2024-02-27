@@ -1,5 +1,5 @@
-appId: cck2_live_electron.skv-lorsch.de
-productName: cck2_live_electron
+appId: de.skv-lorsch.cck2_live_electron
+productName: 'CCK2 Live Electron'
 directories:
   buildResources: build
 files:
@@ -9,15 +9,19 @@ files:
   - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+extraFiles: 
+  - static-html
+  - app-data
 asarUnpack:
   - resources/**
 win:
-  executableName: cck2_live_electron
+  executableName: ${productName}
+  icon: 'resources/icon.png'
 nsis:
-  artifactName: ${name}-${version}-setup.${ext}
+  artifactName: ${productName} Setup ${version}.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
-  createDesktopShortcut: always
+  createDesktopShortcut: false
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
@@ -39,5 +43,5 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: Thomas Forell
+  provider: generic
   url: https://skv-lorsch.de/cck2-live-electron

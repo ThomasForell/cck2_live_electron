@@ -1,6 +1,6 @@
 {
   "name": "cck2_live_electron",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "example.com",
@@ -50,16 +50,5 @@
     "react-dom": "^18.2.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.12"
-  },
-  "build": {
-    "appId": "de.skv-lorsch.cck2_live_electron",
-    "extends": null,
-    "extraFiles": [
-      "static-html",
-      "app-data"
-    ],
-    "win": {
-      "icon": "resources/icon.png"
-    }
   }
 }
