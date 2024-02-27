@@ -14,7 +14,6 @@ import {
     TeamsConfig
 } from '../renderer/src/cck2_live_interface/LiveConfig'
 
-import TeamProcessing from './TeamProcessing'
 import PlayerProcessing from './PlayerProcessing'
 
 const indexUrls = ['/', '/index.html']
@@ -332,7 +331,7 @@ app.whenReady().then(() => {
         return null
     })
 
-    let tp: null | TeamProcessing = null
+    let tp: null | PlayerProcessing = null
     let tpIntervalId: ReturnType<typeof setInterval>
     ipcMain.on('team_processing_start', () => {
         console.log('team_processing_start')
@@ -343,7 +342,7 @@ app.whenReady().then(() => {
                 configValues.setup.cck2_output_path,
                 team_setup.cck2_output_files
             )
-            tp = new TeamProcessing(team_setup)
+            tp = new PlayerProcessing(null, team_setup, configValues.setup.cck2_output_path)
             tp.do()
             tpIntervalId = setInterval(() => {
                 if (tp != null) tp.do()
@@ -361,10 +360,10 @@ app.whenReady().then(() => {
     let ppIntervalId: ReturnType<typeof setInterval>
     ipcMain.on('single_processing_start', () => {
         console.log('single_processing_start')
-        if (tp == null) {
+        if (pp == null) {
             const buff = fs.readFileSync(path.join(appDir, 'single_setup.json'), 'utf-8')
             const single_setup = JSON.parse(buff)
-            pp = new PlayerProcessing(single_setup, configValues.setup.cck2_output_path)
+            pp = new PlayerProcessing(single_setup, null, configValues.setup.cck2_output_path)
             pp.do()
             ppIntervalId = setInterval(() => {
                 if (pp != null) pp.do()
