@@ -45,7 +45,7 @@ function TabSprint(): JSX.Element {
                     <Stack spacing={4} direction="row">
                         <TextField
                             key="sprint_num_players"
-                            label="Anzahll Spieler"
+                            label="Anzahll Spieler K.-o.-Runde"
                             variant={variant}
                             type="number"
                             InputLabelProps={{ shrink: true }}
@@ -64,11 +64,33 @@ function TabSprint(): JSX.Element {
                     <FormGroup>
                         <Controller
                             control={control}
-                            name={'Qualifikation'}
+                            name={'sprint_qualification'}
                             defaultValue={true}
                             render={({ field: { onChange, value } }) => (
                                 <FormControlLabel
                                     label="Qualifikation"
+                                    control={<Checkbox checked={value} onChange={onChange} />}
+                                />
+                            )}
+                        />
+                        <Controller
+                            control={control}
+                            name={'sprint_place_3'}
+                            defaultValue={true}
+                            render={({ field: { onChange, value } }) => (
+                                <FormControlLabel
+                                    label="Spiel um Platz 3"
+                                    control={<Checkbox checked={value} onChange={onChange} />}
+                                />
+                            )}
+                        />
+                        <Controller
+                            control={control}
+                            name={'sprint_finale4'}
+                            defaultValue={true}
+                            render={({ field: { onChange, value } }) => (
+                                <FormControlLabel
+                                    label="4er Finale"
                                     control={<Checkbox checked={value} onChange={onChange} />}
                                 />
                             )}
