@@ -94,7 +94,7 @@ function TabSingle({ config }: { config: null | SingleConfig }): JSX.Element {
                         registerName="data_path"
                         setValue={setValue}
                         getValues={getValues}
-                        defaultValue="c:\\users\\[Benutzername]\\Documents\\Veranstaltung"
+                        defaultValue="c:\users\[Benutzername]\Documents\Veranstaltung"
                         label="Datenverzeichnis – Ein- und Ausgabe für das Turnier"
                     />
                     <TextField
