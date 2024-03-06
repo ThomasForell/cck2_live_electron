@@ -17,6 +17,7 @@ import { Controller } from 'react-hook-form'
 import React, { useContext } from 'react'
 
 import { ConfigValues } from './cck2_live_interface/ConfigValues'
+import { SetupConfig } from './cck2_live_interface/LiveConfig'
 import NavigationButtons from './NavigationButtons'
 import DirectorySelectorElectron from './DirectorySelectorElectron'
 
@@ -136,7 +137,7 @@ function TabSetup({
 }: {
     register: any
     control: any
-    settings: ConfigValues['setup']
+    settings: SetupConfig
     watchedValues: ConfigValues
     setActiveOutput: Function
     setValue: Function

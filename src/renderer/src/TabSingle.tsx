@@ -18,30 +18,20 @@ import DirectorySelectorElectron from './DirectorySelectorElectron'
 import { variant } from './App'
 import { SingleConfig } from './cck2_live_interface/LiveConfig'
 
-function TabSingle({ config }: { config: null | SingleConfig }): JSX.Element {
+function TabSingle(): JSX.Element {
     const { control, register, watch, reset, setValue, getValues } = useForm()
     const { isDirty } = useFormState({ control })
     const watchedValues = watch()
     const [active, setActive] = useState(false)
 
     useEffect(() => {
-        if (config == null) {
-            ;(window as any).electronAPI.loadSingleSetup().then((data: null | SingleConfig) => {
-                if (data != null) {
-                    reset(data)
-                    config = { ...data }
-                }
-            })
-        } else {
-            reset(config)
-        }
+        ;(window as any).electronAPI.loadSingleSetup().then((data: null | SingleConfig) => {
+            if (data != null) {
+                reset(data)
+            }
+        })
         return () => {}
     }, [reset])
-
-    useEffect(() => {
-        config = { ...(watchedValues as SingleConfig) }
-        return () => {}
-    }, [watchedValues])
 
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}>

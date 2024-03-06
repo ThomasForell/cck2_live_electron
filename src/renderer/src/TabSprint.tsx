@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -11,25 +11,26 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 //import FormLabel from '@mui/material/FormLabel'
 //import FormControl from '@mui/material/FormControl'
 
-import {
-    useForm,
-    //    useFormState,
-    Controller
-} from 'react-hook-form'
+import { useForm, useFormState, Controller } from 'react-hook-form'
 
+import { SprintConfig } from './cck2_live_interface/LiveConfig'
 import { variant } from './App'
 import DirectorySelectorElectron from './DirectorySelectorElectron'
 
 function TabSprint(): JSX.Element {
-    const {
-        control,
-        register,
-        // watch,
-        // reset,
-        setValue,
-        getValues
-    } = useForm()
+    const { control, register, watch, reset, setValue, getValues } = useForm()
+    const { isDirty } = useFormState({ control })
+    const watchedValues = watch()
     const [active, setActive] = useState(false)
+
+    useEffect(() => {
+        ;(window as any).electronAPI.loadSprintSetup().then((data: null | SprintConfig) => {
+            if (data != null) {
+                reset(data)
+            }
+        })
+        return () => {}
+    }, [reset])
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}>
             <Stack spacing={4} direction="column">
@@ -37,7 +38,14 @@ function TabSprint(): JSX.Element {
                     <Typography component="div" variant="h3">
                         Sprint-Turnier
                     </Typography>
-                    <Button onClick={() => {}} disabled variant="contained">
+                    <Button
+                        onClick={() => {
+                            reset(watchedValues)
+                            ;(window as any).electronAPI.saveSprintSetup(watchedValues)
+                        }}
+                        disabled={!isDirty}
+                        variant="contained"
+                    >
                         Speichern
                     </Button>
                 </Stack>
@@ -64,7 +72,7 @@ function TabSprint(): JSX.Element {
                     <FormGroup>
                         <Controller
                             control={control}
-                            name={'sprint_qualification'}
+                            name={'qualification'}
                             defaultValue={true}
                             render={({ field: { onChange, value } }) => (
                                 <FormControlLabel
@@ -75,7 +83,7 @@ function TabSprint(): JSX.Element {
                         />
                         <Controller
                             control={control}
-                            name={'sprint_place_3'}
+                            name={'place_3'}
                             defaultValue={true}
                             render={({ field: { onChange, value } }) => (
                                 <FormControlLabel
@@ -86,7 +94,7 @@ function TabSprint(): JSX.Element {
                         />
                         <Controller
                             control={control}
-                            name={'sprint_finale4'}
+                            name={'finale_4'}
                             defaultValue={true}
                             render={({ field: { onChange, value } }) => (
                                 <FormControlLabel

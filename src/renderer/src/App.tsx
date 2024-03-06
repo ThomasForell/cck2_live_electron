@@ -10,16 +10,16 @@ import Box from '@mui/material/Box'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 
-import { useForm } from 'react-hook-form'
+import { useForm, UseFormSetValue } from 'react-hook-form'
 
 import { ConfigValues } from './cck2_live_interface/ConfigValues'
-import { SingleConfig } from './cck2_live_interface/LiveConfig'
 import TabLeague from './TabLeague'
 import TabSingle from './TabSingle'
 import TabSprint from './TabSprint'
 import TabTeam from './TabTeam'
 import TabSetup from './TabSetup'
 import TabInfo from './TabInfo'
+import { SetupConfig } from './cck2_live_interface/LiveConfig'
 
 interface TabPanelProps {
     children?: React.ReactNode
@@ -49,14 +49,14 @@ const darkTheme = createTheme({
     }
 })
 
+interface CTF {
+    watchedValues: any
+    setStateUpdate: Function
+    setValue: UseFormSetValue<ConfigValues>
+}
+
 export const variant = 'standard'
-export const controlFktContext = createContext(
-    null as any as {
-        watchedValues: ConfigValues
-        setStateUpdate: Function
-        setValue: Function
-    }
-)
+export const controlFktContext = createContext<CTF>(null as any)
 
 function App(): JSX.Element {
     let currentVersion = ''
@@ -71,12 +71,13 @@ function App(): JSX.Element {
     let setStateUpdate: Function
     ;[stateUpdate, setStateUpdate] = useState(watchedValues)
 
-    let singleConfig: null | SingleConfig = null
-
     useEffect(() => {
         setValue('setup', stateUpdate.setup)
         setValue('team', stateUpdate.team)
         setValue('adv', stateUpdate.adv)
+        setValue('single', stateUpdate.single)
+        setValue('sprint', stateUpdate.sprint)
+        setValue('teams', stateUpdate.teams)
     }, [stateUpdate])
 
     const [mainValuePanel, setMainValuePanel] = useState(0)
@@ -86,8 +87,8 @@ function App(): JSX.Element {
 
     const [activeOutput, setActiveOutput] = useState('liga')
 
-    const values: any = { ...watchedValues }
-    const dataStuff = {
+    const values = { ...watchedValues }
+    const dataStuff: CTF = {
         watchedValues: watchedValues,
         setStateUpdate: setStateUpdate,
         setValue: setValue
@@ -108,7 +109,7 @@ function App(): JSX.Element {
     }, [])
 
     return (
-        <controlFktContext.Provider value={dataStuff as any}>
+        <controlFktContext.Provider value={dataStuff}>
             <ThemeProvider theme={darkTheme}>
                 <CssBaseline />
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -173,7 +174,7 @@ function App(): JSX.Element {
                     />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={1}>
-                    <TabSingle config={singleConfig} />
+                    <TabSingle />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={2}>
                     <TabSprint />
@@ -185,7 +186,7 @@ function App(): JSX.Element {
                     <TabSetup
                         register={register}
                         control={control}
-                        settings={values.setup}
+                        settings={values.setup as SetupConfig}
                         watchedValues={watchedValues as ConfigValues}
                         setActiveOutput={setActiveOutput}
                         setValue={setValue}

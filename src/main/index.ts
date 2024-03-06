@@ -8,10 +8,21 @@ import express, { Express } from 'express'
 
 import { ConfigValues } from '../renderer/src/cck2_live_interface/ConfigValues'
 import {
-    //    TeamConfig,
-    //    AdvConfig,
+    // SetupConfig,
+    // TeamConfig,
+    // AdvConfig,
+    DefaultSetupConfig,
+    DefaultTeamConfig,
+    DefaultAdvConfig,
+    LiveConfig,
     SingleConfig,
-    TeamsConfig
+    DefaultSingleConfig,
+    SprintConfig,
+    DefaultSprintConfig,
+    TeamsConfig,
+    DefaultTeamsConfig,
+    LiveTeamConfig,
+    LiveAdvConfig
 } from '../renderer/src/cck2_live_interface/LiveConfig'
 
 import PlayerProcessing from './PlayerProcessing'
@@ -20,9 +31,6 @@ const indexUrls = ['/', '/index.html']
 const displayUrls = ['/TVLinks.html', '/TVRechts.html']
 const streamUrls = ['/Stream.html']
 const configUrls = ['/TVLinks.json', '/TVRechts.json', '/Stream.json']
-
-let configValues: ConfigValues
-let singleSetup: null | SingleConfig = null
 
 const appDir = os.homedir() + '/cck2_live_electron'
 
@@ -84,32 +92,32 @@ function createIndex(req, res): void {
     res.send(index)
 }
 
-//function createConfig(outputId: number): { teams; werbung } {
-//    const teams: TeamConfig[] = []
-//    for (let i = 0; i < configValues.team.name.length; ++i) {
-//        teams.push({
-//            bild_heim: configValues.team.logo_home[i],
-//            bild_gast: configValues.team.logo_guest[i],
-//            anzahl_bahnen: Number(configValues.team.num_lanes[i]),
-//            anzahl_spieler: Number(configValues.team.num_players[i]),
-//            anzeigedauer_s: Number(configValues.team.time_values[i][outputId]),
-//            bahn_anzeigen: configValues.setup.lanes[outputId],
-//            token_datei: configValues.team.cck2_file[i],
-//            anzahl_saetze: 4,
-//            satzpunkte_anzeigen: configValues.team.set_points[i] ? 'ja' : 'nein'
-//        } as TeamConfig)
-//    }
-//    const adv: Array<AdvConfig> = []
-//    for (let i = 0; i < configValues.adv.logo.length; ++i) {
-//        adv.push({
-//            bild: configValues.adv.logo[i],
-//            werbung_anzeigen: configValues.setup.adv[outputId],
-//            anzeigedauer_s: configValues.adv.time_values[i][outputId]
-//        } as AdvConfig)
-//    }
-//
-//    return { teams: teams, werbung: adv }
-//}
+function createConfig(outputId: number): LiveConfig {
+    const teams: LiveTeamConfig[] = []
+    for (let i = 0; i < configValues.team.name.length; ++i) {
+        teams.push({
+            bild_heim: configValues.team.logo_home[i],
+            bild_gast: configValues.team.logo_guest[i],
+            anzahl_bahnen: Number(configValues.team.num_lanes[i]),
+            anzahl_spieler: Number(configValues.team.num_players[i]),
+            anzeigedauer_s: Number(configValues.team.time_values[i][outputId]),
+            bahn_anzeigen: configValues.setup.lanes[outputId],
+            token_datei: configValues.team.cck2_file[i],
+            anzahl_saetze: 4,
+            satzpunkte_anzeigen: configValues.team.set_points[i] ? 'ja' : 'nein'
+        } as LiveTeamConfig)
+    }
+    const adv: LiveAdvConfig[] = []
+    for (let i = 0; i < configValues.adv.logo.length; ++i) {
+        adv.push({
+            bild: configValues.adv.logo[i],
+            werbung_anzeigen: configValues.setup.adv[outputId],
+            anzeigedauer_s: configValues.adv.time_values[i][outputId]
+        } as LiveAdvConfig)
+    }
+
+    return { teams: teams, werbung: adv }
+}
 
 function UpdateFileLookup(setup: ConfigValues['setup']): void {
     displayUrls.length = 0
@@ -153,16 +161,13 @@ try {
 }
 
 // init
-try {
-    let buff = fs.readFileSync(path.join(appDir, 'setup.json'), 'utf-8')
-    const setup = JSON.parse(buff)
-    buff = fs.readFileSync(path.join(appDir, 'team.json'), 'utf-8')
-    const team = JSON.parse(buff)
-    buff = fs.readFileSync(path.join(appDir, 'adv.json'), 'utf-8')
-    const adv = JSON.parse(buff)
-    configValues = { setup: setup, team: team, adv: adv }
-} catch (err) {
-    console.log(err)
+const configValues: ConfigValues = {
+    setup: DefaultSetupConfig,
+    team: DefaultTeamConfig,
+    adv: DefaultAdvConfig,
+    single: DefaultSingleConfig,
+    sprint: DefaultSprintConfig,
+    teams: DefaultTeamsConfig
 }
 
 const express_app: Express = express()
@@ -181,19 +186,25 @@ express_app.use((req, res, next) => {
     } else if (streamUrls.includes(url)) {
         res.sendFile(path.resolve('./static-html/stream.html'))
     } else if (configUrls.includes(url)) {
-        //        const id = configUrls.indexOf(url)
-        //        res.json(createConfig(id))
-        if (singleSetup) {
-            res.sendFile(path.resolve(singleSetup.data_path + '/config.json'))
+        if (configValues.setup.active_output == 'league') {
+            const id = configUrls.indexOf(url)
+            res.json(createConfig(id))
+        } else if (configValues.setup.active_output == 'single') {
+            res.json(null)
+            console.log('config single')
+        } else if (configValues.setup.active_output == 'sprint') {
+            res.json(null)
+            console.log('config sprint')
+        } else if (configValues.setup.active_output == 'team') {
+            res.json(null)
+            console.log('config team')
         }
     } else if (configValues.team.cck2_file.indexOf(url.slice(1)) >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
     } else if (url.search('result') >= 0 || url.search('team_') >= 0 || url.search('sv') >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
     } else if (url.search('single_') >= 0) {
-        if (singleSetup) {
-            res.sendFile(path.resolve(singleSetup.data_path + url))
-        }
+        res.sendFile(path.resolve(configValues.single.data_path + url))
     } else {
         next()
     }
@@ -273,9 +284,15 @@ app.whenReady().then(() => {
     })
     ipcMain.on('save_team_setup', (_, data: TeamsConfig) => {
         fs.writeFileSync(path.join(appDir, 'team_setup.json'), JSON.stringify(data))
+        configValues.teams = { ...data }
     })
     ipcMain.on('save_single_setup', (_, data: SingleConfig) => {
         fs.writeFileSync(path.join(appDir, 'single_setup.json'), JSON.stringify(data))
+        configValues.single = { ...data }
+    })
+    ipcMain.on('save_sprint_setup', (_, data: SprintConfig) => {
+        fs.writeFileSync(path.join(appDir, 'sprint_setup.json'), JSON.stringify(data))
+        configValues.sprint = { ...data }
     })
     ipcMain.handle('logo', (_, type: string, name: string, filepath: string) => {
         const target = path.join(appDir, 'logos', type, name)
@@ -292,43 +309,57 @@ app.whenReady().then(() => {
     })
 
     ipcMain.handle('load', () => {
-        let buff = fs.readFileSync(path.join(appDir, 'setup.json'), 'utf-8')
-        const setup = JSON.parse(buff)
-        buff = fs.readFileSync(path.join(appDir, 'team.json'), 'utf-8')
-        const team = JSON.parse(buff)
-        buff = fs.readFileSync(path.join(appDir, 'adv.json'), 'utf-8')
-        const adv = JSON.parse(buff)
-
-        configValues = { setup: setup, team: team, adv: adv }
+        let buff: string
+        try {
+            buff = fs.readFileSync(path.join(appDir, 'setup.json'), 'utf-8')
+            configValues.setup = JSON.parse(buff)
+        } catch (err) {
+            console.log(err)
+        }
+        try {
+            buff = fs.readFileSync(path.join(appDir, 'team.json'), 'utf-8')
+            configValues.team = JSON.parse(buff)
+        } catch (err) {
+            console.log(err)
+        }
+        try {
+            buff = fs.readFileSync(path.join(appDir, 'adv.json'), 'utf-8')
+            configValues.adv = JSON.parse(buff)
+        } catch (err) {
+            console.log(err)
+        }
+        try {
+            buff = fs.readFileSync(path.join(appDir, 'single_setup.json'), 'utf-8')
+            configValues.single = JSON.parse(buff)
+        } catch (err) {
+            console.log(err)
+        }
+        try {
+            buff = fs.readFileSync(path.join(appDir, 'sprint_setup.json'), 'utf-8')
+            configValues.sprint = JSON.parse(buff)
+        } catch (err) {
+            console.log(err)
+        }
+        try {
+            buff = fs.readFileSync(path.join(appDir, 'team_setup.json'), 'utf-8')
+            configValues.teams = JSON.parse(buff)
+        } catch (err) {
+            console.log(err)
+        }
 
         return { config: configValues, version: app.getVersion() }
     })
 
     ipcMain.handle('load_team_setup', (): null | TeamsConfig => {
-        try {
-            const buff = fs.readFileSync(path.join(appDir, 'team_setup.json'), 'utf-8')
-            const team_setup = JSON.parse(buff)
-            return team_setup
-        } catch (error) {
-            return null
-        }
+        return configValues.teams
     })
 
     ipcMain.handle('load_single_setup', (): null | SingleConfig => {
-        try {
-            if (!singleSetup) {
-                const buff = fs.readFileSync(path.join(appDir, 'single_setup.json'), 'utf-8')
-                singleSetup = JSON.parse(buff)
-                return singleSetup
-            }
-            return singleSetup
-        } catch (error) {
-            return null
-        }
+        return configValues.single
     })
 
-    ipcMain.handle('load_sprint_setup', () => {
-        return null
+    ipcMain.handle('load_sprint_setup', (): null | SprintConfig => {
+        return configValues.sprint
     })
 
     let tp: null | PlayerProcessing = null
