@@ -1,5 +1,5 @@
 appId: de.skv-lorsch.cck2_live_electron
-productName: 'CCK2 Live Electron'
+productName: CCK2 Live Electron
 directories:
   buildResources: build
 files:
@@ -15,12 +15,12 @@ extraFiles:
 asarUnpack:
   - resources/**
 win:
-  executableName: ${productName}
+  executableName: CCK2 Live Electron
   icon: 'resources/icon.png'
 nsis:
-  artifactName: ${productName} Setup ${version}.${ext}
-  shortcutName: ${productName}
-  uninstallDisplayName: ${productName}
+  artifactName: CCK2 Live Electron Setup ${version}.${ext}
+  shortcutName: CCK2 Live Electron
+  uninstallDisplayName: CCK2 Live Electron
   createDesktopShortcut: false
 mac:
   entitlementsInherit: build/entitlements.mac.plist
