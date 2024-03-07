@@ -35,7 +35,7 @@ function DirectorySelectorElectron({
                 key={registerName + '_btn'}
                 variant="contained"
                 onClick={async () => {
-                    ;(window as any).electronAPI
+                    window.cck2live
                         .selectDirectory(getValues(registerName))
                         .then((result: { canceled: boolean; filePaths: string[] }) => {
                             if (!result.canceled && result.filePaths.length > 0) {

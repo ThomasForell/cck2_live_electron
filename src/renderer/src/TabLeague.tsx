@@ -315,7 +315,7 @@ function TabLeague({
                         </Typography>
                         <Button
                             onClick={() => {
-                                ;(window as any).electronAPI.saveLeagueTeam(watchedValues.team)
+                                window.cck2live.saveLeagueTeam(watchedValues.team)
                             }}
                             variant="contained"
                         >
@@ -341,7 +341,7 @@ function TabLeague({
                         </Typography>
                         <Button
                             onClick={() => {
-                                ;(window as any).electronAPI.saveLeagueAdv(watchedValues.adv)
+                                window.cck2live.saveLeagueAdv(watchedValues.adv)
                             }}
                             variant="contained"
                         >

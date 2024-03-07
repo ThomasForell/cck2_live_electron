@@ -95,7 +95,7 @@ function App(): JSX.Element {
     }
 
     useEffect(() => {
-        ;(window as any).electronAPI
+        window.cck2live
             .load()
             .then(
                 ({ config: data, version: version }: { config: ConfigValues; version: string }) => {

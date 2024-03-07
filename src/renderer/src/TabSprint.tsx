@@ -24,7 +24,7 @@ function TabSprint(): JSX.Element {
     const [active, setActive] = useState(false)
 
     useEffect(() => {
-        ;(window as any).electronAPI.loadSprintSetup().then((data: null | SprintConfig) => {
+        window.cck2live.loadSprintSetup().then((data: null | SprintConfig) => {
             if (data != null) {
                 reset(data)
             }
@@ -41,7 +41,7 @@ function TabSprint(): JSX.Element {
                     <Button
                         onClick={() => {
                             reset(watchedValues)
-                            ;(window as any).electronAPI.saveSprintSetup(watchedValues)
+                            window.cck2live.saveSprintSetup(watchedValues)
                         }}
                         disabled={!isDirty}
                         variant="contained"
@@ -132,7 +132,7 @@ function TabSprint(): JSX.Element {
                             variant="contained"
                             onClick={() => {
                                 setActive(false)
-                                // ;(window as any).electronAPI.singleProcessingStop()
+                                window.cck2live.sprintProcessingStop()
                             }}
                             disabled={!active}
                         >
@@ -142,12 +142,19 @@ function TabSprint(): JSX.Element {
                             variant="contained"
                             onClick={() => {
                                 setActive(true)
-                                // ;(window as any).electronAPI.singleProcessingStart()
+                                window.cck2live.sprintProcessingStart()
                             }}
                             disabled={active}
                         >
                             Lesen und Fortsetzen
                         </Button>
+                        <Button
+                            variant="contained"
+                            onClick={() => {
+                                window.cck2live.sprintCreateSVFile()
+                            }}
+                        >
+                            Erzeuge Sudden Victory Datei</Button>
                     </Stack>
                 </Stack>
             </Stack>

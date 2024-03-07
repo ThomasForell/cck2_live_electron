@@ -63,7 +63,7 @@ function LogoDropzone({
                         accept={{ 'image/*': ['.jpeg', '.png'] }}
                         multiple={false}
                         onDrop={(acceptedFiles: File[]) => {
-                            ;(window as any).electronAPI
+                            ;(window as any).cck2live
                                 .logo(group, acceptedFiles[0].name, (acceptedFiles[0] as any).path)
                                 .then((filename: string | null) => {
                                     if (filename != null) {

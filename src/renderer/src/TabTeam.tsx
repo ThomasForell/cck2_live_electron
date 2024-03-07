@@ -30,7 +30,7 @@ function TabTeamTurnament(): JSX.Element {
     const [active, setActive] = useState(false)
 
     useEffect(() => {
-        ;(window as any).electronAPI.loadTeamSetup().then((data: null | TeamsConfig) => {
+        window.cck2live.loadTeamSetup().then((data: null | TeamsConfig) => {
             if (data != null) {
                 reset(data)
             }
@@ -47,7 +47,7 @@ function TabTeamTurnament(): JSX.Element {
                 <Button
                     onClick={() => {
                         reset(watchedValues)
-                        ;(window as any).electronAPI.saveTeamSetup(watchedValues)
+                        window.cck2live.saveTeamSetup(watchedValues)
                     }}
                     disabled={!isDirty}
                     variant="contained"
@@ -140,7 +140,7 @@ function TabTeamTurnament(): JSX.Element {
                         variant="contained"
                         onClick={() => {
                             setActive(false)
-                            ;(window as any).electronAPI.teamProcessingStop()
+                            window.cck2live.teamProcessingStop()
                         }}
                         disabled={!active}
                     >
@@ -150,7 +150,7 @@ function TabTeamTurnament(): JSX.Element {
                         variant="contained"
                         onClick={() => {
                             setActive(true)
-                            ;(window as any).electronAPI.teamProcessingStart()
+                            window.cck2live.teamProcessingStart()
                         }}
                         disabled={active}
                     >
@@ -169,7 +169,7 @@ function TabTeamLogos(): JSX.Element {
     //    const [active, setActive] = useState(false)
 
     useEffect(() => {
-        //            (window as any).electronAPI.loadTeamLogos().then((data: any) => {
+        //            (window as any).cck2live.loadTeamLogos().then((data: any) => {
         //                if (data != null)
         //                    reset(data);
         //            });
@@ -193,7 +193,7 @@ function TabTeamLogos(): JSX.Element {
                 <Button
                     onClick={() => {
                         reset(watchedValues)
-                        ;(window as any).electronAPI.saveTeamSetup(watchedValues)
+                        window.cck2live.saveTeamSetup(watchedValues)
                     }}
                     disabled={!isDirty}
                     variant="contained"

@@ -25,7 +25,7 @@ function TabSingle(): JSX.Element {
     const [active, setActive] = useState(false)
 
     useEffect(() => {
-        ;(window as any).electronAPI.loadSingleSetup().then((data: null | SingleConfig) => {
+        window.cck2live.loadSingleSetup().then((data: null | SingleConfig) => {
             if (data != null) {
                 reset(data)
             }
@@ -43,7 +43,7 @@ function TabSingle(): JSX.Element {
                     <Button
                         onClick={() => {
                             reset(watchedValues)
-                            ;(window as any).electronAPI.saveSingleSetup(watchedValues)
+                            window.cck2live.saveSingleSetup(watchedValues)
                         }}
                         disabled={!isDirty}
                         variant="contained"
@@ -126,7 +126,7 @@ function TabSingle(): JSX.Element {
                             variant="contained"
                             onClick={() => {
                                 setActive(false)
-                                ;(window as any).electronAPI.singleProcessingStop()
+                                window.cck2live.singleProcessingStop()
                             }}
                             disabled={!active}
                         >
@@ -136,7 +136,7 @@ function TabSingle(): JSX.Element {
                             variant="contained"
                             onClick={() => {
                                 setActive(true)
-                                ;(window as any).electronAPI.singleProcessingStart()
+                                window.cck2live.singleProcessingStart()
                             }}
                             disabled={active}
                         >

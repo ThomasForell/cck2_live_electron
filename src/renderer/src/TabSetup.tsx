@@ -215,7 +215,7 @@ function TabSetup({
                     </Typography>
                     <Button
                         onClick={() => {
-                            ; (window as any).electronAPI.saveSetup(watchedValues.setup)
+                            ; (window as any).cck2live.saveSetup(watchedValues.setup)
                             setActiveOutput(watchedValues.setup.active_output)
                         }}
                         variant="contained"
