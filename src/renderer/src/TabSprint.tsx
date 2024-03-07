@@ -154,7 +154,8 @@ function TabSprint(): JSX.Element {
                                 window.cck2live.sprintCreateSVFile()
                             }}
                         >
-                            Erzeuge Sudden Victory Datei</Button>
+                            Erzeuge Sudden Victory Datei
+                        </Button>
                     </Stack>
                 </Stack>
             </Stack>
