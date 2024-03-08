@@ -181,10 +181,13 @@ express_app.use((req, res, next) => {
     if (indexUrls.includes(url)) {
         createIndex(req, res)
     } else if (displayUrls.includes(url)) {
-        //        res.sendFile(path.resolve('./static-html/display.html'))
-        res.sendFile(path.resolve('./static-html/display_single.html'))
+        res.sendFile(
+            path.resolve('./static-html/display_' + configValues.setup.active_output + '.html')
+        )
     } else if (streamUrls.includes(url)) {
-        res.sendFile(path.resolve('./static-html/stream.html'))
+        res.sendFile(
+            path.resolve('./static-html/stream_' + configValues.setup.active_output + '.html')
+        )
     } else if (configUrls.includes(url)) {
         if (configValues.setup.active_output == 'league') {
             const id = configUrls.indexOf(url)
