@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+</head>
+<style type="text/css">
+body {overflow:hidden; /* Hide scrollbars */}
+
+.result-block-num{width:60px;max-width:60px}
+.result-block-cap{width:250px;max-width:250px}
+.result-tg  {border-collapse:collapse;border-spacing:0;table-layout:fixed;}
+.result-tg td{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
+.result-tg th{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
+.result-tg .result-data     {background-color:#ffffff;                  width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.result-tg .result-data-num {background-color:#ffffff;text-align:center;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.result-tg .result-label    {background-color:#cccccc;                  width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.result-tg .result-label-num{background-color:#cccccc;text-align:center;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.result-tg .free{border-top-style:hidden;border-bottom-style:hidden;width:10px}
+
+.block-num{width:78px;max-width:78px}
+.block-cap{width:255px;max-width:255px}
+.block-pic{width:120px;max-width:120px;text-align:center}
+.block-gsm{width:210px;max-width:240px}
+.block-mp {width:60px;max-width:240px}
+.block-right{width:65px;max-width:65px}
+.tg    {border-collapse:collapse;border-spacing:0;table-layout:fixed;  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.tg td{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
+.tg th{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
+.tg .caption {background-color:#cccccc;font-size:25px;                                                                white-space:nowrap}
+.tg .no_border_right {border-right-color: #ffffff;}
+.tg .no_border_left  {border-left-color: #ffffff;}
+.tg .logo    {background-color:#ffffff;text-align:center;white-space:nowrap}
+.tg .data    {background-color:#ffffff;                  width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.tg .data-num{background-color:#ffffff;text-align:center;width:50px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.tg .data-right{background-color:#ffffff;text-align:right;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.tg .label   {background-color:#cccccc;                  width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.tg .label-num{background-color:#cccccc;text-align:center;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.tg .label-right{background-color:#cccccc;text-align:right;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.tg .free      {border-top-style:hidden;border-bottom-style:hidden;width:12px}
+</style>
+<div id="display4lanes">
+  <table class="result-tg" align="center">
+    <tr>
+      <td class="result-data" colspan="4"><div class="result-block-cap" id="name4lanes"></div></td>
+      <td class="free"></td>
+      <td class="result-data" colspan="4"><div class="result-block-cap"></div></td>
+      <td class="free"></td>
+      <td class="result-data" colspan="4"><div class="result-block-cap"></div></td>
+      <td class="free"></td>
+      <td class="result-data" colspan="4"><div class="result-block-cap"></div></td>
+    </tr>
+    <tr>
+      <td class="result-data" colspan="4"><div class="result-block-cap" id="team4lanes"></div></td>
+      <td class="free"></td>
+      <td class="result-data" colspan="4"><div class="result-block-cap"></div></td>
+      <td class="free"></td>
+      <td class="result-data" colspan="4"><div class="result-block-cap"></div></td>
+      <td class="free"></td>
+      <td class="result-data" colspan="4"><div class="result-block-cap"></div></td>
+    </tr>
+    <tr>
+      <td class="result-label-num"><img src="Wurf_Gesamt.png" alt="Wurf Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num" id="total4lanes"></div></td>
+      <td class="result-label-num"><img src="Holz_Gesamt.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="free"></td>
+      <td class="result-label-num"><img src="Wurf_Gesamt.png" alt="Wurf Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="result-label-num"><img src="Holz_Gesamt.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="free"></td>
+      <td class="result-label-num"><img src="Wurf_Gesamt.png" alt="Wurf Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="result-label-num"><img src="Holz_Gesamt.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="free"></td>
+      <td class="result-label-num"><img src="Wurf_Gesamt.png" alt="Wurf Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="result-label-num"><img src="Holz_Gesamt.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+    </tr>
+    <tr>
+      <td class="result-label-num"><img src="Wurf_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num" id="heat4lanes"></div></td>
+      <td class="result-label-num"><img src="Holz_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="free"></td>
+      <td class="result-label-num"><img src="Wurf_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="result-label-num"><img src="Holz_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="free"></td>
+      <td class="result-label-num"><img src="Wurf_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="result-label-num"><img src="Holz_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="free"></td>
+      <td class="result-label-num"><img src="Wurf_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+      <td class="result-label-num"><img src="Holz_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto"/></td>
+      <td class="result-data-num"><div class="result-block-num"></div></td>
+    </tr>
+  </table>
+</div>
+
+<div id="displayAdv" style="position: fixed; top: 150px; width:99%; align-content: center;">
+  <table class="result-tg" align="center" style="width: 100%">
+    <tr>
+      <td class="result-data" style="text-align: center; min-width: 225px;">
+        <img src="" alt="" height="auto" width="220px" id="img_1"/><br>
+        <small style="font-weight: normal;">Werbung</small>
+      </td>
+      <td class="free" style="width:75%"></td>
+      <td class="result-data" style="text-align: center; min-width: 225px;">
+        <img src="" alt="" height="auto" width="220px" id="img_2"/><br>
+        <small style="font-weight: normal;">Werbung</small>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div style="position: fixed; bottom: 5px; width:100%; align-content: center;" >
+  <table class="tg">
+  <tr>
+    <td class="caption" colspan="19" align="center">U14 Ländervergleich</td>
+  </tr>
+  <tr>
+    <td class="free" colspan="19"></td>
+  </tr>
+  <tr>
+    <td class="label-num"><div class="block-num">Platz</div></td>
+    <td class="label">Landesverband</td>
+    <td class="label-num"><div class="block-num">Volle</div></td>
+    <td class="label-num"><div class="block-num">Abr</div></td>
+    <td class="label-num"><div class="block-num">F</div></td>
+    <td class="label-num"><div class="block-num">Gesamt</div></td>
+    <td class="label-num"><div class="block-num">Seil</div></td>
+    <td class="label-num"><div class="block-num">Laufen</div></td>
+    <td class="label-num"><div class="block-num">Total</div></td>
+    <td class="free"></td>
+    <td class="label-num"><div class="block-num">Platz</div></td>
+    <td class="label">Landesverband</td>
+    <td class="label-num"><div class="block-num">Volle</div></td>
+    <td class="label-num"><div class="block-num">Abr</div></td>
+    <td class="label-num"><div class="block-num">F</div></td>
+    <td class="label-num"><div class="block-num">Gesamt</div></td>
+    <td class="label-num"><div class="block-num">Seil</div></td>
+    <td class="label-num"><div class="block-num">Laufen</div></td>
+    <td class="label-num"><div class="block-num">Total</div></td>
+</tr>
+  <tr>
+    <td class="label-num"><div class="block-num">1</div></td>
+    <td class="data"><div class="block-cap" id="8team0"></div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="free"></td>
+    <td class="label-num"><div class="block-num">5</div></td>
+    <td class="data"><div class="block-cap" id="8team4"></div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+    <td class="data-num"><div class="block-num">0</div></td>
+  </tr>
+  <tr>
+    <td class="label-num">
+        <div class="block-num">2</div>
+    </td>
+    <td class="data"><div class="block-cap" id="8team1"></div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="free"></td>
+    <td class="label-num">
+        <div class="block-num">6</div>
+    </td>
+    <td class="data">
+        <div class="block-cap" id="8team5"></div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="label-num">
+        <div class="block-num">3</div>
+    </td>
+    <td class="data"><div class="block-cap" id="8team2"></div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="free"></td>
+    <td class="label-num"><div class="block-num">7</div>
+    </td>
+    <td class="data"><div class="block-cap" id="8team6"></div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="label-num"><div class="block-num">4</div>
+    </td>
+    <td class="data"><div class="block-cap" id="8team3"></div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="free"></td>
+    <td class="label-num"><div class="block-num">8</div>
+    </td>
+    <td class="data"><div class="block-cap" id="8team7"></div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+    <td class="data-num"><div class="block-num">0</div>
+    </td>
+  </tr>
+</table>
+</div>
+<div style="position: fixed; bottom: 5px; width:100%; align-content: center;" hidden>
+  <table class="tg">
+    <tr>
+        <td class="caption" colspan="15" align="center">U23 Ländervergleich</td>
+      </tr>
+      <tr>
+        <td class="free" colspan="15"></td>
+    </tr>
+    <tr>
+      <td class="label" colspan="3" id="4team0">Team 1</td>
+        <td class="free" rowspan="9"></td>
+      <td class="label" colspan="3" id="4team1">Team 2</td>
+        <td class="free" rowspan="9"></td>
+      <td class="label" colspan="3" id="4team2">Team 3</td>
+        <td class="free" rowspan="9"></td>
+      <td class="label" colspan="3" id="4team3">Team 4</td>
+    </tr>
+    <tr>
+      <td class="label-num" style="text-align: left">Platz 1</td>
+      <td class="data"><div class="block-cap" id="spieler00"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num" style="text-align: left">Platz 2</td>
+      <td class="data"><div class="block-cap" id="spieler10"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num" style="text-align: left">Platz 3</td>
+      <td class="data"><div class="block-cap" id="spieler20"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num" style="text-align: left">Platz 4</td>
+      <td class="data"><div class="block-cap" id="spieler30"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="logo" rowspan="5"><div class="block-pic"><img src="" alt="Logo" height="auto" width="150" id="team0_img"/></div></td>
+      <td class="data"><div class="block-cap" id="spieler01"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="logo" rowspan="5"><div class="block-pic"></div><img src="" alt="Logo" height="auto" width="150" id="team1_img"/></div></td>
+      <td class="data"><div class="block-cap" id="spieler11"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="logo" rowspan="5"><div class="block-pic"></div><img src="" alt="Logo" height="auto" width="150" id="team2_img"/></div></td>
+      <td class="data"><div class="block-cap" id="spieler21"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="logo" rowspan="5"><div class="block-pic"></div><img src="" alt="Logo" height="auto" width="150" id="team3_img"/></div></td>
+      <td class="data"><div class="block-cap" id="spieler31"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="data"><div class="block-cap" id="spieler02"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler12"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler22"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler32"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="data"><div class="block-cap" id="spieler03"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler13"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler23"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler33"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="data"><div class="block-cap" id="spieler04"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler14"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler24"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler34"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="data"><div class="block-cap" id="spieler05"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler15"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler25"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="data"><div class="block-cap" id="spieler35"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+    <tr>
+      <td class="label-num"></td>
+      <td class="label"><div class="block-cap" id="team0_total"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num"></td>
+      <td class="label"><div class="block-cap" id="team1_total"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num"></td>
+      <td class="label"><div class="block-cap" id="team2_total"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+      <td class="label-num"></td>
+      <td class="label"><div class="block-cap" id="team3_total"></div></td>
+      <td class="data-right"><div class="block-right">0</div></td>
+    </tr>
+  </table>
+</div>
+<script src="team.js"></script>
+<script>
+  const configName = window.location.pathname.slice(0, -4) + "json";
+  showData(configName, false);
+  setInterval(showData, 1000, configName, false); 
+</script>
+</html>
