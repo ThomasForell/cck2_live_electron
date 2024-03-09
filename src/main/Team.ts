@@ -4,7 +4,6 @@ import { Result } from './Player'
 export default class Team {
     private player: Array<Player> = []
     private result: Result = new Result()
-    private extra: Array<number> = []
 
     addPlayer(p: Player): void {
         this.player.push(p)
@@ -17,30 +16,11 @@ export default class Team {
             return 0
         })
 
-        this.result = new Result()
-        this.extra = []
-        this.player.forEach((p) => {
-            this.result.add(p.getResultTotal())
-            p.extras.forEach((v, i) => {
-                if (this.extra.length == i) {
-                    this.extra.push(0)
-                }
-                if (p.substitute != '') {
-                    this.extra[i] += v.total * 0.5
-                } else {
-                    this.extra[i] += v.total
-                }
-            })
-        })
+        this.result.add(p.getResultTotalWithExtra())
     }
 
     getResult(): Result {
-        const r = new Result()
-        this.player.forEach((p) => {
-            r.add(p.getResultTotalWithExtra())
-        })
-
-        return r
+        return this.result
     }
 }
 

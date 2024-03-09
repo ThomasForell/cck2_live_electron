@@ -202,6 +202,10 @@ express_app.use((req, res, next) => {
             res.json(null)
             console.log('config team')
         }
+    } else if (url == '/team_u23_m.json') {
+        res.sendFile(path.resolve(configValues.teams.data_path, 'team_U23 männlich.json'))
+    } else if (url == '/team_u23_w.json') {
+        res.sendFile(path.resolve(configValues.teams.data_path, 'team_U23 weiblich.json'))
     } else if (configValues.team.cck2_file.indexOf(url.slice(1)) >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
     } else if (url.search('result') >= 0 || url.search('team_') >= 0 || url.search('sv') >= 0) {
@@ -370,13 +374,7 @@ app.whenReady().then(() => {
     ipcMain.on('team_processing_start', () => {
         console.log('team_processing_start')
         if (tp == null) {
-            const buff = fs.readFileSync(path.join(appDir, 'team_setup.json'), 'utf-8')
-            const team_setup = JSON.parse(buff)
-            team_setup.cck2_output_files = path.join(
-                configValues.setup.cck2_output_path,
-                team_setup.cck2_output_files
-            )
-            tp = new PlayerProcessing(null, team_setup, configValues.setup.cck2_output_path)
+            tp = new PlayerProcessing(null, configValues.teams, configValues.setup.cck2_output_path)
             tp.do()
             tpIntervalId = setInterval(() => {
                 if (tp != null) tp.do()
