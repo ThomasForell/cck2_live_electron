@@ -92,7 +92,7 @@ class PlayerProcessing {
     do(): void {
         const cck2Result: Bahn[] = this.readCck2Result()
         this.updateResult(cck2Result)
-        // this.updateExtra()
+        this.updateExtra()
 
         this.writeResultDB()
         this.writeSingleResult()
