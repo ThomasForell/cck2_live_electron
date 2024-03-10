@@ -65,18 +65,25 @@ function showTeamData(teams) {
                 el.src = 'logos/team/wuerttemberg.jpg?' + Date.now().toString()
             }
             for (let j = 0; j < t.player.length; ++j) {
-                el = document.getElementById('spieler' + i + j)
+                el = document.getElementById('spieler' + i + '' + j)
                 el.innerHTML = t.player[j].name
-                el = document.getElementById('spieler' + i + j + 'r')
-                if (t.player[j].results.length > 0) {
-                    el.innerHTML = t.player[j].results[0]
+                let id = 'spieler' + i + '' + j + 'r'
+                el = document.getElementById(id)
+                if (el != null && t.player[j].results.length > 0) {
+                    el.innerHTML =
+                        t.player[j].results[0].total +
+                        t.player[j].results[1].total +
+                        t.player[j].results[2].total +
+                        t.player[j].results[3].total
                 }
             }
             for (let j = t.player.length; j < 8; ++j) {
-                el = document.getElementById('spieler' + i + j)
+                el = document.getElementById('spieler' + i + '' + j)
                 el.innerHTML = ''
-                el = document.getElementById('spieler' + i + j + 'r')
-                el.innerHTML = '0'
+                el = document.getElementById('spieler' + i + '' + j + 'r')
+                if (el != null) {
+                    el.innerHTML = '0'
+                }
             }
             el = document.getElementById('team_total_' + i)
             el.innerHTML = t.result.total
