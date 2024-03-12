@@ -28,7 +28,9 @@ async function showTeam() {
     if (right) {
         resultName = 'team_u23_m.json'
         let title = document.getElementById('title')
-        title.innerHTML = 'U23 männlich'
+        if (title != null) {
+            title.innerHTML = 'U23 männlich'
+        }
     }
     const requestTeamURL = resultName + '?' + Date.now().toString()
     fetch(requestTeamURL)
