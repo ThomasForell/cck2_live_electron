@@ -75,21 +75,29 @@ export default class Player {
     active: boolean = false
     extras: Extra[] = []
     private results: Result[] = []
+    team_pos: number = -1
 
     constructor(csvLine: string) {
-        const csvLineSplit = csvLine.split(';')
-        if (csvLineSplit.length == 4) {
+        const csvLineSplit = csvLine.split(RegExp('[;,]'))
+        if (csvLineSplit.length == 4 || csvLineSplit.length == 5) {
             this.id = csvLineSplit[0]
             this.name = csvLineSplit[1]
             this.team = csvLineSplit[2]
             this.group = csvLineSplit[3]
+            if (csvLineSplit.length == 5) {
+                this.team_pos = Number(csvLineSplit[4])
+                if (isNaN(this.team_pos)) {
+                    this.team_pos = -1
+                }
+            }
         } else {
             this.id = csvLineSplit[0]
             this.name = csvLineSplit[1]
             this.team = csvLineSplit[2]
             this.group = csvLineSplit[3]
             this.substitute = csvLineSplit[4]
-            for (let i = 5; i < csvLineSplit.length; i += 6) {
+            this.team_pos = Number(csvLineSplit[5])
+            for (let i = 6; i < csvLineSplit.length; i += 6) {
                 this.results.push(
                     new Result(
                         Number(csvLineSplit[i]),
@@ -118,7 +126,9 @@ export default class Player {
             ';' +
             this.group +
             ';' +
-            String(this.substitute)
+            String(this.substitute) +
+            ';' +
+            this.team_pos
         this.results.forEach((r) => {
             v += ';' + r.toCsvLine()
         })

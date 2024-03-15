@@ -39,24 +39,48 @@ interface ResultDisplay {
     gesamt: string
 }
 
+interface DebugInfo {
+    start: number[]
+    info: string
+    pos?: number
+    cnt?: number
+}
+
 class PlayerProcessing {
     private resultDB = ''
     private players = new Map<string, Player>()
-    private cck2Files = ['']
+    private cck2Files: string[] = []
     private resultOutputPath = ''
     private matchDay = 0
     private numSetsPerMatch = 4
-    private extraFiles = ['']
+    private extraFiles: string[] = []
+    private debug: DebugInfo
 
     constructor(
         playerSetup: null | SingleConfig,
         teamsSetup: null | TeamsConfig,
         cck2path: string
     ) {
+        this.debug = { start: [], info: '', pos: 0, cnt: 0 }
         if (playerSetup != null) {
             this.resultOutputPath = playerSetup.data_path
             this.resultDB = path.join(playerSetup.data_path, 'result.csv')
 
+            if (playerSetup.cck2_output_files == 'r_*') {
+                try {
+                    const buf = fs.readFileSync(
+                        path.join(playerSetup.data_path, 'info.json'),
+                        'utf-8'
+                    )
+                    this.debug = JSON.parse(buf)
+                    this.debug.cnt = 0
+                    this.debug.pos = 1
+                } catch (e) {
+                    console.log(
+                        'Failed to load debug info - is r_* the file you want to use as input file?'
+                    )
+                }
+            }
             const cck2 = playerSetup.cck2_output_files.split(',')
             this.cck2Files = []
             for (let i = 0; i < cck2.length; ++i) {
@@ -71,6 +95,21 @@ class PlayerProcessing {
             this.resultOutputPath = teamsSetup.data_path
             this.resultDB = path.join(teamsSetup.data_path, 'result.csv')
 
+            if (teamsSetup.cck2_output_files == 'r_*') {
+                try {
+                    const buf = fs.readFileSync(
+                        path.join(teamsSetup.data_path, 'info.json'),
+                        'utf-8'
+                    )
+                    this.debug = JSON.parse(buf)
+                    this.debug.cnt = 0
+                    this.debug.pos = 1
+                } catch (e) {
+                    console.log(
+                        'Failed to load debug info - is r_* the file you want to use as input file?'
+                    )
+                }
+            }
             const cck2 = teamsSetup.cck2_output_files.split(',')
             this.cck2Files = []
             for (let i = 0; i < cck2.length; ++i) {
@@ -79,8 +118,14 @@ class PlayerProcessing {
 
             const extra = teamsSetup.additional_data.split(',')
             this.extraFiles = []
-            for (let i = 0; i < cck2.length; ++i) {
-                this.extraFiles[i] = path.join(teamsSetup.data_path, extra[i].trim())
+            for (let i = 0; i < extra.length; ++i) {
+                let file = extra[i].trim()
+                if (file != '') {
+                    file = path.join(teamsSetup.data_path, file)
+                    if (fs.existsSync(file)) {
+                        this.extraFiles[i] = file
+                    }
+                }
             }
 
             this.readPlayerDB(path.join(teamsSetup.data_path, teamsSetup.player_data)) // add data of remaining players
@@ -104,7 +149,7 @@ class PlayerProcessing {
         const lines = buf.split('\n')
         lines.forEach((l) => {
             const ll = l.replace('\r', '')
-            if (ll.search(';') >= 0) {
+            if (ll.search('[;,]') >= 0) {
                 const p = new Player(ll)
                 if (!this.players.has(p.id)) {
                     this.players.set(p.id, p)
@@ -133,7 +178,25 @@ class PlayerProcessing {
         let results: Bahn[] = []
         try {
             this.cck2Files.forEach((f) => {
-                let buf = fs.readFileSync(f, 'utf-8')
+                let file = f
+                if (
+                    this.debug.start.length > 0 &&
+                    this.debug.cnt != undefined &&
+                    this.debug.pos != undefined
+                ) {
+                    file = f.slice(0, -1) + ('0000' + this.debug.cnt).slice(-4) + '.json'
+                    // increment position by some steps to make replay fast
+                    // has to stop before current start entry
+                    this.debug.cnt += 50
+                    if (this.debug.cnt >= this.debug.start[this.debug.pos]) {
+                        this.debug.cnt = this.debug.start[this.debug.pos] - 1
+                        if (this.debug.pos < this.debug.start.length - 1) {
+                            this.debug.pos++
+                        }
+                    }
+                }
+
+                let buf = fs.readFileSync(file, 'utf-8')
                 if (buf.charCodeAt(0) === 0xfeff) {
                     buf = buf.substring(1)
                 }

@@ -8,6 +8,9 @@ export default class Team {
     addPlayer(p: Player): void {
         this.player.push(p)
         this.player.sort((a: Player, b: Player): number => {
+            if (a.team_pos != b.team_pos) {
+                return a.team_pos - b.team_pos
+            }
             if (a.id < b.id) {
                 return -1
             } else if (a.id > b.id) {
@@ -27,14 +30,14 @@ export default class Team {
 export function TeamCompare(a: Team, b: Team): number {
     const aTotal = a.getResult()
     const bTotal = b.getResult()
-    if (aTotal.total > bTotal.total) {
+    if (aTotal.total < bTotal.total) {
         return 1
     } else if (aTotal.total == bTotal.total) {
-        if (aTotal.clear > bTotal.clear) {
+        if (aTotal.clear < bTotal.clear) {
             return 1
         }
         if (aTotal.clear == bTotal.clear) {
-            if (aTotal.fault > bTotal.fault) {
+            if (aTotal.fault < bTotal.fault) {
                 return 1
             }
             if (aTotal.fault == bTotal.fault) {
