@@ -31,7 +31,7 @@ export const cck2liveAPI = {
     },
     logo: (type, name, file): Promise<string | null> =>
         ipcRenderer.invoke('logo', type, name, file),
-    load: (): Promise<{ config: ConfigValues, version: string }> => ipcRenderer.invoke('load'),
+    load: (): Promise<{ config: ConfigValues; version: string }> => ipcRenderer.invoke('load'),
     loadTeamSetup: (): Promise<TeamsConfig> => ipcRenderer.invoke('load_team_setup'),
     loadSingleSetup: (): Promise<SingleConfig> => ipcRenderer.invoke('load_single_setup'),
     loadSprintSetup: (): Promise<SprintConfig> => ipcRenderer.invoke('load_sprint_setup'),
@@ -41,6 +41,8 @@ export const cck2liveAPI = {
     teamProcessingStop: (): void => {
         ipcRenderer.send('team_processing_stop')
     },
+    teamGetTeamLogos: (): Promise<Map<string, string>> =>
+        ipcRenderer.invoke('team_get_names_logos'),
     singleProcessingStart: (): void => {
         ipcRenderer.send('single_processing_start')
     },

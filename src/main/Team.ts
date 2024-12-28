@@ -2,12 +2,13 @@ import Player from './Player'
 import { Result } from './Player'
 
 export default class Team {
-    private player: Array<Player> = []
-    private result: Result = new Result()
+    #players: Array<Player> = []
+    #result: Result = new Result()
+    #logo_path: string = ''
 
     addPlayer(p: Player): void {
-        this.player.push(p)
-        this.player.sort((a: Player, b: Player): number => {
+        this.#players.push(p)
+        this.#players.sort((a: Player, b: Player): number => {
             if (a.team_pos != b.team_pos) {
                 return a.team_pos - b.team_pos
             }
@@ -19,17 +20,25 @@ export default class Team {
             return 0
         })
 
-        this.result.add(p.getResultTotalWithExtra())
+        this.#result.add(p.getResultTotalWithExtra())
     }
 
-    getResult(): Result {
-        return this.result
+    get result(): Result {
+        return this.#result
+    }
+
+    get logo_path(): string {
+        return this.#logo_path
+    }
+
+    set logo_path(path: string) {
+        this.#logo_path = path
     }
 }
 
 export function TeamCompare(a: Team, b: Team): number {
-    const aTotal = a.getResult()
-    const bTotal = b.getResult()
+    const aTotal = a.result
+    const bTotal = b.result
     if (aTotal.total < bTotal.total) {
         return 1
     } else if (aTotal.total == bTotal.total) {
