@@ -157,6 +157,12 @@ function TabSetup({
                             key="tabsetup_rg_active_league"
                         />
                         <FormControlLabel
+                            value="team4"
+                            control={<Radio />}
+                            label="4 Teams"
+                            key="tabsetup_rg_active_team4"
+                        />
+                        <FormControlLabel
                             value="single"
                             control={<Radio />}
                             label="Einzel"

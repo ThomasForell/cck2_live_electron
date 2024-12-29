@@ -17,6 +17,7 @@ import TabLeague from './TabLeague'
 import TabSingle from './TabSingle'
 import TabSprint from './TabSprint'
 import TabTeam from './TabTeam'
+import TabTeam4 from './TabTeam4'
 import TabSetup from './TabSetup'
 import TabInfo from './TabInfo'
 import { SetupConfig } from './cck2_live_interface/LiveConfig'
@@ -132,6 +133,18 @@ function App(): JSX.Element {
                         />
                         <Tab
                             icon={
+                                activeOutput === 'team4' ? (
+                                    <WiFi />
+                                ) : (
+                                    <SignalWifiStatusbarNullIcon />
+                                )
+                            }
+                            iconPosition="start"
+                            label="4 Teams"
+                            id="main-panel-team-4"
+                        />
+                        <Tab
+                            icon={
                                 activeOutput === 'single' ? (
                                     <WiFi />
                                 ) : (
@@ -174,15 +187,18 @@ function App(): JSX.Element {
                     />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={1}>
-                    <TabSingle />
+                    <TabTeam4 />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={2}>
-                    <TabSprint />
+                    <TabSingle />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={3}>
-                    <TabTeam />
+                    <TabSprint />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={4}>
+                    <TabTeam />
+                </TabPanel>
+                <TabPanel value={mainValuePanel} index={5}>
                     <TabSetup
                         register={register}
                         control={control}
@@ -193,7 +209,7 @@ function App(): JSX.Element {
                         getValues={getValues}
                     />
                 </TabPanel>
-                <TabPanel value={mainValuePanel} index={5}>
+                <TabPanel value={mainValuePanel} index={6}>
                     <TabInfo version={currentVersion} />
                 </TabPanel>
             </ThemeProvider>
