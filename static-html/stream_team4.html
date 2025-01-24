@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+</head>
+<style type="text/css">
+    body {
+        overflow: hidden;
+        /* Hide scrollbars */
+    }
+
+    .result-block-num {
+        width: 60px;
+        max-width: 60px
+    }
+
+    .result-block-cap {
+        width: 250px;
+        max-width: 250px
+    }
+
+    .result-tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        table-layout: fixed;
+    }
+
+    .result-tg td {
+        font-family: Geneva, sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 2px 2px;
+        border-style: solid;
+        border-width: 3px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #cccccc
+    }
+
+    .result-tg th {
+        font-family: Geneva, sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 2px 2px;
+        border-style: solid;
+        border-width: 3px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #cccccc
+    }
+
+    .result-tg .result-data {
+        background-color: #ffffff;
+        width: 40px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap
+    }
+
+    .result-tg .result-data-num {
+        background-color: #ffffff;
+        text-align: center;
+        width: 40px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap
+    }
+
+    .result-tg .result-label {
+        background-color: #cccccc;
+        width: 40px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap
+    }
+
+    .result-tg .result-label-num {
+        background-color: #cccccc;
+        text-align: center;
+        width: 40px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap
+    }
+
+    .result-tg .free {
+        border-top-style: hidden;
+        border-bottom-style: hidden;
+        width: 10px
+    }
+
+    .block-num {
+        width: 50px;
+        max-width: 50px
+    }
+
+    .block-cap {
+        width: 240px;
+        max-width: 240px
+    }
+
+    .block-right {
+        width: 50px;
+        max-width: 50px;
+        text-align: right
+    }
+
+    .block-gsm {
+        width: 210px;
+        max-width: 240px
+    }
+
+    .block-mp {
+        width: 60px;
+        max-width: 240px
+    }
+
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        table-layout: fixed;
+    }
+
+    .tg td {
+        font-family: Geneva, sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 2px 2px;
+        border-style: solid;
+        border-width: 3px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #cccccc
+    }
+
+    .tg th {
+        font-family: Geneva, sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 2px 2px;
+        border-style: solid;
+        border-width: 3px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #cccccc
+    }
+
+    .tg .caption {
+        background-color: #ffffff;
+        font-size: 25px;
+        white-space: nowrap
+    }
+
+    .tg .no_border_right {
+        border-right-color: #ffffff;
+    }
+
+    .tg .no_border_left {
+        border-left-color: #ffffff;
+    }
+
+    .tg .logo {
+        background-color: #ffffff;
+        text-align: center;
+        white-space: nowrap
+    }
+
+    .tg .data {
+        background-color: #ffffff;
+        width: 40px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap
+    }
+
+    .tg .data-num {
+        background-color: #ffffff;
+        text-align: center;
+        width: 40px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap
+    }
+
+    .tg .data-right {
+        background-color: #ffffff;
+        text-align: right;
+        width: 40px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap
+    }
+
+    .tg .label {
+        background-color: #cccccc;
+        width: 40px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap
+    }
+
+    .tg .label-num {
+        background-color: #cccccc;
+        text-align: center;
+        width: 40px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap
+    }
+
+    .tg .label-right {
+        background-color: #cccccc;
+        text-align: right;
+        width: 40px;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap
+    }
+
+    .tg .free {
+        border-top-style: hidden;
+        border-bottom-style: hidden;
+        width: 12px
+    }
+</style>
+<table class="result-tg" align="center">
+    <tr>
+        <td class="result-data" colspan="4">
+            <div class="result-block-cap" id="lane_name_0"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-data" colspan="4">
+            <div class="result-block-cap" id="lane_name_1"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-data" colspan="4">
+            <div class="result-block-cap" id="lane_name_2"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-data" colspan="4">
+            <div class="result-block-cap" id="lane_name_3"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="result-data" colspan="4">
+            <div class="result-block-cap" id="lane_team_0"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-data" colspan="4">
+            <div class="result-block-cap" id="lane_team_1"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-data" colspan="4">
+            <div class="result-block-cap" id="lane_team_2"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-data" colspan="4">
+            <div class="result-block-cap" id="lane_team_3"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="result-label-num"><img src="Wurf_Gesamt.png" alt="Wurf Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_total_w_0"></div>
+        </td>
+        <td class="result-label-num"><img src="Holz_Gesamt.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_total_g_0"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-label-num"><img src="Wurf_Gesamt.png" alt="Wurf Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_total_w_1"></div>
+        </td>
+        <td class="result-label-num"><img src="Holz_Gesamt.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_total_g_1"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-label-num"><img src="Wurf_Gesamt.png" alt="Wurf Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_total_w_2"></div>
+        </td>
+        <td class="result-label-num"><img src="Holz_Gesamt.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_total_g_2"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-label-num"><img src="Wurf_Gesamt.png" alt="Wurf Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_total_w_3"></div>
+        </td>
+        <td class="result-label-num"><img src="Holz_Gesamt.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_total_g_3"></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="result-label-num"><img src="Wurf_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_heat_w_0"></div>
+        </td>
+        <td class="result-label-num"><img src="Holz_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_heat_g_0"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-label-num"><img src="Wurf_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_heat_w_1"></div>
+        </td>
+        <td class="result-label-num"><img src="Holz_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_heat_g_1"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-label-num"><img src="Wurf_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_heat_w_2"></div>
+        </td>
+        <td class="result-label-num"><img src="Holz_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_heat_g_2"></div>
+        </td>
+        <td class="free"></td>
+        <td class="result-label-num"><img src="Wurf_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_heat_w_3"></div>
+        </td>
+        <td class="result-label-num"><img src="Holz_Durchgang.png" alt="Holz Gesamt" height="20px" width="auto" /></td>
+        <td class="result-data-num">
+            <div class="result-block-num" id="lane_heat_g_3"></div>
+        </td>
+    </tr>
+</table>
+<div style="position: fixed; bottom: 5px; width:100%; align-content: center;" id="table">
+</div>
+<script>
+    function GenerateTeamResultTable(numPlayers) {
+        let table = '<table class="tg">'
+        table += '<tr>'
+        table +=     '<td class="label" colspan="3" id="team0">Team 1</td>'
+        table +=     '<td class="free" rowspan="' + (numPlayers + 2) + '"></td>'
+        table +=     '<td class="label" colspan="3" id="team1">Team 2</td>'
+        table +=     '<td class="free" rowspan="' + (numPlayers + 2) + '"></td>'
+        table +=     '<td class="label" colspan="3" id="team2">Team 3</td>'
+        table +=     '<td class="free" rowspan="' + (numPlayers + 2) + '"></td>'
+        table +=     '<td class="label" colspan="3" id="team3">Team 4</td>'
+        table += '</tr>'
+        table += '<tr>'
+        table +=     '<td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/team/bayern.jpg" alt="Logo T0" height="auto" width="150" id="team0_img" /></td>'
+        table +=     '<td class="data"><div class="block-cap" id="spieler00"></div></td>'
+        table +=     '<td class="data-right"><div class="block-righ" id="spieler00r">0</div></td>'
+        table +=     '<td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/team/hessen.jpg" alt="Logo T1" height="auto" width="150" id="team1_img" /></td>'
+        table +=     '<td class="data"><div class="block-cap" id="spieler10"></div></td>'
+        table +=     '<td class="data-right"><div class="block-right" id="spieler10r">0</div></td>'
+        table +=     '<td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/team/suedbaden.jpg" alt="Logo T2" height="auto" width="150" id="team2_img" /></td>'
+        table +=     '<td class="data"><div class="block-cap" id="spieler20"></div></td>'
+        table +=     '<td class="data-right"><div class="block-right" id="spieler20r">0</div></td>'
+        table +=     '<td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/team/wuerttemberg.jpg" alt="Logo T3" height="auto" width="150" id="team3_img" /></td>'
+        table +=     '<td class="data"><div class="block-cap" id="spieler30"></div></td>'
+        table +=     '<td class="data-right"><div class="block-right" id="spieler30r">0</div></td>'
+        table += '</tr>'
+        for (let i = 1; i < numPlayers; ++i) {
+            table += '<tr>'
+            for (let j = 0; j < 4; ++j) {
+                table +=     '<td class="data"><div class="block-cap" id="spieler' + j + '' + i + '"></div></td>'
+                table +=     '<td class="data-right"><div class="block-right" id="spieler' + j + '' + i + 'r">0</div></td>'
+            }
+            table += '</tr>'
+        }
+        table += '<tr>'
+        for (let i = 0; i < numPlayers; ++i) {
+            table +=     '<td class="label"><div class="block-cap"></div></td>'
+            table +=     '<td class="data-right"><div class="block-right" id="team_total_' + i + '">1000</div></td>'
+        }
+        table += '</tr></table>'
+        return table
+    }
+    current_pos = document.getElementById("table")
+    current_pos.innerHTML = GenerateTeamResultTable(4) 
+</script>
+<script src="team.js"></script>
+<script>
+  showTeam();
+  setInterval(showTeam, 1000); 
+</script>
+</html>
