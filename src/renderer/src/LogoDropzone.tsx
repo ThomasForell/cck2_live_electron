@@ -2,7 +2,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Dropzone from 'react-dropzone'
-
 import { Control } from 'react-hook-form'
 import { Controller } from 'react-hook-form'
 
@@ -24,7 +23,7 @@ function LogoDropzone({
 
     let height = 120
     if (dense) {
-        height = 80
+        height = 80 
     }
 
     return (
@@ -60,11 +59,11 @@ function LogoDropzone({
                     <Dropzone
                         noClick
                         noKeyboard
-                        accept={{ 'image/*': ['.jpeg', '.png'] }}
+                        accept={{ 'image/*': ['.jpeg', '.jpg', '.png'] }}
                         multiple={false}
                         onDrop={(acceptedFiles: File[]) => {
                             ;(window as any).cck2live
-                                .logo(group, acceptedFiles[0].name, (acceptedFiles[0] as any).path)
+                                .logo(group, acceptedFiles[0].name, acceptedFiles[0].path)
                                 .then((filename: string | null) => {
                                     if (filename != null) {
                                         onChange(filename)
@@ -97,7 +96,7 @@ function LogoDropzone({
                                         <Button onClick={open} variant="contained">
                                             Logo Auswählen
                                         </Button>
-                                        {!isDragActive && <p>Logo in diesen Bereich ziehen</p>}
+                                        {!isDragActive && <p>Drag & Drop funktioniert nicht!</p>}
                                         {isDragAccept && <p>Logo auswählen</p>}
                                         {isDragReject && <p>Logo muss eine Bilddatei sein</p>}
                                     </Stack>
