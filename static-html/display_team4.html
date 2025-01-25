@@ -161,8 +161,10 @@
         margin-right: auto
     }
 </style>
-<img src="banner.png" />
-<div style="position: fixed; bottom: 5px; width:100%; align-content: center;" id="table">
+<img src="banner.png" width="1905px" />
+<div style="position: fixed; bottom: 5px; width:100%; align-content: center;">
+<div id="table"> </div>
+<img src="banner.png" width="1905px" />
 </div>
 
 <script>
@@ -175,14 +177,14 @@
         table += '</tr>'
 
         table += '<tr>'
-        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/team/bayern.jpg" alt="Logo" height="auto" width="200" id="team' + (offset) + '_img" /></td>'
+        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/competition/Default Heim.png" height="auto" width="200" id="team' + (offset) + '_img" /></td>'
         table += '    <td class="data">'
         table += '        <div class="block-cap" id="spieler' + (offset) + '0"></div>'
         table += '    </td>'
         table += '    <td class="data-right">'
         table += '        <div class="block-right" id="spieler' + (offset) + '0r">0</div>'
         table += '    </td>'
-        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/team/hessen.jpg" alt="Logo" height="auto" width="200" id="team' + (offset + 1) + '_img" /></td>'
+        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/competition/Default Gast.png" height="auto" width="200" id="team' + (offset + 1) + '_img" /></td>'
         table += '    <td class="data">'
         table += '        <div class="block-cap" id="spieler' + (offset + 1) + '0"></div>'
         table += '    </td>'
