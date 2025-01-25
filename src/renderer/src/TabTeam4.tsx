@@ -20,14 +20,14 @@ import { ConfigValues } from './cck2_live_interface/ConfigValues'
 import NavigationButtons from './NavigationButtons'
 import TimeSelect from './TimeSelect'
 import LogoDropzone from './LogoDropzone'
-import { TeamConfig } from './cck2_live_interface/LiveConfig'
+import { DefaultTeam4Config, Team4Config } from './cck2_live_interface/LiveConfig'
 
 import { variant } from './App'
 
 function TeamSettings({
     register,
     control,
-    team,
+    competition,
     setup,
     count,
     disableDelete,
@@ -36,7 +36,7 @@ function TeamSettings({
 }: {
     register: any
     control: any
-    team: ConfigValues['team']
+    competition: ConfigValues['team4']
     setup: ConfigValues['setup']
     count: number
     disableDelete: boolean
@@ -58,14 +58,14 @@ function TeamSettings({
                     >
                         <TextField
                             key="team_name"
-                            label="Teamname"
+                            label="Wettkampf"
                             variant={variant}
-                            defaultValue={team.name[count]}
-                            {...register('team.name.' + count.toString())}
+                            defaultValue={competition.name}
+                            {...register('competition.' + count.toString() + '.name')}
                         />
                         <TimeSelect
                             control={control}
-                            name={'team.time_values.' + count.toString()}
+                            name={'competition.' + count.toString() + '.'}
                             setup={setup}
                         />
                         <NavigationButtons
@@ -79,15 +79,27 @@ function TeamSettings({
                 <AccordionDetails key={'teamDetails.' + count.toString()}>
                     <Stack spacing={2} direction="column">
                         <LogoDropzone
-                            label="Logo Heim"
-                            name={'team.logo_home.' + count.toString()}
-                            value={team.logo_home[count]}
+                            label="Logo Team 1"
+                            name={'competition.' + count.toString() + 'team.logo.0'}
+                            value={competition.logo[0]}
                             control={control}
                         />
                         <LogoDropzone
-                            label="Logo Gast"
-                            name={'team.logo_guest.' + count.toString()}
-                            value={team.logo_guest[count]}
+                            label="Logo Team 2"
+                            name={'competition.' + count.toString() + 'team.logo.1'}
+                            value={competition.logo[1]}
+                            control={control}
+                        />
+                        <LogoDropzone
+                            label="Logo Team 3"
+                            name={'competition.' + count.toString() + 'team.logo.2'}
+                            value={competition.logo[2]}
+                            control={control}
+                        />
+                        <LogoDropzone
+                            label="Logo Team 4"
+                            name={'competition.' + count.toString() + 'team.logo.3'}
+                            value={competition.logo[3]}
                             control={control}
                         />
                         <Stack spacing={4} direction="row">
@@ -111,7 +123,7 @@ function TeamSettings({
                                             />
                                         </RadioGroup>
                                     )}
-                                    name={'team.num_players.' + count.toString()}
+                                    name={'competition.' + count.toString() + 'num_players'}
                                     control={control}
                                 />
                             </FormControl>
@@ -133,15 +145,21 @@ function TeamSettings({
                                                 label="6"
                                                 key={'lanes_' + count.toString() + '_6'}
                                             />
+                                            <FormControlLabel
+                                                value="8"
+                                                control={<Radio />}
+                                                label="8"
+                                                key={'lanes_' + count.toString() + '_8'}
+                                            />
                                         </RadioGroup>
                                     )}
-                                    name={'team.num_lanes.' + count.toString()}
+                                    name={'competition.' + count.toString() + '.num_lanes'}
                                     control={control}
                                 />
                             </FormControl>
                             <Controller
                                 control={control}
-                                name={'team.set_points.' + count.toString()}
+                                name={'competition.' + count.toString() + '.set_points'}
                                 defaultValue={true}
                                 render={({ field: { onChange, value } }) => (
                                     <FormControlLabel
@@ -156,7 +174,7 @@ function TeamSettings({
                             label="CCK2 Daten Team"
                             variant={variant}
                             defaultValue="mannschaft.json"
-                            {...register('team.cck2_file.' + count.toString())}
+                            {...register('competition' + count.toString() + '.cck2_file')}
                         />
                     </Stack>
                 </AccordionDetails>
@@ -168,19 +186,22 @@ function TeamSettings({
 function CreateTeamsSettings(props: {
     register: any
     control: any
-    team: ConfigValues['team']
-    setup: ConfigValues['setup']
+    setup: any
+    competition: ConfigValues['team4'][]
 }): JSX.Element {
     const t: JSX.Element[] = []
-    for (let i = 0; props.team && i < props.team.name.length; ++i) {
+    for (let i = 0; props.competition && i < props.competition.length; ++i) {
         t.push(
             <TeamSettings
                 key={'team_settings_' + i.toString()}
-                {...props}
+                register={props.register}
+                control={props.control}
+                setup={props.setup}
+                competition={props.competition[i]}
                 count={i}
-                disableDelete={props.team.name.length === 1}
+                disableDelete={props.competition.length === 1}
                 disableUp={i === 0}
-                disableDown={i === props.team.name.length - 1}
+                disableDown={i === props.competition.length - 1}
             />
         )
     }
@@ -189,16 +210,7 @@ function CreateTeamsSettings(props: {
 
 function TabTeam4() : JSX.Element {
     const { control, register, watch, setValue, getValues } = useForm<ConfigValues>()
-    let team : TeamConfig = {
-        cck2_file: ['test_file'],
-        logo_guest: [''],
-        logo_home: [''],
-        name: ['Anonyme Hacker'],
-        time_values: [[5,10]],
-        num_players: ['4'],
-        num_lanes: ['4'],
-        set_points: [false]
-    }
+    const team = [DefaultTeam4Config]
     let setup : SetupConfig = {
         output_name: [''],
         output_file: [''],
@@ -228,11 +240,11 @@ function TabTeam4() : JSX.Element {
                     key="create_team_settings"
                     register={register}
                     control={control}
-                    team={team}
+                    competition={team}
                     setup={setup}
                 />
             </Stack>
         </Stack>
     )
-} 
+}
 export default TabTeam4

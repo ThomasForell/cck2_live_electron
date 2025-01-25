@@ -4,6 +4,7 @@ import { SingleConfig } from './LiveConfig'
 import { SetupConfig } from './LiveConfig'
 import { AdvConfig } from './LiveConfig'
 import { TeamConfig } from './LiveConfig'
+import { Team4Config } from './LiveConfig'
 
 export interface ConfigValues {
     setup: SetupConfig
@@ -12,4 +13,5 @@ export interface ConfigValues {
     single: SingleConfig
     sprint: SprintConfig
     teams: TeamsConfig
+    team4: Team4Config
 }

@@ -32,6 +32,15 @@ export interface TeamConfig {
     cck2_file: string[]
 }
 
+export interface Team4Config {
+    name: string
+    logo: string[]
+    num_players: string
+    num_lanes: string
+    set_points: boolean
+    cck2_file: string
+}
+
 export const DefaultTeamConfig = {
     name: ['1. Mannschaft'],
     time_values: [[0, 0]],
@@ -140,4 +149,13 @@ export const DefaultTeamsConfig: TeamsConfig = {
     result_team_combined: false,
     result_single_groups: false,
     result_single_combined: false
+}
+
+export const DefaultTeam4Config: Team4Config = {
+    name: 'HVMM Seniorinnen',
+    logo: ['Default Heim.png', 'Default Gast.png', 'Default Heim.png', 'Default Gast.png'],
+    num_players: '4',
+    num_lanes: '4',
+    set_points: false,
+    cck2_file: 'seniorinnen.json'
 }
