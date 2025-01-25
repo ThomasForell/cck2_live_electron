@@ -39,6 +39,7 @@ export interface Team4Config {
     num_lanes: string
     set_points: boolean
     cck2_file: string
+    time_values: number[]
 }
 
 export const DefaultTeamConfig = {
@@ -157,5 +158,6 @@ export const DefaultTeam4Config: Team4Config = {
     num_players: '4',
     num_lanes: '4',
     set_points: false,
-    cck2_file: 'seniorinnen.json'
+    cck2_file: 'seniorinnen.json',
+    time_values: [0]
 }

@@ -17,7 +17,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import Checkbox from '@mui/material/Checkbox'
 
 import { ConfigValues } from './cck2_live_interface/ConfigValues'
-import NavigationButtons from './NavigationButtons'
+//import NavigationButtons from './NavigationButtons'
 import TimeSelect from './TimeSelect'
 import LogoDropzone from './LogoDropzone'
 import { DefaultTeam4Config, Team4Config } from './cck2_live_interface/LiveConfig'
@@ -65,14 +65,8 @@ function TeamSettings({
                         />
                         <TimeSelect
                             control={control}
-                            name={'competition.' + count.toString() + '.'}
+                            name={'competition.' + count.toString() + '.time_values'}
                             setup={setup}
-                        />
-                        <NavigationButtons
-                            callback_id={'team.' + count.toString()}
-                            disableDelete={disableDelete}
-                            disableUp={disableUp}
-                            disableDown={disableDown}
                         />
                     </Stack>
                 </AccordionSummary>
@@ -80,25 +74,25 @@ function TeamSettings({
                     <Stack spacing={2} direction="column">
                         <LogoDropzone
                             label="Logo Team 1"
-                            name={'competition.' + count.toString() + 'team.logo.0'}
+                            name={'competition.' + count.toString() + '.logo.0'}
                             value={competition.logo[0]}
                             control={control}
                         />
                         <LogoDropzone
                             label="Logo Team 2"
-                            name={'competition.' + count.toString() + 'team.logo.1'}
+                            name={'competition.' + count.toString() + '.logo.1'}
                             value={competition.logo[1]}
                             control={control}
                         />
                         <LogoDropzone
                             label="Logo Team 3"
-                            name={'competition.' + count.toString() + 'team.logo.2'}
+                            name={'competition.' + count.toString() + '.logo.2'}
                             value={competition.logo[2]}
                             control={control}
                         />
                         <LogoDropzone
                             label="Logo Team 4"
-                            name={'competition.' + count.toString() + 'team.logo.3'}
+                            name={'competition.' + count.toString() + '.logo.3'}
                             value={competition.logo[3]}
                             control={control}
                         />
@@ -123,7 +117,7 @@ function TeamSettings({
                                             />
                                         </RadioGroup>
                                     )}
-                                    name={'competition.' + count.toString() + 'num_players'}
+                                    name={'competition.' + count.toString() + '.num_players'}
                                     control={control}
                                 />
                             </FormControl>
@@ -174,7 +168,7 @@ function TeamSettings({
                             label="CCK2 Daten Team"
                             variant={variant}
                             defaultValue="mannschaft.json"
-                            {...register('competition' + count.toString() + '.cck2_file')}
+                            {...register('competition.' + count.toString() + '.cck2_file')}
                         />
                     </Stack>
                 </AccordionDetails>
@@ -209,8 +203,8 @@ function CreateTeamsSettings(props: {
 }
 
 function TabTeam4() : JSX.Element {
-    const { control, register, watch, setValue, getValues } = useForm<ConfigValues>()
-    const team = [DefaultTeam4Config]
+    const { control, register, watch, setValue, getValues } = useForm<Team4Config[]>()
+    const team = [DefaultTeam4Config, DefaultTeam4Config, DefaultTeam4Config]
     let setup : SetupConfig = {
         output_name: [''],
         output_file: [''],
@@ -220,6 +214,7 @@ function TabTeam4() : JSX.Element {
         cck2_output_path: 'bbb',
         active_output: 'ccc'
     }
+    let data = watch()
     return (
         <Stack spacing={4} direction="column">
             <Stack spacing={2} direction="row" justifyContent="space-between">
@@ -227,9 +222,9 @@ function TabTeam4() : JSX.Element {
                     Teams Konfiguration
                 </Typography>
                 <Button
-//                    onClick={() => {
-//                        window.cck2live.saveLeagueTeam(watchedValues.team)
-//                    }}
+                    onClick={() => {
+                        // window.cck2live.saveLeagueTeam(watchedValues.team)
+                    }}
                     variant="contained"
                 >
                     Speichern
