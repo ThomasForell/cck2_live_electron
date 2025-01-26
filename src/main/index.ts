@@ -22,7 +22,10 @@ import {
     TeamsConfig,
     DefaultTeamsConfig,
     LiveTeamConfig,
-    LiveAdvConfig
+    LiveAdvConfig,
+    Team4Config,
+    DefaultTeam4Config,
+    SetupConfig
 } from '../renderer/src/cck2_live_interface/LiveConfig'
 
 import PlayerProcessing from './PlayerProcessing'
@@ -167,7 +170,8 @@ const configValues: ConfigValues = {
     adv: DefaultAdvConfig,
     single: DefaultSingleConfig,
     sprint: DefaultSprintConfig,
-    teams: DefaultTeamsConfig
+    teams: DefaultTeamsConfig,
+    team4: [DefaultTeam4Config, DefaultTeam4Config, DefaultTeam4Config]
 }
 
 const express_app: Express = express()
@@ -212,6 +216,8 @@ express_app.use((req, res, next) => {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
     } else if (url.search('single_') >= 0) {
         res.sendFile(path.resolve(configValues.single.data_path + url))
+    } else if (url.search('.json') >= 0) {
+        res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
     } else {
         next()
     }
@@ -293,6 +299,10 @@ app.whenReady().then(() => {
         fs.writeFileSync(path.join(appDir, 'team_setup.json'), JSON.stringify(data))
         configValues.teams = { ...data }
     })
+    ipcMain.on('save_team4_setup', (_, data: Team4Config[]) => {
+        fs.writeFileSync(path.join(appDir, 'team4_setup.json'), JSON.stringify(data))
+        configValues.team4 = { ...data }
+    })
     ipcMain.on('save_single_setup', (_, data: SingleConfig) => {
         fs.writeFileSync(path.join(appDir, 'single_setup.json'), JSON.stringify(data))
         configValues.single = { ...data }
@@ -353,12 +363,22 @@ app.whenReady().then(() => {
         } catch (err) {
             console.log(err)
         }
+        try {
+            buff = fs.readFileSync(path.join(appDir, 'team4_setup.json'), 'utf-8')
+            configValues.team4 = JSON.parse(buff)
+        } catch (err) {
+            console.log(err)
+        }
 
         return { config: configValues, version: app.getVersion() }
     })
 
     ipcMain.handle('load_team_setup', (): null | TeamsConfig => {
         return configValues.teams
+    })
+
+    ipcMain.handle('load_team4_setup', (): null | { team: Team4Config[]; setup: SetupConfig } => {
+        return { team: configValues.team4, setup: configValues.setup }
     })
 
     ipcMain.handle('load_single_setup', (): null | SingleConfig => {

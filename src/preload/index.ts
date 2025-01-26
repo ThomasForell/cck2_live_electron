@@ -6,7 +6,9 @@ import { ConfigValues } from '../renderer/src/cck2_live_interface/ConfigValues'
 import {
     SingleConfig,
     SprintConfig,
-    TeamsConfig
+    TeamsConfig,
+    Team4Config,
+    SetupConfig
 } from '../renderer/src/cck2_live_interface/LiveConfig'
 
 // Custom APIs for renderer
@@ -23,6 +25,9 @@ export const cck2liveAPI = {
     saveTeamSetup: (data): void => {
         ipcRenderer.send('save_team_setup', data)
     },
+    saveTeam4Setup: (data): void =>  {
+        ipcRenderer.send('save_team4_setup', data)
+    },
     saveSingleSetup: (data): void => {
         ipcRenderer.send('save_single_setup', data)
     },
@@ -33,6 +38,7 @@ export const cck2liveAPI = {
         ipcRenderer.invoke('logo', type, name, file),
     load: (): Promise<{ config: ConfigValues; version: string }> => ipcRenderer.invoke('load'),
     loadTeamSetup: (): Promise<TeamsConfig> => ipcRenderer.invoke('load_team_setup'),
+    loadTeam4Setup: (): Promise<{ team: Team4Config[]; setup: SetupConfig }> => ipcRenderer.invoke('load_team4_setup'),
     loadSingleSetup: (): Promise<SingleConfig> => ipcRenderer.invoke('load_single_setup'),
     loadSprintSetup: (): Promise<SprintConfig> => ipcRenderer.invoke('load_sprint_setup'),
     teamProcessingStart: (): void => {

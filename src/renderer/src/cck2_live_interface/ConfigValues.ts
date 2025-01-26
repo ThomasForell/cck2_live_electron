@@ -13,5 +13,5 @@ export interface ConfigValues {
     single: SingleConfig
     sprint: SprintConfig
     teams: TeamsConfig
-    team4: Team4Config
+    team4: Team4Config[]
 }
