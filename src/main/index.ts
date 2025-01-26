@@ -122,6 +122,20 @@ function createConfig(outputId: number): LiveConfig {
     return { teams: teams, werbung: adv }
 }
 
+function createConfigTeam4(outputId: number): Team4Config[] {
+    const team: Team4Config[] = []
+
+    configValues.team4.forEach((t: Team4Config) => {
+        if (t.time_values[outputId] > 0) {
+            const tc = { ...t }
+            tc.time_values = [t.time_values[outputId]]
+            team.push(tc)
+        }
+    })
+
+    return team
+}
+
 function UpdateFileLookup(setup: ConfigValues['setup']): void {
     displayUrls.length = 0
     streamUrls.length = 0
@@ -193,8 +207,8 @@ express_app.use((req, res, next) => {
             path.resolve('./static-html/stream_' + configValues.setup.active_output + '.html')
         )
     } else if (configUrls.includes(url)) {
+        const id = configUrls.indexOf(url)
         if (configValues.setup.active_output == 'league') {
-            const id = configUrls.indexOf(url)
             res.json(createConfig(id))
         } else if (configValues.setup.active_output == 'single') {
             res.json(null)
@@ -202,6 +216,9 @@ express_app.use((req, res, next) => {
         } else if (configValues.setup.active_output == 'sprint') {
             res.json(null)
             console.log('config sprint')
+        } else if (configValues.setup.active_output == 'team4') {
+            res.json(createConfigTeam4(id))
+            console.log('config team 4')
         } else if (configValues.setup.active_output == 'team') {
             res.json(null)
             console.log('config team')
@@ -301,7 +318,7 @@ app.whenReady().then(() => {
     })
     ipcMain.on('save_team4_setup', (_, data: Team4Config[]) => {
         fs.writeFileSync(path.join(appDir, 'team4_setup.json'), JSON.stringify(data))
-        configValues.team4 = { ...data }
+        configValues.team4 = [...data]
     })
     ipcMain.on('save_single_setup', (_, data: SingleConfig) => {
         fs.writeFileSync(path.join(appDir, 'single_setup.json'), JSON.stringify(data))

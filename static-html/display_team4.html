@@ -76,7 +76,9 @@
     .tg .logo {
         background-color: #ffffff;
         text-align: center;
-        white-space: nowrap
+        white-space: nowrap;
+        width: 200px;
+        max-width: 200px;
     }
 
     .tg .data-num {
@@ -177,14 +179,14 @@
         table += '</tr>'
 
         table += '<tr>'
-        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/competition/Default Heim.png" height="auto" width="200" id="team' + (offset) + '_img" /></td>'
+        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/competition/Default Heim.png" height="200px" width="auto" id="team' + (offset) + '_img" /></td>'
         table += '    <td class="data">'
         table += '        <div class="block-cap" id="spieler' + (offset) + '0"></div>'
         table += '    </td>'
         table += '    <td class="data-right">'
         table += '        <div class="block-right" id="spieler' + (offset) + '0r">0</div>'
         table += '    </td>'
-        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/competition/Default Gast.png" height="auto" width="200" id="team' + (offset + 1) + '_img" /></td>'
+        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/competition/Default Gast.png" height="200px" width="auto" id="team' + (offset + 1) + '_img" /></td>'
         table += '    <td class="data">'
         table += '        <div class="block-cap" id="spieler' + (offset + 1) + '0"></div>'
         table += '    </td>'
