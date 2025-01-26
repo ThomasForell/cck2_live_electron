@@ -163,7 +163,7 @@ function TabTeamTurnament(): JSX.Element {
 }
 
 function TabTeamLogos(): JSX.Element {
-    const { control, watch, reset, setValue } = useForm()
+    const { control, watch, reset } = useForm()
     const { isDirty } = useFormState({ control })
     const watchedValues = watch()
     //    const [active, setActive] = useState(false)

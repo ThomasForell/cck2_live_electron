@@ -18,7 +18,7 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import Checkbox from '@mui/material/Checkbox'
 
-//import NavigationButtons from './NavigationButtons'
+import NavigationButtons from './NavigationButtons'
 import TimeSelect from './TimeSelect'
 import LogoDropzone from './LogoDropzone'
 import { Team4Config, SetupConfig } from './cck2_live_interface/LiveConfig'
@@ -44,6 +44,7 @@ function TeamSettings({
     disableUp: boolean
     disableDown: boolean
 }): JSX.Element {
+
     return (
         <div>
             <Accordion>
@@ -68,6 +69,12 @@ function TeamSettings({
                             control={control}
                             name={'team.' + count.toString() + '.time_values'}
                             setup={setup}
+                        />
+                        <NavigationButtons 
+                            callback_id={'ttt'}
+                            disableDelete={disableDelete}
+                            disableDown={disableDown}
+                            disableUp={disableUp}
                         />
                     </Stack>
                 </AccordionSummary>
