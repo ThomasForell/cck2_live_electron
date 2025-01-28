@@ -14,7 +14,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import { Controller } from 'react-hook-form'
-import React, { useContext } from 'react'
+import React, { JSX, useContext } from 'react'
 
 import { ConfigValues } from './cck2_live_interface/ConfigValues'
 import { SetupConfig } from './cck2_live_interface/LiveConfig'

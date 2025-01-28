@@ -1,6 +1,6 @@
 import './assets/App.css'
 
-import React, { useEffect, useState, createContext } from 'react'
+import React, { JSX, useEffect, useState, createContext } from 'react'
 
 import WiFi from '@mui/icons-material/Wifi'
 import SignalWifiStatusbarNullIcon from '@mui/icons-material/SignalWifiStatusbarNull'
@@ -18,6 +18,7 @@ import TabSingle from './TabSingle'
 import TabSprint from './TabSprint'
 import TabTeam from './TabTeam'
 import TabTeam4 from './TabTeam4'
+import TabAdv from './TabAdv'
 import TabSetup from './TabSetup'
 import TabInfo from './TabInfo'
 import { SetupConfig } from './cck2_live_interface/LiveConfig'
@@ -75,7 +76,6 @@ function App(): JSX.Element {
     useEffect(() => {
         setValue('setup', stateUpdate.setup)
         setValue('team', stateUpdate.team)
-        setValue('adv', stateUpdate.adv)
         setValue('single', stateUpdate.single)
         setValue('sprint', stateUpdate.sprint)
         setValue('teams', stateUpdate.teams)
@@ -175,6 +175,7 @@ function App(): JSX.Element {
                             label="Team"
                             id="main-panel-team"
                         />
+                        <Tab label="Werbung" id="main-panel-adv" />
                         <Tab label="Setup" id="main-panel-2" />
                         <Tab label="Info" id="main-panel-3" />
                     </Tabs>
@@ -199,6 +200,9 @@ function App(): JSX.Element {
                     <TabTeam />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={5}>
+                    <TabAdv />
+                </TabPanel>
+                <TabPanel value={mainValuePanel} index={6}>
                     <TabSetup
                         register={register}
                         control={control}
@@ -209,7 +213,7 @@ function App(): JSX.Element {
                         getValues={getValues}
                     />
                 </TabPanel>
-                <TabPanel value={mainValuePanel} index={6}>
+                <TabPanel value={mainValuePanel} index={7}>
                     <TabInfo version={currentVersion} />
                 </TabPanel>
             </ThemeProvider>

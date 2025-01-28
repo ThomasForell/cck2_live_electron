@@ -53,19 +53,31 @@ export const DefaultTeamConfig = {
     cck2_file: ['team1.json']
 }
 
-export interface AdvConfig {
+export interface AdvOldConfig {
     name: string[]
     time_values: number[][]
     logo: string[]
 }
 
-export const DefaultAdvConfig: AdvConfig = {
+export interface AdvConfig {
+    name: string
+    time_values: number[]
+    logo: string
+}
+
+export const DefaultAdvOldConfig: AdvOldConfig = {
     name: ['KC Lorsch Display', 'KC Lorsch Stream'],
     time_values: [
         [20, 0],
         [0, 20]
     ],
     logo: ['kc-lorsch.png', 'stream-kc-lorsch.png']
+}
+
+export const DefaultAdvConfig: AdvConfig = {
+    name: 'KC Lorsch Display',
+    time_values: [20, 0],
+    logo: 'kc-lorsch.png'
 }
 
 export interface SetupConfig {

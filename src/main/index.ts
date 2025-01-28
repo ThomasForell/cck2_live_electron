@@ -10,7 +10,7 @@ import { ConfigValues } from '../renderer/src/cck2_live_interface/ConfigValues'
 import {
     // SetupConfig,
     // TeamConfig,
-    // AdvConfig,
+    AdvConfig,
     DefaultSetupConfig,
     DefaultTeamConfig,
     DefaultAdvConfig,
@@ -111,12 +111,14 @@ function createConfig(outputId: number): LiveConfig {
         } as LiveTeamConfig)
     }
     const adv: LiveAdvConfig[] = []
-    for (let i = 0; i < configValues.adv.logo.length; ++i) {
-        adv.push({
-            bild: configValues.adv.logo[i],
-            werbung_anzeigen: configValues.setup.adv[outputId],
-            anzeigedauer_s: configValues.adv.time_values[i][outputId]
-        } as LiveAdvConfig)
+    for (let i = 0; i < configValues.adv.length; ++i) {
+        if (configValues.adv[i].time_values[outputId] > 0) {
+            adv.push({
+                bild: configValues.adv[i].logo,
+                werbung_anzeigen: configValues.setup.adv[outputId],
+                anzeigedauer_s: configValues.adv[i].time_values[outputId]
+            } as LiveAdvConfig)
+        }
     }
 
     return { teams: teams, werbung: adv }
@@ -181,7 +183,7 @@ try {
 const configValues: ConfigValues = {
     setup: DefaultSetupConfig,
     team: DefaultTeamConfig,
-    adv: DefaultAdvConfig,
+    adv: [DefaultAdvConfig],
     single: DefaultSingleConfig,
     sprint: DefaultSprintConfig,
     teams: DefaultTeamsConfig,
@@ -328,6 +330,10 @@ app.whenReady().then(() => {
         fs.writeFileSync(path.join(appDir, 'sprint_setup.json'), JSON.stringify(data))
         configValues.sprint = { ...data }
     })
+    ipcMain.on('save_adv_setup', (_, data: AdvConfig[]) => {
+        fs.writeFileSync(path.join(appDir, 'adv.json'), JSON.stringify(data))
+        configValues.adv = [...data]
+    })
     ipcMain.handle('logo', (_, type: string, name: string, filepath: string) => {
         const target = path.join(appDir, 'logos', type, name)
         try {
@@ -358,7 +364,29 @@ app.whenReady().then(() => {
         }
         try {
             buff = fs.readFileSync(path.join(appDir, 'adv.json'), 'utf-8')
-            configValues.adv = JSON.parse(buff)
+            const a = JSON.parse(buff)
+            let ok = false
+            try {
+                if (a.constructor === Array) {
+                    configValues.adv = a
+                    ok = true
+                }
+            } catch (err) {}
+            
+            try {
+                if (!ok && a.name.constructor === Array) {
+                    configValues.adv = []
+                    for (let i = 0; i < a.name.length; ++i) {
+                        let adv: AdvConfig = { name: a.name[i], logo: a.logo[i], time_values: a.time_values[i] }
+                        configValues.adv.push(adv)
+                    }
+                    ok = true
+                }
+            } catch (err) {}
+
+            if (!ok) {
+                configValues.adv = [DefaultAdvConfig]
+            }
         } catch (err) {
             console.log(err)
         }
@@ -404,6 +432,11 @@ app.whenReady().then(() => {
 
     ipcMain.handle('load_sprint_setup', (): null | SprintConfig => {
         return configValues.sprint
+    })
+
+    ipcMain.handle('load_adv_setup', (): null | { adv: AdvConfig[]; setup: SetupConfig } => {
+        console.log(configValues.adv)
+        return { adv: configValues.adv, setup: configValues.setup }
     })
 
     let tp: null | PlayerProcessing = null

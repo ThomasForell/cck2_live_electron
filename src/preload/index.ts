@@ -8,7 +8,8 @@ import {
     SprintConfig,
     TeamsConfig,
     Team4Config,
-    SetupConfig
+    SetupConfig,
+    AdvConfig
 } from '../renderer/src/cck2_live_interface/LiveConfig'
 
 // Custom APIs for renderer
@@ -21,6 +22,9 @@ export const cck2liveAPI = {
     },
     saveLeagueAdv: (data): void => {
         ipcRenderer.send('save_league_adv', data)
+    },
+    saveAdvSetup: (data): void => {
+        ipcRenderer.send('save_adv_setup', data)
     },
     saveTeamSetup: (data): void => {
         ipcRenderer.send('save_team_setup', data)
@@ -41,6 +45,7 @@ export const cck2liveAPI = {
     loadTeam4Setup: (): Promise<{ team: Team4Config[]; setup: SetupConfig }> => ipcRenderer.invoke('load_team4_setup'),
     loadSingleSetup: (): Promise<SingleConfig> => ipcRenderer.invoke('load_single_setup'),
     loadSprintSetup: (): Promise<SprintConfig> => ipcRenderer.invoke('load_sprint_setup'),
+    loadAdvSetup: (): Promise<{ adv: AdvConfig[], setup: SetupConfig }> => ipcRenderer.invoke('load_adv_setup'),
     teamProcessingStart: (): void => {
         ipcRenderer.send('team_processing_start')
     },
