@@ -8,11 +8,9 @@ import express, { Express } from 'express'
 
 import { ConfigValues } from '../renderer/src/cck2_live_interface/ConfigValues'
 import {
-    // SetupConfig,
     // TeamConfig,
     AdvConfig,
     DefaultSetupConfig,
-    DefaultTeamConfig,
     DefaultAdvConfig,
     LiveConfig,
     SingleConfig,
@@ -97,17 +95,17 @@ function createIndex(req, res): void {
 
 function createConfig(outputId: number): LiveConfig {
     const teams: LiveTeamConfig[] = []
-    for (let i = 0; i < configValues.team.name.length; ++i) {
+    for (let i = 0; i < configValues.team.length; ++i) {
         teams.push({
-            bild_heim: configValues.team.logo_home[i],
-            bild_gast: configValues.team.logo_guest[i],
-            anzahl_bahnen: Number(configValues.team.num_lanes[i]),
-            anzahl_spieler: Number(configValues.team.num_players[i]),
-            anzeigedauer_s: Number(configValues.team.time_values[i][outputId]),
+            bild_heim: configValues.team[i].logo[0],
+            bild_gast: configValues.team[i].logo[1],
+            anzahl_bahnen: Number(configValues.team[i].num_lanes),
+            anzahl_spieler: Number(configValues.team[i].num_players),
+            anzeigedauer_s: Number(configValues.team[i].time_values[outputId]),
             bahn_anzeigen: configValues.setup.lanes[outputId],
-            token_datei: configValues.team.cck2_file[i],
+            token_datei: configValues.team[i].cck2_file[i],
             anzahl_saetze: 4,
-            satzpunkte_anzeigen: configValues.team.set_points[i] ? 'ja' : 'nein'
+            satzpunkte_anzeigen: configValues.team[i].set_points ? 'ja' : 'nein'
         } as LiveTeamConfig)
     }
     const adv: LiveAdvConfig[] = []
@@ -182,7 +180,7 @@ try {
 // init
 const configValues: ConfigValues = {
     setup: DefaultSetupConfig,
-    team: DefaultTeamConfig,
+    team: [DefaultTeam4Config],
     adv: [DefaultAdvConfig],
     single: DefaultSingleConfig,
     sprint: DefaultSprintConfig,
@@ -229,7 +227,7 @@ express_app.use((req, res, next) => {
         res.sendFile(path.resolve(configValues.teams.data_path, 'team_U23 männlich.json'))
     } else if (url == '/team_u23_w.json') {
         res.sendFile(path.resolve(configValues.teams.data_path, 'team_U23 weiblich.json'))
-    } else if (configValues.team.cck2_file.indexOf(url.slice(1)) >= 0) {
+    } else if (configValues.team[0].cck2_file.indexOf(url.slice(1)) >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
     } else if (url.search('result') >= 0 || url.search('team_') >= 0 || url.search('sv') >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
@@ -308,11 +306,11 @@ app.whenReady().then(() => {
     ipcMain.on('save_league_team', (_, data) => {
         console.log(JSON.stringify(data))
         fs.writeFileSync(path.join(appDir, 'team.json'), JSON.stringify(data))
-        configValues.team = { ...data }
+        configValues.team = [...data]
     })
     ipcMain.on('save_league_adv', (_, data) => {
         fs.writeFileSync(path.join(appDir, 'adv.json'), JSON.stringify(data))
-        configValues.adv = { ...data }
+        configValues.adv = [...data]
     })
     ipcMain.on('save_team_setup', (_, data: TeamsConfig) => {
         fs.writeFileSync(path.join(appDir, 'team_setup.json'), JSON.stringify(data))
@@ -358,7 +356,31 @@ app.whenReady().then(() => {
         }
         try {
             buff = fs.readFileSync(path.join(appDir, 'team.json'), 'utf-8')
-            configValues.team = JSON.parse(buff)
+            const a = JSON.parse(buff)
+            let ok = false
+            try {
+                if (a.constructor === Array) {
+                    configValues.team = a
+                    ok = true
+                }
+            } catch (err) { }
+            try {
+                if (!ok && a.name.constructor === Array) {
+                    configValues.team = []
+                    for (let i = 0; i < a.name.length; ++i) {
+                        let team: Team4Config = {
+                            name: a.name[i], logo: [a.logo_home[i], a.logo_guest[i]], 
+                            num_lanes: a.num_lanes[i], num_players: a.num_players[i],
+                            set_points: a.set_points[i], time_values: a.time_values[i], cck2_file: a.cck2_file[i]
+                        }
+                        configValues.team.push(team)
+                    }
+                }
+                ok = true
+            } catch (err) {}
+            if (!ok) {
+                configValues.team = [DefaultTeam4Config] 
+            }
         } catch (err) {
             console.log(err)
         }
@@ -437,6 +459,10 @@ app.whenReady().then(() => {
     ipcMain.handle('load_adv_setup', (): null | { adv: AdvConfig[]; setup: SetupConfig } => {
         console.log(configValues.adv)
         return { adv: configValues.adv, setup: configValues.setup }
+    })
+
+    ipcMain.handle('load_league_setup', (): null | { team: Team4Config[]; setup: SetupConfig } => {
+        return { team: configValues.team, setup: configValues.setup }
     })
 
     let tp: null | PlayerProcessing = null

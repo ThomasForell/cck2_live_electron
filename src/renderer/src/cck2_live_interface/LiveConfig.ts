@@ -21,7 +21,7 @@ export interface LiveConfig {
     werbung: LiveAdvConfig[]
 }
 
-export interface TeamConfig {
+export interface TeamOldConfig {
     name: string[]
     time_values: number[][]
     logo_home: string[]
@@ -63,15 +63,6 @@ export interface AdvConfig {
     name: string
     time_values: number[]
     logo: string
-}
-
-export const DefaultAdvOldConfig: AdvOldConfig = {
-    name: ['KC Lorsch Display', 'KC Lorsch Stream'],
-    time_values: [
-        [20, 0],
-        [0, 20]
-    ],
-    logo: ['kc-lorsch.png', 'stream-kc-lorsch.png']
 }
 
 export const DefaultAdvConfig: AdvConfig = {

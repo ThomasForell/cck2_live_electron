@@ -16,7 +16,7 @@ import NavigationButtons from './NavigationButtons'
 import TimeSelect from './TimeSelect'
 import LogoDropzone from './LogoDropzone'
 
-import { AdvConfig, DefaultAdvConfig, SetupConfig, DefaultSetupConfig } from './cck2_live_interface/LiveConfig'
+import { AdvConfig, SetupConfig } from './cck2_live_interface/LiveConfig'
 
 import { variant } from './App'
 
@@ -141,7 +141,6 @@ function TabAdv(): JSX.Element {
                 </Typography>
                 <Button
                     onClick={ () => {
-                        console.log(data)
                         reset(data)
                         window.cck2live.saveAdvSetup(data.adv)
                     }}
