@@ -117,10 +117,13 @@ function SetupSettings({
             />
 
             <NavigationButtons
-                callback_id={'setup.' + count.toString()}
+                count={count}
                 disableDelete={disableDelete}
                 disableUp={disableUp}
                 disableDown={disableDown}
+                swapElement={(id: number, offset: number) => {}}
+                addElement={(_) => {}}
+                deleteElement={(_) => {}}
             />
         </Stack>
     )

@@ -23,7 +23,7 @@ import NavigationButtons from './NavigationButtons'
 import TimeSelect from './TimeSelect'
 import LogoDropzone from './LogoDropzone'
 
-import { Team4Config, SetupConfig } from './cck2_live_interface/LiveConfig' 
+import { Team4Config, DefaultTeam4Config, SetupConfig } from './cck2_live_interface/LiveConfig' 
 
 import { variant } from './App'
 
@@ -35,7 +35,10 @@ function TeamSettings({
     count,
     disableDelete,
     disableUp,
-    disableDown
+    disableDown,
+    swapElement,
+    deleteElement,
+    addElement
 }: {
     register: any
     control: any
@@ -45,6 +48,9 @@ function TeamSettings({
     disableDelete: boolean
     disableUp: boolean
     disableDown: boolean
+    swapElement: (id: number, offset: number) => void
+    deleteElement: (id: number) => void
+    addElement: (id: number) => void
 }): JSX.Element {
     return (
         <div>
@@ -72,10 +78,13 @@ function TeamSettings({
                             setup={setup}
                         />
                         <NavigationButtons
-                            callback_id={'team.' + count.toString()}
                             disableDelete={disableDelete}
                             disableUp={disableUp}
                             disableDown={disableDown}
+                            count={count}
+                            swapElement={swapElement}
+                            addElement={addElement}
+                            deleteElement={deleteElement}
                         />
                     </Stack>
                 </AccordionSummary>
@@ -173,6 +182,9 @@ function CreateTeamSettings(props: {
     control: any
     team: Team4Config[]
     setup: SetupConfig
+    swapElement: (id: number, offset: number) => void
+    deleteElement: (id: number) => void
+    addElement: (id: number) => void
 }): JSX.Element {
     const te: JSX.Element[] = []
     if (props.team == null) {
@@ -190,6 +202,9 @@ function CreateTeamSettings(props: {
                 disableDelete={props.team.length === 1}
                 disableUp={i === 0}
                 disableDown={i === props.team.length - 1}
+                swapElement={props.swapElement}
+                deleteElement={props.deleteElement}
+                addElement={props.addElement}
             />
         )
     })
@@ -197,7 +212,7 @@ function CreateTeamSettings(props: {
 }
 
 function TabLeague(): JSX.Element {
-    const { control, reset, register, watch } = useForm<{
+    const { control, reset, register, watch, setValue } = useForm<{
         team: Team4Config[]
         setup: SetupConfig
     }>()
@@ -239,6 +254,21 @@ function TabLeague(): JSX.Element {
                     control={control}
                     team={data.team}
                     setup={data.setup}
+                    swapElement={(id: number, offset: number) => {
+                        let a: Team4Config[] = data.team.slice();
+                        [a[id], a[id + offset]] = [a[id + offset], a[id]]
+                        setValue('team', a, {shouldDirty: true})
+                    }}
+                    deleteElement={(id: number) => {
+                        let a: Team4Config[] = data.team.slice()
+                        a.splice(id, 1)
+                        setValue('team', a, {shouldDirty: true})
+                    }}
+                    addElement={(id: number) => {
+                        let a: Team4Config[] = data.team.slice()
+                        a.splice(id, 0, DefaultTeam4Config)
+                        setValue('team', a, {shouldDirty: true})
+                    }}
                 />
             </Stack>
         </Stack>

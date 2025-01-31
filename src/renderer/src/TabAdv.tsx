@@ -16,7 +16,7 @@ import NavigationButtons from './NavigationButtons'
 import TimeSelect from './TimeSelect'
 import LogoDropzone from './LogoDropzone'
 
-import { AdvConfig, SetupConfig } from './cck2_live_interface/LiveConfig'
+import { AdvConfig, DefaultAdvConfig, SetupConfig } from './cck2_live_interface/LiveConfig'
 
 import { variant } from './App'
 
@@ -28,7 +28,10 @@ function AdvSettings({
     count,
     disableDelete,
     disableUp,
-    disableDown
+    disableDown,
+    swapElement,
+    deleteElement,
+    addElement
 }: {
     register: any
     control: any
@@ -38,6 +41,9 @@ function AdvSettings({
     disableDelete: boolean
     disableUp: boolean
     disableDown: boolean
+    swapElement: (id: number, offset: number) => void
+    deleteElement: (id: number) => void
+    addElement: (id: number) => void
 }): JSX.Element {
     return (
         <>
@@ -65,10 +71,13 @@ function AdvSettings({
                             setup={setup}
                         />
                         <NavigationButtons
-                            callback_id={'adv.' + count.toString()}
                             disableDelete={disableDelete}
                             disableUp={disableUp}
                             disableDown={disableDown}
+                            count={count}
+                            swapElement={swapElement}
+                            addElement={addElement}
+                            deleteElement={deleteElement}
                         />
                     </Stack>
                 </AccordionSummary>
@@ -92,6 +101,9 @@ function CreateAdvSettings(props: {
     control: any
     adv: AdvConfig[]
     setup: SetupConfig
+    swapElement: (id: number, offset: number) => void
+    deleteElement: (id: number) => void
+    addElement: (id: number) => void
 }): JSX.Element {
     const a: JSX.Element[] = []
     if (props.adv == null) {
@@ -109,6 +121,10 @@ function CreateAdvSettings(props: {
                 disableDelete={props.adv.length === 1}
                 disableUp={i === 0}
                 disableDown={i === props.adv.length - 1}
+                swapElement={props.swapElement}
+                addElement={props.addElement}
+                deleteElement={props.deleteElement}
+
             />
         )
     })
@@ -116,7 +132,7 @@ function CreateAdvSettings(props: {
 }
 
 function TabAdv(): JSX.Element {
-    const { control, reset, register, watch } = useForm<{
+    const { control, reset, register, watch, setValue } = useForm<{
         adv: AdvConfig[]
         setup: SetupConfig
     }>()
@@ -157,6 +173,21 @@ function TabAdv(): JSX.Element {
                     control={control}
                     adv={data.adv}
                     setup={data.setup}
+                    swapElement={(id: number, offset: number) => {
+                        let a: AdvConfig[] = data.adv.slice();
+                        [a[id], a[id + offset]] = [a[id + offset], a[id]]
+                        setValue('adv', a, {shouldDirty: true})
+                    }}
+                    deleteElement={(id: number) => {
+                        let a: AdvConfig[] = data.adv.slice()
+                        a.splice(id, 1)
+                        setValue('adv', a, {shouldDirty: true})
+                    }}
+                    addElement={(id: number) => {
+                        let a: AdvConfig[] = data.adv.slice()
+                        a.splice(id, 0, DefaultAdvConfig)
+                        setValue('adv', a, {shouldDirty: true})
+                    }}
                 />
             </Stack>
         </Stack>
