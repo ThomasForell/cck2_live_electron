@@ -21,17 +21,6 @@ export interface LiveConfig {
     werbung: LiveAdvConfig[]
 }
 
-export interface TeamOldConfig {
-    name: string[]
-    time_values: number[][]
-    logo_home: string[]
-    logo_guest: string[]
-    num_players: string[]
-    num_lanes: string[]
-    set_points: boolean[]
-    cck2_file: string[]
-}
-
 export interface Team4Config {
     name: string
     logo: string[]
@@ -40,23 +29,6 @@ export interface Team4Config {
     set_points: boolean
     cck2_file: string
     time_values: number[]
-}
-
-export const DefaultTeamConfig = {
-    name: ['1. Mannschaft'],
-    time_values: [[0, 0]],
-    logo_home: ['Default Heim.png'],
-    logo_guest: ['Default Gast.png'],
-    num_players: ['6'],
-    num_lanes: ['6'],
-    set_points: [true],
-    cck2_file: ['team1.json']
-}
-
-export interface AdvOldConfig {
-    name: string[]
-    time_values: number[][]
-    logo: string[]
 }
 
 export interface AdvConfig {
@@ -73,7 +45,6 @@ export const DefaultAdvConfig: AdvConfig = {
 
 export interface SetupConfig {
     output_name: string[]
-    output_file: string[]
     type: string[]
     lanes: boolean[]
     adv: boolean[]
@@ -83,7 +54,6 @@ export interface SetupConfig {
 
 export const DefaultSetupConfig: SetupConfig = {
     output_name: ['Livestream', 'TVLinks'],
-    output_file: ['livestream.json', 'tvlinks.json'],
     type: ['stream', 'display'],
     lanes: [true, false],
     adv: [true, true],

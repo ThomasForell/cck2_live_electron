@@ -9,9 +9,9 @@ import { Team4Config } from './LiveConfig'
 export interface ConfigValues {
     setup: SetupConfig
     team: Team4Config[]
+    team4: Team4Config[]
     adv: AdvConfig[]
     single: SingleConfig
     sprint: SprintConfig
     teams: TeamsConfig
-    team4: Team4Config[]
 }

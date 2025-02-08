@@ -440,6 +440,10 @@ app.whenReady().then(() => {
         return { config: configValues, version: app.getVersion() }
     })
 
+    ipcMain.handle('load_setup', (): null | ConfigValues => {
+        return configValues
+    })
+
     ipcMain.handle('load_team_setup', (): null | TeamsConfig => {
         return configValues.teams
     })

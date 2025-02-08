@@ -181,11 +181,7 @@ function App(): JSX.Element {
                     </Tabs>
                 </Box>
                 <TabPanel value={mainValuePanel} index={0}>
-                    <TabLeague
-                        register={register}
-                        control={control}
-                        watchedValues={watchedValues as ConfigValues}
-                    />
+                    <TabLeague />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={1}>
                     <TabTeam4 />
@@ -203,14 +199,8 @@ function App(): JSX.Element {
                     <TabAdv />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={6}>
-                    <TabSetup
-                        register={register}
-                        control={control}
-                        settings={values.setup as SetupConfig}
-                        watchedValues={watchedValues as ConfigValues}
-                        setActiveOutput={setActiveOutput}
-                        setValue={setValue}
-                        getValues={getValues}
+                    <TabSetup 
+                        setActiveOutput={setActiveOutput} 
                     />
                 </TabPanel>
                 <TabPanel value={mainValuePanel} index={7}>
