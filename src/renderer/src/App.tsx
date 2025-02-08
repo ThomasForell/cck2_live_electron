@@ -21,7 +21,6 @@ import TabTeam4 from './TabTeam4'
 import TabAdv from './TabAdv'
 import TabSetup from './TabSetup'
 import TabInfo from './TabInfo'
-import { SetupConfig } from './cck2_live_interface/LiveConfig'
 
 interface TabPanelProps {
     children?: React.ReactNode
@@ -67,7 +66,7 @@ function App(): JSX.Element {
         currentVersion = version
     }
 
-    const { control, register, watch, setValue, getValues } = useForm<ConfigValues>()
+    const { watch, setValue } = useForm<ConfigValues>()
     const watchedValues = watch()
     let stateUpdate: any
     let setStateUpdate: Function
@@ -88,7 +87,6 @@ function App(): JSX.Element {
 
     const [activeOutput, setActiveOutput] = useState('liga')
 
-    const values = { ...watchedValues }
     const dataStuff: CTF = {
         watchedValues: watchedValues,
         setStateUpdate: setStateUpdate,

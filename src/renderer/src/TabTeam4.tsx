@@ -24,7 +24,6 @@ import LogoDropzone from './LogoDropzone'
 import { Team4Config, SetupConfig, DefaultTeam4Config } from './cck2_live_interface/LiveConfig'
 
 import { variant } from './App'
-import { DeleteSweepOutlined } from '@mui/icons-material'
 
 function TeamSettings({
     register,
