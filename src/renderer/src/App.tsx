@@ -1,6 +1,6 @@
 import './assets/App.css'
 
-import React, { JSX, useEffect, useState, createContext } from 'react'
+import React, { JSX, useEffect, useState } from 'react'
 
 import WiFi from '@mui/icons-material/Wifi'
 import SignalWifiStatusbarNullIcon from '@mui/icons-material/SignalWifiStatusbarNull'
@@ -9,8 +9,6 @@ import CssBaseline from '@mui/material/CssBaseline'
 import Box from '@mui/material/Box'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-
-import { useForm, UseFormSetValue } from 'react-hook-form'
 
 import { ConfigValues } from './cck2_live_interface/ConfigValues'
 import TabLeague from './TabLeague'
@@ -61,12 +59,13 @@ function App(): JSX.Element {
 
     const [activeOutput, setActiveOutput] = useState('liga')
 
+    // this triggers the load function in main process
     useEffect(() => {
         window.cck2live
             .load()
             .then(
-                ({ config: data, version: version }: { config: ConfigValues; version: string }) => {
-                    setActiveOutput(data.setup.active_output)
+                (config: ConfigValues) => {
+                    setActiveOutput(config.setup.active_output)
                     console.log('load return')
                 }
             )

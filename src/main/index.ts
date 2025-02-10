@@ -437,7 +437,7 @@ app.whenReady().then(() => {
             console.log(err)
         }
 
-        return { config: configValues, version: app.getVersion() }
+        return configValues
     })
     ipcMain.handle('load_version', () => { 
         return app.getVersion()
