@@ -53,11 +53,18 @@ export const variant = 'standard'
 function App(): JSX.Element {
 
     const [mainValuePanel, setMainValuePanel] = useState(0)
-    const handleChangeMainMenu = (_, newValue: number): void => {
-        setMainValuePanel(newValue)
-    }
-
     const [activeOutput, setActiveOutput] = useState('liga')
+
+    enum activeOutput2Idx {
+        league,
+        team4,
+        single,
+        sprint,
+        team,
+        adv,
+        setup,
+        info
+    }
 
     // this triggers the load function in main process
     useEffect(() => {
@@ -66,6 +73,7 @@ function App(): JSX.Element {
             .then(
                 (config: ConfigValues) => {
                     setActiveOutput(config.setup.active_output)
+                    setMainValuePanel(activeOutput2Idx[config.setup.active_output as keyof typeof activeOutput2Idx])
                     console.log('load return')
                 }
             )
@@ -78,7 +86,7 @@ function App(): JSX.Element {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs
                     value={mainValuePanel}
-                    onChange={handleChangeMainMenu}
+                    onChange={(_, value) => setMainValuePanel(value)}
                     aria-label="basic tabs example"
                 >
                     <Tab
