@@ -1,9 +1,15 @@
-import { JSX } from 'react'
+import { JSX, useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 
-function TabInfo({ version }: { version: string }): JSX.Element {
+function TabInfo(): JSX.Element {
+    const [version, setVersion] = useState('1.0.0')
+    useEffect(() => {
+        window.cck2live.loadVersion().then((version: string) => {
+            setVersion(version) 
+        })
+    }, [])
     return (
         <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: '100%' }}>
             <Stack spacing={2} direction="column">

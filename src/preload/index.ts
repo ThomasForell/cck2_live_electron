@@ -41,6 +41,7 @@ export const cck2liveAPI = {
     logo: (type, name, file): Promise<string | null> =>
         ipcRenderer.invoke('logo', type, name, file),
     load: (): Promise<{ config: ConfigValues; version: string }> => ipcRenderer.invoke('load'),
+    loadVersion: (): Promise<string> => ipcRenderer.invoke('load_version'),
     loadSetup: (): Promise<ConfigValues> => ipcRenderer.invoke('load_setup'),
     loadLeagueSetup: (): Promise<{ team: Team4Config[]; setup: SetupConfig }> => ipcRenderer.invoke('load_league_setup'),
     loadTeamSetup: (): Promise<TeamsConfig> => ipcRenderer.invoke('load_team_setup'),

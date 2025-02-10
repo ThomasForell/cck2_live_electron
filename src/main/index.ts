@@ -439,7 +439,9 @@ app.whenReady().then(() => {
 
         return { config: configValues, version: app.getVersion() }
     })
-
+    ipcMain.handle('load_version', () => { 
+        return app.getVersion()
+    })
     ipcMain.handle('load_setup', (): null | ConfigValues => {
         return configValues
     })

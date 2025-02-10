@@ -50,35 +50,9 @@ const darkTheme = createTheme({
     }
 })
 
-interface CTF {
-    watchedValues: any
-    setStateUpdate: Function
-    setValue: UseFormSetValue<ConfigValues>
-}
-
 export const variant = 'standard'
-export const controlFktContext = createContext<CTF>(null as any)
 
 function App(): JSX.Element {
-    let currentVersion = ''
-
-    function setCurrentVersion(version: string): void {
-        currentVersion = version
-    }
-
-    const { watch, setValue } = useForm<ConfigValues>()
-    const watchedValues = watch()
-    let stateUpdate: any
-    let setStateUpdate: Function
-    ;[stateUpdate, setStateUpdate] = useState(watchedValues)
-
-    useEffect(() => {
-        setValue('setup', stateUpdate.setup)
-        setValue('team', stateUpdate.team)
-        setValue('single', stateUpdate.single)
-        setValue('sprint', stateUpdate.sprint)
-        setValue('teams', stateUpdate.teams)
-    }, [stateUpdate])
 
     const [mainValuePanel, setMainValuePanel] = useState(0)
     const handleChangeMainMenu = (_, newValue: number): void => {
@@ -87,19 +61,11 @@ function App(): JSX.Element {
 
     const [activeOutput, setActiveOutput] = useState('liga')
 
-    const dataStuff: CTF = {
-        watchedValues: watchedValues,
-        setStateUpdate: setStateUpdate,
-        setValue: setValue
-    }
-
     useEffect(() => {
         window.cck2live
             .load()
             .then(
                 ({ config: data, version: version }: { config: ConfigValues; version: string }) => {
-                    setStateUpdate(data)
-                    setCurrentVersion(version)
                     setActiveOutput(data.setup.active_output)
                     console.log('load return')
                 }
@@ -108,104 +74,102 @@ function App(): JSX.Element {
     }, [])
 
     return (
-        <controlFktContext.Provider value={dataStuff}>
-            <ThemeProvider theme={darkTheme}>
-                <CssBaseline />
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs
-                        value={mainValuePanel}
-                        onChange={handleChangeMainMenu}
-                        aria-label="basic tabs example"
-                    >
-                        <Tab
-                            icon={
-                                activeOutput === 'league' ? (
-                                    <WiFi />
-                                ) : (
-                                    <SignalWifiStatusbarNullIcon />
-                                )
-                            }
-                            iconPosition="start"
-                            label="Liga"
-                            id="main-panel-liga"
-                        />
-                        <Tab
-                            icon={
-                                activeOutput === 'team4' ? (
-                                    <WiFi />
-                                ) : (
-                                    <SignalWifiStatusbarNullIcon />
-                                )
-                            }
-                            iconPosition="start"
-                            label="4 Teams"
-                            id="main-panel-team-4"
-                        />
-                        <Tab
-                            icon={
-                                activeOutput === 'single' ? (
-                                    <WiFi />
-                                ) : (
-                                    <SignalWifiStatusbarNullIcon />
-                                )
-                            }
-                            iconPosition="start"
-                            label="Einzel"
-                            id="main-panel-single"
-                        />
-                        <Tab
-                            icon={
-                                activeOutput === 'sprint' ? (
-                                    <WiFi />
-                                ) : (
-                                    <SignalWifiStatusbarNullIcon />
-                                )
-                            }
-                            iconPosition="start"
-                            label="Sprint"
-                            id="main-panel-spirnt"
-                        />
-                        <Tab
-                            icon={
-                                activeOutput === 'team' ? <WiFi /> : <SignalWifiStatusbarNullIcon />
-                            }
-                            iconPosition="start"
-                            label="Team"
-                            id="main-panel-team"
-                        />
-                        <Tab label="Werbung" id="main-panel-adv" />
-                        <Tab label="Setup" id="main-panel-2" />
-                        <Tab label="Info" id="main-panel-3" />
-                    </Tabs>
-                </Box>
-                <TabPanel value={mainValuePanel} index={0}>
-                    <TabLeague />
-                </TabPanel>
-                <TabPanel value={mainValuePanel} index={1}>
-                    <TabTeam4 />
-                </TabPanel>
-                <TabPanel value={mainValuePanel} index={2}>
-                    <TabSingle />
-                </TabPanel>
-                <TabPanel value={mainValuePanel} index={3}>
-                    <TabSprint />
-                </TabPanel>
-                <TabPanel value={mainValuePanel} index={4}>
-                    <TabTeam />
-                </TabPanel>
-                <TabPanel value={mainValuePanel} index={5}>
-                    <TabAdv />
-                </TabPanel>
-                <TabPanel value={mainValuePanel} index={6}>
-                    <TabSetup 
-                        setActiveOutput={setActiveOutput} 
+        <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs
+                    value={mainValuePanel}
+                    onChange={handleChangeMainMenu}
+                    aria-label="basic tabs example"
+                >
+                    <Tab
+                        icon={
+                            activeOutput === 'league' ? (
+                                <WiFi />
+                            ) : (
+                                <SignalWifiStatusbarNullIcon />
+                            )
+                        }
+                        iconPosition="start"
+                        label="Liga"
+                        id="main-panel-liga"
                     />
-                </TabPanel>
-                <TabPanel value={mainValuePanel} index={7}>
-                    <TabInfo version={currentVersion} />
-                </TabPanel>
-            </ThemeProvider>
-        </controlFktContext.Provider>
+                    <Tab
+                        icon={
+                            activeOutput === 'team4' ? (
+                                <WiFi />
+                            ) : (
+                                <SignalWifiStatusbarNullIcon />
+                            )
+                        }
+                        iconPosition="start"
+                        label="4 Teams"
+                        id="main-panel-team-4"
+                    />
+                    <Tab
+                        icon={
+                            activeOutput === 'single' ? (
+                                <WiFi />
+                            ) : (
+                                <SignalWifiStatusbarNullIcon />
+                            )
+                        }
+                        iconPosition="start"
+                        label="Einzel"
+                        id="main-panel-single"
+                    />
+                    <Tab
+                        icon={
+                            activeOutput === 'sprint' ? (
+                                <WiFi />
+                            ) : (
+                                <SignalWifiStatusbarNullIcon />
+                            )
+                        }
+                        iconPosition="start"
+                        label="Sprint"
+                        id="main-panel-spirnt"
+                    />
+                    <Tab
+                        icon={
+                            activeOutput === 'team' ? <WiFi /> : <SignalWifiStatusbarNullIcon />
+                        }
+                        iconPosition="start"
+                        label="Team"
+                        id="main-panel-team"
+                    />
+                    <Tab label="Werbung" id="main-panel-adv" />
+                    <Tab label="Setup" id="main-panel-2" />
+                    <Tab label="Info" id="main-panel-3" />
+                </Tabs>
+            </Box>
+            <TabPanel value={mainValuePanel} index={0}>
+                <TabLeague />
+            </TabPanel>
+            <TabPanel value={mainValuePanel} index={1}>
+                <TabTeam4 />
+            </TabPanel>
+            <TabPanel value={mainValuePanel} index={2}>
+                <TabSingle />
+            </TabPanel>
+            <TabPanel value={mainValuePanel} index={3}>
+                <TabSprint />
+            </TabPanel>
+            <TabPanel value={mainValuePanel} index={4}>
+                <TabTeam />
+            </TabPanel>
+            <TabPanel value={mainValuePanel} index={5}>
+                <TabAdv />
+            </TabPanel>
+            <TabPanel value={mainValuePanel} index={6}>
+                <TabSetup 
+                    setActiveOutput={setActiveOutput} 
+                />
+            </TabPanel>
+            <TabPanel value={mainValuePanel} index={7}>
+                <TabInfo />
+            </TabPanel>
+        </ThemeProvider>
     )
 }
 
