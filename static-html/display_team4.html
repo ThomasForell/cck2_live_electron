@@ -18,8 +18,8 @@
     }
 
     .block-right {
-        width: 150px;
-        max-width: 150px;
+        width: 93px;
+        max-width: 93px;
         text-align-last: center;
     }   
 
@@ -30,8 +30,8 @@
     }
 
     .block-cap {
-        width: 570px;
-        max-width: 570px
+        width: 250px;
+        max-width: 250px
     }
 
     .block-team {
@@ -53,7 +53,7 @@
 
     .tg td {
         font-family: Geneva, sans-serif;
-        font-size: 25px;
+        font-size: 20px;
         padding: 2px 2px;
         border-style: solid;
         border-width: 3px;
@@ -77,8 +77,8 @@
         background-color: #ffffff;
         text-align: center;
         white-space: nowrap;
-        width: 200px;
-        max-width: 200px;
+        width: 175px;
+        max-width: 175px;
     }
 
     .tg .data-num {
@@ -127,8 +127,8 @@
     .tg .free {
         border-top-style: hidden;
         border-bottom-style: hidden;
-        width: 10px;
-        max-width: 10px;
+        width: 15px;
+        max-width: 15px;
     }
 
     .tg .no-border-top {
@@ -173,22 +173,46 @@
     function GenerateTeamResultTable(offset, numPlayers) {
         let table = '<table class="tg">'
         table += '<tr>'
-        table += '  <td class="label" colspan="3" id="team' + (offset) + '">Team 1</td>'
+        table += '  <td class="label" colspan="7" id="team' + (offset) + '">Team 1</td>'
         table += '  <td class="free" rowspan="' + (numPlayers + 2) + '"></td>'
-        table += '  <td class="label" colspan="3" id="team' + (offset + 1) + '">Team 2</td>'
+        table += '  <td class="label" colspan="7" id="team' + (offset + 1) + '">Team 2</td>'
         table += '</tr>'
 
         table += '<tr>'
-        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/competition/Default Heim.png" height="200px" width="auto" id="team' + (offset) + '_img" /></td>'
+        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/competition/Default Heim.png" height="auto" width="170px" id="team' + (offset) + '_img" /></td>'
         table += '    <td class="data">'
         table += '        <div class="block-cap" id="spieler' + (offset) + '0"></div>'
         table += '    </td>'
         table += '    <td class="data-right">'
+        table += '        <div class="block-right" id="spieler' + (offset) + '00r">0</div>'
+        table += '    </td>'
+        table += '    <td class="data-right">'
+        table += '        <div class="block-right" id="spieler' + (offset) + '01r">0</div>'
+        table += '    </td>'
+        table += '    <td class="data-right">'
+        table += '        <div class="block-right" id="spieler' + (offset) + '02r">0</div>'
+        table += '    </td>'
+        table += '    <td class="data-right">'
+        table += '        <div class="block-right" id="spieler' + (offset) + '03r">0</div>'
+        table += '    </td>'
+        table += '    <td class="data-right">'
         table += '        <div class="block-right" id="spieler' + (offset) + '0r">0</div>'
         table += '    </td>'
-        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/competition/Default Gast.png" height="200px" width="auto" id="team' + (offset + 1) + '_img" /></td>'
+        table += '    <td class="logo" rowspan="' + (numPlayers + 1) + '"><img src="logos/competition/Default Gast.png" height="auto" width="170px" id="team' + (offset + 1) + '_img" /></td>'
         table += '    <td class="data">'
         table += '        <div class="block-cap" id="spieler' + (offset + 1) + '0"></div>'
+        table += '    </td>'
+        table += '    <td class="data-right">'
+        table += '        <div class="block-right" id="spieler' + (offset + 1) + '00r">0</div>'
+        table += '    </td>'
+        table += '    <td class="data-right">'
+        table += '        <div class="block-right" id="spieler' + (offset + 1) + '01r">0</div>'
+        table += '    </td>'
+        table += '    <td class="data-right">'
+        table += '        <div class="block-right" id="spieler' + (offset + 1) + '02r">0</div>'
+        table += '    </td>'
+        table += '    <td class="data-right">'
+        table += '        <div class="block-right" id="spieler' + (offset + 1) + '03r">0</div>'
         table += '    </td>'
         table += '    <td class="data-right">'
         table += '        <div class="block-right" id="spieler' + (offset + 1) + '0r">0</div>'
@@ -201,10 +225,34 @@
             table += '        <div class="block-cap" id="spieler' + (offset) + '' + i +'"></div>'
             table += '    </td>'
             table += '    <td class="data-right">'
+            table += '        <div class="block-right"id="spieler' + (offset) + '' + i +'0r">0</div>'
+            table += '    </td>'
+            table += '    <td class="data-right">'
+            table += '        <div class="block-right"id="spieler' + (offset) + '' + i +'1r">0</div>'
+            table += '    </td>'
+            table += '    <td class="data-right">'
+            table += '        <div class="block-right"id="spieler' + (offset) + '' + i +'2r">0</div>'
+            table += '    </td>'
+            table += '    <td class="data-right">'
+            table += '        <div class="block-right"id="spieler' + (offset) + '' + i +'3r">0</div>'
+            table += '    </td>'
+            table += '    <td class="data-right">'
             table += '        <div class="block-right"id="spieler' + (offset) + '' + i +'r">0</div>'
             table += '    </td>'
             table += '    <td class="data">'
             table += '        <div class="block-cap" id="spieler' + (offset + 1) + '' + i + '"></div>'
+            table += '    </td>'
+            table += '    <td class="data-right">'
+            table += '        <div class="block-right" id="spieler' + (offset + 1) + '' + i + '0r">0</div>'
+            table += '    </td>'
+            table += '    <td class="data-right">'
+            table += '        <div class="block-right" id="spieler' + (offset + 1) + '' + i + '1r">0</div>'
+            table += '    </td>'
+            table += '    <td class="data-right">'
+            table += '        <div class="block-right" id="spieler' + (offset + 1) + '' + i + '2r">0</div>'
+            table += '    </td>'
+            table += '    <td class="data-right">'
+            table += '        <div class="block-right" id="spieler' + (offset + 1) + '' + i + '3r">0</div>'
             table += '    </td>'
             table += '    <td class="data-right">'
             table += '        <div class="block-right" id="spieler' + (offset + 1) + '' + i + 'r">0</div>'
@@ -212,13 +260,13 @@
             table += '</tr>'
         }
         table += '<tr>'
-            table += '    <td class="label">'
+            table += '    <td class="label" colspan="5">'
             table += '        <div class="block-cap"></div>'
             table += '    </td>'
             table += '    <td class="data-right">'
             table += '        <div class="block-right" id="team_total_' + (offset) + '">0</div>'
             table += '    </td>'
-            table += '    <td class="label">'
+            table += '    <td class="label" colspan="5">'
             table += '        <div class="block-cap"></div>'
             table += '    </td>'
             table += '    <td class="data-right">'

@@ -37,7 +37,63 @@ async function showData(teamData) {
                         decoded = decoded.substring(1)
                     }
                     const data = JSON.parse(decoded)
-                    showTeamData(data.mannschaft)
+                    if (teamData[i].set_points) {
+                        // compute points for each player
+
+                        // compute points for each team and player
+                        for (let team = 0; team < 4; ++team) {
+                            data.mannschaft[team].mp = 0
+                            for (let player = 0; player < teamData[i].num_players; ++player) {
+                                data.mannschaft[team].spieler[player].sp = [0, 0, 0, 0]
+                                for (let set = 0; set < 4; ++set) {
+                                    for (let opponent = 0; opponent < 4; ++opponent) {
+                                        if (data.mannschaft[team].spieler[player].satz[set] 
+                                            == data.mannschaft[opponent].spieler[player].satz[set]
+                                            && data.mannschaft[team].spieler[player].satz[set] != 0) {
+                                            data.mannschaft[team].spieler[player].sp[set] += 0.5
+                                        }
+                                        if (data.mannschaft[team].spieler[player].satz[set] 
+                                            > data.mannschaft[opponent].spieler[player].satz[set]) {
+                                                data.mannschaft[team].spieler[player].sp[set] += 1
+                                        }
+                                    }
+                                    if (data.mannschaft[team].spieler[player].sp[set] > 0) {
+                                        data.mannschaft[team].spieler[player].sp[set] += 0.5
+                                    }
+                                }
+                                data.mannschaft[team].spieler[player].sp.forEach((sp) => {
+                                    data.mannschaft[team].mp += sp
+                                })
+                            }
+                        }
+
+                        // compute ranking
+                        for (let team = 0; team < 4; ++team) {
+                            data.mannschaft[team].rank = 5
+                            data.mannschaft[team].diff = 0
+                            for (let opponent = 0; opponent < 4; ++opponent) {
+                                data.mannschaft[team].diff = Math.min(data.mannschaft[team].diff, data.mannschaft[team].mp - data.mannschaft[opponent].mp)
+                                if (data.mannschaft[team].mp >= data.mannschaft[opponent].mp) {
+                                    data.mannschaft[team].rank -= 1
+                                }
+                            }
+                        }
+                        
+                    } else {
+                        // compute ranking
+                        for (let team = 0; team < 4; ++team) {
+                            data.mannschaft[team].rank = 5
+                            data.mannschaft[team].diff = 0
+                            for (let opponent = 0; opponent < 4; ++opponent) {
+                                data.mannschaft[team].diff = Math.min(data.mannschaft[team].diff, data.mannschaft[team].gesamt - data.mannschaft[opponent].gesamt)
+                                if (data.mannschaft[team].gesamt >= data.mannschaft[opponent].gesamt) {
+                                    data.mannschaft[team].rank -= 1
+                                }
+                            }
+                        }
+                    }
+
+                    showTeamData(data.mannschaft, teamData[i].set_points)
                     showTeamLogos(teamData[i].logo)
                     showLaneData(data.bahn, teamData[i].num_lanes)
                 })
@@ -47,11 +103,16 @@ async function showData(teamData) {
     }
 }
 
-function showTeamData(teams) {
+function showTeamData(teams, set_points) {
     try {
         teams.forEach((t, i) => {
             let el = document.getElementById('team' + i)
-            el.innerHTML = t.name
+            if (el != null) {
+                el.innerHTML = t.name + ' - Platz ' + t.rank
+                if (t.rank > 1) {
+                    el.innerHTML += ' (' + t.diff + ')'
+                }
+            }
             for (let j = 0; j < t.spieler.length; ++j) {
                 el = document.getElementById('spieler' + i + '' + j)
                 if (el != null) {
@@ -64,14 +125,32 @@ function showTeamData(teams) {
                             reducePlayerName(t.spieler[j].spielername_aw)
                     }
                 }
+                for (let k = 0; k < 4; ++k) {
+                    let id = 'spieler' + i + '' + j + '' + k + 'r'
+                    let el = document.getElementById(id)
+                    if (el != null) {
+                        el.innerHTML = t.spieler[j].satz[k]
+                        if (set_points) {
+                            el.innerHTML += ' | ' + t.spieler[j].sp[k]
+                        }
+                    }
+                }
                 let id = 'spieler' + i + '' + j + 'r'
                 el = document.getElementById(id)
                 if (el != null) {
                     el.innerHTML = t.spieler[j].gesamt
+                    if (set_points) {
+                        el.innerHTML += ' | ' + (t.spieler[j].sp[0] + t.spieler[j].sp[1] + t.spieler[j].sp[2] + t.spieler[j].sp[3])
+                    }
                 }
             }
             el = document.getElementById('team_total_' + i)
-            el.innerHTML = t.gesamt
+            if (el != null) {
+                el.innerHTML = t.gesamt
+                if (set_points) {
+                    el.innerHTML += ' | ' + t.mp
+                }
+            }
         })
     } catch (ex) {
         console.error('showTeamData', ex.message)
@@ -81,7 +160,9 @@ function showTeamData(teams) {
 function showTeamLogos(logos) {
     logos.forEach((logo, i) => {
         const el = document.getElementById('team' + i + '_img')
-        el.src = 'logos/team/' + logo + '?' + Date.now().toString()
+        if (el != null) {
+           el.src = 'logos/team/' + logo + '?' + Date.now().toString()
+        }
     })
 }
 
