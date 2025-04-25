@@ -18,18 +18,20 @@ body {overflow:hidden; /* Hide scrollbars */}
 .result-tg .result-label-num{background-color:#cccccc;text-align:center;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .result-tg .free{border-top-style:hidden;border-bottom-style:hidden;width:10px}
 
-.block-num{width:50px;max-width:50px}
-.block-cap{width:240px;max-width:240px}
+.block-num{width:65px;max-width:65px;text-align:right}
+.block-num-cap{width:75px;max-width:75px;text-align:center}
+.block-cap{width:252px;max-width:252px}
 .block-scr{width:40px;max-width:40px;text-align:right}
 .block-gsm{width:210px;max-width:240px}
 .block-mp {width:60px;max-width:240px}
 .tg    {border-collapse:collapse;border-spacing:0;table-layout:fixed;  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .tg td{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
 .tg th{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
-.tg .caption {background-color:#ffffff;font-size:25px;                                                                white-space:nowrap}
+.tg .caption_large {background-color:#cccccc;font-size:27px;                                                                white-space:nowrap}
+.tg .caption {background-color:#cccccc;font-size:20px;                                                                white-space:nowrap}
 .tg .no_border_right {border-right-color: #ffffff;}
 .tg .no_border_left  {border-left-color: #ffffff;}
-.tg .logo    {background-color:#ffffff;text-align:center;white-space:nowrap}
+.tg .logo    {background-color:#ffffff;text-align:center;white-space:nowrap;width:180px;max-width:180px}
 .tg .data    {background-color:#ffffff;                  width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .data-num{background-color:#ffffff;text-align:center;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .data-right{background-color:#ffffff;text-align:right;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
@@ -215,159 +217,96 @@ body {overflow:hidden; /* Hide scrollbars */}
 <div style="position: fixed; bottom: 5px; width:100%; align-content: center;">
   <table class="tg">
   <tr>
-    <td class="logo" colspan="5" rowspan="6"><img src="Heim.png" alt="Logo Heimmannschaft" height="175px" width="auto" id="img_home"/></td>
-	<td class="free" rowspan="8"></td>
-    <td class="caption" colspan="7" id="mannschaft0">Heim</td>
-    <td class="caption" colspan="2" align="center" id="mp_center"> </td>
-    <td class="caption" colspan="7" id="mannschaft1" align="right">Gast</td>
-	<td class="free" rowspan="8"></td>
-    <td class="logo" colspan="5" rowspan="6"><img src="Gast1.png" alt="Logo Gastmannschaft" height="175px" width="auto" id="img_guest"/></td>
+    <td class="caption" colspan="15" style="text-align:center;font-size:30px;" id="group">Hessische Jugendmeisterschaft 2025 U14 weiblich</td>
   </tr>
   <tr>
-    <td class="label">Name</td>
-    <td class="label-num"><div class="block-num">Wurf</div></td>
-    <td class="label-num"><div class="block-num">1</div></td>
-    <td class="label-num"><div class="block-num">2</div></td>
-    <td class="label-num"><div class="block-num">3</div></td>
-    <td class="label-num"><div class="block-num">4</div></td>
-    <td class="label-num"><div class="block-num">Ges</div></td>
-    <td class="label-num"><div class="block-num">SP</div></td>
-    <td class="label-num"><div class="block-num">SP</div></td>
-    <td class="label-num"><div class="block-num">Ges</div></td>
-    <td class="label-num"><div class="block-num">4</div></td>
-    <td class="label-num"><div class="block-num">3</div></td>
-    <td class="label-num"><div class="block-num">2</div></td>
-    <td class="label-num"><div class="block-num">1</div></td>
-    <td class="label-num"><div class="block-num">Wurf</div></td>
-    <td class="label-right">Name</td>
+    <td class="logo" rowspan="7"><img src="Heim.png" alt="Logo HKBV" height="175px" width="auto" id="img_l"/></td>
+	<td class="free" rowspan="7"></td>
+    <td class="caption">Platz</td>
+    <td class="caption">Name</td>
+    <td class="caption">Verein</td>
+	<td class="caption"><div class="block-num-cap">Wurf</div></td>
+	<td class="caption"><div class="block-num-cap">Gesamt</div></td>
+	<td class="free" rowspan="7"></td>
+    <td class="caption">Platz</td>
+    <td class="caption">Name</td>
+    <td class="caption">Verein</td>
+	<td class="caption"><div class="block-num-cap">Wurf</div></td>
+	<td class="caption"><div class="block-num-cap">Gesamt</div></td>
+	<td class="free" rowspan="7"></td>
+    <td class="logo" rowspan="7"><img src="Heim.png" alt="Logo HKBV" height="175px" width="auto" id="img_r"/></td>
   </tr>
   <tr>
-    <td class="data"><div class="block-cap" id="spieler00"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-right"><div class="block-cap" id="spieler10"></div></td>
+    <td class="caption"><div class="block-scr">1</div></td>
+    <td class="data-num"><div class="block-cap" id="name_0"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_0"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_0">240</div></td>
+    <td class="data-num"><div class="block-num" id="total_0">1200</div></td>
+    <td class="caption"><div class="block-scr">7</div></td>
+    <td class="data-num"><div class="block-cap" id="name_6"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_6"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_6">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_6">0</div></td>
   </tr>
   <tr>
-    <td class="data"><div class="block-cap" id="spieler01"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-right"><div class="block-cap" id="spieler11"></div></td>
+    <td class="caption"><div class="block-scr">2</div></td>
+    <td class="data-num"><div class="block-num" id="name_1"></div></td>
+    <td class="data-num"><div class="block-num" id="team_1"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_1">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_1">0</div></td>
+    <td class="caption"><div class="block-scr">8</div></td>
+    <td class="data-num"><div class="block-num" id="name_7"></div></td>
+    <td class="data-num"><div class="block-num" id="team_7"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_7">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_7">0</div></td>
   </tr>
   <tr>
-    <td class="data"><div class="block-cap" id="spieler02"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-right"><div class="block-cap" id="spieler12"></div></td>
+    <td class="caption"><div class="block-scr">3</div></td>
+    <td class="data-num"><div class="block-num" id="name_2"></div></td>
+    <td class="data-num"><div class="block-num" id="team_2"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_2">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_2">0</div></td>
+    <td class="caption"><div class="block-scr">9</div></td>
+    <td class="data-num"><div class="block-num" id="name_8"></div></td>
+    <td class="data-num"><div class="block-num" id="team_8"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_8">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_8">0</div></td>
   </tr>
   <tr>
-    <td class="data"><div class="block-cap" id="spieler03"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-right"><div class="block-cap" id="spieler13"></div></td>
+    <td class="caption"><div class="block-scr">4</div></td>
+    <td class="data-num"><div class="block-num" id="name_3"></div></td>
+    <td class="data-num"><div class="block-num" id="team_3"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_3">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_3">0</div></td>
+    <td class="caption"><div class="block-scr">10</div></td>
+    <td class="data-num"><div class="block-num" id="name_9"></div></td>
+    <td class="data-num"><div class="block-num" id="team_9"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_9">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_9">0</div></td>
   </tr>
   <tr>
-    <td class="label-num">Volle</td>
-    <td class="label-num">Abr</td>
-    <td class="label-num">F</td>
-    <td class="label-num">Ges</td>
-    <td class="label-num">MP</td>
-    <td class="data"><div class="block-cap" id="spieler04"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-right"><div class="block-cap" id="spieler14"></div></td>
-    <td class="label-num">MP</td>
-    <td class="label-num">Ges</td>
-    <td class="label-num">F</td>
-    <td class="label-num">Abr</td>
-    <td class="label-num">Volle</td>
+    <td class="caption"><div class="block-scr">5</div></td>
+    <td class="data-num"><div class="block-num" id="name_4"></div></td>
+    <td class="data-num"><div class="block-num" id="team_4"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_4">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_4">0</div></td>
+    <td class="caption"><div class="block-scr">11</div></td>
+    <td class="data-num"><div class="block-num" id="name_10"></div></td>
+    <td class="data-num"><div class="block-num" id="team_10"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_10">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_10">0</div></td>
   </tr>
   <tr>
-    <td class="data-num"><div class="block-num" id="gesamt0"></div></td>
-    <td class="data-num"><div class="block-num"></div></td>
-    <td class="data-num"><div class="block-num"></div></td>
-    <td class="data-num"><div class="block-num"></div></td>
-    <td class="data-num"><div class="block-num"></div></td>
-    <td class="data"><div class="block-cap" id="spieler05"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-right"><div class="block-cap" id="spieler15"></div></td>
-    <td class="data-num"><div class="block-num"></div></td>
-    <td class="data-num"><div class="block-num"></div></td>
-    <td class="data-num"><div class="block-num"></div></td>
-    <td class="data-num"><div class="block-num"></div></td>
-    <td class="data-num"><div class="block-num" id="gesamt1"></div></td>
+    <td class="caption"><div class="block-scr">6</div></td>
+    <td class="data-num"><div class="block-num" id="name_5"></div></td>
+    <td class="data-num"><div class="block-num" id="team_5"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_5">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_5">0</div></td>
+    <td class="caption"><div class="block-scr">12</div></td>
+    <td class="data-num"><div class="block-num" id="name_11"></div></td>
+    <td class="data-num"><div class="block-num" id="team_11"></div></td>
+    <td class="data-num"><div class="block-num" id="throws_11">0</div></td>
+    <td class="data-num"><div class="block-num" id="total_11">0</div></td>
   </tr>
 </table>
 </div>
