@@ -211,8 +211,8 @@ express_app.use((req, res, next) => {
         if (configValues.setup.active_output == 'league') {
             res.json(createConfig(id))
         } else if (configValues.setup.active_output == 'single') {
-            res.json(null)
-            console.log('config single')
+            res.sendFile(
+                path.resolve(configValues.setup.cck2_output_path + url))
         } else if (configValues.setup.active_output == 'sprint') {
             res.json(null)
             console.log('config sprint')
