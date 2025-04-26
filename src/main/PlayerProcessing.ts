@@ -164,7 +164,7 @@ class PlayerProcessing {
             const lines = buf.split('\n')
             lines.forEach((l) => {
                 const ll = l.replace('\r', '')
-                if (ll.search(';') >= 0) {
+                if (ll.search('[;,]') >= 0) {
                     const p = new Player(ll)
                     this.players.set(p.id, p)
                 }
