@@ -18,9 +18,9 @@ body {overflow:hidden; /* Hide scrollbars */}
 .result-tg .result-label-num{background-color:#cccccc;text-align:center;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .result-tg .free{border-top-style:hidden;border-bottom-style:hidden;width:10px}
 
-.block-num{width:65px;max-width:65px;text-align:right}
+.block-num{width:75px;max-width:75px;text-align:right}
 .block-num-cap{width:75px;max-width:75px;text-align:center}
-.block-cap{width:252px;max-width:252px}
+.block-cap{width:293px;max-width:293px;text-align:left}
 .block-scr{width:40px;max-width:40px;text-align:right}
 .block-gsm{width:210px;max-width:240px}
 .block-mp {width:60px;max-width:240px}
@@ -198,122 +198,254 @@ body {overflow:hidden; /* Hide scrollbars */}
   </table> 
 </div>
 
-<div id="displayAdv" style="position: fixed; top: 150px; width:99%; align-content: center;">
-  <table class="result-tg" align="center" style="width: 100%">
-    <tr>
-      <td class="result-data" style="text-align: center; min-width: 225px;">
-        <img src="" alt="" height="auto" width="220px" id="img_1"/><br>
-        <small style="font-weight: normal;">Werbung</small>
-      </td>
-      <td class="free" style="width:75%"></td>
-      <td class="result-data" style="text-align: center; min-width: 225px;">
-        <img src="" alt="" height="auto" width="220px" id="img_2"/><br>
-        <small style="font-weight: normal;">Werbung</small>
-      </td>
-    </tr>
-  </table>
-</div>
-
 <div style="position: fixed; bottom: 5px; width:100%; align-content: center;">
   <table class="tg">
   <tr>
-    <td class="caption" colspan="15" style="text-align:center;font-size:30px;" id="group">Hessische Jugendmeisterschaft 2025 U14 weiblich</td>
+    <td class="caption" colspan="13" style="text-align:center;font-size:30px;" id="group">Hessische Jugendmeisterschaft 2025 U14 weiblich</td>
   </tr>
   <tr>
-    <td class="logo" rowspan="7"><img src="Heim.png" alt="Logo HKBV" height="175px" width="auto" id="img_l"/></td>
+    <td class="logo" rowspan="7"><img src="SKVLorsch.png" alt="Logo HKBV" height="175px" width="auto" id="img_l"/></td>
 	<td class="free" rowspan="7"></td>
     <td class="caption">Platz</td>
     <td class="caption">Name</td>
     <td class="caption">Verein</td>
-	<td class="caption"><div class="block-num-cap">Wurf</div></td>
 	<td class="caption"><div class="block-num-cap">Gesamt</div></td>
 	<td class="free" rowspan="7"></td>
     <td class="caption">Platz</td>
     <td class="caption">Name</td>
     <td class="caption">Verein</td>
-	<td class="caption"><div class="block-num-cap">Wurf</div></td>
 	<td class="caption"><div class="block-num-cap">Gesamt</div></td>
 	<td class="free" rowspan="7"></td>
-    <td class="logo" rowspan="7"><img src="Heim.png" alt="Logo HKBV" height="175px" width="auto" id="img_r"/></td>
+    <td class="logo" rowspan="7"><img src="Hessen.png" alt="Logo HKBV" height="175px" width="auto" id="img_r"/></td>
   </tr>
   <tr>
     <td class="caption"><div class="block-scr">1</div></td>
     <td class="data-num"><div class="block-cap" id="name_0"></div></td>
     <td class="data-num"><div class="block-cap" id="team_0"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_0">240</div></td>
     <td class="data-num"><div class="block-num" id="total_0">1200</div></td>
     <td class="caption"><div class="block-scr">7</div></td>
     <td class="data-num"><div class="block-cap" id="name_6"></div></td>
     <td class="data-num"><div class="block-cap" id="team_6"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_6">0</div></td>
     <td class="data-num"><div class="block-num" id="total_6">0</div></td>
   </tr>
   <tr>
     <td class="caption"><div class="block-scr">2</div></td>
-    <td class="data-num"><div class="block-num" id="name_1"></div></td>
-    <td class="data-num"><div class="block-num" id="team_1"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_1">0</div></td>
+    <td class="data-num"><div class="block-cap" id="name_1"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_1"></div></td>
     <td class="data-num"><div class="block-num" id="total_1">0</div></td>
     <td class="caption"><div class="block-scr">8</div></td>
-    <td class="data-num"><div class="block-num" id="name_7"></div></td>
-    <td class="data-num"><div class="block-num" id="team_7"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_7">0</div></td>
+    <td class="data-num"><div class="block-cap" id="name_7"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_7"></div></td>
     <td class="data-num"><div class="block-num" id="total_7">0</div></td>
   </tr>
   <tr>
     <td class="caption"><div class="block-scr">3</div></td>
-    <td class="data-num"><div class="block-num" id="name_2"></div></td>
-    <td class="data-num"><div class="block-num" id="team_2"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_2">0</div></td>
+    <td class="data-num"><div class="block-cap" id="name_2"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_2"></div></td>
     <td class="data-num"><div class="block-num" id="total_2">0</div></td>
     <td class="caption"><div class="block-scr">9</div></td>
-    <td class="data-num"><div class="block-num" id="name_8"></div></td>
-    <td class="data-num"><div class="block-num" id="team_8"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_8">0</div></td>
+    <td class="data-num"><div class="block-cap" id="name_8"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_8"></div></td>
     <td class="data-num"><div class="block-num" id="total_8">0</div></td>
   </tr>
   <tr>
     <td class="caption"><div class="block-scr">4</div></td>
-    <td class="data-num"><div class="block-num" id="name_3"></div></td>
-    <td class="data-num"><div class="block-num" id="team_3"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_3">0</div></td>
+    <td class="data-num"><div class="block-cap" id="name_3"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_3"></div></td>
     <td class="data-num"><div class="block-num" id="total_3">0</div></td>
     <td class="caption"><div class="block-scr">10</div></td>
-    <td class="data-num"><div class="block-num" id="name_9"></div></td>
-    <td class="data-num"><div class="block-num" id="team_9"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_9">0</div></td>
+    <td class="data-num"><div class="block-cap" id="name_9"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_9"></div></td>
     <td class="data-num"><div class="block-num" id="total_9">0</div></td>
   </tr>
   <tr>
     <td class="caption"><div class="block-scr">5</div></td>
-    <td class="data-num"><div class="block-num" id="name_4"></div></td>
-    <td class="data-num"><div class="block-num" id="team_4"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_4">0</div></td>
+    <td class="data-num"><div class="block-cap" id="name_4"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_4"></div></td>
     <td class="data-num"><div class="block-num" id="total_4">0</div></td>
     <td class="caption"><div class="block-scr">11</div></td>
-    <td class="data-num"><div class="block-num" id="name_10"></div></td>
-    <td class="data-num"><div class="block-num" id="team_10"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_10">0</div></td>
+    <td class="data-num"><div class="block-cap" id="name_10"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_10"></div></td>
     <td class="data-num"><div class="block-num" id="total_10">0</div></td>
   </tr>
   <tr>
     <td class="caption"><div class="block-scr">6</div></td>
-    <td class="data-num"><div class="block-num" id="name_5"></div></td>
-    <td class="data-num"><div class="block-num" id="team_5"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_5">0</div></td>
+    <td class="data-num"><div class="block-cap" id="name_5"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_5"></div></td>
     <td class="data-num"><div class="block-num" id="total_5">0</div></td>
     <td class="caption"><div class="block-scr">12</div></td>
-    <td class="data-num"><div class="block-num" id="name_11"></div></td>
-    <td class="data-num"><div class="block-num" id="team_11"></div></td>
-    <td class="data-num"><div class="block-num" id="throws_11">0</div></td>
+    <td class="data-num"><div class="block-cap" id="name_11"></div></td>
+    <td class="data-num"><div class="block-cap" id="team_11"></div></td>
     <td class="data-num"><div class="block-num" id="total_11">0</div></td>
   </tr>
 </table>
 </div>
-<script src="mannschaft.js"></script>
 <script>
   const configName = window.location.pathname.slice(0, -4) + "json";
-  showData(configName, false);
-  setInterval(showData, 1000, configName, false); 
+
+  function showLaneData(lane, showLanes, numLanes, showSetPoints, offset) {
+    try {
+        var el = document.getElementById("display4lanes");
+        if (el != null) {
+        el.hidden = (numLanes != 4 || !showLanes);
+        }
+        var el = document.getElementById("display6lanes");
+        if (el != null) {
+        el.hidden = (numLanes != 6  || !showLanes);
+        }
+        if (!showLanes) {
+        return;
+        }
+
+        var el = document.getElementById("name" + numLanes + "lanes");
+        for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
+        var spieler = lane[laneCnt + offset].spielername;
+        if (showSetPoints) {
+            spieler += " (" + lane[laneCnt].sp + ")";
+        }
+        el.innerHTML = spieler;
+        if (laneCnt < numLanes -1) {
+            el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
+        }
+        }
+
+        var el = document.getElementById("team" + numLanes + "lanes");
+        for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
+        el.innerHTML = lane[laneCnt + offset].mannschaft;
+        if (laneCnt < numLanes -1) {
+            el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
+        }
+        }
+
+        var el = document.getElementById("total" + numLanes + "lanes");
+        for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
+        el.innerHTML = lane[laneCnt + offset].wurf;
+        el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
+        el.innerHTML = lane[laneCnt + offset].gesamt;
+        if (laneCnt < numLanes -1) {
+            el = el.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.firstChild;
+        }
+        }
+
+        var el = document.getElementById("heat" + numLanes + "lanes");
+        for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
+        el.innerHTML = lane[laneCnt + offset].durchgang_wurf;
+        el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
+        el.innerHTML = lane[laneCnt + offset].durchgang_gesamt;
+        if (laneCnt < numLanes -1) {
+            el = el.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.firstChild;
+        }
+        }
+    } catch (ex) {
+        console.error("writeBahn", ex.message);
+    }
+}
+
+  function showPlayers(dataName, group) {
+    try {
+        const requestURL = dataName + "?" + Date.now().toString()
+        fetch(requestURL)
+        .then((response) => { return response.text() })
+        .then((decoded) => {
+            if (decoded.charCodeAt(0) === 0xFEFF) {
+                decoded = decoded.substring(1);
+            }
+            const data = JSON.parse(decoded);
+
+            let el = document.getElementById("group")
+            if (el != null) {
+                el.innerHTML = group
+            }
+
+            for (let i = 0; i < data.length; ++i) {
+                const p = data[i]; 
+
+                const colorActive = "#50C878";
+                const colorInactive = "#ffffff";
+                const color = (p.active && p.name != " ") ? colorActive : colorInactive
+
+                el = document.getElementById("name_" + i.toString())
+                if (el) {
+                    el.style.backgroundColor = color
+                    el.innerHTML = p.name
+                }
+                
+                el = document.getElementById("team_" + i.toString())
+                if (el) {
+                    el.style.backgroundColor = color
+                    el.innerHTML = p.mannschaft
+                }
+
+                el = document.getElementById("total_" + i.toString())
+                if (el) {
+                    el.style.backgroundColor = color
+                    el.innerHTML = p.gesamt
+                }
+            }
+            for (let i = data.length; i < 12; ++i) {
+                el = document.getElementById("name_" + i.toString())
+                if (el) {
+                    el.style.backgroundColor = color
+                    el.innerHTML = ""
+                }
+                
+                el = document.getElementById("team_" + i.toString())
+                if (el) {
+                    el.style.backgroundColor = color
+                    el.innerHTML = ""
+                }
+
+                el = document.getElementById("total_" + i.toString())
+                if (el) {
+                    el.style.backgroundColor = color
+                    el.innerHTML = ""
+                }            
+            }
+        }) } catch (ex) {
+        console.error("showData", ex.message);
+    }
+  }
+
+  function showData(configName) {
+    try {
+        const requestURL = configName + "?" + Date.now().toString()
+        fetch(requestURL)
+        .then((response) => { return response.text() })
+        .then((decoded) => {
+            if (decoded.charCodeAt(0) === 0xFEFF) {
+            decoded = decoded.substring(1);
+            }
+            const config = JSON.parse(decoded);
+
+            // config.zeit = 2
+            const timeCurrent = Math.trunc(Date.now() / 1000) % (config.zeit * config.files.length)
+            const idx = Math.trunc(timeCurrent / config.zeit)
+
+            showPlayers(config.files[idx], config.group_names[idx])
+    }) } catch (ex) {
+        console.error("showData", ex.message);
+    }
+    try {
+        const requestURL = "result.json?" + Date.now().toString()
+        var offset = 0
+        if (configName.includes("Rechts")) {
+            offset = 4
+        }
+        fetch(requestURL)
+        .then((response) => { return response.text() })
+        .then((decoded) => {
+            if (decoded.charCodeAt(0) === 0xFEFF) {
+                decoded = decoded.substring(1);
+            }
+            const result = JSON.parse(decoded);
+            showLaneData(result.bahn, true, 4, false, offset)
+    }) } catch (ex) {
+        console.error("showData", ex.message);
+    }
+
+  }
+
+  showData(configName);
+  setInterval(showData, 1000, configName); 
 </script>
 </html>
