@@ -224,7 +224,7 @@
 					"wurf" : "[Wurf Spieler 4, 2]",
 					"gesamt" : "[Holz Spieler 4, 2]",
                     "satz" : [
-                        "[Holz 1, 2, 4]", "[Holz 2, 2, 4]", "[Holz 3, 2, 4]", "[Holz 4, 2, 4]"
+                        "[Holz 1, 4, 2]", "[Holz 2, 4, 2]", "[Holz 3, 4, 2]", "[Holz 4, 4, 2]"
                     ]
 				},
 				{
@@ -233,7 +233,7 @@
 					"wurf" : "[Wurf Spieler 4, 3]",
 					"gesamt" : "[Holz Spieler 4, 3]",
                     "satz" : [
-                        "[Holz 1, 3, 4]", "[Holz 2, 3, 4]", "[Holz 3, 3, 4]", "[Holz 4, 3, 4]"
+                        "[Holz 1, 4, 3]", "[Holz 2, 4, 3]", "[Holz 3, 4, 3]", "[Holz 4, 4, 3]"
                     ]
 				},
 				{
@@ -242,7 +242,7 @@
 					"wurf" : "[Wurf Spieler 4, 4]",
 					"gesamt" : "[Holz Spieler 4, 4]",
                     "satz" : [
-                        "[Holz 1, 4, 4]", "[Holz 2, 4, 4]", "[Holz 3, 4, 4]", "[Holz 4, 4, 4     1]"
+                        "[Holz 1, 4, 4]", "[Holz 2, 4, 4]", "[Holz 3, 4, 4]", "[Holz 4, 4, 4]"
                     ]
 				}
 			]
