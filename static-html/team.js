@@ -38,8 +38,6 @@ async function showData(teamData) {
                     }
                     const data = JSON.parse(decoded)
                     if (teamData[i].set_points) {
-                        // compute points for each player
-
                         // compute points for each team and player
                         for (let team = 0; team < 4; ++team) {
                             data.mannschaft[team].mp = 0
@@ -57,6 +55,7 @@ async function showData(teamData) {
                                                 data.mannschaft[team].spieler[player].sp[set] += 1
                                         }
                                     }
+                                    // add 0.5 point for compaison with oneself -> at least one point per set
                                     if (data.mannschaft[team].spieler[player].sp[set] > 0) {
                                         data.mannschaft[team].spieler[player].sp[set] += 0.5
                                     }
@@ -173,30 +172,42 @@ function showLaneData(lane, nLanes) {
     try {
         for (let laneCnt = offset; laneCnt < numLanesShow + offset; laneCnt++) {
             let el = document.getElementById('lane_name_' + (laneCnt - offset))
-            var spieler = lane[laneCnt].spielername
-            if (lane[laneCnt].spielername_aw) {
-                spieler = lane[laneCnt].spielername_aw
+            if (el != null) {
+                var spieler = lane[laneCnt].spielername
+                if (lane[laneCnt].spielername_aw) {
+                    spieler = lane[laneCnt].spielername_aw
+                }
+                el.innerHTML = spieler
             }
-            el.innerHTML = spieler
         }
 
         for (let laneCnt = offset; laneCnt < numLanesShow + offset; laneCnt++) {
             let el = document.getElementById('lane_team_' + (laneCnt - offset))
-            el.innerHTML = lane[laneCnt].mannschaft
+            if (el != null) {
+                el.innerHTML = lane[laneCnt].mannschaft
+            }
         }
 
         for (let laneCnt = offset; laneCnt < numLanesShow + offset; laneCnt++) {
             let el = document.getElementById('lane_total_w_' + (laneCnt - offset))
-            el.innerHTML = lane[laneCnt].wurf
+            if (el != null) {
+                el.innerHTML = lane[laneCnt].wurf
+            }
             el = document.getElementById('lane_total_g_' + (laneCnt - offset))
-            el.innerHTML = lane[laneCnt].gesamt
+            if (el != null) {
+                el.innerHTML = lane[laneCnt].gesamt
+            }
         }
 
         for (let laneCnt = offset; laneCnt < numLanesShow + offset; laneCnt++) {
             let el = document.getElementById('lane_heat_w_' + (laneCnt - offset))
-            el.innerHTML = lane[laneCnt].durchgang_wurf
+            if (el != null) {
+                el.innerHTML = lane[laneCnt].durchgang_wurf
+            }
             el = document.getElementById('lane_heat_g_' + (laneCnt - offset))
-            el.innerHTML = lane[laneCnt].durchgang_gesamt
+            if (el != null) {
+                el.innerHTML = lane[laneCnt].durchgang_gesamt
+            }
         }
     } catch (ex) {
         console.error('writeBahn', ex.message)
