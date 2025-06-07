@@ -22,6 +22,11 @@
         max-width: 93px;
         text-align-last: center;
     }   
+    .block-right-2 {
+        width: 185px;
+        max-width: 185px;
+        text-align-last: center;
+    }   
 
     .block-num-place {
         width: 95px;
@@ -53,7 +58,7 @@
 
     .tg td {
         font-family: Geneva, sans-serif;
-        font-size: 20px;
+        font-size: 22px;
         padding: 2px 2px;
         border-style: solid;
         border-width: 3px;
@@ -260,17 +265,17 @@
             table += '</tr>'
         }
         table += '<tr>'
-            table += '    <td class="label" colspan="5">'
+            table += '    <td class="label" colspan="4">'
             table += '        <div class="block-cap"></div>'
             table += '    </td>'
-            table += '    <td class="data-right">'
-            table += '        <div class="block-right" id="team_total_' + (offset) + '">0</div>'
+            table += '    <td class="data-right" colspan="2">'
+            table += '        <div class="block-right-2" id="team_total_' + (offset) + '">0</div>'
             table += '    </td>'
-            table += '    <td class="label" colspan="5">'
+            table += '    <td class="label" colspan="4">'
             table += '        <div class="block-cap"></div>'
             table += '    </td>'
-            table += '    <td class="data-right">'
-            table += '        <div class="block-right" id="team_total_' + (offset + 1) + '">0</div>'
+            table += '    <td class="data-right" colspan="2">'
+            table += '        <div class="block-right-2" id="team_total_' + (offset + 1) + '">0</div>'
             table += '    </td>'
             table += '</tr>'
 

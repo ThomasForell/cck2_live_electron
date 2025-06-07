@@ -97,13 +97,19 @@
     }
 
     .block-cap {
-        width: 240px;
-        max-width: 240px
+        width: 207px;
+        max-width: 207px
     }
 
     .block-right {
-        width: 50px;
-        max-width: 50px;
+        width: 88px;
+        max-width: 88px;
+        text-align: right
+    }
+
+    .block-right-2 {
+        width: 302px;
+        max-width: 302px;
         text-align: right
     }
 
@@ -191,7 +197,7 @@
     .tg .data-right {
         background-color: #ffffff;
         text-align: right;
-        width: 40px;
+        width: 65px;
         overflow: hidden;
         text-overflow: clip;
         white-space: nowrap
@@ -203,6 +209,13 @@
         overflow: hidden;
         text-overflow: clip;
         white-space: nowrap
+    }
+
+    .tg .label-2 {
+        background-color: #cccccc;
+        overflow: hidden;
+        text-overflow: clip;
+        white-space: nowrap;
     }
 
     .tg .label-num {
@@ -226,7 +239,7 @@
     .tg .free {
         border-top-style: hidden;
         border-bottom-style: hidden;
-        width: 12px
+        width: 5px
     }
 </style>
 <table class="result-tg" align="center">
@@ -377,8 +390,7 @@
         }
         table += '<tr>'
         for (let i = 0; i < numPlayers; ++i) {
-            table +=     '<td class="label"><div class="block-cap"></div></td>'
-            table +=     '<td class="data-right"><div class="block-right" id="team_total_' + i + '">1000</div></td>'
+            table +=     '<td class="label-2" colspan="2"><div class="block-right-2" id="team_total_' + i + '">1000</div></td>'
         }
         table += '</tr></table>'
         return table
