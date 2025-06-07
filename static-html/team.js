@@ -172,7 +172,7 @@ function showTeamLogos(logos) {
     logos.forEach((logo, i) => {
         const el = document.getElementById('team' + i + '_img')
         if (el != null) {
-            el.src = 'logos/team/Default Heim.png'  + '?' + Date.now().toString()
+            el.src = 'logos/team/' + logo + '?' + Date.now().toString()
         }
     })
 }
