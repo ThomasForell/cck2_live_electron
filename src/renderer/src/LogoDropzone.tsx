@@ -64,7 +64,7 @@ function LogoDropzone({
                         multiple={false}
                         onDrop={(acceptedFiles: File[]) => {
                             ;(window as any).cck2live
-                                .logo(group, acceptedFiles[0].name, acceptedFiles[0].path)
+                                .logo(group, acceptedFiles[0])
                                 .then((filename: string | null) => {
                                     if (filename != null) {
                                         onChange(filename)

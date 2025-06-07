@@ -1,4 +1,4 @@
-import { contextBridge } from 'electron'
+import { contextBridge, webUtils } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { ipcRenderer } from 'electron'
 
@@ -38,8 +38,8 @@ export const cck2liveAPI = {
     saveSprintSetup: (data): void => {
         ipcRenderer.send('save_sprint_setup', data)
     },
-    logo: (type, name, file): Promise<string | null> =>
-        ipcRenderer.invoke('logo', type, name, file),
+    logo: (type: string, file: File): Promise<string | null> =>
+        ipcRenderer.invoke('logo', type, file.name, webUtils.getPathForFile(file)),
     load: (): Promise<ConfigValues> => ipcRenderer.invoke('load'),
     loadVersion: (): Promise<string> => ipcRenderer.invoke('load_version'),
     loadSetup: (): Promise<ConfigValues> => ipcRenderer.invoke('load_setup'),
