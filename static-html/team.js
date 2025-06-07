@@ -45,18 +45,18 @@ async function showData(teamData) {
                                 data.mannschaft[team].spieler[player].sp = [0, 0, 0, 0]
                                 for (let set = 0; set < 4; ++set) {
                                     for (let opponent = 0; opponent < 4; ++opponent) {
-                                        if (data.mannschaft[team].spieler[player].satz[set] 
-                                            == data.mannschaft[opponent].spieler[player].satz[set]
-                                            && data.mannschaft[team].spieler[player].satz[set] != 0) {
+                                        if (parseInt(data.mannschaft[team].spieler[player].satz[set]) 
+                                            == parseInt(data.mannschaft[opponent].spieler[player].satz[set])
+                                            && parseInt(data.mannschaft[team].spieler[player].satz[set]) != 0) {
                                             data.mannschaft[team].spieler[player].sp[set] += 0.5
                                         }
-                                        if (data.mannschaft[team].spieler[player].satz[set] 
-                                            > data.mannschaft[opponent].spieler[player].satz[set]) {
+                                        if (parseInt(data.mannschaft[team].spieler[player].satz[set])
+                                            > parseInt(data.mannschaft[opponent].spieler[player].satz[set])) {
                                                 data.mannschaft[team].spieler[player].sp[set] += 1
                                         }
                                     }
                                     // add 0.5 point for compaison with oneself -> at least one point per set
-                                    if (data.mannschaft[team].spieler[player].sp[set] > 0) {
+                                    if (parseInt(data.mannschaft[team].spieler[player].sp[set]) > 0) {
                                         data.mannschaft[team].spieler[player].sp[set] += 0.5
                                     }
                                 }
@@ -72,12 +72,24 @@ async function showData(teamData) {
                             data.mannschaft[team].diff = 0
                             for (let opponent = 0; opponent < 4; ++opponent) {
                                 data.mannschaft[team].diff = Math.min(data.mannschaft[team].diff, data.mannschaft[team].mp - data.mannschaft[opponent].mp)
-                                if (data.mannschaft[team].mp >= data.mannschaft[opponent].mp) {
+                                if (data.mannschaft[team].mp > data.mannschaft[opponent].mp) {
                                     data.mannschaft[team].rank -= 1
+                                }
+                                else if (data.mannschaft[team].mp == data.mannschaft[opponent].mp) {
+                                    if (data.mannschaft[team].gesamt > data.mannschaft[opponent].gesamt) {
+                                        data.mannschaft[team].rank -= 1
+                                    } else if (data.mannschaft[team].gesamt == data.mannschaft[opponent].gesamt) { 
+                                        if (data.mannschaft[team].abr > data.mannschaft[opponent].abr) {
+                                            data.mannschaft[team].rank -= 1
+                                        }
+                                        else if (data.mannschaft[team].abr == data.mannschaft[opponent].abr) {
+                                            // shared rank (also with oneself -> start ranking at 5)
+                                            data.mannschaft[team].rank -= 1
+                                        }
+                                    }
                                 }
                             }
                         }
-                        
                     } else {
                         // compute ranking
                         for (let team = 0; team < 4; ++team) {
@@ -160,7 +172,7 @@ function showTeamLogos(logos) {
     logos.forEach((logo, i) => {
         const el = document.getElementById('team' + i + '_img')
         if (el != null) {
-           el.src = 'logos/team/' + logo + '?' + Date.now().toString()
+            el.src = 'logos/team/Default Heim.png'  + '?' + Date.now().toString()
         }
     })
 }
