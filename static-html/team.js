@@ -56,7 +56,7 @@ async function showData(teamData) {
                                         }
                                     }
                                     // add 0.5 point for compaison with oneself -> at least one point per set
-                                    if (parseInt(data.mannschaft[team].spieler[player].sp[set]) > 0) {
+                                    if (data.mannschaft[team].spieler[player].sp[set] > 0) {
                                         data.mannschaft[team].spieler[player].sp[set] += 0.5
                                     }
                                 }
