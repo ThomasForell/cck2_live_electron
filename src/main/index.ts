@@ -103,7 +103,7 @@ function createConfig(outputId: number): LiveConfig {
             anzahl_spieler: Number(configValues.team[i].num_players),
             anzeigedauer_s: Number(configValues.team[i].time_values[outputId]),
             bahn_anzeigen: configValues.setup.lanes[outputId],
-            token_datei: configValues.team[i].cck2_file[i],
+            token_datei: configValues.team[i].cck2_file,
             anzahl_saetze: 4,
             satzpunkte_anzeigen: configValues.team[i].set_points ? 'ja' : 'nein'
         } as LiveTeamConfig)
