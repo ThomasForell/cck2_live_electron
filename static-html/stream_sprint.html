@@ -36,7 +36,7 @@ body {overflow:hidden; /* Hide scrollbars */}
 </table>    
 <p></p>
 <script>
-    function GenerateSprintResultTable(offset) {
+    function GenerateSprintResultTableTwo(offset1, offset2) {
         return '<table class="tg">'
   + '<tr>'
   + '  <td class="label"><div class="block-cap">Team</div></td>'
@@ -56,45 +56,82 @@ body {overflow:hidden; /* Hide scrollbars */}
   + '  <td class="label"><div class="block-num-sv">SV</div></td>'
   + ' </tr>'
   + ' <tr>'
-  + '  <td class="data"><div class="block-cap" id="spieler_' + offset + '_0">W. Schmitt, T. Müller | Württemberg</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset + '_0_0">40</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_' + offset + '_0_0">110</div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_0_0">22</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset + '_1_0">123</div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_1_0">44</div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset + '_0">22</div></td>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset1 + '_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset1 + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset1 + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_0_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset1 + '_1_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_1_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset1 + '_0"></div></td>'
   + '  <td class="free"></td>'
-  + '  <td class="data"><div class="block-cap" id="spieler_' + (offset + 1) + '_0">K. Brunnengräber, B. Schmitt-Kahn | Sachsen-Anhalt</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="wurf_' + (offset + 1) + '_0_0">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_' + (offset + 1) + '_0_0">0</div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_0_0"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_ '+ (offset + 1) + '_1_0">0</div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_1_0"></div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + (offset + 1) + '_0"></div></td>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset2 + '_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset2 + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset2 + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_0_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset2 + '_1_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_1_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset2 + '_0"></div></td>'
   + ' </tr>'
   + ' <tr>'
-  + '  <td class="data"><div class="block-cap" id="spieler_' + offset + '_1"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset + '_0_1">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_' + offset + '_0_1">0</div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_0_1"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset + '_1_1">0</div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_1_1"></div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset + '_1"></div></td>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset1 + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset1 + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset1 + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_0_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset1 + '_1_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_1_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset1 + '_1"></div></td>'
   + '  <td class="free"></td>'
-  + '  <td class="data"><div class="block-cap" id="spieler_' + (offset + 1) + '_1"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="wurf_' + (offset + 1) + '_0_1">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_' + (offset + 1) + '_0_1">0</div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_0_1"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_ '+ (offset + 1) + '_1_1">0</div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_1_1"></div></td>'
-  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + (offset + 1) + '_1"></div></td>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset2 + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset2 + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset2 + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_0_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset2 + '_1_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_1_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset2 + '_1"></div></td>'
   + '</tr>'
   + '</table>'
     }
+    function GenerateSprintResultTable(offset1) {
+        return '<table class="tg" align="center">'
+  + '<tr>'
+  + '  <td class="label"><div class="block-cap">Team</div></td>'
+  + '  <td class="label"><div class="block-num">Wurf</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 1</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 1</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV</div></td>'
+  + ' </tr>'
+  + ' <tr>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset1 + '_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset1 + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset1 + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_0_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset1 + '_1_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_1_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset1 + '_0"></div></td>'
+  + ' </tr>'
+  + ' <tr>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset1 + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset1 + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset1 + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_0_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset1 + '_1_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_1_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset1 + '_1"></div></td>'
+  + '</tr>'
+  + '</table>'
+    }
+    // get num games
+    let numGames = 4 
     current_pos = document.getElementById("table")
-    current_pos.innerHTML +=
-          GenerateSprintResultTable(0) + '<p>'
-        + GenerateSprintResultTable(2)
+    if (numGames > 1) {
+        for (let i = 0; i < numGames / 2 - 1; i += 2)
+            current_pos.innerHTML += GenerateSprintResultTableTwo(i, i + 1) + "<p></p>"
+        current_pos.innerHTML += GenerateSprintResultTableTwo(numGames - 2, numGames - 1)
+    }
+    else 
+        current_pos.innerHTML += GenerateSprintResultTable(0)
 </script>
 </div>
 <!--- <script src="mannschaft.js"></script>
