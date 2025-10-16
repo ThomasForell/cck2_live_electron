@@ -12,13 +12,14 @@ body {overflow:hidden; /* Hide scrollbars */}
         text-align: center;
     }
 .block-num{width:75px;max-width:75px}
-.block-cap{width:450px;max-width:450px}
+.block-num-sv{width:50px;max-width:50px}
+.block-cap{width:520px;max-width:520px}
 .block-scr{width:40px;max-width:40px;text-align:right}
 .block-gsm{width:210px;max-width:240px}
 .block-mp {width:60px;max-width:240px}
 .tg    {border-collapse:collapse;border-spacing:0;table-layout:fixed;  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-.tg td{font-family:Geneva, sans-serif;font-size:22px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
-.tg th{font-family:Geneva, sans-serif;font-size:22px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
+.tg td{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
+.tg th{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
 .tg .caption {background-color:#ffffff;font-size:25px;                                                                white-space:nowrap}
 .tg .no_border_right {border-right-color: #ffffff;}
 .tg .no_border_left  {border-left-color: #ffffff;}
@@ -29,7 +30,7 @@ body {overflow:hidden; /* Hide scrollbars */}
 .tg .label   {background-color:#cccccc;    text-align:center;              width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .label-num{background-color:#cccccc;text-align:center;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .label-right{background-color:#cccccc;text-align:right;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
-.tg .free      {border-top-style:hidden;border-bottom-style:hidden;width:12px}
+.tg .free      {border-top-style:hidden;border-bottom-style:hidden;width:5px}
 </style>
 
 <div style="position: fixed; bottom: 5px; width:100%; align-content: center;" id="table">
@@ -38,48 +39,54 @@ body {overflow:hidden; /* Hide scrollbars */}
         return '<table class="tg">'
   + '<tr>'
   + '  <td class="label"><div class="block-cap">Team</div></td>'
+  + '  <td class="label"><div class="block-num">Wurf</div></td>'
   + '  <td class="label"><div class="block-num">Satz 1</div></td>'
-  + '  <td class="label"><div class="block-num">SV 1</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 1</div></td>'
   + '  <td class="label"><div class="block-num">Satz 2</div></td>'
-  + '  <td class="label"><div class="block-num">SV 2</div></td>'
-  + '  <td class="label"><div class="block-num">SV</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV</div></td>'
   + '  <td class="free"></td>'
   + '  <td class="label"><div class="block-cap">Team</div></td>'
+  + '  <td class="label"><div class="block-num">Wurf</div></td>'
   + '  <td class="label"><div class="block-num">Satz 1</div></td>'
-  + '  <td class="label"><div class="block-num">SV 1</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 1</div></td>'
   + '  <td class="label"><div class="block-num">Satz 2</div></td>'
-  + '  <td class="label"><div class="block-num">SV 2</div></td>'
-  + '  <td class="label"><div class="block-num">SV</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV</div></td>'
   + ' </tr>'
   + ' <tr>'
-  + '  <td class="data"><div class="block-cap" id="spieler_' + offset + '_0"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_' + offset + '_0_0">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_sv_' + offset + '_0_0"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset + '_1_0">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_sv_' + offset + '_1_0"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="sv_' + offset + '_0"></div></td>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset + '_0">W. Schmitt, T. Müller | Württemberg</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset + '_0_0">40</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset + '_0_0">110</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_0_0">22</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset + '_1_0">123</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_1_0">44</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset + '_0">22</div></td>'
   + '  <td class="free"></td>'
-  + '  <td class="data"><div class="block-cap" id="spieler_' + (offset + 1) + '_0"></div></td>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + (offset + 1) + '_0">K. Brunnengräber, B. Schmitt-Kahn | Sachsen-Anhalt</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + (offset + 1) + '_0_0">0</div></td>'
   + '  <td class="data-num"><div class="block-num" id="satz_' + (offset + 1) + '_0_0">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_sv_' + (offset + 1) + '_0_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_0_0"></div></td>'
   + '  <td class="data-num"><div class="block-num" id="satz_ '+ (offset + 1) + '_1_0">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_sv_' + (offset + 1) + '_1_0"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="sv_' + (offset + 1) + '_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_1_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + (offset + 1) + '_0"></div></td>'
   + ' </tr>'
   + ' <tr>'
   + '  <td class="data"><div class="block-cap" id="spieler_' + offset + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset + '_0_1">0</div></td>'
   + '  <td class="data-num"><div class="block-num" id="satz_' + offset + '_0_1">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_sv_' + offset + '_0_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_0_1"></div></td>'
   + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset + '_1_1">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_sv_' + offset + '_1_1"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="sv_' + offset + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_1_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset + '_1"></div></td>'
   + '  <td class="free"></td>'
   + '  <td class="data"><div class="block-cap" id="spieler_' + (offset + 1) + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + (offset + 1) + '_0_1">0</div></td>'
   + '  <td class="data-num"><div class="block-num" id="satz_' + (offset + 1) + '_0_1">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_sv_' + (offset + 1) + '_0_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_0_1"></div></td>'
   + '  <td class="data-num"><div class="block-num" id="satz_ '+ (offset + 1) + '_1_1">0</div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_sv_' + (offset + 1) + '_1_1"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="sv_' + (offset + 1) + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_1_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + (offset + 1) + '_1"></div></td>'
   + '</tr>'
   + '</table>'
     }

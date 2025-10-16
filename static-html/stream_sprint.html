@@ -8,7 +8,9 @@
 body {overflow:hidden; /* Hide scrollbars */}
 
 .block-num{width:75px;max-width:75px}
-.block-cap{width:400px;max-width:400px}
+.block-num-sv{width:50px;max-width:50px}
+.block-cap{width:520px;max-width:520px}
+.block-title{width:1892px;max-width:1892px}
 .block-scr{width:40px;max-width:40px;text-align:right}
 .block-gsm{width:210px;max-width:240px}
 .block-mp {width:60px;max-width:240px}
@@ -25,109 +27,80 @@ body {overflow:hidden; /* Hide scrollbars */}
 .tg .label   {background-color:#cccccc;    text-align:center;              width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .label-num{background-color:#cccccc;text-align:center;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .label-right{background-color:#cccccc;text-align:right;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
-.tg .free      {border-top-style:hidden;border-bottom-style:hidden;width:12px}
+.tg .free      {border-top-style:hidden;border-bottom-style:hidden;width:5px}
 </style>
 
-<div style="position: fixed; bottom: 5px; width:100%; align-content: center;">
-  <table class="tg">
-  <tr>
-    <td class="label"><div class="block-cap">Team</div></td>
-    <td class="label"><div class="block-num">Satz 1</div></td>
-    <td class="label"><div class="block-num">SV 1</div></td>
-    <td class="label"><div class="block-num">Satz 2</div></td>
-    <td class="label"><div class="block-num">SV 2</div></td>
-    <td class="label"><div class="block-num">SV</div></td>
-    <td class="free"></td>
-    <td class="label"><div class="block-cap">Team</div></td>
-    <td class="label"><div class="block-num">Satz 1</div></td>
-    <td class="label"><div class="block-num">SV 1</div></td>
-    <td class="label"><div class="block-num">Satz 2</div></td>
-    <td class="label"><div class="block-num">SV 2</div></td>
-    <td class="label"><div class="block-num">SV</div></td>
-   </tr>
-  <tr>
-    <td class="data"><div class="block-cap" id="spieler00"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="free"></td>
-    <td class="data"><div class="block-cap" id="spieler01"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-   </tr>
-  <tr>
-    <td class="data"><div class="block-cap" id="spieler20"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="free"></td>
-    <td class="data"><div class="block-cap" id="spieler21"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
- </tr>
-  </table>
-  <p>   </p>
-  <table class="tg">
-  <tr>
-    <td class="label"><div class="block-cap">Team</div></td>
-    <td class="label"><div class="block-num">Satz 1</div></td>
-    <td class="label"><div class="block-num">SV 1</div></td>
-    <td class="label"><div class="block-num">Satz 2</div></td>
-    <td class="label"><div class="block-num">SV 2</div></td>
-    <td class="label"><div class="block-num">SV</div></td>
-    <td class="free"></td>
-    <td class="label"><div class="block-cap">Team</div></td>
-    <td class="label"><div class="block-num">Satz 1</div></td>
-    <td class="label"><div class="block-num">SV 1</div></td>
-    <td class="label"><div class="block-num">Satz 2</div></td>
-    <td class="label"><div class="block-num">SV 2</div></td>
-    <td class="label"><div class="block-num">SV</div></td>
-   </tr>
-  <tr>
-    <td class="data"><div class="block-cap" id="spieler20"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="free"></td>
-    <td class="data"><div class="block-cap" id="spieler21"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-  </tr>
-  <tr>
-    <td class="data"><div class="block-cap" id="spieler30"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="free"></td>
-    <td class="data"><div class="block-cap" id="spieler31"></div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-    <td class="data-num"><div class="block-num">0</div></td>
-  </tr></table>
+<div style="position: fixed; bottom: 5px; width:100%; align-content: center;" id="table">
+<table class="tg"> 
+<tr> <td class="label" id="title"><div class="block-title">DKBC U19 Ländervergleich Sprint Viertelfinale</div></td></tr>
+</table>    
+<p></p>
+<script>
+    function GenerateSprintResultTable(offset) {
+        return '<table class="tg">'
+  + '<tr>'
+  + '  <td class="label"><div class="block-cap">Team</div></td>'
+  + '  <td class="label"><div class="block-num">Wurf</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 1</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 1</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV</div></td>'
+  + '  <td class="free"></td>'
+  + '  <td class="label"><div class="block-cap">Team</div></td>'
+  + '  <td class="label"><div class="block-num">Wurf</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 1</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 1</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV</div></td>'
+  + ' </tr>'
+  + ' <tr>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset + '_0">W. Schmitt, T. Müller | Württemberg</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset + '_0_0">40</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset + '_0_0">110</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_0_0">22</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset + '_1_0">123</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_1_0">44</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset + '_0">22</div></td>'
+  + '  <td class="free"></td>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + (offset + 1) + '_0">K. Brunnengräber, B. Schmitt-Kahn | Sachsen-Anhalt</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + (offset + 1) + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + (offset + 1) + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_0_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ (offset + 1) + '_1_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_1_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + (offset + 1) + '_0"></div></td>'
+  + ' </tr>'
+  + ' <tr>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_0_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset + '_1_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset + '_1_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset + '_1"></div></td>'
+  + '  <td class="free"></td>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + (offset + 1) + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + (offset + 1) + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + (offset + 1) + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_0_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ (offset + 1) + '_1_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + (offset + 1) + '_1_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + (offset + 1) + '_1"></div></td>'
+  + '</tr>'
+  + '</table>'
+    }
+    current_pos = document.getElementById("table")
+    current_pos.innerHTML +=
+          GenerateSprintResultTable(0) + '<p>'
+        + GenerateSprintResultTable(2)
+</script>
 </div>
-<script src="mannschaft.js"></script>
+<!--- <script src="mannschaft.js"></script>
 <script>
   const configName = window.location.pathname.slice(0, -4) + "json";
   showData(configName, false);
   setInterval(showData, 1000, configName, false); 
-</script>
+</script> --->
 </html>
