@@ -397,3 +397,91 @@ function reducePlayerName(name) {
     }
     return name
 }
+
+async function showTeamCompetitionStream() {
+    // load configuration
+    const requestURL = window.location.pathname.slice(0, -4) + 'json' + '?' + Date.now().toString()
+    fetch(requestURL)
+        .then((response) => {
+            return response.text()
+        })
+        .then((decoded) => {
+            if (decoded.charCodeAt(0) === 0xfeff) {
+                decoded = decoded.substring(1)
+            }
+            const data = JSON.parse(decoded)
+            showDataCompetitionStream(data[0])
+        })
+    fetch('result.json?' + Date.now().toString())
+        .then((response) => {
+            return response.text()
+        })
+        .then((decoded) => {
+            if (decoded.charCodeAt(0) === 0xfeff) {
+                decoded = decoded.substring(1)
+            }
+            const data = JSON.parse(decoded)
+            showLaneData(data.bahn, 8)
+        })
+ } 
+
+async function showDataCompetitionStream(data) {
+    fetch(data)
+        .then((response) => {
+            return response.text()
+        })
+        .then((decoded) => {
+            if (decoded.charCodeAt(0) === 0xfeff) {
+                decoded = decoded.substring(1)
+            }
+            const d = JSON.parse(decoded)
+            showDataStream(d)
+        })
+}
+
+async function showDataStream(teamData) {
+    const timeTotalTeams = teamData.time * teamData.files.length
+
+    const timeCurrent = Math.trunc(Date.now() / 1000) % timeTotalTeams
+    // find team or single to load
+
+    const id = Math.trunc(timeCurrent / teamData.time)
+    const requestURL = teamData.files[id] + '?' + Date.now().toString()
+    fetch(requestURL)
+        .then((response) => {
+            return response.text()
+        })
+        .then((decoded) => {
+            if (decoded.charCodeAt(0) === 0xfeff) {
+                decoded = decoded.substring(1)
+            }
+            const data = JSON.parse(decoded)
+            const group = teamData.group_names[id]
+
+            el = document.getElementById('title')
+            if (el != null) {
+                el.innerHTML = group
+            }   
+            
+            data.forEach((t, i) => {
+                el = document.getElementById('team_' + i.toString())
+                if (el != null) { 
+                    el.innerHTML = t.players[0].team
+                }
+                el = document.getElementById('team_total_' + i.toString())
+                if (el != null) {
+                    el.innerHTML = t.result.total.toString()
+                }
+            })
+            for (let i = data.length; i < 12; ++i) {
+                el = document.getElementById('team_' + i.toString())
+                if (el != null) { 
+                    el.innerHTML = ''
+                }
+                el = document.getElementById('team_total_' + i.toString())
+                if (el != null) {
+                    el.innerHTML = '0'
+                }
+            }   
+        })
+}
