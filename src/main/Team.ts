@@ -34,6 +34,10 @@ export default class Team {
     set logo_path(path: string) {
         this.#logo_path = path
     }
+
+    get players(): Array<Player> {
+        return this.#players
+    }
 }
 
 export function TeamCompare(a: Team, b: Team): number {

@@ -262,7 +262,7 @@ class PlayerProcessing {
 
         // sort and output for visualization
         const config = {
-            zeit: 20,
+            time: 20,
             files: [] as string[],
             group_names: [] as string[]
         }
@@ -292,7 +292,7 @@ class PlayerProcessing {
         })
 
         // write config file
-        fs.writeFileSync(path.join(this.resultOutputPath, 'config.json'), JSON.stringify(config))
+        fs.writeFileSync(path.join(this.resultOutputPath, 'config_single.json'), JSON.stringify(config))
     }
 
     private writeTeamResult(): void {
@@ -327,19 +327,37 @@ class PlayerProcessing {
             }
         })
 
+        const config = {
+            time: 20,
+            files: [] as string[],
+            group_names: [] as string[]
+        }
+
         // extract teams and sort
+        let idx = 0
         teams.forEach((g, key) => {
             // extract teams in group
-            const teamGroup: Team[] = []
+            const teamGroup: any = []
             g.forEach((t) => {
-                teamGroup.push(t)
+                teamGroup.push({ players: t.players, result: t.result, logo_path: t.logo_path})
             })
             teamGroup.sort(TeamCompare)
             fs.writeFileSync(
-                path.join(this.resultOutputPath, 'team_' + key + '.json'),
+                path.join(this.resultOutputPath, 'team_' + idx.toString() + '.json'),
                 JSON.stringify(teamGroup)
             )
+
+            config.files.push('team_' + idx.toString() + '.json')
+            if (key == 'mixed') {
+                config.group_names.push('DKBC U19 Ländervergleich LV-Wertung')
+            } else {
+                config.group_names.push(key)
+            }
+            idx++
         })
+
+        // write config file
+        fs.writeFileSync(path.join(this.resultOutputPath, 'config_team.json'), JSON.stringify(config))
     }
 
     private updateExtra(): void {

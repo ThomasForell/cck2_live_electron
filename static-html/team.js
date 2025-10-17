@@ -11,6 +11,165 @@ async function showTeam() {
         })
 }
 
+async function showTeamCompetition() {
+    // load configuration
+    const requestURL = window.location.pathname.slice(0, -4) + 'json' + '?' + Date.now().toString()
+    fetch(requestURL)
+        .then((response) => {
+            return response.text()
+        })
+        .then((decoded) => {
+            const data = JSON.parse(decoded)
+            showDataCompetition(data)
+        })
+}
+
+async function showDataCompetition(data) {
+    fetch(data[0])
+        .then((response) => {
+            return response.text()
+        })
+        .then((decoded) => {
+            if (decoded.charCodeAt(0) === 0xfeff) {
+                decoded = decoded.substring(1)
+            }
+            const teamData = JSON.parse(decoded)
+            fetch(data[1])
+                .then((response) => {
+                    return response.text()
+                })
+                .then((decoded) => {
+                    if (decoded.charCodeAt(0) === 0xfeff) {
+                        decoded = decoded.substring(1)
+                    }
+                    const singleData = JSON.parse(decoded)
+                    showCompetition(teamData, singleData)
+                })
+        })
+}
+
+async function showCompetition(teamData, singleData) {
+    const timeTotalTeams = teamData.time * teamData.files.length
+    const timeTotalSingle = singleData.time * singleData.files.length
+
+    const timeCurrent = Math.trunc(Date.now() / 1000) % (timeTotalTeams + timeTotalSingle)
+    // find team or single to load
+    if (timeCurrent < timeTotalTeams) {
+        const id = Math.trunc(timeCurrent / teamData.time)
+        const requestURL = teamData.files[id] + '?' + Date.now().toString()
+        fetch(requestURL)
+            .then((response) => {
+                return response.text()
+            })
+            .then((decoded) => {
+                if (decoded.charCodeAt(0) === 0xfeff) {
+                    decoded = decoded.substring(1)
+                }
+                const data = JSON.parse(decoded)
+                showTeamCompetitionData(data, teamData.group_names[id])
+            })
+    } else {
+        const id = Math.trunc((timeCurrent - timeTotalTeams) / singleData.time)
+        const requestURL = singleData.files[id] + '?' + Date.now().toString()
+        fetch(requestURL)
+            .then((response) => {
+                return response.text()
+            })
+            .then((decoded) => {
+                if (decoded.charCodeAt(0) === 0xfeff) {
+                    decoded = decoded.substring(1)
+                }
+                const data = JSON.parse(decoded)
+                showSingleCompetitionData(data)
+            })  
+    }
+}
+
+async function showTeamCompetitionData(data, group) {
+    let el = document.getElementById('table-single')
+    if (el != null) {
+        el.hidden = true
+    }
+    el = document.getElementById('table-team')
+    if (el != null) {
+        el.hidden = false
+    }
+    el = document.getElementById('title')
+    if (el != null) {
+        el.innerHTML = group
+    }   
+    
+    data.forEach((t, i) => {
+        el = document.getElementById('team' + i.toString())
+        if (el != null) { 
+            el.innerHTML = t.players[0].team
+        }
+        el = document.getElementById('team' + i.toString() + '_img')
+        if (el != null) {
+            el.src = 'logos/team/' + t.players[0].team + '.png?' + Date.now().toString()
+        } 
+        t.players.forEach((p, j) => {
+            el = document.getElementById('spieler' + i.toString() + '' + j.toString())
+            if (el != null) {
+                el.innerHTML = p.name
+            }
+            el = document.getElementById('spieler' + i.toString() + '' + j.toString() + 'r')
+            if (el != null) {
+                let tot = 0;
+                p.results.forEach((res) => {
+                    tot += res.total
+                })
+                el.innerHTML = tot.toString();
+            }
+        })
+        // clear remaining players
+        if (t.players.length < 8) {
+            for (let j = t.players.length; j < 8; ++j) {
+                el = document.getElementById('spieler' + i.toString() + '' + j.toString())
+                if (el != null) {
+                    el.innerHTML = ''
+                }
+                el = document.getElementById('spieler' + i.toString() + '' + j.toString() + 'r')
+                if (el != null) {
+                    el.innerHTML = '0'
+                }
+            }
+        }
+        el = document.getElementById('team_total_' + i.toString())
+        if (el != null) {
+            el.innerHTML = t.result.total.toString()
+        }
+    })
+    for (let i = data.length; i < 12; ++i) {
+        el = document.getElementById('team' + i.toString())
+        if (el != null) { 
+            el.innerHTML = ''
+        }
+        el = document.getElementById('team' + i.toString() + '_img')
+        if (el != null) {
+            el.src = 'logos/team/Default.png?' + Date.now().toString()
+        } 
+        for (let j = 0; j < 8; ++j) {
+            el = document.getElementById('spieler' + i.toString() + '' + j.toString())
+            if (el != null) {
+                el.innerHTML = ''
+            }
+            el = document.getElementById('spieler' + i.toString() + '' + j.toString() + 'r')
+            if (el != null) {
+                el.innerHTML = '0'
+            }
+        }
+        el = document.getElementById('team_total_' + i.toString())
+        if (el != null) {
+            el.innerHTML = '0'
+        }
+    }   
+}
+
+async function showSingleCompetitionData(data) {
+    
+}
+
 async function showData(teamData) {
     let timeTotalTeams = 0;
     for (let i = 0; i < teamData.length; ++i) {

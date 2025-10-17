@@ -136,6 +136,11 @@ function createConfigTeam4(outputId: number): Team4Config[] {
     return team
 }
 
+function createSprintConfig(outputId: number) {
+    const cfg = { sprint: "", sprint_sv: ""}
+    return cfg
+}
+
 function UpdateFileLookup(setup: ConfigValues['setup']): void {
     displayUrls.length = 0
     streamUrls.length = 0
@@ -214,14 +219,12 @@ express_app.use((req, res, next) => {
             res.sendFile(
                 path.resolve(configValues.setup.cck2_output_path + url))
         } else if (configValues.setup.active_output == 'sprint') {
-            res.json(null)
-            console.log('config sprint')
+            res.json(createSprintConfig(id))
         } else if (configValues.setup.active_output == 'team4') {
             res.json(createConfigTeam4(id))
             console.log('config team 4')
         } else if (configValues.setup.active_output == 'team') {
-            res.json(null)
-            console.log('config team')
+            res.json(["config_team.json", "config_single.json"])
         }
     } else if (url == '/team_u23_m.json') {
         res.sendFile(path.resolve(configValues.teams.data_path, 'team_U23 männlich.json'))
