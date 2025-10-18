@@ -226,10 +226,12 @@ express_app.use((req, res, next) => {
         } else if (configValues.setup.active_output == 'team') {
             res.json(["config_team.json", "config_single.json"])
         }
-    } else if (url == '/team_u23_m.json') {
-        res.sendFile(path.resolve(configValues.teams.data_path, 'team_U23 männlich.json'))
-    } else if (url == '/team_u23_w.json') {
-        res.sendFile(path.resolve(configValues.teams.data_path, 'team_U23 weiblich.json'))
+    } else if (configValues.setup.active_output == 'team') {
+        if (url.search('result') >= 0) { 
+            res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
+        } else {
+            res.sendFile(path.resolve(configValues.teams.data_path + url))
+        }
     } else if (configValues.team[0].cck2_file.indexOf(url.slice(1)) >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
     } else if (url.search('result') >= 0 || url.search('team_') >= 0 || url.search('sv') >= 0) {

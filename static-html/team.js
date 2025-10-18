@@ -68,7 +68,8 @@ async function showCompetition(teamData, singleData) {
                 const data = JSON.parse(decoded)
                 showTeamCompetitionData(data, teamData.group_names[id])
             })
-    } else {
+    } else 
+    {
         const id = Math.trunc((timeCurrent - timeTotalTeams) / singleData.time)
         const requestURL = singleData.files[id] + '?' + Date.now().toString()
         fetch(requestURL)
@@ -80,7 +81,7 @@ async function showCompetition(teamData, singleData) {
                     decoded = decoded.substring(1)
                 }
                 const data = JSON.parse(decoded)
-                showSingleCompetitionData(data)
+                showSingleCompetitionData(data, singleData.group_names[id])
             })  
     }
 }
@@ -166,8 +167,56 @@ async function showTeamCompetitionData(data, group) {
     }   
 }
 
-async function showSingleCompetitionData(data) {
-    
+async function showSingleCompetitionData(players, group) {
+    let el = document.getElementById('table-team')
+    if (el != null) {
+        el.hidden = true
+    }
+    el = document.getElementById('table-single')
+    if (el != null) {
+        el.hidden = false
+    }
+    el = document.getElementById('title')
+    if (el != null) {
+        el.innerHTML = group
+    }   
+
+    players.forEach((p, i) => {
+        el = document.getElementById('single_spieler_' + i.toString())
+        if (el != null) {
+            el.innerHTML = p.name
+            if (p.active) {
+                el.style.backgroundColor = "#50C878"
+            } else {
+                el.style.backgroundColor = "#FFFFFF"
+            }
+        } else {
+            console
+        }
+        el = document.getElementById('single_mannschaft_' + i.toString())
+        if (el != null) {
+            el.innerHTML = p.mannschaft
+        }
+        el = document.getElementById('single_gesamt_' + i.toString())
+        if (el != null) {
+            el.innerHTML = p.gesamt
+        }
+    }) 
+    for (let i = players.length; i < 40; ++i) {
+        el = document.getElementById('single_spieler_' + i.toString())
+        if (el != null) {
+            el.innerHTML = ''
+            el.style.backgroundColor = "#FFFFFF"
+        }
+        el = document.getElementById('single_mannschaft_' + i.toString())
+        if (el != null) {
+            el.innerHTML = ''
+        }
+        el = document.getElementById('single_gesamt_' + i.toString())
+        if (el != null) {
+            el.innerHTML = 0
+        }
+    }
 }
 
 async function showData(teamData) {

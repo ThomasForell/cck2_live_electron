@@ -272,23 +272,24 @@
 </div>
 <script>
     function GenerateSingleResultTable() {
+        const numRows = 25
         let table = '<table class="tg" align="center">'
         table += '<tr>'
         table += '<td class="label-right"><div class="block-num-place">Platz</div></td><td class="label">Name</td><td class="label">Landesverband</td>'
             + '<td class="label-num"><div class="block-num">Gesamt</div></td>'
-        table += '<td class="free" rowspan="21"> </td>' 
+        table += '<td class="free" rowspan="' + (numRows + 1) + '"> </td>' 
         table += '<td class="label-right"><div class="block-num-place">Platz</div></td><td class="label">Name</td><td class="label">Landesverband</td>'
             + '<td class="label-num"><div class="block-num">Gesamt</div></td>'
         table += '</tr>'
-        for (let i = 0; i < 20; ++i) {
+        for (let i = 0; i < numRows; ++i) {
             table += '<tr><td class="label-num"><div class="block-num-place">' + (i + 1) + '</div></td>'
-            table += '<td class="data"><div class="block-cap" id="spieler' + i + '"></div></td>'
-            table += '<td class="data"><div class="block-cap"></div></td>'
-            table += '<td class="data-right"><div class="block-num">0</div></td>'
-            table += '<td class="label-num"><div class="block-num-place">' + (20 + i + 1) + '</div></td>'
-            table += '<td class="data"><div class="block-cap" id="spieler' + (20 + i) + '"></div></td>'
-            table += '<td class="data"><div class="block-cap"></div></td>'
-            table += '<td class="data-right"><div class="block-num">0</div></td></tr>'
+            table += '<td class="data"><div class="block-cap" id="single_spieler_' + i + '"></div></td>'
+            table += '<td class="data"><div class="block-cap" id="single_mannschaft_' + i + '"></div></td>'
+            table += '<td class="data-right"><div class="block-num" id="single_gesamt_' + i + '">0</div></td>'
+            table += '<td class="label-num"><div class="block-num-place">' + (numRows + i + 1) + '</div></td>'
+            table += '<td class="data"><div class="block-cap" id="single_spieler_' + (numRows + i) + '"></div></td>'
+            table += '<td class="data"><div class="block-cap" id="single_mannschaft_' + (numRows + i) + '"></div></td>'
+            table += '<td class="data-right"><div class="block-num" id="single_gesamt_' + (numRows + i) + '">0</div></td></tr>'
         }
         table += '</table>'
         return table
