@@ -182,24 +182,24 @@ async function showSingleCompetitionData(players, group) {
     }   
 
     players.forEach((p, i) => {
+        let color = "#FFFFFF"
+        if (p.active) {
+            color = "#50C878"
+        }
         el = document.getElementById('single_spieler_' + i.toString())
         if (el != null) {
             el.innerHTML = p.name
-            if (p.active) {
-                el.style.backgroundColor = "#50C878"
-            } else {
-                el.style.backgroundColor = "#FFFFFF"
-            }
-        } else {
-            console
+            el.style.backgroundColor = color
         }
         el = document.getElementById('single_mannschaft_' + i.toString())
         if (el != null) {
             el.innerHTML = p.mannschaft
+            el.style.backgroundColor = color
         }
         el = document.getElementById('single_gesamt_' + i.toString())
         if (el != null) {
             el.innerHTML = p.gesamt
+            el.style.backgroundColor = color
         }
     }) 
     for (let i = players.length; i < 40; ++i) {
@@ -211,10 +211,12 @@ async function showSingleCompetitionData(players, group) {
         el = document.getElementById('single_mannschaft_' + i.toString())
         if (el != null) {
             el.innerHTML = ''
+            el.style.backgroundColor = "#FFFFFF"
         }
         el = document.getElementById('single_gesamt_' + i.toString())
         if (el != null) {
             el.innerHTML = 0
+            el.style.backgroundColor = "#FFFFFF"
         }
     }
 }
