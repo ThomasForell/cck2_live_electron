@@ -136,7 +136,7 @@ function createConfigTeam4(outputId: number): Team4Config[] {
     return team
 }
 
-function createSprintConfig(outputId: number) {
+function createSprintConfig() {
     const cfg = { sprint: "", sprint_sv: ""}
     return cfg
 }
@@ -219,7 +219,7 @@ express_app.use((req, res, next) => {
             res.sendFile(
                 path.resolve(configValues.setup.cck2_output_path + url))
         } else if (configValues.setup.active_output == 'sprint') {
-            res.json(createSprintConfig(id))
+            res.json(createSprintConfig())
         } else if (configValues.setup.active_output == 'team4') {
             res.json(createConfigTeam4(id))
             console.log('config team 4')
