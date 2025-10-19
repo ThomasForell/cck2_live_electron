@@ -1,6 +1,94 @@
+function GenerateSprintResultTableTwo(offset1, offset2) {
+    return '<table class="tg">'
+  + '<tr>'
+  + '  <td class="label"><div class="block-cap">Team</div></td>'
+  + '  <td class="label"><div class="block-num">Wurf</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 1</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 1</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV</div></td>'
+  + '  <td class="free"></td>'
+  + '  <td class="label"><div class="block-cap">Team</div></td>'
+  + '  <td class="label"><div class="block-num">Wurf</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 1</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 1</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV</div></td>'
+  + ' </tr>'
+  + ' <tr>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset1 + '_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset1 + '_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset1 + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_0_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset1 + '_1_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_1_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset1 + '_0"></div></td>'
+  + '  <td class="free"></td>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset2 + '_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset2 + '_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset2 + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_0_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset2 + '_1_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_1_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset2 + '_0"></div></td>'
+  + ' </tr>'
+  + ' <tr>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset1 + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset1 + '_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset1 + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_0_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset1 + '_1_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_1_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset1 + '_1"></div></td>'
+  + '  <td class="free"></td>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset2 + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset2 + '_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset2 + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_0_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset2 + '_1_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_1_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset2 + '_1"></div></td>'
+  + '</tr>'
+  + '</table>'
+    }
 
-async function showData(configSrc, reducedOutput) {
+function GenerateSprintResultTable(offset1) {
+    return '<table class="tg" align="center">'
+  + '<tr>'
+  + '  <td class="label"><div class="block-cap">Team</div></td>'
+  + '  <td class="label"><div class="block-num">Wurf</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 1</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 1</div></td>'
+  + '  <td class="label"><div class="block-num">Satz 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV 2</div></td>'
+  + '  <td class="label"><div class="block-num-sv">SV</div></td>'
+  + ' </tr>'
+  + ' <tr>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset1 + '_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset1 + '_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset1 + '_0_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_0_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_'+ offset1 + '_1_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_1_0"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset1 + '_0"></div></td>'
+  + ' </tr>'
+  + ' <tr>'
+  + '  <td class="data"><div class="block-cap" id="spieler_' + offset1 + '_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="wurf_' + offset1 + '_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset1 + '_0_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_0_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_'+ offset1 + '_1_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset1 + '_1_1"></div></td>'
+  + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset1 + '_1"></div></td>'
+  + '</tr>'
+  + '</table>'
+    }
+
+async function showData(configSrc, mode) {
     try {
+        const config = null
         const requestURL = configSrc + "?" + Date.now().toString();
         fetch(requestURL)
             .then((response) => { return response.text(); })
@@ -8,228 +96,164 @@ async function showData(configSrc, reducedOutput) {
                 if (decoded.charCodeAt(0) === 0xFEFF) {
                     decoded = decoded.substring(1);
                 }
-                const config = JSON.parse(decoded);
-                showTeam();
-                showAdv(config.werbung);
-            });
+                const config = JSON.parse(decoded)
+                
+                let current_pos = document.getElementById("title")
+                if (current_pos.innerHTML !== config.title) {
+                    current_pos.innerHTML = config.title
+                    if (mode === "display") {
+                        numGames = config.num_matches_show
+                        current_pos = document.getElementById("table")
+                        if (numGames > 8) {
+                            for (let i = 0; i < numGames / 2 - 1; ++i)
+                                current_pos.innerHTML += GenerateSprintResultTableTwo(i, i + numGames / 2) + "<p></p>"
+                            current_pos.innerHTML += GenerateSprintResultTableTwo(numGames / 2 - 1, numGames - 1)
+                        } else {
+                            for (let i = 0; i < numGames - 1; ++i)
+                                current_pos.innerHTML += GenerateSprintResultTable(i) + "<p></p>"
+                            current_pos.innerHTML += GenerateSprintResultTable(numGames - 1)
+                        }
+                    } else {
+                        let numGames = config.num_matches_show 
+                        current_pos = document.getElementById("table")
+                        if (numGames > 1) {
+                            for (let i = 0; i < numGames / 2 - 1; i += 2)
+                                current_pos.innerHTML += GenerateSprintResultTableTwo(i, i + 1) + "<p></p>"
+                            current_pos.innerHTML += GenerateSprintResultTableTwo(numGames - 2, numGames - 1)
+                        }
+                        else 
+                            current_pos.innerHTML += GenerateSprintResultTable(0)
+                    }
+                }
+
+                fetch(config.result_file + "?" + Date.now().toString()) 
+                fetch("result.json" + "?" + Date.now().toString()) 
+                    .then((response) => { return response.text(); })        
+                    .then((decoded) => {
+                        if (decoded.charCodeAt(0) === 0xFEFF) {
+                            decoded = decoded.substring(1);
+                        }
+                        const results = JSON.parse(decoded);
+                        fetch(config.result_file_sv + "?" + Date.now().toString()
+                        ).then((response) => { return response.text(); }
+                        ).then((decoded_sv) => {
+                            if (decoded_sv.charCodeAt(0) === 0xFEFF) {
+                                decoded_sv = decoded_sv.substring(1);
+                            }
+                            const sv = JSON.parse(decoded_sv);
+                        
+                            if (typeof sv === 'string' || sv instanceof String) {
+                                // no extra sv file -> use sv data from results
+                                showSprintData(config, results, results);
+                            } else {
+                                showSprintData(config, results, sv);
+                            }
+                        })
+                    })
+            })
     } catch (ex) {
         console.error("showData", ex.message);
     }
 }
 
-async function showTeam() {
-    // find team to load
+function compare2highlight(a, b)
+{
+    const highlight_bg = ["#FFFFFF", "#50C878", "#FFDB58"]
+    if (a == b) {
+        if (a == 0) {
+            return highlight_bg[0]
+        }
+        return highlight_bg[2]
+    }
+
+    if (a < b) {
+        return highlight_bg[0]
+    } else {
+        return highlight_bg[1]
+    }
+} 
+
+async function showSprintData(config, result, sv) {
     try {
-        const requestURL = "result.json" + "?" + Date.now().toString();
-        fetch(requestURL)
-            .then((response) => { return response.text(); })
-            .then((decoded) => {
-                if (decoded.charCodeAt(0) === 0xFEFF) {
-                    decoded = decoded.substring(1);
-                }
-                const data = JSON.parse(decoded);
-                try {
-                    data.bahn.forEach((player, i) => {
-                        var el = document.getElementById("player0" + i);
-                        el.innerHTML = player.spielername;
-                        el = document.getElementById("player_res1_0" + i)
-                        el.innerHTML = Number(player.volle[0]) + Number(player.abr[0]);
-                        el = document.getElementById("player_res2_0" + i)
-                        el.innerHTML = Number(player.volle[1]) + Number(player.abr[1]);
-                    });
-                }
-                catch (e) {
-                    console.log(e);
-                }
-            });    
+        let el = document.getElementById("title")
+        if (el != null) {
+            el.innerHTML = config.title;
+        }
+        for (let match = 0; match < config.num_matches_show; ++match) {
+           const p1 = result.sprint[2 * (config.match_offset + match)]
+           const p1sv = sv.sprint[2 * (config.match_offset + match)]
+           const p2 = result.sprint[2 * (config.match_offset + match) + 1]
+           const p2sv = sv.sprint[2 * (config.match_offset + match) + 1]
+            el = document.getElementById("spieler_" + match + "_0")
+            if (el != null) {
+                el.innerHTML = p1.spielername + " (" + p1.verein + ")";
+            }
+            el = document.getElementById("wurf_" + match + "_0")
+            if (el != null) {
+                el.innerHTML = p1.wurf
+            }
+            el = document.getElementById("satz_" + match + "_0_0")
+            if (el != null) {
+                el.innerHTML = p1.satz[0]
+                el.style.backgroundColor = compare2highlight(p1.satz[0], p2.satz[0])
+            }
+            el = document.getElementById("satz_sv_" + match + "_0_0")
+            if (el != null) {
+                el.innerHTML = p1sv.sv[0]
+                el.style.backgroundColor = compare2highlight(p1sv.sv[0], p2sv.sv[0])
+            }
+            el = document.getElementById("satz_" + match + "_1_0")
+            if (el != null) {
+                el.innerHTML = p1.satz[1]
+                el.style.backgroundColor = compare2highlight(p1.satz[1], p2.satz[1])
+            }
+            el = document.getElementById("satz_sv_" + match + "_1_0")
+            if (el != null) {
+                el.innerHTML = p1sv.sv[1]
+                el.style.backgroundColor = compare2highlight(p1sv.sv[1], p2sv.sv[1])
+            }
+            el = document.getElementById("sv_" + match + "_0")
+            if (el != null) {
+                el.innerHTML = p1sv.sv[2]
+                el.style.backgroundColor = compare2highlight(p1sv.sv[2], p2sv.sv[2])
+            }
+
+            el = document.getElementById("spieler_" + match + "_1")
+            if (el != null) {
+                el.innerHTML = p2.spielername + " (" + p2.verein + ")";
+            }
+            el = document.getElementById("wurf_" + match + "_1")
+            if (el != null) {
+                el.innerHTML = p2.wurf
+            }
+            el = document.getElementById("satz_" + match + "_0_1")
+            if (el != null) {
+                el.innerHTML = p2.satz[0]
+                el.style.backgroundColor = compare2highlight(p2.satz[0], p1.satz[0])
+            }
+            el = document.getElementById("satz_sv_" + match + "_0_1")
+            if (el != null) {
+                el.innerHTML = p2sv.sv[0]
+                el.style.backgroundColor = compare2highlight(p2sv.sv[0], p1sv.sv[0])
+            }
+            el = document.getElementById("satz_" + match + "_1_1")
+            if (el != null) {
+                el.innerHTML = p2.satz[1]
+                el.style.backgroundColor = compare2highlight(p2.satz[1], p1.satz[1])
+            }
+            el = document.getElementById("satz_sv_" + match + "_1_1")
+            if (el != null) {
+                el.innerHTML = p2sv.sv[1]
+                el.style.backgroundColor = compare2highlight(p2sv.sv[1], p1sv.sv[1])
+            }
+            el = document.getElementById("sv_" + match + "_1")
+            if (el != null) {
+                el.innerHTML = p2sv.sv[2]
+                el.style.backgroundColor = compare2highlight(p2sv.sv[2], p1sv.sv[2])
+            }
+        }
     } 
     catch (e) {
         console.log(e);
-    }
-    try {
-        // find team to load
-        const svRequestURL = "sv.json" + "?" + Date.now().toString();
-        fetch(svRequestURL)
-            .then((response) => { return response.text(); })
-            .then((decoded) => {
-                if (decoded.charCodeAt(0) === 0xFEFF) {
-                    decoded = decoded.substring(1);
-                }
-                const data = JSON.parse(decoded);
-                try {
-                    el = document.getElementById("finale");
-                    el.innerHTML = data.sv_title;
-                    data.sv_data.forEach((sv, i) => {
-                        el = document.getElementById("player_sv1_0" + i);
-                        el.innerHTML = sv[0];
-                        el = document.getElementById("player_sv2_0" + i);
-                        el.innerHTML = sv[1];
-                        el = document.getElementById("player_p_0" + i);
-                        el.innerHTML = sv[2];
-                        el = document.getElementById("player_sv_0" + i);
-                        el.innerHTML = sv[3];
-                    });
-                }
-                catch (e) {
-                    console.log(e);
-                }
-            });   
-    }
-    catch (e) {
-        console.log(e);
-    }
- 
-}
-
-async function showAdv(configAdv) {
-    var showAdv = false;
-    if (configAdv.length > 0) {
-        showAdv = configAdv[0].werbung_anzeigen;
-    }
-    var el = document.getElementById("displayAdv");
-    if (el != null) {
-        el.hidden = !showAdv;
-    }
-    if (showAdv) {
-        if (configAdv.length > 0) {
-            var timeTotalWerbung = 0;
-            for (var i = 0; i < configAdv.length; ++i) {
-                timeTotalWerbung += configAdv[i].anzeigedauer_s;
-            }
-            var timeCurrent = Math.trunc(Date.now() / 1000) % timeTotalWerbung;
-
-            // find adv to load
-            var timeCounter = 0;
-            for (var i = 0; i < configAdv.length; ++i) {
-                if (timeCurrent >= timeCounter && timeCurrent < timeCounter + configAdv[i].anzeigedauer_s) {
-                    loadWerbung(configAdv[i].bild, "img_center");
-                    loadWerbung(configAdv[i].bild, "img_1");
-                    // find next picture
-                    var nextPic = null;
-                    for (var j = i + 1; j < configAdv.length && nextPic == null; ++j) {
-                        if (configAdv[j].anzeigedauer_s > 0) {
-                            nextPic = configAdv[j].bild;
-                        }
-                    }
-                    for (var j = 0; j <= i && nextPic == null; ++j) {
-                        if (configAdv[j].anzeigedauer_s > 0) {
-                            nextPic = configAdv[j].bild;
-                        }
-                    }
-                    if (nextPic != null) {
-                        loadWerbung(nextPic, "img_2");
-                    }
-                    break;
-                }
-                timeCounter += configAdv[i].anzeigedauer_s;
-            }
-        }
-    }
-}
-
-function showTeamLogos(imgHome, imgGuest) {
-    var imgReplace = document.getElementById("img_home")
-    imgReplace.src = "logos/team/" + imgHome + "?" + Date.now().toString();
-    imgReplace = document.getElementById("img_guest")
-    imgReplace.src = "logos/team/" + imgGuest + "?" + Date.now().toString();
-}
-
-function reducePlayerName(name) {
-    const posCommaSpace = name.search(", ");
-    if (posCommaSpace > 0) {  // Bavarian name notation  
-        return name.slice(0, posCommaSpace);  // return first part of name
-    }
-    const posSpace = name.search(" ");
-    if (posSpace > 0) {
-        return name.slice(posSpace + 1);  // return second part of name
-    }
-    return name;
-}
-
-function showTeamData(teams) {
-    try {
-        teams.forEach((t, i) => {
-            var el = document.getElementById("team0" + Number(7-i));
-            el.innerHTML = t.player[0].team;
-            el = el.parentElement;
-            el = el.nextElementSibling;
-            el = el.firstChild;
-            el.innerHTML = t.result.all;
-            el = el.parentElement.nextElementSibling.firstChild;
-            el.innerHTML = t.result.clear;
-            el = el.parentElement.nextElementSibling.firstChild;
-            el.innerHTML = t.result.fault;
-            el = el.parentElement.nextElementSibling.firstChild;
-            el.innerHTML = t.result.total;
-            el = el.parentElement.nextElementSibling.firstChild;
-            el.innerHTML = (t.extra[0]).toFixed(2);
-            el = el.parentElement.nextElementSibling.firstChild;
-            el.innerHTML = (t.extra[1]).toFixed(2);
-            el = el.parentElement.nextElementSibling.firstChild;
-            el.innerHTML = (t.result.total + t.extra[1] + t.extra[0]).toFixed(2);
-      });
-    } catch (ex) {
-        console.error("showTeamData", ex.message);
-    }
-}
-
-function loadWerbung(img, id) {
-    var imgReplace = document.getElementById(id)
-    if (imgReplace) {
-        imgReplace.src = "logos/adv/" + img + "?" + Date.now().toString();
-    }
-}
-
-function showLaneData(lane, showLanes, numLanes, offset, showSetPoints) {
-    try {
-        var el = document.getElementById("display4lanes");
-        if (el != null) {
-            el.hidden = (numLanes != 4 || !showLanes);
-        }
-        if (!showLanes) {
-            return;
-        }
-
-        var el = document.getElementById("name" + numLanes + "lanes");
-        for (laneCnt = offset; laneCnt < numLanes + offset; laneCnt++) {
-            var spieler = lane[laneCnt].spielername;
-            if (lane[laneCnt].spielername_aw) {
-                spieler = lane[laneCnt].spielername_aw
-            }
-            el.innerHTML = spieler;
-            if (laneCnt < offset + numLanes - 1) {
-                el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
-            }
-        }
-
-        var el = document.getElementById("team" + numLanes + "lanes");
-        for (laneCnt = offset; laneCnt < numLanes + offset; laneCnt++) {
-            el.innerHTML = lane[laneCnt].mannschaft;
-            if (laneCnt < offset + numLanes - 1) {
-                el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
-            }
-        }
-
-        var el = document.getElementById("total" + numLanes + "lanes");
-        for (laneCnt = offset; laneCnt < numLanes + offset; laneCnt++) {
-            el.innerHTML = lane[laneCnt].wurf;
-            el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
-            el.innerHTML = lane[laneCnt].gesamt;
-            if (laneCnt < offset + numLanes - 1) {
-                el = el.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.firstChild;
-            }
-        }
-
-        var el = document.getElementById("heat" + numLanes + "lanes");
-        for (laneCnt = offset; laneCnt < numLanes + offset; laneCnt++) {
-            el.innerHTML = lane[laneCnt].durchgang_wurf;
-            el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
-            el.innerHTML = lane[laneCnt].durchgang_gesamt;
-            if (laneCnt < offset + numLanes - 1) {
-                el = el.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.firstChild;
-            }
-        }
-    } catch (ex) {
-        console.error("writeBahn", ex.message);
     }
 }

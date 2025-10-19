@@ -219,7 +219,11 @@ express_app.use((req, res, next) => {
             res.sendFile(
                 path.resolve(configValues.setup.cck2_output_path + url))
         } else if (configValues.setup.active_output == 'sprint') {
-            res.json(createSprintConfig())
+            if (url.search('TV') >= 0) {
+                res.sendFile(path.resolve(configValues.setup.cck2_output_path + '/sprint_display.json'))
+            } else {
+                res.sendFile(path.resolve(configValues.setup.cck2_output_path + '/sprint_stream.json'))
+            }
         } else if (configValues.setup.active_output == 'team4') {
             res.json(createConfigTeam4(id))
             console.log('config team 4')
@@ -231,6 +235,12 @@ express_app.use((req, res, next) => {
             res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
         } else {
             res.sendFile(path.resolve(configValues.teams.data_path + url))
+        }
+    } else if (configValues.setup.active_output == 'sprint') {
+        if (url.search('result_sv') >= 0) { 
+            res.json("nix da")
+        } else {
+            res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
         }
     } else if (configValues.team[0].cck2_file.indexOf(url.slice(1)) >= 0) {
         res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))

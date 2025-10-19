@@ -202,7 +202,7 @@ async function showSingleCompetitionData(players, group) {
             el.style.backgroundColor = color
         }
     }) 
-    for (let i = players.length; i < 40; ++i) {
+    for (let i = players.length; i < 50; ++i) {
         el = document.getElementById('single_spieler_' + i.toString())
         if (el != null) {
             el.innerHTML = ''
