@@ -30,7 +30,7 @@ function GenerateSprintResultTableTwo(offset1, offset2) {
   + '  <td class="data-num"><div class="block-num" id="wurf_' + offset2 + '_0">0</div></td>'
   + '  <td class="data-num"><div class="block-num" id="satz_' + offset2 + '_0_0">0</div></td>'
   + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_0_0"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset2 + '_1_0">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset2 + '_1_0">0</div></td>'
   + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_1_0"></div></td>'
   + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset2 + '_0"></div></td>'
   + ' </tr>'
@@ -47,7 +47,7 @@ function GenerateSprintResultTableTwo(offset1, offset2) {
   + '  <td class="data-num"><div class="block-num" id="wurf_' + offset2 + '_1">0</div></td>'
   + '  <td class="data-num"><div class="block-num" id="satz_' + offset2 + '_0_1">0</div></td>'
   + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_0_1"></div></td>'
-  + '  <td class="data-num"><div class="block-num" id="satz_ '+ offset2 + '_1_1">0</div></td>'
+  + '  <td class="data-num"><div class="block-num" id="satz_' + offset2 + '_1_1">0</div></td>'
   + '  <td class="data-num"><div class="block-num-sv" id="satz_sv_' + offset2 + '_1_1"></div></td>'
   + '  <td class="data-num"><div class="block-num-sv" id="sv_' + offset2 + '_1"></div></td>'
   + '</tr>'
@@ -160,15 +160,17 @@ async function showData(configSrc, mode) {
 
 function compare2highlight(a, b)
 {
+    const aa = Number(a)
+    const bb = Number(b)
     const highlight_bg = ["#FFFFFF", "#50C878", "#FFDB58"]
-    if (a == b) {
-        if (a == 0) {
+    if (aa == bb) {
+        if (aa == 0) {
             return highlight_bg[0]
         }
         return highlight_bg[2]
     }
 
-    if (a < b) {
+    if (aa < bb) {
         return highlight_bg[0]
     } else {
         return highlight_bg[1]
