@@ -104,6 +104,7 @@ async function showData(configSrc, mode) {
                     if (mode === "display") {
                         numGames = config.num_matches_show
                         current_pos = document.getElementById("table")
+                        current_pos.innerHTML = ""
                         if (numGames > 8) {
                             for (let i = 0; i < numGames / 2 - 1; ++i)
                                 current_pos.innerHTML += GenerateSprintResultTableTwo(i, i + numGames / 2) + "<p></p>"
@@ -116,6 +117,7 @@ async function showData(configSrc, mode) {
                     } else {
                         let numGames = config.num_matches_show 
                         current_pos = document.getElementById("table")
+                        current_pos.innerHTML = ""
                         if (numGames > 1) {
                             for (let i = 0; i < numGames / 2 - 1; i += 2)
                                 current_pos.innerHTML += GenerateSprintResultTableTwo(i, i + 1) + "<p></p>"

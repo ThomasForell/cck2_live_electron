@@ -16,7 +16,7 @@ body {overflow:hidden; /* Hide scrollbars */}
 .block-mp {width:60px;max-width:240px}
 .tg    {border-collapse:collapse;border-spacing:0;table-layout:fixed;  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .tg td{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
-.tg th{font-family:Geneva, sans-serif;font-size:20px;font-weight:bold;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
+.tg th{font-family:Geneva, sans-serif;background-color:#cccccc;font-size:50px;font-weight:bold;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
 .tg .caption {background-color:#ffffff;font-size:25px;                                                                white-space:nowrap}
 .tg .no_border_right {border-right-color: #ffffff;}
 .tg .no_border_left  {border-left-color: #ffffff;}
@@ -25,16 +25,19 @@ body {overflow:hidden; /* Hide scrollbars */}
 .tg .data-num{background-color:#ffffff;text-align:center;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .data-right{background-color:#ffffff;text-align:right;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .label   {background-color:#cccccc;    text-align:center;              width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
+.tg .label-title{background-color:#cccccc;    text-align:center; font-size:50px;             width:1890px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .label-num{background-color:#cccccc;text-align:center;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .label-right{background-color:#cccccc;text-align:right;width:40px;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .free      {border-top-style:hidden;border-bottom-style:hidden;width:5px}
 </style>
 
-<div style="position: fixed; bottom: 5px; width:100%; align-content: center;" id="table">
+<div style="position: fixed; top: 15px; width:100%; align-content: center;">
 <table class="tg"> 
-<tr> <td class="label" id="title"><div class="block-title">DKBC U19 Ländervergleich</div></td></tr>
+<th><td class="label-title" id="title"><div class="block-title">DKBC U19 Ländervergleich</div></td></th>
 </table>    
-<p></p>
+</div>  
+
+<div style="position: fixed; bottom: 5px; width:100%; align-content: center;" id="table">
 </div>
 <script src="sprint.js"></script>
 <script>

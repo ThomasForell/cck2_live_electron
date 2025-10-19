@@ -136,10 +136,10 @@ function createConfigTeam4(outputId: number): Team4Config[] {
     return team
 }
 
-function createSprintConfig() {
-    const cfg = { sprint: "", sprint_sv: ""}
-    return cfg
-}
+// function createSprintConfig() {
+//     const cfg = { sprint: "", sprint_sv: ""}
+//     return cfg
+// }
 
 function UpdateFileLookup(setup: ConfigValues['setup']): void {
     displayUrls.length = 0
@@ -238,7 +238,11 @@ express_app.use((req, res, next) => {
         }
     } else if (configValues.setup.active_output == 'sprint') {
         if (url.search('result_sv') >= 0) { 
-            res.json("nix da")
+            if (fs.existsSync(path.resolve(configValues.setup.cck2_output_path + url))) {
+                res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
+            } else {
+                res.json("nix da")
+            }
         } else {
             res.sendFile(path.resolve(configValues.setup.cck2_output_path + url))
         }
