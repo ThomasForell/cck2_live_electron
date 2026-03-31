@@ -1,5 +1,6 @@
+ import { showLaneData, createLaneTable } from "./lanes.js"
 
-async function showData(configSrc, reducedOutput) {
+export async function showData(configSrc, reducedOutput) {
   try {
     const requestURL = configSrc + "?" + Date.now().toString();
     fetch(requestURL)
@@ -254,63 +255,5 @@ function loadWerbung(img, id) {
   var imgReplace = document.getElementById(id)
   if (imgReplace) {
     imgReplace.src = "logos/adv/" + img + "?" + Date.now().toString();
-  }
-}
-
-function showLaneData(lane, showLanes, numLanes, showSetPoints) {
-  try {
-    var el = document.getElementById("display4lanes");
-    if (el != null) {
-      el.hidden = (numLanes != 4 || !showLanes);
-    }
-    var el = document.getElementById("display6lanes");
-    if (el != null) {
-      el.hidden = (numLanes != 6  || !showLanes);
-    }
-    if (!showLanes) {
-      return;
-    }
-
-    var el = document.getElementById("name" + numLanes + "lanes");
-    for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
-      var spieler = lane[laneCnt].spielername;
-      if (showSetPoints) {
-        spieler += " (" + lane[laneCnt].sp + ")";
-      }
-      el.innerHTML = spieler;
-      if (laneCnt < numLanes -1) {
-        el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
-      }
-    }
-
-    var el = document.getElementById("team" + numLanes + "lanes");
-    for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
-      el.innerHTML = lane[laneCnt].mannschaft;
-      if (laneCnt < numLanes -1) {
-        el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
-      }
-    }
-
-    var el = document.getElementById("total" + numLanes + "lanes");
-    for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
-      el.innerHTML = lane[laneCnt].wurf;
-      el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
-      el.innerHTML = lane[laneCnt].gesamt;
-      if (laneCnt < numLanes -1) {
-        el = el.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.firstChild;
-      }
-    }
-
-    var el = document.getElementById("heat" + numLanes + "lanes");
-    for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
-      el.innerHTML = lane[laneCnt].durchgang_wurf;
-      el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
-      el.innerHTML = lane[laneCnt].durchgang_gesamt;
-      if (laneCnt < numLanes -1) {
-        el = el.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.firstChild;
-      }
-    }
-  } catch (ex) {
-    console.error("writeBahn", ex.message);
   }
 }

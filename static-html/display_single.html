@@ -11,8 +11,8 @@ body {overflow:hidden; /* Hide scrollbars */}
 .block-cap {width:580px;max-width:580px}
 .block-team {width:500px;max-width:500px;min-height:100px;max-height:100px;vertical-align:bottom;}
 .tg    {border-collapse:collapse;border-spacing:0;table-layout:fixed;  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-.tg td {font-family:Geneva, sans-serif;font-size:40px;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
-.tg th {font-family:Geneva, sans-serif;font-size:40px;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
+.tg td {font-family:Geneva, sans-serif;font-size:30px;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
+.tg th {font-family:Geneva, sans-serif;font-size:30px;padding:2px 2px;border-style:solid;border-width:3px;overflow:hidden;word-break:normal;border-color:#cccccc}
 .tg .logo          {background-color:#ffffff;text-align:center;white-space:nowrap}
 .tg .data-num      {background-color:#ffffff;text-align:center;overflow:hidden;text-overflow:clip;white-space:nowrap}
 .tg .data-right    {background-color:#ffffff;text-align:right;overflow:hidden;text-overflow:clip;white-space:nowrap}
@@ -20,21 +20,21 @@ body {overflow:hidden; /* Hide scrollbars */}
 .tg .label-num     {background-color:#cccccc;text-align:center;overflow:hidden;text-overflow:clip;white-space:nowrap;font-weight: bold;}
 .tg .label-right   {background-color:#cccccc;text-align:right;overflow:hidden;text-overflow:clip;white-space:nowrap;font-weight: bold;}
 .tg .free          {border-top-style:hidden;border-bottom-style:hidden;width:100%}
-.tg .no-border-top {border-top-style:hidden;border-left-style:hidden;border-right-style:hidden;background-color:#ffffff;text-align:center;vertical-align:bottom;font-size:45px;font-weight:bolder}
+.tg .no-border-top {border-top-style:hidden;border-left-style:hidden;border-right-style:hidden;background-color:#ffffff;text-align:center;vertical-align:bottom;font-size:30px;font-weight:bolder}
 .tg .no-border-pic {border-top-style:hidden;border-left-style:hidden;border-right-style:hidden;background-color:#ffffff}
 .tg .no-border-bot {border-bottom-style:hidden;border-left-style:hidden;border-right-style:hidden;background-color:#ffffff;text-align:center}
 .center { display: block; margin-left: auto; margin-right: auto }
 </style>
-<img src="banner.png" width="1900px"/>
+<img src="logos/single/banner.png" width="1900px"/>
 <div id="table">
 </div>
 <script>
     function GenerateSingleResultTable() {
-        let table = '<table class="tg"><tr><td class="label" id="group" colspan="6" style="font-size: 60px;font-weight: bold">U10 männlich</td></tr>'
+        let table = '<table class="tg"><tr><td class="label" id="group" colspan="6" style="font-size: 40px;font-weight: bold">U10 männlich</td></tr>'
         table += '<tr><td class="label-right"><div class="block-num-place">Platz</div></td><td class="label">Name</td><td class="label">Verein</td>'
             + '<td class="label-num"><div class="block-num">Vorlauf</div></td><td class="label-num"><div class="block-num">Endlauf</div></td>'
             + '<td class="label-num"><div class="block-num">Gesamt</div></td></tr>'
-        for (let i = 0; i < 12; ++i) {
+        for (let i = 0; i < 18; ++i) {
             table += '<tr><td class="label-num"><div class="block-num-place">' + (i + 1) + '</div></td>'
             table += '<td class="data"><div class="block-cap" id="spieler' + i + '"></div></td>'
             table += '<td class="data"><div class="block-cap"></div></td>'
@@ -55,7 +55,9 @@ body {overflow:hidden; /* Hide scrollbars */}
     try {
         const requestURL = dataName + "?" + Date.now().toString()
         fetch(requestURL)
-        .then((response) => { return response.text() })
+        .then((response) => { 
+            return response.text() 
+        })
         .then((decoded) => {
             if (decoded.charCodeAt(0) === 0xFEFF) {
                 decoded = decoded.substring(1);
@@ -100,7 +102,7 @@ body {overflow:hidden; /* Hide scrollbars */}
                 el = el.parentElement.nextElementSibling.firstChild;
                 el.innerHTML = p.gesamt
             }
-            for (let i = data.length; i < 12; ++i) {
+            for (let i = data.length; i < 18; ++i) {
                 el = document.getElementById("spieler" + i.toString())
                 for (let j = 0; j < 5; ++j) {
                     el.style.backgroundColor = "#ffffff"
@@ -129,7 +131,9 @@ body {overflow:hidden; /* Hide scrollbars */}
     try {
         const requestURL = configName + "?" + Date.now().toString()
         fetch(requestURL)
-        .then((response) => { return response.text() })
+        .then((response) => { 
+            return response.text() 
+        })
         .then((decoded) => {
             if (decoded.charCodeAt(0) === 0xFEFF) {
             decoded = decoded.substring(1);
@@ -137,8 +141,8 @@ body {overflow:hidden; /* Hide scrollbars */}
             const config = JSON.parse(decoded);
 
             // config.zeit = 2
-            const timeCurrent = Math.trunc(Date.now() / 1000) % (config.zeit * config.files.length)
-            const idx = Math.trunc(timeCurrent / config.zeit)
+            const timeCurrent = Math.trunc(Date.now() / 1000) % (config.time * config.files.length)
+            const idx = Math.trunc(timeCurrent / config.time)
 
             showPlayers(config.files[idx], config.group_names[idx])
     }) } catch (ex) {

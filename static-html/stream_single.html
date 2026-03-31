@@ -201,10 +201,10 @@ body {overflow:hidden; /* Hide scrollbars */}
 <div style="position: fixed; bottom: 5px; width:100%; align-content: center;">
   <table class="tg">
   <tr>
-    <td class="caption" colspan="13" style="text-align:center;font-size:30px;" id="group">Hessische Jugendmeisterschaft 2025 U14 weiblich</td>
+    <td class="caption" colspan="13" style="text-align:center;font-size:30px;" id="group">Jugend Bezirksmeisterschaft 2026</td>
   </tr>
   <tr>
-    <td class="logo" rowspan="7"><img src="SKVLorsch.png" alt="Logo HKBV" height="175px" width="auto" id="img_l"/></td>
+    <td class="logo" rowspan="7"><img src="logos/single/lorsch.jpg" alt="Logo HKBV" height="175px" width="auto" id="img_l"/></td>
 	<td class="free" rowspan="7"></td>
     <td class="caption">Platz</td>
     <td class="caption">Name</td>
@@ -216,7 +216,7 @@ body {overflow:hidden; /* Hide scrollbars */}
     <td class="caption">Verein</td>
 	<td class="caption"><div class="block-num-cap">Gesamt</div></td>
 	<td class="free" rowspan="7"></td>
-    <td class="logo" rowspan="7"><img src="Hessen.png" alt="Logo HKBV" height="175px" width="auto" id="img_r"/></td>
+    <td class="logo" rowspan="7"><img src="logos/single/hessen.png" alt="Logo HKBV" height="175px" width="auto" id="img_r"/></td>
   </tr>
   <tr>
     <td class="caption"><div class="block-scr">1</div></td>
@@ -356,8 +356,7 @@ body {overflow:hidden; /* Hide scrollbars */}
             if (el != null) {
                 el.innerHTML = group
             }
-
-            for (let i = 0; i < data.length; ++i) {
+            for (let i = 0; i < Math.min(data.length,12); ++i) {
                 const p = data[i]; 
 
                 const colorActive = "#50C878";
@@ -383,6 +382,7 @@ body {overflow:hidden; /* Hide scrollbars */}
                 }
             }
             for (let i = data.length; i < 12; ++i) {
+                const color = "#ffffff";
                 el = document.getElementById("name_" + i.toString())
                 if (el) {
                     el.style.backgroundColor = color
@@ -410,7 +410,9 @@ body {overflow:hidden; /* Hide scrollbars */}
     try {
         const requestURL = configName + "?" + Date.now().toString()
         fetch(requestURL)
-        .then((response) => { return response.text() })
+        .then((response) => { 
+          return response.text() 
+        })
         .then((decoded) => {
             if (decoded.charCodeAt(0) === 0xFEFF) {
             decoded = decoded.substring(1);
@@ -418,18 +420,19 @@ body {overflow:hidden; /* Hide scrollbars */}
             const config = JSON.parse(decoded);
 
             // config.zeit = 2
-            const timeCurrent = Math.trunc(Date.now() / 1000) % (config.zeit * config.files.length)
-            const idx = Math.trunc(timeCurrent / config.zeit)
+            const timeCurrent = Math.trunc(Date.now() / 1000) % (config.time * config.files.length)
+            const idx = Math.trunc(timeCurrent / config.time)
 
             showPlayers(config.files[idx], config.group_names[idx])
     }) } catch (ex) {
         console.error("showData", ex.message);
     }
     try {
-        const requestURL = "result.json?" + Date.now().toString()
+        var requestURL = "result.json?" + Date.now().toString()
         var offset = 0
         if (configName.includes("Rechts")) {
-            offset = 4
+            requestURL = "result1.json?" + Date.now().toString()
+            offset = 0
         }
         fetch(requestURL)
         .then((response) => { return response.text() })

@@ -217,7 +217,8 @@ express_app.use((req, res, next) => {
             res.json(createConfig(id))
         } else if (configValues.setup.active_output == 'single') {
             res.sendFile(
-                path.resolve(configValues.setup.cck2_output_path + url))
+                path.resolve(configValues.single.data_path + "/config_single.json"))
+            console.log(configValues.single.data_path + "/config_single.json");
         } else if (configValues.setup.active_output == 'sprint') {
             if (url.search('TV') >= 0) {
                 res.sendFile(path.resolve(configValues.setup.cck2_output_path + '/sprint_display.json'))
