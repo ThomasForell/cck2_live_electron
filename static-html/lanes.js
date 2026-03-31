@@ -158,7 +158,7 @@ export function createLaneTable(numLanes) {
     }
 }
 
-export function showLaneData(lane, showLanes, numLanes, showSetPoints) {
+export function showLaneData(lane, showLanes, numLanes, showSetPoints, offset) {
   try {
     var el = document.getElementById("display4lanes");
     if (el != null) {
@@ -173,7 +173,7 @@ export function showLaneData(lane, showLanes, numLanes, showSetPoints) {
     }
 
     var el = document.getElementById("name" + numLanes + "lanes");
-    for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
+    for (var laneCnt = 0; laneCnt < numLanes; laneCnt++) {
       var spieler = lane[laneCnt].spielername;
       if (showSetPoints) {
         spieler += " (" + lane[laneCnt].sp + ")";
@@ -185,7 +185,7 @@ export function showLaneData(lane, showLanes, numLanes, showSetPoints) {
     }
 
     var el = document.getElementById("team" + numLanes + "lanes");
-    for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
+    for (var laneCnt = 0; laneCnt < numLanes; laneCnt++) {
       el.innerHTML = lane[laneCnt].mannschaft;
       if (laneCnt < numLanes -1) {
         el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
@@ -193,7 +193,7 @@ export function showLaneData(lane, showLanes, numLanes, showSetPoints) {
     }
 
     var el = document.getElementById("total" + numLanes + "lanes");
-    for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
+    for (var laneCnt = 0; laneCnt < numLanes; laneCnt++) {
       el.innerHTML = lane[laneCnt].wurf;
       el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
       el.innerHTML = lane[laneCnt].gesamt;
@@ -203,7 +203,7 @@ export function showLaneData(lane, showLanes, numLanes, showSetPoints) {
     }
 
     var el = document.getElementById("heat" + numLanes + "lanes");
-    for (laneCnt = 0; laneCnt < numLanes; laneCnt++) {
+    for (var laneCnt = 0; laneCnt < numLanes; laneCnt++) {
       el.innerHTML = lane[laneCnt].durchgang_wurf;
       el = el.parentElement.nextElementSibling.nextElementSibling.firstChild;
       el.innerHTML = lane[laneCnt].durchgang_gesamt;

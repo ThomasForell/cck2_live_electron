@@ -40,7 +40,7 @@ async function showTeam(configTeams, reducedOutput) {
           showTeamData(data.mannschaft, configTeams[i].anzahl_spieler, configTeams[i].anzahl_saetze, 
             configTeams[i].satzpunkte_anzeigen == "ja", reducedOutput);          
           showTeamLogos(configTeams[i].bild_heim, configTeams[i].bild_gast);
-          showLaneData(data.bahn, configTeams[i].bahn_anzeigen, configTeams[i].anzahl_bahnen, configTeams[i].satzpunkte_anzeigen == "ja");
+          showLaneData(data.bahn, configTeams[i].bahn_anzeigen, configTeams[i].anzahl_bahnen, configTeams[i].satzpunkte_anzeigen == "ja", 0);
         });
       break;  
     }  
